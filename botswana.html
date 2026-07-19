@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Botswana Seat Projector</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0efec; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 2rem 1rem; }
+  .card { width: 100%; max-width: 680px; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.10); }
+  .header { background: #003580; color: #fff; padding: 1.25rem 1.5rem 1rem; }
+  .header h1 { font-size: 18px; font-weight: 500; }
+  .header p { font-size: 13px; opacity: 0.75; margin-top: 3px; }
+  .header-inner { display: flex; justify-content: space-between; align-items: center; }
+  .flag { font-size: 28px; opacity: 0.9; }
+  .body { background: #fff; padding: 1.25rem 1.5rem; }
+  .section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: #898781; margin-bottom: 10px; }
+  .top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-bottom: 1rem; }
+  .input-cell { display: flex; flex-direction: column; gap: 5px; }
+  .input-label { font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 5px; color: #3d3d3a; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .vote-input-wrap { position: relative; }
+  .vote-input { width: 100%; padding: 6px 22px 6px 8px; border: 0.5px solid #aaa; border-radius: 8px; font-size: 14px; font-family: inherit; color: #0b0b0b; background: #fff; -moz-appearance: textfield; transition: border-color 0.15s, box-shadow 0.15s; }
+  .vote-input::-webkit-inner-spin-button, .vote-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+  .vote-input:focus { outline: none; border-color: #003580; box-shadow: 0 0 0 2px rgba(0,53,128,0.15); }
+  .pct-symbol { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 13px; color: #898781; pointer-events: none; }
+  .swing-badge { font-size: 11px; height: 16px; }
+  .total-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #52514e; margin-bottom: 1.25rem; }
+  .total-val { font-weight: 500; }
+  .total-val.bad { color: #c8102e; }
+  .total-val.good { color: #1a7a4a; }
+  .divider { height: 0.5px; background: rgba(11,11,11,0.10); margin: 0 0 1.25rem; }
+  .bar-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 0.75rem; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #52514e; }
+  .legend-sq { width: 10px; height: 10px; border-radius: 2px; }
+  .seat-bar { display: flex; height: 36px; border-radius: 6px; overflow: hidden; gap: 2px; margin-bottom: 0.4rem; }
+  .seat-seg { transition: flex 0.3s ease; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.92); min-width: 0; overflow: hidden; white-space: nowrap; }
+  .majority-tick-wrap { position: relative; height: 18px; margin-bottom: 0.75rem; }
+  .majority-tick { position: absolute; top: 0; width: 2px; height: 10px; background: #898781; transform: translateX(-50%); }
+  .majority-tick-label { position: absolute; top: 11px; font-size: 10px; color: #898781; transform: translateX(-50%); white-space: nowrap; }
+  .govt-banner { border-radius: 8px; padding: 8px 12px; font-size: 13px; font-weight: 500; margin-bottom: 1rem; }
+  .results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; margin-bottom: 1rem; }
+  .party-card { background: #f9f8f4; border: 0.5px solid rgba(11,11,11,0.10); border-radius: 10px; padding: 8px 10px; }
+  .card-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: 2px; }
+  .card-party { font-size: 11px; font-weight: 500; color: #52514e; margin-bottom: 3px; }
+  .card-seats { font-size: 20px; font-weight: 500; color: #0b0b0b; line-height: 1; }
+  .card-change { font-size: 11px; margin-top: 2px; }
+  .card-vote { font-size: 10px; color: #898781; }
+  .udc-breakdown { background: #f9f8f4; border: 0.5px solid rgba(11,11,11,0.10); border-radius: 10px; padding: 10px 12px; margin-bottom: 1rem; }
+  .udc-breakdown-title { font-size: 11px; font-weight: 500; color: #52514e; margin-bottom: 8px; }
+  .udc-sub-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; padding: 4px 0; border-bottom: 0.5px solid rgba(11,11,11,0.10); }
+  .udc-sub-row:last-child { border-bottom: none; }
+  .udc-sub-row.total-row-sub { font-weight: 500; }
+  .udc-sub-name { display: flex; align-items: center; gap: 6px; color: #52514e; }
+  .udc-sub-seats { font-weight: 500; color: #0b0b0b; }
+  .udc-sub-change { font-size: 11px; min-width: 44px; text-align: right; }
+  .reset-btn { background: transparent; border: 0.5px solid #888; border-radius: 8px; padding: 5px 12px; font-size: 12px; cursor: pointer; color: #52514e; font-family: inherit; transition: background 0.1s; }
+  .reset-btn:hover { background: #f9f8f4; }
+  .note { font-size: 11px; color: #898781; line-height: 1.5; border-top: 0.5px solid rgba(11,11,11,0.10); padding-top: 10px; margin-top: 4px; }
+  .note strong { color: #52514e; }
+
+  @media (max-width: 480px) {
+    body { padding: 1rem 0.5rem; }
+    .input-grid { grid-template-columns: repeat(3, 1fr); }
+    .results-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <div class="header-inner">
+      <div>
+        <h1>Botswana seat projector</h1>
+        <p>Enter vote shares &nbsp;·&nbsp; UNS from 2024 baseline &nbsp;·&nbsp; 61 elected seats</p>
+      </div>
+      <div class="flag">🇧🇼</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="top-row">
+      <div class="section-label" style="margin:0;">Vote share</div>
+      <button class="reset-btn" onclick="resetAll()">Reset to 2024</button>
+    </div>
+
+    <div class="input-grid" id="inputs"></div>
+
+    <div class="total-row">
+      <span>Total</span>
+      <span class="total-val" id="total-display">100.0%</span>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-label">Projected seats</div>
+
+    <div class="bar-legend" id="bar-legend"></div>
+    <div class="seat-bar" id="seat-bar"></div>
+    <div class="majority-tick-wrap" id="tick-wrap"></div>
+
+    <div id="govt-banner" class="govt-banner"></div>
+
+    <div class="results-grid" id="results"></div>
+
+    <div class="udc-breakdown" id="udc-breakdown"></div>
+
+    <p class="note">
+      <strong>Method:</strong> UNS applies a uniform pp shift to each party's 2024 vote share, renormalised to 100%. Seats are projected via a calibrated FPTP model. The UDC sub-party breakdown uses actual 2024 candidate data for all 61 constituencies (AP confirmed from Mmegi Nov 2024; BPP confirmed from Mmegi Jan 2024; BNF: remainder). Seats are awarded or removed in margin order — most marginal first. Baseline: BNF 23 &nbsp;·&nbsp; AP 6 &nbsp;·&nbsp; BPP 4 &nbsp;·&nbsp; UDC-Ind 3.
+    </p>
+  </div>
+</div>
+
+<script>
+const PARTIES = [
+  { id: 'udc', name: 'UDC', color: '#c8102e', baseVote: 37.4, baseSeats: 36 },
+  { id: 'bcp', name: 'BCP', color: '#1a7a4a', baseVote: 20.0, baseSeats: 15 },
+  { id: 'bpf', name: 'BPF', color: '#e07b00', baseVote: 8.1,  baseSeats: 5  },
+  { id: 'bdp', name: 'BDP', color: '#003580', baseVote: 30.6, baseSeats: 4  },
+  { id: 'ind', name: 'Ind', color: '#888780', baseVote: 3.9,  baseSeats: 1  },
+];
+const TOTAL_SEATS = 61;
+const MAJORITY = 31;
+const UDC_SUB_BASE = { BNF: 23, AP: 6, BPP: 4, 'UDC-Ind': 3 };
+const UDC_SUB_COLORS = { BNF: '#9c1827', AP: '#e05080', BPP: '#f4a0b0', 'UDC-Ind': '#f9d0d8' };
+
+// UDC-won seats sorted ascending by margin (most marginal first)
+const udcWon = [
+  { name: 'Mmadinare',                  udcSub: 'BNF',     margin: 0.35  },
+  { name: 'Mmopane-Metsimotlhabe',      udcSub: 'AP',      margin: 1.16  },
+  { name: 'Kgalagadi North',            udcSub: 'BNF',     margin: 2.67  },
+  { name: 'Charleshill',                udcSub: 'BNF',     margin: 3.73  },
+  { name: 'Francistown East',           udcSub: 'BPP',     margin: 4.42  },
+  { name: 'Gaborone North',             udcSub: 'AP',      margin: 6.51  },
+  { name: 'Lentsweletau-Lephephe',      udcSub: 'BNF',     margin: 7.30  },
+  { name: 'Jwaneng-Mabutsane',          udcSub: 'BNF',     margin: 7.33  },
+  { name: 'Mogoditshane East',          udcSub: 'AP',      margin: 11.29 },
+  { name: 'Kgatleng Central',           udcSub: 'BNF',     margin: 12.74 },
+  { name: 'Molepolole North',           udcSub: 'BNF',     margin: 12.88 },
+  { name: 'Mogoditshane West',          udcSub: 'AP',      margin: 13.39 },
+  { name: 'Boteti West',                udcSub: 'BNF',     margin: 14.66 },
+  { name: 'Kanye West',                 udcSub: 'BPP',     margin: 14.68 },
+  { name: 'Molepolole South',           udcSub: 'AP',      margin: 14.74 },
+  { name: 'Boteti East',                udcSub: 'BNF',     margin: 15.90 },
+  { name: 'Tswapong North',             udcSub: 'BNF',     margin: 15.49 },
+  { name: 'Tonota',                     udcSub: 'BNF',     margin: 17.22 },
+  { name: 'Palapye',                    udcSub: 'BNF',     margin: 18.74 },
+  { name: 'Kanye East',                 udcSub: 'BPP',     margin: 19.19 },
+  { name: 'Gaborone Central',           udcSub: 'AP',      margin: 20.50 },
+  { name: 'Ghanzi',                     udcSub: 'UDC-Ind', margin: 20.88 },
+  { name: 'Gaborone Bonnington North',  udcSub: 'BNF',     margin: 21.94 },
+  { name: 'Kgalagadi South',            udcSub: 'UDC-Ind', margin: 23.96 },
+  { name: 'Tati West',                  udcSub: 'BNF',     margin: 25.99 },
+  { name: 'Tlowkeng',                   udcSub: 'BNF',     margin: 29.51 },
+  { name: 'Mahalapye East',             udcSub: 'BNF',     margin: 30.75 },
+  { name: 'Takatokwane',                udcSub: 'BPP',     margin: 32.32 },
+  { name: 'Letlhakeng',                 udcSub: 'BNF',     margin: 35.38 },
+  { name: 'Francistown West',           udcSub: 'BNF',     margin: 35.70 },
+  { name: 'Gaborone South',             udcSub: 'BNF',     margin: 37.28 },
+  { name: 'Shoshong',                   udcSub: 'BNF',     margin: 38.43 },
+  { name: 'Lobatse',                    udcSub: 'BNF',     margin: 40.29 },
+  { name: 'Gaborone Bonnington South',  udcSub: 'AP',      margin: 41.07 },
+  { name: 'Francistown South',          udcSub: 'AP',      margin: 53.17 },
+  { name: 'Mahalapye West',             udcSub: 'BNF',     margin: 58.43 },
+].sort((a, b) => a.margin - b.margin);
+
+// Non-UDC seats sorted ascending by margin (nearest miss = first gained on UDC upswing)
+const nonUdc = [
+  { name: 'Kgatleng East',              udcSub: 'BNF',     margin: 0.25  },
+  { name: 'Selebi-Phikwe West',         udcSub: 'BNF',     margin: 0.40  },
+  { name: 'Kgatleng West',              udcSub: 'BNF',     margin: 1.44  },
+  { name: 'Gabane-Mmankgodi',           udcSub: 'AP',      margin: 3.29  },
+  { name: 'Tati East',                  udcSub: 'BNF',     margin: 3.12  },
+  { name: 'Gamalete',                   udcSub: 'BNF',     margin: 7.09  },
+  { name: 'Okavango East',              udcSub: 'BNF',     margin: 9.34  },
+  { name: 'Tswapong South',             udcSub: 'BNF',     margin: 10.36 },
+  { name: 'Okavango West',              udcSub: 'BNF',     margin: 11.11 },
+  { name: 'Nkange',                     udcSub: 'BNF',     margin: 12.16 },
+  { name: 'Bobirwa',                    udcSub: 'BNF',     margin: 12.23 },
+  { name: 'Selebi-Phikwe East',         udcSub: 'BNF',     margin: 14.07 },
+  { name: 'Thamaga-Kumakwane',          udcSub: 'BNF',     margin: 14.05 },
+  { name: 'Goodhope-Mmathethe',         udcSub: 'UDC-Ind', margin: 18.88 },
+  { name: 'Maun West',                  udcSub: 'AP',      margin: 20.75 },
+  { name: 'Ngami',                      udcSub: 'BNF',     margin: 22.84 },
+  { name: 'Serowe South',               udcSub: 'BNF',     margin: 25.12 },
+  { name: 'Shashe West',                udcSub: 'BNF',     margin: 29.97 },
+  { name: 'Moshupa-Manyana',            udcSub: 'AP',      margin: 30.43 },
+  { name: 'Maun East',                  udcSub: 'BNF',     margin: 32.09 },
+  { name: 'Nata-Gweta',                 udcSub: 'BNF',     margin: 33.21 },
+  { name: 'Chobe',                      udcSub: 'BNF',     margin: 34.49 },
+  { name: 'Maun North',                 udcSub: 'BNF',     margin: 43.65 },
+  { name: 'Serowe North',               udcSub: 'BNF',     margin: 40.32 },
+  { name: 'Serowe West',                udcSub: 'BNF',     margin: 41.21 },
+].sort((a, b) => a.margin - b.margin);
+
+function getSubBreakdown(n) {
+  n = Math.max(0, Math.min(n, 61));
+  const counts = { BNF: 0, AP: 0, BPP: 0, 'UDC-Ind': 0 };
+  if (n <= 36) {
+    udcWon.slice(udcWon.length - n).forEach(s => counts[s.udcSub]++);
+  } else {
+    udcWon.forEach(s => counts[s.udcSub]++);
+    nonUdc.slice(0, n - 36).forEach(s => { if (counts[s.udcSub] !== undefined) counts[s.udcSub]++; });
+  }
+  return counts;
+}
+
+function getRawInputs() {
+  const vals = {};
+  PARTIES.forEach(p => {
+    const el = document.getElementById('inp-' + p.id);
+    const v = parseFloat(el ? el.value : p.baseVote);
+    vals[p.id] = isNaN(v) ? 0 : Math.max(0, v);
+  });
+  return vals;
+}
+
+function getNormVotes(raw) {
+  const total = Object.values(raw).reduce((a, b) => a + b, 0);
+  const norm = {};
+  if (total === 0) { PARTIES.forEach(p => { norm[p.id] = 0; }); return norm; }
+  PARTIES.forEach(p => { norm[p.id] = (raw[p.id] / total) * 100; });
+  return norm;
+}
+
+function projectSeats(votes) {
+  const baseTotal = PARTIES.reduce((a, p) => a + p.baseVote, 0);
+  const seats = {};
+  PARTIES.forEach(p => {
+    const sc = (votes[p.id] / 100) - (p.baseVote / baseTotal);
+    let proj;
+    if (p.id === 'udc')      proj = 36 + sc * 110;
+    else if (p.id === 'bdp') proj = 4  + sc * 85;
+    else if (p.id === 'bcp') proj = 15 + sc * 90;
+    else if (p.id === 'bpf') proj = 5  + sc * 70;
+    else                      proj = 1  + sc * 50;
+    seats[p.id] = Math.max(0, Math.round(proj));
+  });
+  let total = Object.values(seats).reduce((a, b) => a + b, 0);
+  let diff = TOTAL_SEATS - total;
+  const sorted = [...PARTIES].sort((a, b) => votes[b.id] - votes[a.id]);
+  let i = 0;
+  while (diff !== 0 && i < 500) {
+    const pid = sorted[i % sorted.length].id;
+    if (diff > 0) { seats[pid]++; diff--; }
+    else if (seats[pid] > 0) { seats[pid]--; diff++; }
+    i++;
+  }
+  return seats;
+}
+
+function buildInputs() {
+  const container = document.getElementById('inputs');
+  PARTIES.forEach(p => {
+    const cell = document.createElement('div');
+    cell.className = 'input-cell';
+    cell.innerHTML = `
+      <div class="input-label">
+        <span class="dot" style="background:${p.color}"></span>
+        <span style="color:${p.color}">${p.name}</span>
+      </div>
+      <div class="vote-input-wrap">
+        <input class="vote-input" id="inp-${p.id}" type="number" min="0" max="100" step="0.1" value="${p.baseVote.toFixed(1)}">
+        <span class="pct-symbol">%</span>
+      </div>
+      <div class="swing-badge" id="badge-${p.id}"></div>
+    `;
+    container.appendChild(cell);
+    cell.querySelector('input').addEventListener('input', update);
+  });
+
+  const legend = document.getElementById('bar-legend');
+  PARTIES.forEach(p => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<span class="legend-sq" style="background:${p.color}"></span><span>${p.name}</span>`;
+    legend.appendChild(item);
+  });
+}
+
+function update() {
+  const raw = getRawInputs();
+  const inputTotal = Object.values(raw).reduce((a, b) => a + b, 0);
+  const votes = getNormVotes(raw);
+
+  const totalEl = document.getElementById('total-display');
+  totalEl.textContent = inputTotal.toFixed(1) + '%';
+  totalEl.className = 'total-val ' + (Math.abs(inputTotal - 100) < 0.15 ? 'good' : 'bad');
+
+  const baseTotal = PARTIES.reduce((a, p) => a + p.baseVote, 0);
+  PARTIES.forEach(p => {
+    const swing = votes[p.id] - (p.baseVote / baseTotal * 100);
+    const badge = document.getElementById('badge-' + p.id);
+    if (!badge) return;
+    if (Math.abs(swing) < 0.05) { badge.textContent = ''; return; }
+    badge.textContent = (swing > 0 ? '+' : '') + swing.toFixed(1) + 'pp';
+    badge.style.color = swing > 0 ? '#1a7a4a' : '#c8102e';
+  });
+
+  const seats = projectSeats(votes);
+  const udcSub = getSubBreakdown(seats['udc'] || 0);
+
+  const bar = document.getElementById('seat-bar');
+  bar.innerHTML = '';
+  PARTIES.forEach(p => {
+    const s = seats[p.id] || 0;
+    if (s === 0) return;
+    const seg = document.createElement('div');
+    seg.className = 'seat-seg';
+    seg.style.flex = s;
+    seg.style.background = p.color;
+    seg.style.minWidth = '2px';
+    if (s >= 3) seg.textContent = s;
+    bar.appendChild(seg);
+  });
+
+  const majPct = (MAJORITY / TOTAL_SEATS) * 100;
+  document.getElementById('tick-wrap').innerHTML = `
+    <div class="majority-tick" style="left:${majPct.toFixed(2)}%"></div>
+    <div class="majority-tick-label" style="left:${majPct.toFixed(2)}%">Majority (31)</div>
+  `;
+
+  const udcSeats = seats['udc'] || 0;
+  const banner = document.getElementById('govt-banner');
+  if (udcSeats >= MAJORITY) {
+    banner.style.cssText = 'background:#e8f5ee;color:#0f5c30;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;margin-bottom:1rem;border:0.5px solid #a8d8bb;';
+    banner.textContent = `UDC majority — ${udcSeats} seats, majority of ${udcSeats - MAJORITY + 1}`;
+  } else {
+    const runner = [...PARTIES].filter(p => p.id !== 'udc').sort((a, b) => (seats[b.id] || 0) - (seats[a.id] || 0))[0];
+    banner.style.cssText = 'background:#fff4e6;color:#7a3e00;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:500;margin-bottom:1rem;border:0.5px solid #f5c27a;';
+    banner.textContent = `UDC loses majority — ${udcSeats} seats. Largest opposition: ${runner.name} with ${seats[runner.id] || 0} seats. Hung parliament.`;
+  }
+
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+  PARTIES.forEach(p => {
+    const s = seats[p.id] || 0;
+    const diff = s - p.baseSeats;
+    const diffStr = diff === 0 ? '±0' : (diff > 0 ? '+' + diff : '' + diff);
+    const diffCol = diff > 0 ? '#1a7a4a' : diff < 0 ? '#c8102e' : '#898781';
+    const card = document.createElement('div');
+    card.className = 'party-card';
+    card.innerHTML = `
+      <div class="card-party"><span class="card-dot" style="background:${p.color}"></span>${p.name}</div>
+      <div class="card-seats">${s}</div>
+      <div class="card-change" style="color:${diffCol}">${diffStr} from 2024</div>
+      <div class="card-vote">${votes[p.id].toFixed(1)}%</div>
+    `;
+    results.appendChild(card);
+  });
+
+  const bd = document.getElementById('udc-breakdown');
+  bd.innerHTML = '<div class="udc-breakdown-title">UDC breakdown by member party</div>';
+  const subTotal = Object.values(udcSub).reduce((a, b) => a + b, 0);
+  ['BNF', 'AP', 'BPP', 'UDC-Ind'].forEach(sub => {
+    const s = udcSub[sub] || 0;
+    const base = UDC_SUB_BASE[sub];
+    const diff = s - base;
+    const diffStr = diff === 0 ? '±0' : (diff > 0 ? '+' + diff : '' + diff);
+    const diffCol = diff > 0 ? '#1a7a4a' : diff < 0 ? '#c8102e' : '#898781';
+    const row = document.createElement('div');
+    row.className = 'udc-sub-row';
+    row.innerHTML = `
+      <span class="udc-sub-name">
+        <span style="width:8px;height:8px;border-radius:2px;background:${UDC_SUB_COLORS[sub]};display:inline-block;"></span>
+        ${sub}
+      </span>
+      <span class="udc-sub-seats">${s}</span>
+      <span class="udc-sub-change" style="color:${diffCol}">${diffStr}</span>
+    `;
+    bd.appendChild(row);
+  });
+  const totalRow = document.createElement('div');
+  totalRow.className = 'udc-sub-row total-row-sub';
+  totalRow.innerHTML = `
+    <span class="udc-sub-name">Total UDC</span>
+    <span class="udc-sub-seats">${subTotal}</span>
+    <span class="udc-sub-change"></span>
+  `;
+  bd.appendChild(totalRow);
+}
+
+function resetAll() {
+  PARTIES.forEach(p => {
+    const el = document.getElementById('inp-' + p.id);
+    if (el) el.value = p.baseVote.toFixed(1);
+  });
+  update();
+}
+
+buildInputs();
+update();
+</script>
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
