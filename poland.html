@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sejm Seat Projector</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --paper:#EEEAE0;
+  --paper-raised:#F6F3EB;
+  --ink:#1C1B19;
+  --ink-soft:#5B564C;
+  --rule:#C7BFA9;
+  --seal:#A8763E;
+  --seal-soft:#D8C7A8;
+  --razem:#7A1F3D;
+  --lewica:#C8252B;
+  --ko:#E07B2E;
+  --p2050:#1B8A82;
+  --psl:#4C7A33;
+  --pis:#1B2A4A;
+  --konf:#3A3A3A;
+  --kkp:#8C6A2F;
+  --others:#DAD4C2;
+  --warn:#B23A2E;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'IBM Plex Sans', sans-serif;
+  padding:28px 18px 60px;
+}
+.wrap{max-width:920px;margin:0 auto;}
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--seal);
+  font-weight:600;
+}
+h1{
+  font-family:'Source Serif 4', serif;
+  font-weight:700;
+  font-size:34px;
+  margin:6px 0 8px;
+  letter-spacing:-0.01em;
+}
+.lede{
+  font-size:14.5px;
+  color:var(--ink-soft);
+  max-width:640px;
+  line-height:1.55;
+  margin:0 0 22px;
+}
+.presets{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+button.preset{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  background:var(--paper-raised);
+  border:1px solid var(--rule);
+  color:var(--ink);
+  padding:9px 14px;
+  cursor:pointer;
+  border-radius:2px;
+  transition:border-color .15s, background .15s;
+}
+button.preset:hover{border-color:var(--seal);background:#fff;}
+button.preset.primary{
+  background:var(--ink);
+  color:var(--paper);
+  border-color:var(--ink);
+}
+button.preset.primary:hover{background:#332f29;}
+
+.panel{
+  background:var(--paper-raised);
+  border:1px solid var(--rule);
+  border-radius:3px;
+  padding:24px 24px 18px;
+  margin-bottom:20px;
+}
+
+/* hemicycle */
+#hemicycle-svg{width:100%;height:auto;display:block;}
+.seat{transition:fill .25s ease;}
+.majority-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10.5px;
+  fill:var(--seal);
+}
+.majority-line{stroke:var(--seal);stroke-width:1.2;stroke-dasharray:3 3;}
+
+.summary-strip{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 16px;
+  align-items:center;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--rule);
+  font-family:'IBM Plex Mono', monospace;
+  font-size:13px;
+}
+.chip{display:flex;align-items:center;gap:6px;}
+.swatch{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.headline-stat{
+  font-family:'Source Serif 4', serif;
+  font-size:15px;
+  color:var(--ink);
+  margin-top:10px;
+}
+.headline-stat .num{font-weight:700;}
+.wasted-note{
+  font-size:12px;
+  color:var(--ink-soft);
+  margin-top:6px;
+}
+
+/* controls */
+.section-title{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0 0 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-title::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+@media (max-width:680px){.cols{grid-template-columns:1fr;}}
+
+.party-row{
+  display:grid;
+  grid-template-columns:14px 1fr 56px 44px;
+  align-items:center;
+  gap:10px;
+  padding:9px 0;
+  border-bottom:1px solid #00000008;
+}
+.party-row label.name{font-size:13.5px;}
+.party-row input[type=range]{
+  width:100%;
+  accent-color:var(--ink);
+}
+.party-row input[type=number]{
+  width:56px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12.5px;
+  border:1px solid var(--rule);
+  background:#fff;
+  padding:4px 5px;
+  border-radius:2px;
+}
+.seat-badge{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12.5px;
+  text-align:right;
+  font-weight:600;
+}
+
+.coalition-box{
+  margin:6px 0 10px;
+  padding:9px 11px;
+  background:#00000006;
+  border-left:2px solid var(--seal-soft);
+  border-radius:0 2px 2px 0;
+}
+.coalition-box label{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  font-size:12px;
+  color:var(--ink-soft);
+  cursor:pointer;
+  line-height:1.4;
+}
+.coalition-box input{margin-top:2px;}
+.coalition-box .thresh-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  color:var(--seal);
+}
+
+.others-row{
+  font-size:12px;
+  color:var(--ink-soft);
+  margin-top:10px;
+  font-family:'IBM Plex Mono', monospace;
+}
+.warn{color:var(--warn);font-weight:600;}
+
+footer{
+  margin-top:26px;
+  font-size:11.5px;
+  line-height:1.6;
+  color:var(--ink-soft);
+  border-top:1px solid var(--rule);
+  padding-top:16px;
+}
+footer strong{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">460 Mandates · D'Hondt Method · 41 Real Constituencies · Uniform National Swing</div>
+  <h1>Sejm Seat Projector</h1>
+  <p class="lede">Adjust national vote shares to see a projected seat distribution. Each party's 2023 result is shifted by the same number of points in all 41 constituencies (uniform national swing), then real D'Hondt is run separately in each one — the same way Poland actually allocates seats.</p>
+
+  <div class="presets">
+    <button class="preset primary" id="btn2023">Load 2023 election result</button>
+    <button class="preset" id="btnReset">Reset to zero</button>
+  </div>
+
+  <div class="cols">
+    <div class="panel">
+      <div class="section-title">Left &amp; centre</div>
+
+      <div class="party-row">
+        <span class="swatch" style="background:var(--razem)"></span>
+        <label class="name">Razem</label>
+        <input type="range" id="slider-razem" min="0" max="40" step="0.1">
+        <input type="number" id="num-razem" min="0" max="40" step="0.1">
+      </div>
+      <div class="party-row">
+        <span class="swatch" style="background:var(--lewica)"></span>
+        <label class="name">Lewica</label>
+        <input type="range" id="slider-lewica" min="0" max="40" step="0.1">
+        <input type="number" id="num-lewica" min="0" max="40" step="0.1">
+      </div>
+      <div class="coalition-box">
+        <label><input type="checkbox" id="coal-left"> Run as a joint "Lewica + Razem" list <span class="thresh-tag">(8% threshold combined)</span></label>
+      </div>
+
+      <div class="party-row">
+        <span class="swatch" style="background:var(--ko)"></span>
+        <label class="name">KO (Civic Coalition)</label>
+        <input type="range" id="slider-ko" min="0" max="50" step="0.1">
+        <input type="number" id="num-ko" min="0" max="50" step="0.1">
+      </div>
+
+      <div class="party-row">
+        <span class="swatch" style="background:var(--p2050)"></span>
+        <label class="name">Polska 2050</label>
+        <input type="range" id="slider-p2050" min="0" max="40" step="0.1">
+        <input type="number" id="num-p2050" min="0" max="40" step="0.1">
+      </div>
+      <div class="party-row">
+        <span class="swatch" style="background:var(--psl)"></span>
+        <label class="name">PSL</label>
+        <input type="range" id="slider-psl" min="0" max="40" step="0.1">
+        <input type="number" id="num-psl" min="0" max="40" step="0.1">
+      </div>
+      <div class="coalition-box">
+        <label><input type="checkbox" id="coal-third"> Run as a joint "Third Way" list <span class="thresh-tag">(8% threshold combined)</span></label>
+      </div>
+
+      <div class="others-row" id="othersRow"></div>
+    </div>
+
+    <div class="panel">
+      <div class="section-title">Right</div>
+
+      <div class="party-row">
+        <span class="swatch" style="background:var(--pis)"></span>
+        <label class="name">PiS</label>
+        <input type="range" id="slider-pis" min="0" max="50" step="0.1">
+        <input type="number" id="num-pis" min="0" max="50" step="0.1">
+      </div>
+
+      <div class="party-row">
+        <span class="swatch" style="background:var(--konf)"></span>
+        <label class="name">Konfederacja</label>
+        <input type="range" id="slider-konf" min="0" max="40" step="0.1">
+        <input type="number" id="num-konf" min="0" max="40" step="0.1">
+      </div>
+      <div class="party-row">
+        <span class="swatch" style="background:var(--kkp)"></span>
+        <label class="name">KKP (Confederation of the Polish Crown)</label>
+        <input type="range" id="slider-kkp" min="0" max="40" step="0.1">
+        <input type="number" id="num-kkp" min="0" max="40" step="0.1">
+      </div>
+      <div class="coalition-box">
+        <label><input type="checkbox" id="coal-konf"> Reunite Confederation <span class="thresh-tag">(single party, 5% threshold)</span></label>
+      </div>
+
+      <div class="section-title" style="margin-top:22px;">About the thresholds</div>
+      <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.6;margin:0;">
+        Solo parties need <strong>5%</strong> of the national vote to win any seats; coalitions need <strong>8%</strong>. Votes for anyone below threshold are redistributed proportionally among parties that clear it — this is why a poll showing a party at 3–4% can still mean zero seats.
+      </p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <svg id="hemicycle-svg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="summary-strip" id="summaryStrip"></div>
+    <div class="headline-stat" id="headlineStat"></div>
+    <div class="wasted-note" id="wastedNote"></div>
+  </div>
+
+  <footer>
+    <strong>Method.</strong> This tool uses the actual 2023 results in all 41 Sejm constituencies (source: PKW) and applies <strong>uniform national swing</strong> — each party's vote share moves by the same number of percentage points in every constituency as it does nationally. Real D'Hondt is then run separately within each constituency using its actual seat count (7–20), and the 41 results are summed. Whether a party clears the 5%/8% threshold is decided by its <em>national</em> vote share, exactly as in the real system. With this method the 2023 preset reproduces the actual outcome exactly: PiS 194 / KO 157 / Third Way 65 / Lewica 26 / Konfederacja 18.<br><br>
+    Third Way, Lewica, and Confederation ran as single joint lists in 2023, so Polska 2050/PSL, Lewica/Razem, and Konfederacja/KKP are each split from their joint list's district-level vote using the national ratio between their named sub-affiliates. This assumes each pair had the same internal split in every constituency, which won't be exactly true — it's the most reasonable estimate available without separate historical lists. Uniform swing is also a simplification: real shifts vary by region, so a close result can tip either way in practice.<br><br>
+    <strong>Sources.</strong> 2023 results by constituency: Polish State Electoral Commission (PKW).
+  </footer>
+
+</div>
+
+<script>
+const TOTAL_SEATS = 460;
+const MAJORITY = 231;
+
+// Real 2023 results for all 41 Sejm constituencies, from the National Electoral
+// Commission (PKW). Each row: [seats, pis, ko, p2050, psl, lewica, razem, konf, kkp, others] (votes).
+// Third Way / Lewica / Confederation ran as single joint lists in 2023, so p2050/psl,
+// lewica/razem, and konf/kkp are split from each joint list's district vote using the
+// national ratio between their named sub-affiliates (see footer for detail).
+const DISTRICTS_RAW = [[12,174643,169540,30626,23332,34772,12943,28021,3749,24244],[8,107797,120188,22258,16957,18806,7000,17180,2298,10876],[14,206899,286713,60519,46105,64195,23894,47745,6387,33597],[12,162603,186914,45649,34777,38594,14365,30223,4043,16751],[13,183131,158719,47853,36455,44070,16403,30193,4039,16734],[15,294847,131712,58402,44492,27024,10059,47915,6410,27486],[12,231882,79501,33815,25762,18722,6969,31394,4200,24627],[12,143530,195091,44234,33699,34915,12996,29699,3973,18904],[10,122433,187527,30811,23472,40642,15128,22428,3000,11111],[9,184929,86083,30922,23557,18466,6874,26678,3569,15741],[12,221031,138038,43882,33431,30016,11172,32090,4293,19175],[8,156308,88408,30982,23603,16059,5977,25361,3393,14580],[14,232430,232799,72477,55216,60947,22686,51540,6895,22532],[10,229587,68804,28088,21399,9907,3687,32900,4401,28519],[9,196433,68690,42699,32530,11771,4381,28437,3804,14846],[10,195218,99146,42868,32658,21023,7825,25470,3407,14952],[9,190418,82003,31042,23648,15212,5662,25219,3374,14624],[12,262236,100902,47497,36184,19056,7093,39072,5227,22141],[20,345380,741286,128915,98212,168084,62564,109563,14657,46058],[12,231905,257470,62484,47602,37571,13985,45488,6085,28154],[12,150022,161241,34711,26444,25333,9430,27475,3675,41637],[11,241790,70054,34588,26350,14393,5357,33587,4493,11384],[15,347688,119259,47494,36182,23923,8905,56320,7534,26471],[14,258277,126971,65215,49683,21482,7996,52610,7038,19972],[12,155318,257009,51423,39176,42243,15724,33874,4532,16988],[14,199709,258909,52669,40124,41456,15431,43398,5805,25398],[9,163506,127677,36767,28011,25215,9386,30790,4119,19875],[7,117756,94313,27073,20625,22225,8272,18748,2508,12421],[9,116827,139711,29334,22347,25997,9676,23756,3178,16582],[9,145230,114404,26975,20550,19033,7084,26925,3602,17795],[12,162458,193596,39632,30193,32436,12073,31082,4158,20539],[9,112389,114519,21126,16095,59499,22147,18974,2538,10672],[16,310266,137941,51637,39338,32829,12219,38100,5097,31705],[8,105373,95410,26167,19934,17686,6583,17279,2311,8637],[10,126432,129339,35762,27245,23051,8580,23919,3200,13530],[12,194416,154990,49737,37891,33684,12538,33374,4464,21173],[9,162192,100580,39584,30156,28976,10785,25762,3446,17762],[9,120301,144114,41432,31564,23595,8783,25023,3347,15076],[10,116666,262779,55958,42631,53450,19895,31031,4151,9477],[8,101023,124625,22577,17199,20479,7622,17092,2287,9245],[12,159575,222427,39707,30250,37918,14114,29055,3887,17375]];
+
+const PARTY_KEYS = ['pis','ko','p2050','psl','lewica','razem','konf','kkp'];
+
+const DISTRICTS = DISTRICTS_RAW.map(row => {
+  const [seats, pis, ko, p2050, psl, lewica, razem, konf, kkp, others] = row;
+  return { seats, pis, ko, p2050, psl, lewica, razem, konf, kkp, others };
+});
+
+// Baseline national % for each party, derived directly from the district data above
+// (so the 2023 preset and the swing math are always perfectly consistent).
+const DISTRICT_TOTAL_VOTES = DISTRICTS.reduce((sum,d) => sum + PARTY_KEYS.reduce((s,k)=>s+d[k],0) + d.others, 0);
+const BASELINE_NATIONAL = {};
+PARTY_KEYS.forEach(k => {
+  BASELINE_NATIONAL[k] = DISTRICTS.reduce((s,d)=>s+d[k],0) / DISTRICT_TOTAL_VOTES * 100;
+});
+const BASELINE_OTHERS = 100 - PARTY_KEYS.reduce((s,k)=>s+BASELINE_NATIONAL[k],0);
+
+const PRESET_2023 = {
+  values: { ...BASELINE_NATIONAL },
+  coalitions: { left:true, third:true, konf:true }
+};
+const PRESET_ZERO = {
+  values: { pis:0, ko:0, p2050:0, psl:0, lewica:0, razem:0, konf:0, kkp:0 },
+  coalitions: { left:false, third:false, konf:false }
+};
+
+const COLORS = {
+  razem:'#7A1F3D', lewica:'#C8252B', leftCoalition:'#C8252B',
+  ko:'#E07B2E',
+  p2050:'#1B8A82', psl:'#4C7A33', thirdWay:'#2E8A63',
+  pis:'#1B2A4A',
+  konf:'#3A3A3A', kkp:'#8C6A2F', confederation:'#3A3A3A',
+};
+
+const IDS = PARTY_KEYS;
+
+function readState(){
+  const values = {};
+  IDS.forEach(id => values[id] = parseFloat(document.getElementById('num-'+id).value) || 0);
+  const coalitions = {
+    left: document.getElementById('coal-left').checked,
+    third: document.getElementById('coal-third').checked,
+    konf: document.getElementById('coal-konf').checked,
+  };
+  return { values, coalitions };
+}
+
+function applyState(state){
+  IDS.forEach(id => {
+    const v = state.values[id];
+    document.getElementById('slider-'+id).value = v;
+    document.getElementById('num-'+id).value = v;
+  });
+  document.getElementById('coal-left').checked = state.coalitions.left;
+  document.getElementById('coal-third').checked = state.coalitions.third;
+  document.getElementById('coal-konf').checked = state.coalitions.konf;
+  recalc();
+}
+
+// labels/colors for display — actual seat math happens in runUNS() below
+function buildEntities(state){
+  const v = state.values, c = state.coalitions;
+  const entities = [];
+
+  if (c.left){
+    entities.push({id:'leftCoalition', label:'Lewica + Razem', color:COLORS.leftCoalition, value:v.lewica+v.razem, threshold:8});
+  } else {
+    entities.push({id:'razem', label:'Razem', color:COLORS.razem, value:v.razem, threshold:5});
+    entities.push({id:'lewica', label:'Lewica', color:COLORS.lewica, value:v.lewica, threshold:5});
+  }
+
+  entities.push({id:'ko', label:'KO', color:COLORS.ko, value:v.ko, threshold:5});
+
+  if (c.third){
+    entities.push({id:'thirdWay', label:'Third Way', color:COLORS.thirdWay, value:v.p2050+v.psl, threshold:8});
+  } else {
+    entities.push({id:'p2050', label:'Polska 2050', color:COLORS.p2050, value:v.p2050, threshold:5});
+    entities.push({id:'psl', label:'PSL', color:COLORS.psl, value:v.psl, threshold:5});
+  }
+
+  entities.push({id:'pis', label:'PiS', color:COLORS.pis, value:v.pis, threshold:5});
+
+  if (c.konf){
+    entities.push({id:'confederation', label:'Confederation', color:COLORS.confederation, value:v.konf+v.kkp, threshold:5});
+  } else {
+    entities.push({id:'konf', label:'Konfederacja', color:COLORS.konf, value:v.konf, threshold:5});
+    entities.push({id:'kkp', label:'KKP', color:COLORS.kkp, value:v.kkp, threshold:5});
+  }
+
+  return entities;
+}
+
+// D'Hondt within a single constituency
+function dhondtDistrict(parties, seats){
+  const quotients = [];
+  parties.forEach(p => {
+    for (let n=1; n<=seats; n++) quotients.push({id:p.id, q:p.value/n});
+  });
+  quotients.sort((a,b)=>b.q-a.q);
+  const top = quotients.slice(0, seats);
+  const result = {};
+  parties.forEach(p => result[p.id]=0);
+  top.forEach(t => result[t.id]++);
+  return result;
+}
+
+// Uniform National Swing: shift each party's 2023 district-level share by the same
+// number of points nationally, then run real D'Hondt separately in each of the 41
+// constituencies. National vote share (not district share) decides who clears the
+// 5%/8% threshold — exactly as in the real system.
+function runUNS(entities, values){
+  const swing = {};
+  PARTY_KEYS.forEach(k => swing[k] = (values[k]||0) - BASELINE_NATIONAL[k]);
+
+  const totals = {};
+  entities.forEach(e => totals[e.id] = 0);
+
+  DISTRICTS.forEach(d => {
+    const dTotal = PARTY_KEYS.reduce((s,k)=>s+d[k],0) + d.others;
+    const districtSeats = {};
+    PARTY_KEYS.forEach(k => {
+      const basePct = d[k] / dTotal * 100;
+      districtSeats[k] = Math.max(0, basePct + swing[k]);
+    });
+
+    const qualifying = entities
+      .filter(e => e.value >= e.threshold) // national % vs threshold
+      .map(e => {
+        let val;
+        if (e.id === 'leftCoalition') val = districtSeats.lewica + districtSeats.razem;
+        else if (e.id === 'thirdWay') val = districtSeats.p2050 + districtSeats.psl;
+        else if (e.id === 'confederation') val = districtSeats.konf + districtSeats.kkp;
+        else val = districtSeats[e.id];
+        return { id: e.id, value: val };
+      })
+      .filter(e => e.value > 0);
+
+    if (qualifying.length === 0) return;
+    const result = dhondtDistrict(qualifying, d.seats);
+    Object.entries(result).forEach(([id,n]) => { totals[id] = (totals[id]||0) + n; });
+  });
+
+  return totals;
+}
+
+// ---- hemicycle geometry (static, computed once) ----
+function computeSeatPositions(total, rows, innerR, outerR, cx, cy, angleStart, angleEnd){
+  const radii = [];
+  for (let i=0;i<rows;i++) radii.push(innerR + (outerR-innerR)*(i/(rows-1)));
+  const sumR = radii.reduce((a,b)=>a+b,0);
+  let counts = radii.map(r => Math.round(total*r/sumR));
+  let diff = total - counts.reduce((a,b)=>a+b,0);
+  let order = counts.map((c,i)=>i).sort((a,b)=>radii[b]-radii[a]);
+  let oi=0;
+  while (diff!==0){
+    const i = order[oi % order.length];
+    if (diff>0){counts[i]++; diff--;} else if (counts[i]>0){counts[i]--; diff++;}
+    oi++;
+  }
+  const positions = [];
+  for (let i=0;i<rows;i++){
+    const r = radii[i], c = counts[i];
+    for (let k=0;k<c;k++){
+      const angDeg = c===1 ? (angleStart+angleEnd)/2 : angleStart - (angleStart-angleEnd)*(k/(c-1));
+      const angRad = angDeg*Math.PI/180;
+      positions.push({ x: cx + r*Math.cos(angRad), y: cy - r*Math.sin(angRad), angDeg });
+    }
+  }
+  positions.sort((a,b)=>b.angDeg-a.angDeg);
+  return positions;
+}
+
+const SEAT_POSITIONS = computeSeatPositions(TOTAL_SEATS, 9, 70, 230, 300, 270, 172, 8);
+const MAJORITY_ANGLE = SEAT_POSITIONS[MAJORITY-1].angDeg;
+
+function renderHemicycle(entities, seatCounts){
+  const svg = document.getElementById('hemicycle-svg');
+  let html = '';
+
+  // majority line
+  const cx=300, cy=270, lineLen=248;
+  const rad = MAJORITY_ANGLE*Math.PI/180;
+  const lx = cx + lineLen*Math.cos(rad), ly = cy - lineLen*Math.sin(rad);
+  html += `<line class="majority-line" x1="${cx}" y1="${cy}" x2="${lx.toFixed(1)}" y2="${ly.toFixed(1)}"/>`;
+  html += `<text class="majority-label" x="${(lx+(lx>cx?6:-46)).toFixed(1)}" y="${(ly-4).toFixed(1)}">231 for majority</text>`;
+
+  let posIdx = 0;
+  entities.forEach(e => {
+    const n = seatCounts[e.id] || 0;
+    for (let i=0;i<n;i++){
+      const p = SEAT_POSITIONS[posIdx++];
+      html += `<circle class="seat" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.6" fill="${e.color}"><title>${e.label}</title></circle>`;
+    }
+  });
+  // any unfilled (shouldn't normally happen) shown as pale grey
+  while (posIdx < SEAT_POSITIONS.length){
+    const p = SEAT_POSITIONS[posIdx++];
+    html += `<circle class="seat" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.6" fill="var(--others)"/>`;
+  }
+  svg.innerHTML = html;
+}
+
+function recalc(){
+  const state = readState();
+  const entities = buildEntities(state);
+  const sumValues = entities.reduce((a,e)=>a+e.value,0);
+  const others = Math.max(0, 100 - sumValues);
+  const overflow = sumValues > 100;
+
+  const seatCounts = runUNS(entities, state.values);
+  renderHemicycle(entities, seatCounts);
+
+  // summary strip
+  const sorted = [...entities].sort((a,b)=>(seatCounts[b.id]||0)-(seatCounts[a.id]||0));
+  document.getElementById('summaryStrip').innerHTML = sorted.map(e =>
+    `<span class="chip"><span class="swatch" style="background:${e.color}"></span>${e.label} ${seatCounts[e.id]||0}</span>`
+  ).join('');
+
+  // headline
+  const leader = sorted[0];
+  const leaderSeats = seatCounts[leader.id]||0;
+  let headline;
+  if (leaderSeats >= MAJORITY){
+    headline = `<span style="color:${leader.color}">${leader.label}</span> reaches a majority with <span class="num">${leaderSeats}</span> seats.`;
+  } else {
+    const gap = MAJORITY - leaderSeats;
+    headline = `<span style="color:${leader.color}">${leader.label}</span> leads with <span class="num">${leaderSeats}</span> seats — <span class="num">${gap}</span> short of the 231 needed for a majority. Hung parliament.`;
+  }
+  document.getElementById('headlineStat').innerHTML = headline;
+
+  // wasted vote
+  const belowThreshold = entities.filter(e => e.value < e.threshold).reduce((a,e)=>a+e.value,0) + others;
+  document.getElementById('wastedNote').textContent =
+    `Votes not represented in the Sejm (below threshold + others): ${belowThreshold.toFixed(1)}%`;
+
+  // others row
+  const othersEl = document.getElementById('othersRow');
+  if (overflow){
+    othersEl.innerHTML = `<span class="warn">Vote shares sum to ${sumValues.toFixed(1)}% — reduce some sliders so the total stays at or below 100%.</span>`;
+  } else {
+    othersEl.textContent = `Others / undecided: ${others.toFixed(1)}% (not allocated seats)`;
+  }
+}
+
+// ---- wire up inputs ----
+IDS.forEach(id => {
+  const slider = document.getElementById('slider-'+id);
+  const num = document.getElementById('num-'+id);
+  slider.addEventListener('input', () => { num.value = slider.value; recalc(); });
+  num.addEventListener('input', () => { slider.value = num.value; recalc(); });
+});
+['coal-left','coal-third','coal-konf'].forEach(id => {
+  document.getElementById(id).addEventListener('change', recalc);
+});
+
+document.getElementById('btn2023').addEventListener('click', () => applyState(PRESET_2023));
+document.getElementById('btnReset').addEventListener('click', () => applyState(PRESET_ZERO));
+
+applyState(PRESET_2023);
+</script>
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
