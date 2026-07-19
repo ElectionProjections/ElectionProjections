@@ -14,32 +14,38 @@
             color: #24292f;
         }
 
-        /* The Navigation Bar container */
-        .navbar {
-            background-color: #24292f; /* GitHub dark gray */
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            height: 60px;
-        }
+/* The Navigation Bar container */
+.navbar {
+    background-color: #24292f !important; /* GitHub dark gray */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important; /* Forces items to start from the left */
+    text-align: left !important; /* Prevents text centering rules from breaking the layout */
+    padding: 0 20px !important;
+    height: 60px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
 
-        /* Site Title / Brand */
-        .nav-logo {
-            color: white;
-            font-weight: bold;
-            text-decoration: none;
-            font-size: 1.2rem;
-            margin-right: 40px;
-        }
+/* Site Title / Brand */
+.nav-logo {
+    color: white !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    font-size: 1.2rem !important;
+    margin-right: 40px !important;
+    display: inline-block !important;
+}
 
-        /* Navigation Links Menu */
-        .nav-links {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            gap: 25px;
-        }
+/* Navigation Links Menu */
+.nav-links {
+    display: flex !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 25px !important;
+    flex-direction: row !important; /* Keeps links horizontal even if Malaysia page forces vertical lists */
+}
 
         .nav-links a {
             color: #adbac7;
