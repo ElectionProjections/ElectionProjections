@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Singapore GE2025 seat projector</title>
+<style>
+:root{
+  --bg:#ffffff; --bg-secondary:#f5f4f0; --text:#1a1a1a; --text-secondary:#6b6a66;
+  --border:#e3e1da; --success:#1a7a3c; --danger:#c4392a; --warning:#b3760a; --info:#0c447c; --info-bg:#e6f1fb;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#1c1c1a; --bg-secondary:#2a2a27; --text:#f1efe8; --text-secondary:#a8a69e; --border:#3c3b37; --info-bg:#0c2a44; }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);padding:24px;line-height:1.5}
+.container{max-width:780px;margin:0 auto}
+h1{font-size:20px;font-weight:600;margin-bottom:4px}
+.sub{font-size:13px;color:var(--text-secondary);margin-bottom:1.5rem}
+.section-label{font-size:12px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;margin-top:1.5rem}
+.party-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.party-row{display:flex;flex-direction:column;gap:4px;background:var(--bg-secondary);border-radius:10px;padding:10px 12px}
+.party-row.locked{opacity:0.85}
+.party-name{font-size:13px;font-weight:600;line-height:1.3}
+.slider-line{display:flex;align-items:center;gap:8px;margin-top:4px}
+.slider-line input[type=range]{flex:1;accent-color:#444}
+.slider-line input[type=number]{width:56px;text-align:right;font-size:12px;font-weight:600;border:1px solid var(--border);border-radius:6px;padding:3px 5px;background:var(--bg);color:var(--text)}
+input[type=range]:disabled, input[type=number]:disabled{opacity:0.5}
+.lock-note{font-size:10px;color:var(--text-secondary);margin-top:2px}
+.warn{font-size:11px;color:var(--danger);min-height:16px;margin-top:8px;text-align:center}
+.btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn{padding:7px 14px;font-size:13px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text);cursor:pointer}
+.btn:hover{background:var(--bg-secondary)}
+.opp-detail-grid,.opp-detail-grid2{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+.opp-metric{background:var(--bg-secondary);border-radius:10px;padding:8px 6px;text-align:center}
+.opp-metric-val{font-size:18px;font-weight:600;line-height:1.2}
+.opp-metric-lbl{font-size:10px;color:var(--text-secondary);margin-top:2px}
+.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:1rem}
+.metric{background:var(--bg-secondary);border-radius:10px;padding:10px 12px;text-align:center}
+.metric-val{font-size:22px;font-weight:600;line-height:1.2}
+.metric-lbl{font-size:11px;color:var(--text-secondary);margin-top:2px}
+.bar-wrap{display:flex;height:28px;border-radius:6px;overflow:hidden;margin-top:1rem;border:1px solid var(--border)}
+.bar-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff;overflow:hidden;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;font-size:11px;color:var(--text-secondary)}
+.legend span{display:flex;align-items:center;gap:4px}
+.legend .dot{width:9px;height:9px;border-radius:2px;display:inline-block}
+.coalition-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:1rem}
+.coalition-chip{display:flex;align-items:center;gap:8px;background:var(--bg-secondary);border-radius:10px;padding:8px 10px;cursor:pointer;border-top:1px solid transparent;border-right:1px solid transparent;border-bottom:1px solid transparent;border-left-width:3px;border-left-style:solid;border-left-color:transparent;user-select:none}
+.coalition-chip:hover{border-top-color:var(--border);border-right-color:var(--border);border-bottom-color:var(--border)}
+.coalition-chip input{width:15px;height:15px;cursor:pointer;accent-color:#444}
+.coalition-chip-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+.coalition-chip-label{font-size:12px;font-weight:600;flex:1}
+.coalition-chip-seats{font-size:11px;color:var(--text-secondary)}
+.coalition-result{display:flex;align-items:center;gap:1rem;background:var(--bg-secondary);border-radius:12px;padding:1rem 1.25rem;margin-top:1rem}
+.coalition-bigval{font-size:32px;font-weight:600;line-height:1}
+.coalition-status{font-size:13px;font-weight:600}
+.coalition-substatus{font-size:11px;color:var(--text-secondary);margin-top:2px}
+.coalition-track{flex:1;height:10px;border-radius:5px;background:var(--border);position:relative;overflow:hidden;margin:0 4px;display:flex}
+.coalition-seg{height:100%;transition:width .3s}
+.coalition-mark{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--text-secondary);z-index:2}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+thead th{text-align:left;padding:6px 8px;font-weight:600;font-size:11px;color:var(--text-secondary);border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid var(--border)}
+tbody tr:last-child{border-bottom:none}
+td{padding:5px 8px;vertical-align:middle}
+.won{font-weight:600}
+.tag{display:inline-block;font-size:10px;padding:1px 6px;border-radius:4px;font-weight:600}
+.tag-grc{background:var(--info-bg);color:var(--info)}
+.tag-smc{background:#fbeedb;color:#b3760a}
+.flip-gain{color:var(--success);font-weight:600}
+.flip-lose{color:var(--danger);font-weight:600}
+.tbl-wrap{max-height:340px;overflow-y:auto;border:1px solid var(--border);border-radius:10px}
+.pap-color{color:#E2231A}
+.wp-color{color:#0066CC}
+.psp-color{color:#76A4D7}
+.sdp-color{color:#8E1FBF}
+.rdu-color{color:#5a5a5a}
+.par-color{color:#7D3C98}
+.sda-color{color:#1A5C1A}
+.spp-color{color:#F39C12}
+.oth-color{color:#888}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Singapore seat projector</h1>
+<p class="sub">2025 baseline, Uniform National Swing model. Set vote shares per party — drag the slider or type a number. "Smaller parties" auto-fills with whatever's left, so the total always stays at 100%.</p>
+
+<div class="party-grid">
+  <div class="party-row">
+    <span class="party-name pap-color">People's Action Party</span>
+    <div class="slider-line">
+      <input type="range" id="pap" min="0" max="100" step="0.1" value="65.57">
+      <input type="number" id="pap-num" min="0" max="100" step="0.1" value="65.57">
+    </div>
+  </div>
+  <div class="party-row">
+    <span class="party-name wp-color">Workers' Party</span>
+    <div class="slider-line">
+      <input type="range" id="wp" min="0" max="100" step="0.1" value="14.99">
+      <input type="number" id="wp-num" min="0" max="100" step="0.1" value="14.99">
+    </div>
+  </div>
+  <div class="party-row">
+    <span class="party-name psp-color">Progress Singapore Party</span>
+    <div class="slider-line">
+      <input type="range" id="psp" min="0" max="100" step="0.1" value="4.88">
+      <input type="number" id="psp-num" min="0" max="100" step="0.1" value="4.88">
+    </div>
+  </div>
+  <div class="party-row">
+    <span class="party-name sdp-color">Singapore Democratic Party</span>
+    <div class="slider-line">
+      <input type="range" id="sdp" min="0" max="100" step="0.1" value="3.72">
+      <input type="number" id="sdp-num" min="0" max="100" step="0.1" value="3.72">
+    </div>
+  </div>
+  <div class="party-row">
+    <span class="party-name rdu-color">Red Dot United</span>
+    <div class="slider-line">
+      <input type="range" id="rdu" min="0" max="100" step="0.1" value="3.96">
+      <input type="number" id="rdu-num" min="0" max="100" step="0.1" value="3.96">
+    </div>
+  </div>
+  <div class="party-row">
+    <span class="party-name par-color">People's Alliance for Reform</span>
+    <div class="slider-line">
+      <input type="range" id="par" min="0" max="100" step="0.1" value="2.51">
+      <input type="number" id="par-num" min="0" max="100" step="0.1" value="2.51">
+    </div>
+  </div>
+  <div class="party-row">
+    <span class="party-name sda-color">Singapore Democratic Alliance</span>
+    <div class="slider-line">
+      <input type="range" id="sda" min="0" max="100" step="0.1" value="1.22">
+      <input type="number" id="sda-num" min="0" max="100" step="0.1" value="1.22">
+    </div>
+  </div>
+  <div class="party-row">
+    <span class="party-name spp-color">Singapore People's Party</span>
+    <div class="slider-line">
+      <input type="range" id="spp" min="0" max="100" step="0.1" value="1.18">
+      <input type="number" id="spp-num" min="0" max="100" step="0.1" value="1.18">
+    </div>
+  </div>
+  <div class="party-row locked" style="grid-column:1/-1">
+    <span class="party-name oth-color">Smaller parties &amp; independents (locked)</span>
+    <div class="slider-line">
+      <input type="range" id="oth" min="0" max="100" step="0.1" value="5.91" disabled>
+      <input type="number" id="oth-num" min="0" max="100" step="0.1" value="5.91" disabled>
+    </div>
+    <div class="lock-note">auto-set to remainder — covers Singapore United Party, People's Power Party, National Solidarity Party and independents</div>
+  </div>
+</div>
+<div class="warn" id="warn"></div>
+<div class="btn-row">
+  <button class="btn" onclick="resetToBaseline()">Reset to 2025 baseline</button>
+</div>
+
+<div class="section-label">Projected seats (97 total)</div>
+<div class="opp-detail-grid">
+  <div class="opp-metric"><div class="opp-metric-val pap-color" id="pap-seats">87</div><div class="opp-metric-lbl">PAP</div></div>
+  <div class="opp-metric"><div class="opp-metric-val wp-color" id="wp-seats">10</div><div class="opp-metric-lbl">WP</div></div>
+  <div class="opp-metric"><div class="opp-metric-val psp-color" id="psp-seats">0</div><div class="opp-metric-lbl">PSP</div></div>
+  <div class="opp-metric"><div class="opp-metric-val sdp-color" id="sdp-seats">0</div><div class="opp-metric-lbl">SDP</div></div>
+</div>
+<div class="opp-detail-grid2">
+  <div class="opp-metric"><div class="opp-metric-val rdu-color" id="rdu-seats">0</div><div class="opp-metric-lbl">RDU</div></div>
+  <div class="opp-metric"><div class="opp-metric-val par-color" id="par-seats">0</div><div class="opp-metric-lbl">PAR</div></div>
+  <div class="opp-metric"><div class="opp-metric-val sda-color" id="sda-seats">0</div><div class="opp-metric-lbl">SDA</div></div>
+  <div class="opp-metric"><div class="opp-metric-val spp-color" id="spp-seats">0</div><div class="opp-metric-lbl">SPP</div></div>
+</div>
+
+<div class="results-grid">
+  <div class="metric">
+    <div class="metric-val" id="supermaj">✓</div>
+    <div class="metric-lbl">PAP supermajority (≥66)</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val pap-color" id="pap-chg-card">–</div>
+    <div class="metric-lbl">PAP vs 2025</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val wp-color" id="wp-chg-card">–</div>
+    <div class="metric-lbl">WP vs 2025</div>
+  </div>
+  <div class="metric">
+    <div class="metric-val oth-color" id="opp-chg-card">–</div>
+    <div class="metric-lbl">Other opp. vs 2025</div>
+  </div>
+</div>
+
+<div class="section-label">Seat share by party</div>
+<div class="bar-wrap" id="seat-bar"></div>
+<div class="legend" id="legend"></div>
+
+<div class="section-label">Coalition builder</div>
+<div class="coalition-grid" id="coalition-chips"></div>
+<div class="coalition-result">
+  <div style="text-align:center;min-width:64px">
+    <div class="coalition-bigval" id="coal-seats">0</div>
+    <div style="font-size:10px;color:var(--text-secondary)">of 97 seats</div>
+  </div>
+  <div style="flex:1">
+    <div class="coalition-status" id="coal-status">Select parties to build a coalition</div>
+    <div class="coalition-track" id="coal-track">
+      <div class="coalition-mark" style="left:50.5%"></div>
+    </div>
+    <div class="coalition-substatus" id="coal-substatus">Majority needs 49 of 97 seats</div>
+  </div>
+</div>
+
+<div class="section-label">Constituency breakdown</div>
+<div class="tbl-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Constituency</th>
+      <th>Type</th>
+      <th>Seats</th>
+      <th>2025 winner</th>
+      <th>2025 margin</th>
+      <th>Projected winner</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody id="tbl-body"></tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+const BASE = {pap:65.57, wp:14.99, psp:4.88, sdp:3.72, rdu:3.96, par:2.51, sda:1.22, spp:1.18, oth:5.91};
+
+const CONSTITUENCIES = [
+  ["Aljunied GRC","GRC",5,"WP",59.68,"PAP",40.32,"WP"],
+  ["Ang Mo Kio GRC","GRC",5,"PAP",78.95,"SUP/PPP",21.05,"OTH"],
+  ["Bishan–Toa Payoh GRC","GRC",4,"PAP",75.18,"SPP",24.82,"SPP"],
+  ["Bukit Gombak SMC","SMC",1,"PAP",75.81,"PSP",24.19,"PSP"],
+  ["Bukit Panjang SMC","SMC",1,"PAP",61.38,"SDP",38.62,"SDP"],
+  ["Chua Chu Kang GRC","GRC",4,"PAP",63.60,"PSP",36.40,"PSP"],
+  ["East Coast GRC","GRC",5,"PAP",58.73,"WP",41.27,"WP"],
+  ["Holland–Bukit Timah GRC","GRC",4,"PAP",79.25,"RDU",20.75,"RDU"],
+  ["Hougang SMC","SMC",1,"WP",62.17,"PAP",37.83,"WP"],
+  ["Jalan Besar GRC","GRC",4,"PAP",75.21,"PAR",24.79,"PAR"],
+  ["Jalan Kayu SMC","SMC",1,"PAP",51.47,"WP",48.53,"WP"],
+  ["Jurong Central SMC","SMC",1,"PAP",80.51,"RDU",19.49,"RDU"],
+  ["Jurong East–Bukit Batok GRC","GRC",5,"PAP",76.67,"RDU",23.33,"RDU"],
+  ["Kebun Baru SMC","SMC",1,"PAP",68.49,"PSP",31.51,"PSP"],
+  ["Marine Parade–Braddell Heights GRC","GRC",5,"PAP",100,"WP",0,"WP"],
+  ["Marsiling–Yew Tee GRC","GRC",4,"PAP",73.48,"SDP",26.52,"SDP"],
+  ["Marymount SMC","SMC",1,"PAP",70.73,"PSP",29.27,"PSP"],
+  ["Mountbatten SMC","SMC",1,"PAP",63.82,"IND",36.18,"OTH"],
+  ["Nee Soon GRC","GRC",5,"PAP",73.81,"RDU",26.19,"RDU"],
+  ["Pasir Ris–Changi GRC","GRC",4,"PAP",67.68,"SDA",32.32,"SDA"],
+  ["Pioneer SMC","SMC",1,"PAP",65.45,"PSP",34.55,"PSP"],
+  ["Potong Pasir SMC","SMC",1,"PAP",69.21,"SPP/PAR",30.79,"SPP"],
+  ["Punggol GRC","GRC",4,"PAP",55.17,"WP",44.83,"WP"],
+  ["Queenstown SMC","SMC",1,"PAP",81.13,"PAR",18.87,"PAR"],
+  ["Radin Mas SMC","SMC",1,"PAP",69.12,"IND/PAR",30.88,"OTH"],
+  ["Sembawang GRC","GRC",5,"PAP",67.76,"SDP",29.92,"SDP"],
+  ["Sembawang West SMC","SMC",1,"PAP",53.18,"SDP",46.82,"SDP"],
+  ["Sengkang GRC","GRC",4,"WP",56.31,"PAP",43.69,"WP"],
+  ["Tampines GRC","GRC",5,"PAP",52.02,"WP",47.37,"WP"],
+  ["Tampines Changkat SMC","SMC",1,"PAP",56.16,"WP",43.84,"WP"],
+  ["Tanjong Pagar GRC","GRC",5,"PAP",81.02,"PAR",18.98,"PAR"],
+  ["West Coast–Jurong West GRC","GRC",5,"PAP",60.01,"PSP",39.99,"PSP"],
+  ["Yio Chu Kang SMC","SMC",1,"PAP",78.75,"PAR",21.25,"PAR"],
+];
+
+const PARTY_KEYS = {WP:"wp", PSP:"psp", SDP:"sdp", RDU:"rdu", PAR:"par", SDA:"sda", SPP:"spp", OTH:"oth", PAP:"pap"};
+const FREE_IDS = ['pap','wp','psp','sdp','rdu','par','sda','spp'];
+const BAR_COLORS = {PAP:'#E2231A', WP:'#0066CC', PSP:'#76A4D7', SDP:'#8E1FBF', RDU:'#5a5a5a', PAR:'#7D3C98', SDA:'#1A5C1A', SPP:'#F39C12', OTH:'#999999'};
+const PARTY_LABELS = {PAP:'PAP', WP:'WP', PSP:'PSP', SDP:'SDP', RDU:'RDU', PAR:'PAR', SDA:'SDA', SPP:'SPP', OTH:'Other'};
+const COALITION_ORDER = ['PAP','WP','PSP','SDP','RDU','PAR','SDA','SPP','OTH'];
+
+let lastSeatCounts = {PAP:87,WP:10,PSP:0,SDP:0,RDU:0,PAR:0,SDA:0,SPP:0,OTH:0};
+let selectedCoalition = new Set();
+
+function buildCoalitionChips(){
+  const grid = document.getElementById('coalition-chips');
+  grid.innerHTML='';
+  COALITION_ORDER.forEach(key=>{
+    const chip = document.createElement('label');
+    chip.className='coalition-chip';
+    chip.style.borderLeftColor = BAR_COLORS[key];
+    chip.innerHTML = `
+      <input type="checkbox" data-party="${key}">
+      <span class="coalition-chip-dot" style="background:${BAR_COLORS[key]}"></span>
+      <span class="coalition-chip-label">${PARTY_LABELS[key]}</span>
+      <span class="coalition-chip-seats" id="chip-seats-${key}">0</span>`;
+    grid.appendChild(chip);
+  });
+  grid.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      const p = cb.getAttribute('data-party');
+      if(cb.checked) selectedCoalition.add(p); else selectedCoalition.delete(p);
+      updateCoalitionResult();
+    });
+  });
+}
+
+function updateCoalitionResult(){
+  COALITION_ORDER.forEach(key=>{
+    const el = document.getElementById('chip-seats-'+key);
+    if(el) el.textContent = lastSeatCounts[key] || 0;
+  });
+  let total = 0;
+  selectedCoalition.forEach(key=>{ total += (lastSeatCounts[key]||0); });
+  document.getElementById('coal-seats').textContent = total;
+
+  const track = document.getElementById('coal-track');
+  track.querySelectorAll('.coalition-seg').forEach(el=>el.remove());
+  const mark = track.querySelector('.coalition-mark');
+  COALITION_ORDER.forEach(key=>{
+    if(!selectedCoalition.has(key)) return;
+    const seats = lastSeatCounts[key] || 0;
+    if(seats<=0) return;
+    const seg = document.createElement('div');
+    seg.className='coalition-seg';
+    seg.style.width = (seats/97*100).toFixed(2)+'%';
+    seg.style.background = BAR_COLORS[key];
+    track.insertBefore(seg, mark);
+  });
+
+  const status = document.getElementById('coal-status');
+  const sub = document.getElementById('coal-substatus');
+  if(selectedCoalition.size===0){
+    status.textContent = 'Select parties to build a coalition';
+    sub.textContent = 'Majority needs 49 of 97 seats';
+  } else {
+    const names = Array.from(selectedCoalition).map(k=>PARTY_LABELS[k]).join(' + ');
+    if(total>=49){
+      status.textContent = `${names} — majority ✓`;
+      sub.textContent = `${total - 49} seats above the 49-seat threshold`;
+    } else {
+      status.textContent = `${names} — short of majority`;
+      sub.textContent = `${49 - total} more seats needed for a majority`;
+    }
+  }
+}
+
+function getFreeSum(){
+  return FREE_IDS.reduce((s,id)=>s+parseFloat(document.getElementById(id).value),0);
+}
+
+function updateOthers(){
+  const freeSum = getFreeSum();
+  let oth = 100 - freeSum;
+  if(oth < 0) oth = 0;
+  document.getElementById('oth').value = oth.toFixed(1);
+  document.getElementById('oth-num').value = oth.toFixed(1);
+}
+
+function getInputs(){
+  const inp = {};
+  FREE_IDS.forEach(id=>{ inp[id] = parseFloat(document.getElementById(id).value); });
+  inp.oth = parseFloat(document.getElementById('oth').value);
+  return inp;
+}
+
+function calcSwing(inp){
+  const s = {};
+  Object.keys(BASE).forEach(k=>{ s[k] = inp[k] - BASE[k]; });
+  return s;
+}
+
+function project(){
+  const inp = getInputs();
+  const warn = document.getElementById('warn');
+  if(getFreeSum() > 100.05){
+    warn.textContent = `The eight parties you control already sum to ${getFreeSum().toFixed(1)}% — smaller parties is floored at 0%`;
+  } else {
+    warn.textContent = '';
+  }
+
+  const swing = calcSwing(inp);
+  const rows = [];
+
+  CONSTITUENCIES.forEach(([name,type,seats,winner,winPct,opp,oppPct,oppKey])=>{
+    const papSwing = swing.pap;
+    const oppSwingKey = PARTY_KEYS[oppKey] || "oth";
+    const oppSwingAmt = swing[oppSwingKey] || 0;
+
+    let projPapPct, projOppPct;
+    if(winner==="PAP"){
+      projPapPct = winPct + papSwing;
+      projOppPct = oppPct + oppSwingAmt;
+    } else {
+      projOppPct = winPct + oppSwingAmt;
+      projPapPct = oppPct + papSwing;
+    }
+
+    projPapPct = Math.max(0, projPapPct);
+    projOppPct = Math.max(0, projOppPct);
+
+    const projWinner = projPapPct >= projOppPct ? "PAP" : oppKey;
+    const margin = Math.abs(projPapPct - projOppPct);
+    const flipped = (projWinner==="PAP" && winner!=="PAP") || (projWinner!=="PAP" && winner==="PAP");
+
+    rows.push({name,type,seats,baseWinner:winner,basePapPct:winner==="PAP"?winPct:oppPct,
+      projWinner, projPapPct, projOppPct, margin, flip:flipped, oppKey, opp});
+  });
+
+  const seatCounts = {PAP:0,WP:0,PSP:0,SDP:0,RDU:0,PAR:0,SDA:0,SPP:0,OTH:0};
+  rows.forEach(r=>{
+    if(r.projWinner==="PAP"){ seatCounts.PAP+=r.seats; return; }
+    if(seatCounts.hasOwnProperty(r.oppKey)) seatCounts[r.oppKey]+=r.seats;
+    else seatCounts.OTH+=r.seats;
+  });
+  const allOtherOpp = seatCounts.PSP+seatCounts.SDP+seatCounts.RDU+seatCounts.PAR+seatCounts.SDA+seatCounts.SPP+seatCounts.OTH;
+
+  document.getElementById('pap-seats').textContent = seatCounts.PAP;
+  document.getElementById('wp-seats').textContent = seatCounts.WP;
+  document.getElementById('psp-seats').textContent = seatCounts.PSP;
+  document.getElementById('sdp-seats').textContent = seatCounts.SDP;
+  document.getElementById('rdu-seats').textContent = seatCounts.RDU;
+  document.getElementById('par-seats').textContent = seatCounts.PAR;
+  document.getElementById('sda-seats').textContent = seatCounts.SDA;
+  document.getElementById('spp-seats').textContent = seatCounts.SPP;
+
+  const papChg = seatCounts.PAP - 87;
+  const wpChg = seatCounts.WP - 10;
+  const othChg = allOtherOpp - 0;
+  document.getElementById('pap-chg-card').textContent = (papChg>=0?'+':'')+papChg;
+  document.getElementById('wp-chg-card').textContent = (wpChg>=0?'+':'')+wpChg;
+  document.getElementById('opp-chg-card').textContent = (othChg>=0?'+':'')+othChg;
+
+  const supermaj = seatCounts.PAP >= 66;
+  document.getElementById('supermaj').textContent = supermaj ? '✓' : '✗';
+  document.getElementById('supermaj').style.color = supermaj ? 'var(--success)' : 'var(--danger)';
+
+  const barWrap = document.getElementById('seat-bar');
+  barWrap.innerHTML = '';
+  const order = ['PAP','WP','PSP','SDP','RDU','PAR','SDA','SPP','OTH'];
+  order.forEach(key=>{
+    const seats = seatCounts[key];
+    if(seats<=0) return;
+    const seg = document.createElement('div');
+    seg.className='bar-seg';
+    seg.style.width=(seats/97*100).toFixed(2)+'%';
+    seg.style.background=BAR_COLORS[key];
+    seg.textContent = seats>=2 ? seats : '';
+    barWrap.appendChild(seg);
+  });
+
+  const legend = document.getElementById('legend');
+  legend.innerHTML='';
+  order.forEach(key=>{
+    const seats = seatCounts[key];
+    if(seats<=0) return;
+    const item = document.createElement('span');
+    item.innerHTML = `<span class="dot" style="background:${BAR_COLORS[key]}"></span>${PARTY_LABELS[key]} ${seats}`;
+    legend.appendChild(item);
+  });
+
+  lastSeatCounts = seatCounts;
+  updateCoalitionResult();
+
+  const tbody = document.getElementById('tbl-body');
+  tbody.innerHTML='';
+  rows.sort((a,b)=>{
+    if(a.flip && !b.flip) return -1;
+    if(!a.flip && b.flip) return 1;
+    return (a.margin||0)-(b.margin||0);
+  });
+  const colorClass = {PAP:'pap-color',WP:'wp-color',PSP:'psp-color',SDP:'sdp-color',RDU:'rdu-color',PAR:'par-color',SDA:'sda-color',SPP:'spp-color',OTH:'oth-color'};
+  rows.forEach(r=>{
+    const tr = document.createElement('tr');
+    const bw = `<span class="${colorClass[r.baseWinner==='PAP'?'PAP':r.oppKey]||'oth-color'}">${r.baseWinner}</span>`;
+    const pw = `<span class="${colorClass[r.projWinner]||'oth-color'}">${r.projWinner}</span>`;
+    const winnerLabel=bw+` <span style="font-size:10px;color:var(--text-secondary)">(${r.baseWinner==='PAP'?r.basePapPct.toFixed(1):( 100-r.basePapPct).toFixed(1)}%)</span>`;
+    const projPct = r.projWinner==='PAP'?r.projPapPct:r.projOppPct;
+    const projLabel=pw+` <span style="font-size:10px;color:var(--text-secondary)">(${projPct.toFixed(1)}%)</span>`;
+    let statusCell;
+    if(r.flip){
+      statusCell = r.projWinner==='PAP' ? '<span class="flip-gain">⬆ gain</span>' : '<span class="flip-lose">⬇ lose</span>';
+    } else {
+      const m = r.margin.toFixed(1);
+      const col = r.margin<5?'color:var(--warning)':'color:var(--text-secondary)';
+      statusCell=`<span style="font-size:11px;${col}">hold (${m}%)</span>`;
+    }
+    tr.innerHTML=`
+      <td class="won">${r.name}</td>
+      <td><span class="tag ${r.type==='GRC'?'tag-grc':'tag-smc'}">${r.type}</span></td>
+      <td style="text-align:center">${r.seats}</td>
+      <td>${winnerLabel}</td>
+      <td style="font-size:11px;color:var(--text-secondary)">${Math.abs((r.baseWinner==='PAP'?r.basePapPct:(100-r.basePapPct))-(50)).toFixed(1)}%</td>
+      <td>${projLabel}</td>
+      <td>${statusCell}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function syncFromSlider(id){
+  document.getElementById(id+'-num').value = document.getElementById(id).value;
+}
+function syncFromNumber(id){
+  let v = parseFloat(document.getElementById(id+'-num').value);
+  if(isNaN(v)) v=0;
+  v = Math.max(0, Math.min(100, v));
+  document.getElementById(id+'-num').value = v;
+  document.getElementById(id).value = v;
+}
+
+function updateDisplays(){
+  updateOthers();
+  project();
+}
+
+function resetToBaseline(){
+  const vals = {pap:65.57,wp:14.99,psp:4.88,sdp:3.72,rdu:3.96,par:2.51,sda:1.22,spp:1.18};
+  FREE_IDS.forEach(id=>{
+    document.getElementById(id).value = vals[id];
+    document.getElementById(id+'-num').value = vals[id];
+  });
+  updateDisplays();
+}
+
+FREE_IDS.forEach(id=>{
+  document.getElementById(id).addEventListener('input',()=>{ syncFromSlider(id); updateDisplays(); });
+  document.getElementById(id+'-num').addEventListener('input',()=>{ syncFromNumber(id); updateDisplays(); });
+});
+
+buildCoalitionChips();
+updateDisplays();
+</script>
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
