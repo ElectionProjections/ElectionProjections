@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scottish Council Seat Projector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16243A;
+    --paper:#F6F2E9;
+    --paper-deep:#EDE6D6;
+    --saltire:#1B3A6B;
+    --saltire-deep:#0F2647;
+    --thistle:#7C3F58;
+    --gold:#C9971C;
+    --line:#D8CFBA;
+    --snp:#F2C811;
+    --lab:#D2123A;
+    --con:#0087DC;
+    --ld:#FAA61A;
+    --grn:#5C9A2E;
+    --ind:#7C8089;
+    --oth:#B7AE9C;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.5;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px 80px;}
+  header.hero{
+    background:
+      linear-gradient(180deg, rgba(15,38,71,0) 0%, rgba(15,38,71,0.02) 100%),
+      var(--saltire);
+    color:#F4F0E4;
+    padding:56px 28px 44px;
+    position:relative;
+    overflow:hidden;
+    border-bottom:6px solid var(--gold);
+  }
+  header.hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(244,240,228,0.035) 0px, rgba(244,240,228,0.035) 2px, transparent 2px, transparent 26px),
+      repeating-linear-gradient(-45deg, rgba(244,240,228,0.035) 0px, rgba(244,240,228,0.035) 2px, transparent 2px, transparent 26px);
+    pointer-events:none;
+  }
+  .hero-inner{max-width:1180px;margin:0 auto;position:relative;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin:0 0 14px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--gold);display:inline-block;}
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(34px,4.6vw,54px);
+    line-height:1.04;
+    margin:0 0 16px;
+    letter-spacing:-0.01em;
+  }
+  .hero p.lede{
+    max-width:620px;
+    font-size:16.5px;
+    color:#D9DDE8;
+    margin:0;
+  }
+  .hero p.lede b{color:#fff;font-weight:600;}
+
+  main{padding-top:44px;}
+
+  .panel{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:4px;
+    box-shadow:0 1px 0 rgba(22,36,58,0.04);
+  }
+
+  .controls-head{
+    display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:14px;
+    padding:26px 28px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .controls-head h2{
+    font-family:'Fraunces',serif;
+    font-size:21px; font-weight:600; margin:0;
+  }
+  .controls-head .sub{font-size:13px;color:#6B7180;}
+
+  .total-pill{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    padding:6px 12px;
+    border-radius:20px;
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+    white-space:nowrap;
+  }
+  .total-pill.ok{color:#3F6B2A;border-color:#BFD9AC;background:#F1F7EA;}
+  .total-pill.warn{color:#9A5A12;border-color:#EAD3A6;background:#FBF1DF;}
+
+  .reset-btn{
+    font-family:'Inter',sans-serif;
+    font-size:13px; font-weight:600;
+    background:var(--saltire); color:#fff;
+    border:none; border-radius:3px;
+    padding:9px 16px;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .reset-btn:hover{background:var(--saltire-deep);}
+
+  .sliders{
+    padding:8px 28px 26px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4px 36px;
+  }
+  @media (max-width:760px){ .sliders{grid-template-columns:1fr;} }
+
+  .slider-row{padding:14px 0;border-bottom:1px solid #EFEAE0;}
+  .slider-row:last-child, .sliders > .slider-row:nth-last-child(2){border-bottom:none;}
+  .slider-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;}
+  .party-label{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14.5px;}
+  .swatch{width:13px;height:13px;border-radius:3px;flex-shrink:0;}
+  .pct-input{
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px; font-weight:500;
+    width:62px; text-align:right;
+    border:1px solid var(--line); border-radius:3px;
+    padding:4px 6px;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .pct-input:focus{outline:2px solid var(--saltire);outline-offset:1px;}
+  input[type="range"]{
+    -webkit-appearance:none; width:100%; height:6px;
+    border-radius:3px; background:var(--paper-deep);
+    outline:none;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:18px; height:18px; border-radius:50%;
+    background:var(--track-color, var(--saltire));
+    border:2px solid #fff; box-shadow:0 0 0 1px var(--line);
+    cursor:pointer; margin-top:0;
+  }
+  input[type="range"]::-moz-range-thumb{
+    width:18px; height:18px; border-radius:50%;
+    background:var(--track-color, var(--saltire));
+    border:2px solid #fff; box-shadow:0 0 0 1px var(--line);
+    cursor:pointer;
+  }
+
+  .other-row{padding-top:14px;}
+  .other-readout{
+    font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:500;
+    min-width:62px; text-align:right;
+    border:1px dashed var(--line); border-radius:3px;
+    padding:4px 6px; background:var(--paper-deep); color:#6B7180;
+  }
+  .other-track{
+    width:100%; height:6px; border-radius:3px; background:var(--paper-deep); overflow:hidden;
+  }
+  .other-fill{
+    height:100%; border-radius:3px; transition:width .3s ease;
+  }
+  .other-note{
+    font-size:11.5px; color:#8B8F99; margin-top:7px; font-style:italic;
+  }
+
+  .results-section{margin-top:36px;}
+  .results-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+  .results-head h2{font-family:'Fraunces',serif;font-size:23px;font-weight:600;margin:0;}
+  .results-head .sub{font-size:13px;color:#6B7180;}
+
+  .seat-bar-wrap{
+    position:relative; width:100%; margin-bottom:28px;
+  }
+  .seat-bar{
+    display:flex; width:100%; height:34px; border-radius:3px; overflow:hidden;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .seat-bar > div{height:100%;transition:width .35s ease;}
+  .majority-overlay{
+    position:absolute; top:0; left:0; width:100%; height:34px; pointer-events:none;
+  }
+  .majority-overlay .tick{
+    position:absolute; top:0; width:2px; height:34px; background:var(--ink);
+    opacity:0.55;
+  }
+  .majority-overlay .ticklabel{
+    position:absolute; top:-17px; transform:translateX(-50%);
+    font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ink); opacity:0.65;
+    white-space:nowrap;
+  }
+
+  table.results-table{width:100%; border-collapse:collapse; margin-top:18px; font-size:14px;}
+  table.results-table th{
+    text-align:right; font-family:'JetBrains Mono',monospace; font-weight:500;
+    font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:#6B7180;
+    padding:8px 10px; border-bottom:1px solid var(--ink);
+  }
+  table.results-table th:first-child, table.results-table td:first-child{text-align:left;}
+  table.results-table td{padding:10px; border-bottom:1px solid #EFEAE0; text-align:right; font-variant-numeric:tabular-nums;}
+  table.results-table tr:hover{background:var(--paper-deep);}
+  .table-footnote{
+    font-size:12.5px; color:#6B7180; line-height:1.55;
+    margin-top:14px; padding-top:14px; border-top:1px solid #EFEAE0;
+  }
+  .table-footnote b{color:var(--ink);}
+  .party-cell{display:flex;align-items:center;gap:9px;font-weight:600;}
+  .delta-pos{color:#3F6B2A;}
+  .delta-neg{color:#A8341F;}
+  .delta-zero{color:#8B8F99;}
+
+  .methodology, .council-breakdown{
+    margin-top:46px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    background:#fff;
+  }
+  .methodology summary, .council-breakdown summary{
+    cursor:pointer; padding:18px 26px;
+    font-family:'Fraunces',serif; font-weight:600; font-size:16px;
+    list-style:none;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .methodology summary::-webkit-details-marker, .council-breakdown summary::-webkit-details-marker{display:none;}
+  .methodology summary::after, .council-breakdown summary::after{
+    content:"+"; font-family:'Inter',sans-serif; font-weight:400; font-size:20px; color:var(--saltire);
+  }
+  .methodology[open] summary::after, .council-breakdown[open] summary::after{content:"–";}
+  .methodology .body, .council-breakdown .body{
+    padding:0 26px 26px; font-size:14px; color:#3A4150;
+  }
+  .methodology .body p{margin:0 0 13px;}
+  .methodology .body ul{margin:0 0 13px; padding-left:20px;}
+  .methodology .body li{margin-bottom:6px;}
+  .methodology .body code{
+    font-family:'JetBrains Mono',monospace; font-size:12.5px;
+    background:var(--paper-deep); padding:1px 5px; border-radius:3px;
+  }
+  .council-select-row{
+    display:flex; align-items:center; gap:10px; margin-bottom:16px; flex-wrap:wrap;
+  }
+  .council-select-row label{
+    font-family:'JetBrains Mono',monospace; font-size:12px; color:#6B7180; text-transform:uppercase; letter-spacing:0.04em;
+  }
+  .council-select-row select{
+    font-family:'Inter',sans-serif; font-size:14.5px; font-weight:600; color:var(--ink);
+    border:1px solid var(--line); border-radius:3px; background:var(--paper);
+    padding:7px 10px; min-width:240px;
+  }
+  .council-stat-line{
+    font-size:13px; color:#6B7180; margin-bottom:6px;
+  }
+  .council-breakdown .seat-bar-wrap{margin-top:14px; margin-bottom:18px;}
+
+  footer{
+    margin-top:50px; padding-top:22px; border-top:1px solid var(--line);
+    font-size:12.5px; color:#8B8F99; text-align:center;
+  }
+
+  .stat-strip{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:4px; overflow:hidden;
+    margin-bottom:30px;
+  }
+  .stat-strip > div{background:#fff; padding:16px 18px;}
+  .stat-strip .num{font-family:'Fraunces',serif; font-size:26px; font-weight:600;}
+  .stat-strip .lbl{font-size:11.5px; color:#6B7180; text-transform:uppercase; letter-spacing:0.04em; font-family:'JetBrains Mono',monospace;}
+  @media (max-width:700px){ .stat-strip{grid-template-columns:repeat(2,1fr);} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Scotland · Local Government · STV Projection</p>
+    <h1>Scottish Council<br>Seat Projector</h1>
+    <p class="lede">Set national first&#8209;preference vote shares and see the <b>1,226 council seats</b> across all 32 local authorities redistributed &mdash; using real <b>2022 ward&#8209;by&#8209;ward results</b> as the baseline and a genuine <b>STV count</b> for every one of Scotland's 356 wards.</p>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+
+  <section class="panel">
+    <div class="controls-head">
+      <div>
+        <h2>National first preferences</h2>
+        <div class="sub">Applied as a uniform swing to each ward's real 2022 local result</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="total-pill" id="totalPill">100.0%</span>
+        <button class="reset-btn" id="resetBtn">Reset to 2022</button>
+      </div>
+    </div>
+    <div class="sliders" id="sliders"></div>
+  </section>
+
+  <section class="results-section">
+    <div class="results-head">
+      <h2>Projected council seats</h2>
+      <div class="sub" id="totalSeatsNote">1,226 seats &middot; majority line at 614</div>
+    </div>
+
+    <div class="stat-strip" id="statStrip"></div>
+
+    <div class="seat-bar-wrap">
+      <div class="seat-bar" id="seatBar"></div>
+      <div class="majority-overlay" id="majorityTick"></div>
+    </div>
+
+    <table class="results-table">
+      <thead>
+        <tr><th>Party</th><th>Vote share</th><th>Seats</th><th>Seat share</th><th>vs 2022</th></tr>
+      </thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
+    <p class="table-footnote"><b>Independent</b> seats are never one party &mdash; each is a different local candidate with their own personal following, grouped into a single block per ward only so the count can run, and they keep their own slider above. Every other small party &mdash; the Scottish Family Party, the British Unionist Party, TUSC, and the rest &mdash; is tracked individually in the count using its own real local 2022 result, ward by ward, so if one wins a seat above it's shown by its real name. They share a single combined "Other" figure rather than one slider each: it isn't adjustable directly, but is whatever's left once you've set the six main parties, and scales every minor party up or down together while keeping their relative local strength fixed.</p>
+  </section>
+
+  <details class="council-breakdown">
+    <summary>Council-by-council breakdown</summary>
+    <div class="body">
+      <div class="council-select-row">
+        <label for="councilSelect">Council</label>
+        <select id="councilSelect"></select>
+      </div>
+      <div class="council-stat-line" id="councilStatLine"></div>
+      <div class="seat-bar-wrap">
+        <div class="seat-bar" id="councilSeatBar"></div>
+      </div>
+      <table class="results-table">
+        <thead>
+          <tr><th>Party</th><th>Vote share</th><th>Seats</th><th>Seat share</th></tr>
+        </thead>
+        <tbody id="councilResultsBody"></tbody>
+      </table>
+      <p class="table-footnote">Vote share here is the same uniform swing used everywhere else in this tool, applied to each ward's real 2022 first preferences and aggregated up to council level (weighted by each ward's number of seats, the best available stand-in for ward size since raw vote totals aren't stored). Seats are this council's share of the national STV count above, run ward by ward exactly as before &mdash; not a separate calculation.</p>
+    </div>
+  </details>
+
+  <details class="methodology">
+    <summary>How this projection works</summary>
+    <div class="body">
+      <p><b>Real local baseline.</b> Every one of Scotland's 32 councils and roughly 356 wards is built from actual first&#8209;preference results from the 5 May 2022 elections, gathered ward by ward. This captures genuine local variation &mdash; a party's national vote share moves differently in a Glasgow ward than in a rural Highland one, because it starts from a different place.</p>
+      <p><b>Uniform proportional swing.</b> When you move a slider, each party's new national share is compared with its actual 2022 national share, and that ratio is applied to every ward where the party stood in 2022. So a party polling 10% above its 2022 figure sees its support scaled up roughly 10% in every ward it contested, not just added flatly &mdash; which avoids impossible negative shares and keeps the geography realistic.</p>
+      <p><b>A genuine STV count.</b> Each ward is then counted using the <b>Weighted Inclusive Gregory Method</b>, the official method used for real Scottish council counts: candidates clearing the Droop quota are elected and their surplus transfers onward; if nobody clears quota, the lowest-placed is eliminated and their votes transfer. This repeats until every seat in the ward is filled.</p>
+      <p><b>Transfer assumptions.</b> Scotland doesn't publish a single transfer matrix between parties, so each transfer step uses a model of <i>where</i> votes tend to go &mdash; calibrated to the well-documented pattern from 2022 and recent Scottish STV counts (analysed in detail by election-watchers like Ballot Box Scotland): Green and SNP voters' transfers cluster together and toward Labour, Conservative voters' transfers lean toward Liberal Democrats and independents, and a meaningful share of every transfer simply exhausts (the voter didn't rank enough candidates). These are reasonable, sourced assumptions, not a literal record of how every 2022 voter ranked their ballot.</p>
+      <p><b>One simplification worth knowing.</b> To make a national tool feasible, each party is treated as a single transferable block per ward rather than tracking individual candidates. This reproduces real STV mechanics faithfully in the vast majority of wards, but in the rare case where a party's vote is heavily split between two unequal candidates in a ward, the model can occasionally award that party a seat that depended on local candidate strength rather than party strength alone. <b>Independent</b> candidates are the one place this matters most directly &mdash; every ward's independents are different people with no shared platform, so they're necessarily grouped per ward to run the count. Every other small party, by contrast, is tracked individually under its own name everywhere it stood in 2022. They don't get their own sliders; their combined "Other" total is calculated automatically as whatever's left once the six main parties are set, so the total always reaches 100%.</p>
+      <p><b>Reform UK</b> didn't contest the 2022 election at all, so it has no real local result to scale up or down the way every other party does. Instead, each ward is given a notional "shape" built from a blend of that ward's real 2022 Conservative and Labour results (40% and 33% respectively) plus a touch of whoever else stood there &mdash; reflecting where Reform-type support tends to concentrate &mdash; and the slider scales that shape exactly the way every other party's slider scales its real 2022 number. At 0%, Reform contributes nothing anywhere, which is the actual 2022 result. Reform's transfer behaviour is also the least well-evidenced part of this model, since there's no 2022 data to draw on. It's instead built from Ballot Box Scotland's analysis of the 22 council by-elections held in 2025, which found Reform's voters favoured their own party over Lib Dem, Labour, Green and SNP voters by margins of roughly 2&ndash;3 to 1, but over Conservative voters by only 1.5 to 1 &mdash; Reform is markedly less unwelcome to Conservative voters than to anyone else's. Those ratios were used to carve a Reform share out of each party's existing transfer pattern, shrinking everything else proportionally rather than guessing a whole new set of numbers from scratch.</p>
+      <p>Built from <code>ward.parties</code> baselines for all 32 councils &middot; quota = <code>valid&nbsp;votes&nbsp;/&nbsp;(seats+1)&nbsp;+&nbsp;1</code> &middot; uncontested wards (decided without a poll) are recorded using the real outcome. The Alba Party's 2022 results have been removed following its dissolution in March 2026; those votes are folded back into whichever parties were already contesting each ward.</p>
+    </div>
+  </details>
+
+  <footer>
+    Baseline: 2022 Scottish local government elections, all 32 councils, 1,226 seats. For exploration only &mdash; not a forecast.
+  </footer>
+
+</main>
+</div>
+
+<script>
+const WARD_DATA = {"Aberdeen City":{"total_seats":45,"wards":[{"name":"Dyce/Bucksburn/Danestone","seats":4,"parties":{"SNP":41.3,"Lab":17.8,"Con":26.2,"LD":8.8,"Grn":5.9}},{"name":"Bridge of Don","seats":4,"parties":{"SNP":40.4,"Lab":15.3,"Con":29.1,"LD":10.9,"Grn":4.4}},{"name":"Kingswells/Sheddocksley/Summerhill","seats":3,"parties":{"SNP":33.1,"Lab":13.6,"Con":12.0,"LD":37.4,"Grn":3.9}},{"name":"Northfield/Mastrick North","seats":3,"parties":{"SNP":53.3,"Lab":26.3,"Con":10.2,"LD":4.1,"Grn":4.2}},{"name":"Hilton/Woodside/Stockethill","seats":3,"parties":{"SNP":44.4,"Lab":24.6,"Con":17.1,"LD":6.3,"Grn":7.6}},{"name":"Tillydrone/Seaton/Old Aberdeen","seats":3,"parties":{"SNP":43.3,"Lab":25.7,"Con":13.3,"LD":4.5,"Ind":2.9,"Grn":9.8}},{"name":"Midstocket/Rosemount","seats":3,"parties":{"SNP":37.8,"Lab":21.5,"Con":24.5,"LD":7.0,"Grn":9.3}},{"name":"George Street/Harbour","seats":4,"parties":{"SNP":42.2,"Lab":19.8,"Con":10.9,"LD":11.4,"Ind":1.8,"Grn":13.8}},{"name":"Lower Deeside","seats":3,"parties":{"SNP":15.3,"Lab":23.8,"Con":30.1,"LD":4.6,"Ind":21.7,"Grn":4.5}},{"name":"Hazlehead/Queens Cross/Countesswells","seats":4,"parties":{"SNP":18.4,"Lab":6.3,"Con":25.4,"LD":25.4,"Ind":20.9,"Grn":3.6}},{"name":"Airyhall/Broomhill/Garthdee","seats":3,"parties":{"SNP":27.5,"Lab":10.7,"Con":21.1,"LD":36.5,"Grn":4.2}},{"name":"Torry/Ferryhill","seats":4,"parties":{"SNP":39.8,"Lab":17.3,"Con":19.4,"LD":6.4,"Ind":6.3,"Grn":10.8}},{"name":"Kincorth/Nigg/Cove","seats":4,"parties":{"SNP":45.7,"Lab":18.8,"Con":21.1,"LD":6.5,"Grn":7.7}}]},"Dumfries and Galloway":{"total_seats":43,"wards":[{"name":"Stranraer and the Rhins","seats":4,"parties":{"Con":44.8,"SNP":23.3,"Lab":9.9,"Ind":24.1,"Grn":2.6}},{"name":"Mid Galloway and Wigtown West","seats":4,"parties":{"Con":50.2,"SNP":30.3,"Lab":11.3,"Grn":8.2}},{"name":"Dee and Glenkens","seats":3,"parties":{"Con":38.0,"SNP":25.4,"Ind":14.6,"Grn":11.3,"Lab":6.0}},{"name":"Castle Douglas and Crocketford","seats":3,"parties":{"Con":35.6,"SNP":25.1,"Ind":19.6,"LD":7.8,"Grn":6.0,"Lab":6.0}},{"name":"Abbey","seats":3,"parties":{"SNP":31.1,"Lab":25.9,"Con":36.7,"LD":6.3}},{"name":"North West Dumfries","seats":4,"parties":{"SNP":39.5,"Con":28.4,"Lab":27.2,"Grn":4.8}},{"name":"Mid and Upper Nithsdale","seats":3,"parties":{"SNP":29.2,"Ind":27.4,"Con":30.7,"Lab":12.7}},{"name":"Lochar","seats":4,"parties":{"SNP":33.7,"Con":39.8,"Lab":21.6,"Grn":4.8}},{"name":"Nith","seats":4,"parties":{"SNP":33.3,"Con":28.3,"Lab":23.8,"Ind":9.7,"Grn":4.8}},{"name":"Annandale South","seats":4,"parties":{"Con":38.3,"SNP":21.6,"Lab":19.1,"LD":17.7,"Grn":3.3}},{"name":"Annandale North","seats":4,"parties":{"SNP":50.3,"Con":30.0,"Lab":13.9,"Grn":5.8}},{"name":"Annandale East and Eskdale","seats":3,"parties":{"Con":42.7,"SNP":14.5,"Lab":21.4,"Ind":15.4,"LD":3.3,"Grn":2.6}}]},"Angus":{"total_seats":28,"wards":[{"name":"Kirriemuir and Dean","seats":3,"parties":{"SNP":42.0,"Con":38.4,"Ind":6.7,"Lab":12.9}},{"name":"Brechin and Edzell","seats":3,"parties":{"SNP":34.1,"Con":32.3,"Ind":20.4,"Lab":7.2,"Grn":5.9}},{"name":"Forfar and District","seats":4,"parties":{"SNP":38.4,"Con":21.4,"Ind":28.9,"Lab":5.5,"Grn":5.9}},{"name":"Monifieth and Sidlaw","seats":4,"parties":{"SNP":39.7,"Con":30.7,"Ind":13.5,"Lab":16.1}},{"name":"Carnoustie and District","seats":3,"parties":{"SNP":35.9,"Con":17.3,"Ind":36.8,"Lab":10.0}},{"name":"Arbroath West, Letham and Friockheim","seats":4,"parties":{"SNP":36.2,"Con":31.4,"Ind":17.0,"Lab":6.5,"Grn":9.0}},{"name":"Arbroath East and Lunan","seats":3,"parties":{"SNP":41.5,"Con":17.7,"Ind":31.0,"Lab":7.0,"Grn":2.8}},{"name":"Montrose and District","seats":4,"parties":{"SNP":39.3,"Con":22.3,"Ind":25.6,"Lab":6.5,"Grn":7.6}}]},"Argyll and Bute":{"total_seats":36,"wards":[{"name":"South Kintyre","seats":3,"parties":{"SNP":32.8,"Ind":35.9,"Con":22.5,"LD":8.7}},{"name":"Kintyre and the Islands","seats":3,"parties":{"SNP":29.9,"Ind":39.9,"Con":9.6,"LD":16.4,"Lab":4.2}},{"name":"Mid Argyll","seats":3,"parties":{"SNP":31.2,"Ind":46.6,"Con":11.6,"LD":3.3,"Lab":4.9}},{"name":"Oban South and the Isles","seats":4,"parties":{"SNP":38.2,"Ind":29.8,"Con":12.4,"LD":5.2,"Lab":4.7,"Grn":9.7}},{"name":"Oban North and Lorn","seats":4,"parties":{"SNP":30.6,"Ind":31.6,"Con":18.7,"LD":6.5,"Grn":9.7}},{"name":"Cowal","seats":3,"parties":{"SNP":41.9,"Ind":5.2,"Con":26.1,"LD":16.8,"Lab":7.7}},{"name":"Dunoon","seats":3,"parties":{"SNP":40.9,"Ind":16.2,"Con":17.9,"LD":16.9,"Lab":6.5}},{"name":"Isle of Bute","seats":3,"parties":{"SNP":25.4,"Ind":46.1,"Con":17.8,"LD":1.1,"Lab":4.3,"Grn":3.0}},{"name":"Lomond North","seats":3,"parties":{"SNP":24.3,"Ind":34.1,"Con":26.4,"LD":2.8,"Lab":12.4}},{"name":"Helensburgh Central","seats":4,"parties":{"SNP":21.4,"Ind":2.2,"Con":37.1,"LD":11.1,"Lab":21.3,"Grn":6.8}},{"name":"Helensburgh and Lomond South","seats":3,"parties":{"SNP":26.0,"Con":47.7,"LD":17.8,"Grn":8.6}}]},"Aberdeenshire":{"total_seats":70,"wards":[{"name":"Banff and District","seats":3,"parties":{"SNP":32.8,"Con":27.84,"Ind":27.22,"Lab":5.09,"LD":3.84,"Grn":2.96}},{"name":"Troup","seats":3,"parties":{"Con":50.2,"SNP":37.3,"LD":8.5,"Grn":4.1}},{"name":"Fraserburgh and District","seats":4,"parties":{"Con":32.56,"Ind":36.96,"SNP":24.0,"LD":4.96,"ScotFam":0.9}},{"name":"Central Buchan","seats":4,"parties":{"Con":33.35,"SNP":32.3,"LD":13.05,"Ind":11.59,"Lab":4.72,"Grn":3.38,"ScotFam":1.4}},{"name":"Peterhead North and Rattray","seats":4,"parties":{"SNP":30.75,"Ind":38.5,"Con":26.77,"LD":3.77}},{"name":"Peterhead South and Cruden","seats":3,"parties":{"SNP":46.5,"Con":41.3,"LD":12.2}},{"name":"Turriff and District","seats":4,"parties":{"Con":39.1,"LD":23.5,"SNP":33.9,"Grn":3.5}},{"name":"Mid-Formartine","seats":4,"parties":{"SNP":33.7,"Ind":18.2,"Con":33.3,"LD":14.9}},{"name":"Ellon and District","seats":4,"parties":{"LD":22.0,"SNP":31.7,"Con":35.6,"Lab":6.3,"Grn":4.4}},{"name":"West Garioch","seats":3,"parties":{"SNP":30.25,"Con":27.13,"LD":12.73,"Ind":17.2,"Lab":7.68,"Grn":4.64}},{"name":"Inverurie and District","seats":4,"parties":{"Con":25.7,"SNP":31.1,"Ind":22.5,"LD":17.0,"Grn":3.8}},{"name":"East Garioch","seats":4,"parties":{"SNP":41.0,"Con":27.4,"LD":9.4,"Lab":7.7,"Ind":14.5}},{"name":"Westhill and District","seats":4,"parties":{"Con":39.62,"LD":26.32,"SNP":25.72,"Lab":7.66,"ISP":0.6}},{"name":"Huntly, Strathbogie and Howe of Alford","seats":4,"parties":{"SNP":34.5,"Con":40.4,"LD":13.9,"Lab":7.8,"Ind":2.7,"Libertarian":0.6}},{"name":"Aboyne, Upper Deeside and Donside","seats":3,"parties":{"Ind":22.7,"SNP":21.7,"Con":34.5,"LD":17.5,"Lab":3.7}},{"name":"Banchory and Mid-Deeside","seats":3,"parties":{"Con":42.7,"SNP":24.0,"LD":21.5,"Lab":11.1,"ScotFam":0.7}},{"name":"North Kincardine","seats":4,"parties":{"SNP":36.2,"Con":26.9,"LD":15.5,"Ind":14.3,"Grn":5.7,"ScotFam":1.4}},{"name":"Stonehaven and Lower Deeside","seats":4,"parties":{"LD":22.7,"Con":32.0,"SNP":27.0,"Ind":8.3,"Lab":6.9,"Grn":3.1}},{"name":"Mearns","seats":4,"parties":{"SNP":29.85,"Con":31.83,"Ind":21.2,"LD":6.53,"Lab":5.88,"Grn":3.74,"ScotFam":0.9}}]},"Clackmannanshire":{"total_seats":18,"wards":[{"name":"Clackmannanshire West","seats":4,"parties":{"SNP":43.6,"Lab":26.8,"Con":22.8,"Grn":4.0,"LD":2.7}},{"name":"Clackmannanshire North","seats":4,"parties":{"SNP":42.45,"Con":21.94,"Lab":18.8,"Grn":6.12,"Ind":7.25,"LD":3.24}},{"name":"Clackmannanshire Central","seats":3,"parties":{"SNP":43.5,"Lab":34.7,"Con":17.3,"Grn":4.5}},{"name":"Clackmannanshire South","seats":4,"parties":{"Lab":23.16,"SNP":38.51,"Grn":19.75,"Con":16.52,"Ind":1.95}},{"name":"Clackmannanshire East","seats":3,"parties":{"SNP":30.8,"Con":37.3,"Lab":19.6,"Grn":6.3,"LD":3.7,"Ind":2.3}}]},"Dundee City":{"total_seats":29,"wards":[{"name":"Strathmartine","seats":4,"parties":{"SNP":46.44,"Lab":22.9,"LD":18.74,"Con":5.94,"Grn":3.71,"ScotFam":1.4,"TUSC":0.7}},{"name":"Lochee","seats":4,"parties":{"SNP":45.56,"Lab":36.04,"LD":3.19,"Con":8.49,"Grn":6.34}},{"name":"West End","seats":4,"parties":{"SNP":31.93,"Lab":10.96,"LD":40.33,"Con":6.73,"Grn":9.65,"ISP":0.3}},{"name":"Coldside","seats":4,"parties":{"SNP":45.94,"Lab":31.24,"LD":3.16,"Con":7.96,"Grn":10.48,"TUSC":0.9}},{"name":"Maryfield","seats":3,"parties":{"SNP":50.34,"Lab":22.89,"LD":4.82,"Con":8.92,"Grn":11.77,"Sovereignty":0.8}},{"name":"North East","seats":3,"parties":{"SNP":58.06,"Lab":26.76,"LD":2.66,"Con":8.36,"Grn":3.92}},{"name":"East End","seats":3,"parties":{"SNP":54.13,"Lab":26.21,"LD":2.89,"Con":10.79,"Grn":4.95}},{"name":"The Ferry","seats":4,"parties":{"SNP":28.18,"Lab":10.06,"LD":34.72,"Con":23.02,"Grn":3.23,"ScotFam":0.7}}]},"East Ayrshire":{"total_seats":32,"wards":[{"name":"Annick","seats":4,"parties":{"SNP":33.1,"Con":24.5,"Lab":19.1,"Ind":23.2}},{"name":"Kilmarnock North","seats":3,"parties":{"SNP":49.31,"Lab":28.07,"Con":13.87,"Ind":8.51}},{"name":"Kilmarnock West and Crosshouse","seats":4,"parties":{"Lab":28.26,"Con":22.02,"SNP":39.01,"Ind":6.45,"Grn":4.15}},{"name":"Kilmarnock East and Hurlford","seats":4,"parties":{"Lab":38.5,"SNP":37.2,"Con":12.1,"Ind":10.8,"LD":1.4}},{"name":"Kilmarnock South","seats":3,"parties":{"SNP":54.82,"Lab":31.55,"Con":12.26,"Libertarian":1.3}},{"name":"Irvine Valley","seats":3,"parties":{"SNP":41.6,"Lab":22.6,"Rubbish":18.5,"Con":17.3}},{"name":"Ballochmyle","seats":4,"parties":{"SNP":39.7,"Lab":32.7,"Con":16.8,"Ind":10.9}},{"name":"Cumnock and New Cumnock","seats":4,"parties":{"Lab":43.3,"SNP":35.7,"Con":18.5,"LD":2.4}},{"name":"Doon Valley","seats":3,"parties":{"Ind":39.4,"Lab":23.1,"SNP":20.8,"Con":16.7}}]},"East Dunbartonshire":{"total_seats":22,"wards":[{"name":"Milngavie","seats":3,"parties":{"SNP":24.89,"LD":16.49,"Lab":13.49,"Con":20.69,"Ind":13.28,"Grn":10.56}},{"name":"Bearsden North","seats":3,"parties":{"SNP":19.05,"LD":12.42,"Lab":9.48,"Con":14.98,"Ind":38.3,"Grn":5.75}},{"name":"Bearsden South","seats":3,"parties":{"SNP":23.39,"LD":23.12,"Lab":16.06,"Con":23.2,"Ind":7.05,"Grn":7.17}},{"name":"Bishopbriggs North and Campsie","seats":4,"parties":{"SNP":37.76,"LD":15.26,"Lab":20.82,"Con":18.55,"Grn":5.42,"ScotFam":2.03}},{"name":"Bishopbriggs South","seats":3,"parties":{"SNP":37.54,"LD":12.47,"Lab":27.31,"Con":17.29,"Grn":4.93}},{"name":"Lenzie and Kirkintilloch South","seats":3,"parties":{"SNP":33.23,"LD":17.36,"Lab":20.98,"Con":20.34,"Grn":7.18,"Freedom":0.91}},{"name":"Kirkintilloch East and North and Twechar","seats":3,"parties":{"SNP":38.88,"LD":18.67,"Lab":29.17,"Con":11.95,"Freedom":1.34}}]},"East Lothian":{"total_seats":22,"wards":[{"name":"Musselburgh","seats":4,"parties":{"SNP":34.99,"Lab":31.11,"Con":14.76,"Grn":13.73,"LD":4.27,"ScotFam":1.07}},{"name":"Preston, Seton and Gosford","seats":4,"parties":{"SNP":30.37,"Lab":39.73,"Con":20.48,"Grn":6.01,"LD":3.31}},{"name":"Tranent, Wallyford and Macmerry","seats":4,"parties":{"SNP":33.43,"Lab":45.62,"Con":13.46,"Grn":4.27,"LD":2.14,"TUSC":1.0}},{"name":"North Berwick Coastal","seats":3,"parties":{"SNP":19.86,"Lab":21.12,"Con":38.97,"Grn":13.16,"LD":6.21,"ScotFam":0.39,"Oth":0.3}},{"name":"Haddington and Lammermuir","seats":4,"parties":{"SNP":27.3,"Lab":36.55,"Con":21.93,"Grn":7.81,"LD":5.56,"Ind":0.64}},{"name":"Dunbar and East Linton","seats":3,"parties":{"SNP":26.78,"Lab":25.25,"Con":21.45,"Grn":15.13,"LD":10.13,"ScotFam":0.81,"ISP":0.45}}]},"East Renfrewshire":{"total_seats":18,"wards":[{"name":"Barrhead, Liboside and Uplawmoor","seats":4,"parties":{"SNP":33.96,"Lab":20.16,"Con":10.72,"Ind":31.23,"Grn":3.62}},{"name":"Newton Mearns North and Neilston","seats":3,"parties":{"SNP":32.63,"Lab":25.45,"Con":34.52,"Grn":5.51,"ScotFam":1.4,"Freedom":0.4}},{"name":"Giffnock and Thornliebank","seats":3,"parties":{"SNP":26.76,"Lab":22.27,"Con":25.13,"Ind":20.06,"Grn":5.67}},{"name":"Clarkston, Netherlee and Williamwood","seats":4,"parties":{"SNP":29.0,"Lab":16.8,"Con":23.5,"Ind":20.7,"Grn":7.3,"LD":2.1,"ISP":0.6}},{"name":"Newton Mearns South and Eaglesham","seats":4,"parties":{"SNP":25.07,"Lab":19.18,"Con":48.93,"Grn":5.11,"ScotFam":1.2,"Freedom":0.5}}]},"City of Edinburgh":{"total_seats":63,"wards":[{"name":"Almond","seats":4,"parties":{"LD":59.9,"SNP":20.9,"Con":7.5,"Grn":5.3,"Lab":4.9,"ScotFam":1.1,"Oth":0.4}},{"name":"Pentland Hills","seats":4,"parties":{"Con":34.0,"SNP":31.3,"Lab":17.1,"LD":8.0,"Grn":7.8,"ScotFam":1.4,"Libertarian":0.3}},{"name":"Drum Brae/Gyle","seats":3,"parties":{"LD":51.8,"SNP":23.9,"Con":11.1,"Lab":6.2,"Grn":5.9,"ScotFam":0.8,"Libertarian":0.3}},{"name":"Forth","seats":4,"parties":{"LD":19.7,"Lab":18.9,"SNP":31.0,"Con":15.1,"Grn":12.7,"ScotFam":1.4,"Oth":1.2}},{"name":"Inverleith","seats":4,"parties":{"LD":33.7,"SNP":19.7,"Con":20.0,"Grn":12.8,"Lab":12.6,"ScotFam":0.7,"Libertarian":0.4,"Ind":0.1}},{"name":"Corstorphine/Murrayfield","seats":3,"parties":{"LD":49.8,"SNP":18.7,"Con":16.0,"Lab":7.8,"Grn":6.9,"ScotFam":0.8}},{"name":"Sighthill/Gorgie","seats":4,"parties":{"Lab":23.1,"SNP":37.2,"Grn":13.7,"Con":11.84,"Ind":9.74,"LD":4.24}},{"name":"Colinton/Fairmilehead","seats":3,"parties":{"Lab":33.4,"Con":29.9,"SNP":17.3,"LD":12.4,"Grn":5.4,"ScotFam":1.6}},{"name":"Fountainbridge/Craiglockhart","seats":3,"parties":{"Con":26.6,"SNP":22.7,"Lab":22.4,"Grn":19.9,"LD":7.1,"ScotFam":0.8,"Libertarian":0.5}},{"name":"Morningside","seats":4,"parties":{"Lab":23.2,"LD":21.2,"Grn":21.1,"Con":17.6,"SNP":15.5,"Libertarian":0.4}},{"name":"City Centre","seats":4,"parties":{"Con":21.42,"Grn":20.04,"LD":15.12,"Lab":14.66,"SNP":25.1,"Ind":3.44}},{"name":"Leith Walk","seats":4,"parties":{"Grn":26.18,"SNP":31.39,"Lab":18.77,"LD":12.03,"Con":6.93,"Communist":1.1,"Oth":2.5}},{"name":"Leith","seats":3,"parties":{"SNP":33.35,"Grn":26.0,"Lab":21.47,"Con":9.03,"Ind":4.58,"LD":4.33,"ScotFam":1.1}},{"name":"Craigentinny/Duddingston","seats":4,"parties":{"Lab":20.6,"SNP":36.7,"Con":19.4,"Grn":16.5,"LD":6.7}},{"name":"Southside/Newington","seats":4,"parties":{"Lab":24.1,"Grn":23.0,"SNP":19.2,"Con":17.6,"LD":16.1}},{"name":"Liberton/Gilmerton","seats":4,"parties":{"Lab":33.4,"SNP":31.74,"Con":18.04,"Grn":8.61,"LD":4.14,"Oth":2.4,"ScotFam":1.5}},{"name":"Portobello/Craigmillar","seats":4,"parties":{"SNP":38.05,"Lab":23.96,"Grn":16.46,"Con":15.33,"LD":4.33,"Ind":1.76}}]},"Falkirk":{"total_seats":30,"wards":[{"name":"Bo'ness and Blackness","seats":3,"parties":{"SNP":21.7,"Lab":18.64,"Con":15.1,"Grn":2.44,"LD":1.61,"Ind":40.51}},{"name":"Grangemouth","seats":3,"parties":{"SNP":44.85,"Lab":23.38,"Con":13.58,"Ind":15.23,"Grn":2.42,"Oth":0.54}},{"name":"Denny and Banknock","seats":4,"parties":{"SNP":46.49,"Con":16.16,"Lab":20.66,"Ind":13.54,"Grn":3.15}},{"name":"Carse, Kinnaird and Tryst","seats":4,"parties":{"SNP":44.37,"Lab":24.55,"Con":24.06,"Grn":4.14,"LD":2.88}},{"name":"Bonnybridge and Larbert","seats":3,"parties":{"Ind":25.22,"SNP":33.88,"Con":18.41,"Lab":17.6,"Grn":4.91}},{"name":"Falkirk North","seats":4,"parties":{"SNP":50.11,"Lab":29.13,"Con":13.38,"Grn":6.98}},{"name":"Falkirk South","seats":3,"parties":{"SNP":41.66,"Con":28.56,"Lab":22.34,"Grn":5.67,"Ind":1.77}},{"name":"Lower Braes","seats":3,"parties":{"Lab":27.07,"SNP":40.1,"Con":23.37,"Grn":6.08,"LD":3.27}},{"name":"Upper Braes","seats":3,"parties":{"SNP":35.46,"Lab":23.19,"Con":21.88,"Ind":11.0,"Grn":5.83,"LD":2.55}}]},"Fife":{"total_seats":75,"wards":[{"name":"West Fife and Coastal Villages","seats":3,"parties":{"Lab":32.67,"SNP":36.5,"Con":17.13,"LD":6.73,"Grn":4.38,"ScotFam":1.6,"Ind":0.97}},{"name":"Dunfermline North","seats":3,"parties":{"Lab":28.5,"SNP":39.0,"Con":17.8,"LD":6.4,"Grn":5.9,"ScotFam":1.4,"TUSC":0.9}},{"name":"Dunfermline Central","seats":4,"parties":{"LD":24.73,"SNP":34.09,"Lab":24.67,"Con":9.43,"Grn":6.28,"ScotFam":0.7}},{"name":"Dunfermline South","seats":4,"parties":{"LD":19.53,"Lab":23.27,"SNP":34.15,"Con":10.63,"Ind":7.06,"Grn":3.86,"ScotFam":1.3}},{"name":"Rosyth","seats":3,"parties":{"Lab":26.53,"SNP":41.7,"Con":16.89,"LD":6.59,"Grn":6.12,"ScotFam":1.4,"Libertarian":0.5}},{"name":"Inverkeithing and Dalgety Bay","seats":4,"parties":{"SNP":38.8,"Lab":18.5,"Con":29.2,"Grn":8.2,"LD":4.0,"ScotFam":1.2}},{"name":"Cowdenbeath","seats":4,"parties":{"Lab":38.07,"SNP":37.35,"Con":18.93,"Grn":2.8,"LD":1.43,"ScotFam":1.2}},{"name":"Lochgelly, Cardenden and Benarty","seats":4,"parties":{"Lab":43.6,"SNP":43.2,"Con":7.7,"Grn":2.3,"LD":1.8,"ScotFam":1.5}},{"name":"Burntisland, Kinghorn and Western Kirkcaldy","seats":3,"parties":{"SNP":38.65,"Lab":29.47,"Con":21.03,"Grn":6.0,"LD":3.53,"ScotFam":0.7,"ISP":0.6}},{"name":"Kirkcaldy North","seats":3,"parties":{"Lab":39.12,"SNP":40.08,"Con":15.25,"Grn":4.37,"UKIP":0.9}},{"name":"Kirkcaldy Central","seats":3,"parties":{"SNP":37.8,"Lab":41.6,"Con":13.6,"Grn":4.4,"LD":2.5}},{"name":"Kirkcaldy East","seats":3,"parties":{"Lab":39.7,"SNP":40.3,"Con":11.7,"Grn":4.3,"LD":2.9,"Sovereignty":1.0}},{"name":"Glenrothes West and Kinglassie","seats":3,"parties":{"SNP":49.5,"Lab":32.5,"Con":11.6,"LD":3.8,"Ind":2.6}},{"name":"Glenrothes North, Leslie and Markinch","seats":4,"parties":{"SNP":44.6,"Con":18.6,"Lab":26.4,"LD":5.1,"Grn":3.6,"ScotFam":1.7}},{"name":"Glenrothes Central and Thornton","seats":3,"parties":{"SNP":49.97,"Lab":28.03,"Con":12.15,"LD":3.95,"Grn":4.21,"ScotFam":1.5}},{"name":"Howe of Fife and Tay Coast","seats":3,"parties":{"SNP":31.61,"LD":44.92,"Con":14.62,"Grn":7.85,"ScotFam":0.9}},{"name":"Tay Bridgehead","seats":3,"parties":{"SNP":29.2,"LD":48.13,"Con":8.43,"Grn":6.62,"Lab":4.38,"Ind":2.99}},{"name":"St Andrews","seats":4,"parties":{"LD":48.1,"SNP":22.2,"Con":14.7,"Lab":8.4,"Grn":6.6}},{"name":"East Neuk and Landward","seats":3,"parties":{"LD":44.8,"SNP":25.1,"Con":13.2,"Ind":9.0,"Grn":5.2,"Lab":2.6}},{"name":"Cupar","seats":3,"parties":{"LD":52.4,"SNP":25.8,"Con":11.5,"Grn":4.9,"Lab":3.4,"ScotFam":1.1,"Ind":1.0}},{"name":"Leven, Kennoway and Largo","seats":4,"parties":{"SNP":42.5,"Lab":24.7,"LD":19.3,"Con":10.4,"Grn":2.4,"ScotFam":0.7}},{"name":"Buckhaven, Methil and Wemyss Villages","seats":4,"parties":{"SNP":48.15,"Lab":40.27,"Con":6.53,"LD":2.33,"Grn":2.5}}]},"Glasgow City":{"total_seats":85,"wards":[{"name":"Linn","seats":4,"parties":{"Lab":31.96,"SNP":34.05,"Con":11.53,"Ind":9.56,"LD":6.43,"Grn":6.26}},{"name":"Newlands/Auldburn","seats":3,"parties":{"SNP":34.05,"Lab":32.89,"Con":11.34,"Ind":9.23,"Grn":8.78,"LD":2.34,"TUSC":1.1}},{"name":"Greater Pollok","seats":4,"parties":{"Lab":43.7,"SNP":38.4,"Con":9.4,"Grn":3.9,"LD":1.3,"ScotFam":1.0,"TUSC":0.6,"UKIP":0.5}},{"name":"Cardonald","seats":4,"parties":{"SNP":40.47,"Lab":42.13,"Con":8.85,"Grn":5.91,"LD":1.85,"SDP":0.6}},{"name":"Govan","seats":4,"parties":{"Lab":29.8,"SNP":39.3,"Grn":15.5,"Con":10.04,"Ind":2.14,"LD":1.54,"ScotSoc":1.5}},{"name":"Pollokshields","seats":4,"parties":{"Grn":22.91,"SNP":32.52,"Lab":23.6,"Con":12.58,"Volt":4.1,"LD":3.08,"TUSC":0.8}},{"name":"Langside","seats":4,"parties":{"Grn":28.15,"SNP":32.93,"Lab":26.76,"Con":8.63,"LD":2.03,"TUSC":1.3}},{"name":"Southside Central","seats":4,"parties":{"SNP":38.35,"Grn":19.72,"Lab":31.91,"Con":4.26,"ScotSoc":2.0,"LD":1.56,"Ind":1.47}},{"name":"Calton","seats":4,"parties":{"SNP":40.55,"Lab":34.32,"Grn":13.16,"Con":10.45,"LD":1.35}},{"name":"Anderston/City/Yorkhill","seats":4,"parties":{"Grn":25.8,"Lab":30.1,"SNP":33.0,"Con":6.7,"LD":2.5,"Ind":1.4,"Libertarian":0.5}},{"name":"Hillhead","seats":3,"parties":{"Grn":36.2,"SNP":28.7,"Lab":22.1,"Con":6.7,"LD":5.4,"Freedom":0.9}},{"name":"Victoria Park","seats":3,"parties":{"Lab":28.49,"SNP":27.52,"Grn":23.77,"Con":15.84,"LD":4.24}},{"name":"Garscadden/Scotstounhill","seats":4,"parties":{"Lab":38.8,"SNP":40.7,"Con":10.3,"Grn":8.3,"LD":2.0}},{"name":"Drumchapel/Anniesland","seats":4,"parties":{"Lab":38.1,"SNP":37.9,"Con":9.5,"Grn":6.1,"Ind":5.2,"LD":1.6,"ScotSoc":1.5}},{"name":"Maryhill","seats":3,"parties":{"Lab":34.0,"SNP":42.1,"Grn":12.3,"Con":8.2,"LD":2.4,"Freedom":1.0}},{"name":"Canal","seats":4,"parties":{"SNP":38.95,"Lab":35.48,"Ind":13.0,"Grn":5.94,"Con":5.23,"LD":1.23}},{"name":"Springburn/Robroyston","seats":4,"parties":{"Lab":41.89,"SNP":42.12,"Con":9.04,"Grn":4.57,"LD":2.14}},{"name":"East Centre","seats":4,"parties":{"Lab":37.38,"SNP":42.85,"Con":9.93,"Ind":3.78,"Grn":3.7,"LD":1.33,"TUSC":0.9}},{"name":"Shettleston","seats":4,"parties":{"SNP":35.4,"Lab":39.3,"Con":16.7,"Grn":5.0,"ScotSoc":2.2,"LD":1.4}},{"name":"Baillieston","seats":3,"parties":{"Lab":38.4,"SNP":38.2,"Con":16.6,"Grn":4.1,"LD":2.8}},{"name":"North East","seats":3,"parties":{"Lab":43.9,"SNP":42.6,"Con":8.6,"Grn":3.0,"TUSC":1.2,"Libertarian":0.6}},{"name":"Dennistoun","seats":3,"parties":{"Lab":29.2,"Grn":26.1,"SNP":35.2,"Con":6.2,"LD":1.8,"TUSC":1.5}},{"name":"Partick East/Kelvindale","seats":4,"parties":{"Lab":32.25,"Grn":21.08,"SNP":28.86,"Con":13.32,"LD":3.82,"Freedom":0.6}}]},"Highland":{"total_seats":74,"wards":[{"name":"North, West and Central Sutherland","seats":3,"parties":{"SNP":35.1,"Ind":17.3,"LD":28.1,"Con":11.0,"Lab":3.9,"Freedom":1.7,"ScotFam":2.9}},{"name":"Thurso and North West Caithness","seats":4,"parties":{"SNP":18.4,"Ind":36.2,"LD":27.5,"Con":17.9}},{"name":"Wick and East Caithness","seats":4,"parties":{"SNP":25.3,"Ind":23.3,"LD":29.8,"Con":15.1,"Lab":6.5}},{"name":"East Sutherland and Edderton","seats":3,"parties":{"SNP":26.5,"Ind":19.0,"LD":35.8,"Con":17.0,"Libertarian":1.6}},{"name":"Wester Ross, Strathpeffer and Lochalsh","seats":4,"parties":{"SNP":41.1,"Ind":28.7,"LD":12.9,"Con":17.3}},{"name":"Cromarty Firth","seats":4,"parties":{"SNP":29.1,"Ind":29.2,"LD":27.9,"Con":6.7,"Grn":2.9,"Lab":4.2}},{"name":"Tain and Easter Ross","seats":3,"parties":{"SNP":30.6,"Ind":37.3,"LD":21.5,"Con":10.6}},{"name":"Dingwall and Seaforth","seats":4,"parties":{"SNP":32.2,"Ind":28.0,"LD":16.7,"Con":14.0,"Grn":4.5,"Lab":4.7}},{"name":"Black Isle","seats":3,"parties":{"SNP":24.9,"Ind":26.3,"LD":15.7,"Con":14.8,"Grn":13.3,"Lab":5.2}},{"name":"Eilean a' Che\u00f2","seats":4,"parties":{"SNP":24.97,"Ind":56.67,"LD":3.59,"Con":10.79,"Lab":3.74}},{"name":"Caol and Mallaig","seats":3,"parties":{"Grn":34.0,"LD":33.0,"Con":33.0}},{"name":"Aird and Loch Ness","seats":4,"parties":{"SNP":26.2,"Ind":31.0,"LD":6.6,"Con":21.1,"Grn":10.2,"Lab":4.9}},{"name":"Inverness West","seats":3,"parties":{"SNP":31.2,"Ind":8.1,"LD":34.2,"Con":9.3,"Grn":7.5,"Lab":8.4,"ISP":1.3}},{"name":"Inverness Central","seats":3,"parties":{"SNP":41.3,"Ind":5.1,"LD":6.4,"Con":12.8,"Grn":7.5,"Lab":24.1,"ScotFam":1.4,"TUSC":1.4}},{"name":"Inverness Ness-side","seats":3,"parties":{"SNP":29.2,"Ind":5.6,"LD":44.5,"Con":8.7,"Grn":5.2,"Lab":6.4,"Oth":0.4}},{"name":"Inverness Millburn","seats":3,"parties":{"SNP":40.8,"LD":23.8,"Con":21.6,"Lab":13.9}},{"name":"Culloden and Ardersier","seats":3,"parties":{"SNP":39.71,"Ind":16.41,"LD":15.38,"Con":17.98,"Lab":10.31}},{"name":"Nairn and Cawdor","seats":4,"parties":{"SNP":28.23,"Ind":44.15,"LD":10.54,"Con":16.24,"ScotFam":0.7}},{"name":"Inverness South","seats":4,"parties":{"SNP":36.15,"Ind":25.03,"LD":8.64,"Con":16.94,"Grn":5.78,"Lab":7.39}},{"name":"Badenoch and Strathspey","seats":4,"parties":{"SNP":22.7,"Ind":38.4,"LD":8.8,"Con":15.6,"Grn":10.3,"Lab":4.2}},{"name":"Fort William and Ardnamurchan","seats":4,"parties":{"SNP":33.5,"Ind":9.3,"LD":37.5,"Con":10.1,"Grn":9.6}}]},"Inverclyde":{"total_seats":22,"wards":[{"name":"Inverclyde East","seats":3,"parties":{"SNP":34.0,"Lab":33.0,"Con":33.0}},{"name":"Inverclyde East Central","seats":3,"parties":{"Lab":31.58,"SNP":42.69,"Ind":16.99,"Con":8.63}},{"name":"Inverclyde Central","seats":3,"parties":{"SNP":45.43,"Lab":48.1,"Con":6.12}},{"name":"Inverclyde North","seats":4,"parties":{"Lab":35.99,"SNP":35.2,"Con":15.14,"LD":6.24,"Ind":7.42}},{"name":"Inverclyde West","seats":3,"parties":{"Ind":32.0,"SNP":28.27,"Lab":26.27,"Con":9.57,"LD":3.67}},{"name":"Inverclyde South West","seats":3,"parties":{"SNP":44.6,"Lab":28.9,"Con":12.5,"Ind":7.8,"LD":6.2}},{"name":"Inverclyde South","seats":3,"parties":{"SNP":42.2,"Lab":28.2,"Ind":23.1,"Con":6.5}}]},"Midlothian":{"total_seats":18,"wards":[{"name":"Penicuik","seats":3,"parties":{"SNP":43.2,"Lab":23.9,"Con":17.7,"Grn":7.4,"LD":6.8}},{"name":"Bonnyrigg","seats":3,"parties":{"Lab":40.4,"SNP":35.2,"Con":16.8,"Grn":7.6}},{"name":"Dalkeith","seats":3,"parties":{"Lab":45.69,"SNP":36.05,"Con":10.74,"Grn":7.28}},{"name":"Midlothian West","seats":3,"parties":{"Lab":26.77,"SNP":37.69,"Con":18.63,"Grn":10.38,"LD":6.53}},{"name":"Midlothian East","seats":3,"parties":{"Lab":29.8,"Con":22.4,"SNP":33.7,"Grn":8.7,"LD":5.5}},{"name":"Midlothian South","seats":3,"parties":{"Lab":36.75,"SNP":41.93,"Con":12.92,"Grn":7.21,"Libertarian":1.2}}]},"Moray":{"total_seats":26,"wards":[{"name":"Speyside Glenlivet","seats":3,"parties":{"SNP":36.8,"Con":33.8,"Ind":20.1,"Grn":8.6,"Sovereignty":0.7}},{"name":"Keith and Cullen","seats":3,"parties":{"SNP":43.5,"Con":43.6,"LD":9.9,"ScotFam":2.9}},{"name":"Buckie","seats":3,"parties":{"Con":34.0,"LD":33.0,"SNP":33.0}},{"name":"Fochabers Lhanbryde","seats":3,"parties":{"Con":39.8,"SNP":42.9,"Lab":10.1,"LD":7.0}},{"name":"Heldon and Laich","seats":4,"parties":{"SNP":29.5,"Con":39.7,"Ind":18.5,"Lab":7.7,"LD":4.6}},{"name":"Elgin City North","seats":3,"parties":{"SNP":32.6,"Lab":28.5,"Con":25.9,"Ind":4.6,"Grn":4.5,"LD":3.9}},{"name":"Elgin City South","seats":3,"parties":{"SNP":35.5,"Lab":28.1,"Con":26.8,"Ind":6.5,"LD":3.1}},{"name":"Forres","seats":4,"parties":{"SNP":34.3,"Con":40.9,"Lab":10.6,"Grn":9.1,"Ind":5.1}}]},"Na h-Eileanan Siar":{"total_seats":29,"wards":[{"name":"Barraigh agus Bhatarsaigh","seats":2,"parties":{"Ind":100.0}},{"name":"Uibhist a Deas, Eirisgeigh agus Beinn na Faoghla","seats":3,"parties":{"Ind":63.53,"SNP":20.78,"Grn":15.05}},{"name":"Uibhist a Tuath","seats":2,"parties":{"Ind":80.2,"Con":19.8}},{"name":"Na Hearadh","seats":2,"parties":{"Ind":81.9,"SNP":18.1}},{"name":"Sg\u00ecre nan Loch","seats":2,"parties":{"Ind":90.5,"SNP":9.5}},{"name":"Sg\u00ecr' \u00d9ige agus Carlabhagh","seats":2,"parties":{"Con":50.0,"Ind":50.0}},{"name":"An Taobh Siar agus Nis","seats":3,"parties":{"Ind":70.8,"SNP":29.2}},{"name":"Loch a Tuath","seats":3,"parties":{"Ind":78.1,"SNP":21.9}},{"name":"Ste\u00f2rnabhagh a Tuath","seats":4,"parties":{"SNP":23.3,"Ind":76.7}},{"name":"Ste\u00f2rnabhagh a Deas","seats":4,"parties":{"Ind":66.1,"SNP":33.9}},{"name":"Sg\u00ecre an Rubha","seats":2,"parties":{"Ind":100.0}}]},"North Ayrshire":{"total_seats":33,"wards":[{"name":"North Coast","seats":5,"parties":{"SNP":31.5,"Ind":19.82,"Con":30.12,"Lab":10.15,"Grn":4.1,"LD":2.02,"SocLab":1.1,"ISP":0.7}},{"name":"Garnock Valley","seats":5,"parties":{"Ind":28.4,"Con":24.8,"SNP":31.3,"Lab":14.1,"LD":0.7,"Freedom":0.3}},{"name":"Ardrossan","seats":3,"parties":{"SNP":41.2,"Lab":27.0,"Con":20.0,"Ind":9.3,"ScotFam":1.3,"LD":1.2}},{"name":"Arran","seats":1,"parties":{"Con":32.4,"SNP":25.7,"Ind":21.9,"Lab":9.9,"Grn":9.9}},{"name":"Saltcoats and Stevenston","seats":5,"parties":{"SNP":39.6,"Lab":40.2,"Con":11.4,"Ind":7.0,"ISP":1.7}},{"name":"Kilwinning","seats":4,"parties":{"Lab":46.0,"SNP":34.9,"Con":15.6,"LD":3.4}},{"name":"Irvine West","seats":4,"parties":{"SNP":40.7,"Con":19.9,"Lab":29.8,"SocLab":3.2,"Ind":3.8,"LD":1.5,"ScotSoc":0.9}},{"name":"Irvine East","seats":3,"parties":{"SNP":44.5,"Lab":27.2,"Con":19.7,"Grn":4.2,"LD":2.6,"ScotFam":1.5}},{"name":"Irvine South","seats":3,"parties":{"SNP":44.6,"Lab":32.4,"Con":19.4,"ScotFam":2.4,"TUSC":1.1}}]},"North Lanarkshire":{"total_seats":77,"wards":[{"name":"Kilsyth","seats":3,"parties":{"SNP":37.43,"Lab":52.43,"Con":6.46,"ScotFam":1.99,"LD":1.67}},{"name":"Cumbernauld North","seats":4,"parties":{"SNP":50.2,"Lab":27.7,"Con":14.2,"Grn":4.1,"LD":2.5,"ScotFam":1.2}},{"name":"Cumbernauld South","seats":4,"parties":{"SNP":51.8,"Lab":35.6,"Con":7.9,"ScotSoc":2.7,"ScotFam":1.3,"Freedom":0.7}},{"name":"Cumbernauld East","seats":4,"parties":{"SNP":58.5,"Lab":23.2,"Con":8.8,"Ind":5.3,"Grn":4.2}},{"name":"Stepps, Chryston and Muirhead","seats":3,"parties":{"SNP":36.4,"Lab":34.7,"Con":15.0,"Grn":10.8,"LD":3.2}},{"name":"Gartcosh, Glenboig and Moodiesburn","seats":3,"parties":{"SNP":46.8,"Lab":39.2,"Con":9.4,"Grn":4.5}},{"name":"Coatbridge North","seats":4,"parties":{"SNP":48.3,"Lab":34.1,"Con":9.78,"SDP":3.5,"ISP":2.6,"ScotFam":1.6}},{"name":"Airdrie North","seats":4,"parties":{"SNP":36.1,"Ind":22.0,"Lab":29.3,"Con":10.8,"LD":1.3,"UKIP":0.4}},{"name":"Airdrie Central","seats":4,"parties":{"SNP":43.6,"Lab":42.4,"Con":13.78}},{"name":"Coatbridge West","seats":3,"parties":{"SNP":53.09,"Lab":39.92,"Con":6.41}},{"name":"Coatbridge South","seats":4,"parties":{"SNP":53.1,"Lab":34.9,"Con":6.7,"Ind":3.1,"Grn":2.1}},{"name":"Airdrie South","seats":4,"parties":{"SNP":47.6,"Lab":35.3,"Con":17.1}},{"name":"Fortissat","seats":4,"parties":{"Lab":36.5,"SNP":30.8,"BUP":18.8,"Con":11.2,"Grn":2.6}},{"name":"Thorniewood","seats":3,"parties":{"SNP":36.8,"Lab":43.4,"Ind":12.7,"Con":7.1}},{"name":"Bellshill","seats":4,"parties":{"SNP":42.25,"Lab":38.95,"Con":13.66,"Ind":4.85}},{"name":"Mossend and Holytown","seats":3,"parties":{"Lab":39.82,"SNP":46.75,"Con":12.97}},{"name":"Motherwell West","seats":3,"parties":{"SNP":41.0,"Lab":31.9,"Con":18.9,"Grn":8.1}},{"name":"Motherwell North","seats":4,"parties":{"SNP":50.59,"Lab":37.7,"Con":11.16}},{"name":"Motherwell South East and Ravenscraig","seats":4,"parties":{"SNP":42.8,"Lab":31.3,"Con":16.7,"Grn":7.8,"ScotFam":0.9,"UKIP":0.7}},{"name":"Murdostoun","seats":4,"parties":{"Ind":32.6,"SNP":29.7,"Lab":28.7,"Con":9.1}},{"name":"Wishaw","seats":4,"parties":{"SNP":45.5,"Lab":36.1,"Con":18.5}}]},"Orkney Islands":{"total_seats":21,"wards":[{"name":"Kirkwall East","seats":4,"parties":{"Ind":71.9,"Grn":28.1}},{"name":"Kirkwall West and Orphir","seats":4,"parties":{"Ind":86.3,"Grn":13.7}},{"name":"Stromness and South Isles","seats":3,"parties":{"Ind":86.3,"Grn":13.7}},{"name":"West Mainland","seats":4,"parties":{"Ind":88.2,"Grn":11.8}},{"name":"East Mainland, South Ronaldsay and Burray","seats":3,"parties":{"Ind":85.5,"Grn":14.5}},{"name":"North Isles","seats":3,"parties":{"Ind":100.0}}]},"Perth and Kinross":{"total_seats":40,"wards":[{"name":"Carse of Gowrie","seats":3,"parties":{"Lab":27.8,"Con":30.9,"SNP":31.5,"Grn":5.1,"LD":3.3,"ScotFam":1.3}},{"name":"Strathmore","seats":4,"parties":{"SNP":36.2,"Ind":17.4,"Con":30.2,"LD":8.8,"Grn":7.4}},{"name":"Blairgowrie and Glens","seats":3,"parties":{"Con":45.47,"SNP":40.27,"Lab":4.98,"Grn":3.62,"LD":3.5,"Ind":1.37,"ScotFam":0.79}},{"name":"Highland","seats":3,"parties":{"Con":30.94,"Ind":21.93,"SNP":37.32,"Grn":4.56,"Lab":3.3,"LD":1.95}},{"name":"Strathtay","seats":3,"parties":{"SNP":46.46,"Con":34.89,"LD":18.65}},{"name":"Strathearn","seats":3,"parties":{"Con":29.94,"Ind":31.24,"SNP":32.99,"LD":5.84}},{"name":"Strathallan","seats":3,"parties":{"Con":46.65,"SNP":34.96,"LD":11.43,"Grn":6.96}},{"name":"Kinross-shire","seats":4,"parties":{"SNP":25.47,"LD":20.93,"Con":29.26,"Ind":11.27,"Lab":6.81,"Grn":5.15,"ScotFam":0.81}},{"name":"Almond and Earn","seats":3,"parties":{"SNP":33.81,"Con":48.28,"LD":8.76,"Grn":7.88,"UKIP":1.26}},{"name":"Perth City South","seats":4,"parties":{"LD":33.88,"SNP":33.64,"Con":22.75,"Lab":5.63,"Grn":4.08}},{"name":"Perth City North","seats":3,"parties":{"SNP":56.44,"Con":19.63,"Lab":15.45,"LD":4.3,"Grn":3.97}},{"name":"Perth City Centre","seats":4,"parties":{"SNP":40.41,"LD":19.77,"Con":24.83,"Lab":8.33,"Grn":5.28,"Ind":1.39}}]},"Renfrewshire":{"total_seats":43,"wards":[{"name":"Renfrew North and Braehead","seats":4,"parties":{"SNP":48.92,"Lab":29.57,"Con":15.96,"LD":4.5,"Ind":1.05}},{"name":"Renfrew South and Gallowhill","seats":3,"parties":{"SNP":52.41,"Lab":35.34,"Con":11.56}},{"name":"Paisley Northeast and Ralston","seats":3,"parties":{"SNP":40.23,"Lab":33.97,"Con":19.84,"LD":5.96}},{"name":"Paisley Northwest","seats":4,"parties":{"SNP":45.67,"Lab":32.1,"Con":9.29,"Grn":4.99,"LD":2.7,"Ind":2.62,"ScotFam":1.57,"TUSC":0.96}},{"name":"Paisley East and Central","seats":3,"parties":{"SNP":45.1,"Lab":35.15,"Con":10.92,"Grn":7.65,"Libertarian":1.18}},{"name":"Paisley Southeast","seats":3,"parties":{"SNP":38.12,"Lab":29.05,"Con":12.16,"Ind":11.08,"Grn":4.75,"LD":3.77,"ScotSoc":1.08}},{"name":"Paisley Southwest","seats":4,"parties":{"Lab":26.29,"SNP":45.75,"LD":14.32,"Con":9.95,"Ind":3.68}},{"name":"Johnstone South and Elderslie","seats":4,"parties":{"SNP":40.4,"Lab":46.38,"Con":10.7,"LD":2.53}},{"name":"Johnstone North, Kilbarchan, Howwood and Lochwinnoch","seats":4,"parties":{"Ind":24.33,"SNP":30.86,"Lab":28.47,"Con":10.79,"Grn":4.02,"LD":1.53}},{"name":"Houston, Crosslee and Linwood","seats":4,"parties":{"Lab":37.14,"Con":23.78,"SNP":39.08}},{"name":"Bishopton, Bridge of Weir and Langbank","seats":3,"parties":{"SNP":36.31,"Lab":23.37,"Con":34.35,"LD":5.97}},{"name":"Erskine and Inchinnan","seats":4,"parties":{"Lab":33.61,"SNP":43.63,"Con":17.73,"LD":3.15,"ScotFam":1.88}}]},"Scottish Borders":{"total_seats":34,"wards":[{"name":"Tweeddale West","seats":3,"parties":{"SNP":26.2,"LD":22.8,"Con":28.2,"Grn":16.4,"Lab":6.5}},{"name":"Tweeddale East","seats":3,"parties":{"SNP":30.3,"Con":22.5,"Ind":18.3,"LD":9.9,"Grn":9.6,"Lab":9.2,"Vanguard":0.2}},{"name":"Galashiels and District","seats":4,"parties":{"SNP":35.9,"Con":26.4,"LD":10.6,"Grn":9.0,"Ind":16.7,"Vanguard":0.8,"Oth":0.5}},{"name":"Selkirkshire","seats":3,"parties":{"Ind":40.9,"Con":26.2,"SNP":21.8,"Lab":5.6,"Grn":5.5}},{"name":"Leaderdale and Melrose","seats":3,"parties":{"Ind":34.3,"Con":24.4,"SNP":19.7,"LD":12.7,"Lab":4.5,"Grn":4.3,"Vanguard":0.2}},{"name":"Mid Berwickshire","seats":3,"parties":{"Con":46.1,"SNP":25.8,"LD":11.5,"Grn":6.9,"Lab":6.1,"ScotFam":3.5}},{"name":"East Berwickshire","seats":3,"parties":{"Con":41.0,"SNP":21.2,"Ind":24.2,"Lab":6.9,"Grn":5.8,"ScotFam":0.8}},{"name":"Kelso and District","seats":3,"parties":{"LD":29.8,"Con":47.1,"Grn":13.2,"Lab":9.5,"Vanguard":0.4}},{"name":"Jedburgh and District","seats":3,"parties":{"Con":50.33,"SNP":23.91,"Ind":18.2,"Grn":7.42}},{"name":"Hawick and Denholm","seats":3,"parties":{"Ind":82.4,"Con":9.4,"Grn":4.5,"Lab":3.7}},{"name":"Hawick and Hermitage","seats":3,"parties":{"Ind":54.8,"Con":18.4,"SNP":16.7,"Lab":3.7,"LD":3.7,"Grn":2.7}}]},"Shetland Islands":{"total_seats":23,"wards":[{"name":"North Isles","seats":3,"parties":{"Ind":100.0}},{"name":"Shetland North","seats":3,"parties":{"Ind":66.7,"Lab":33.3}},{"name":"Shetland West","seats":2,"parties":{"Ind":83.1,"Grn":9.1,"SNP":7.8}},{"name":"Shetland Central","seats":4,"parties":{"Ind":91.2,"Grn":7.0,"Sovereignty":1.8}},{"name":"Lerwick North and Bressay","seats":3,"parties":{"Ind":100.0}},{"name":"Lerwick South","seats":4,"parties":{"Ind":100.0}},{"name":"Shetland South","seats":4,"parties":{"Ind":73.3,"Grn":14.9,"SNP":11.8}}]},"South Ayrshire":{"total_seats":28,"wards":[{"name":"Troon","seats":4,"parties":{"SNP":35.8,"Lab":19.2,"Con":37.3,"LD":4.7,"Ind":2.8}},{"name":"Prestwick","seats":4,"parties":{"SNP":35.43,"Ind":23.37,"Con":25.53,"Lab":15.37}},{"name":"Ayr North","seats":4,"parties":{"SNP":46.73,"Lab":24.1,"Con":20.54,"Ind":6.45,"LD":1.64}},{"name":"Ayr East","seats":3,"parties":{"SNP":39.0,"Con":30.0,"Lab":16.4,"Ind":12.1,"LD":2.2}},{"name":"Ayr West","seats":4,"parties":{"Con":39.6,"Ind":22.8,"SNP":21.9,"Lab":10.9,"LD":3.5,"ScotFam":1.2}},{"name":"Kyle","seats":3,"parties":{"SNP":34.98,"Lab":23.11,"Con":36.74,"LD":4.84}},{"name":"Maybole, North Carrick and Coylton","seats":3,"parties":{"SNP":32.0,"Con":35.5,"Ind":17.6,"Lab":12.4,"LD":2.5}},{"name":"Girvan and South Carrick","seats":3,"parties":{"Ind":37.39,"SNP":25.69,"Con":28.03,"Lab":8.88}}]},"South Lanarkshire":{"total_seats":64,"wards":[{"name":"Clydesdale West","seats":4,"parties":{"Lab":38.2,"Con":23.6,"SNP":32.7,"Grn":3.1,"LD":2.4}},{"name":"Clydesdale North","seats":3,"parties":{"Lab":33.8,"SNP":33.4,"Con":26.9,"Ind":6.0}},{"name":"Clydesdale East","seats":3,"parties":{"SNP":33.5,"Con":40.8,"Lab":16.4,"Grn":5.3,"LD":3.1,"ScotFam":0.9}},{"name":"Clydesdale South","seats":3,"parties":{"SNP":33.5,"Lab":25.9,"Con":18.7,"Ind":17.8,"Grn":3.1,"UKIP":1.0}},{"name":"Avondale and Stonehouse","seats":3,"parties":{"Ind":23.83,"SNP":28.96,"Con":20.62,"Lab":19.86,"Grn":6.62}},{"name":"East Kilbride South","seats":3,"parties":{"SNP":49.33,"Lab":23.06,"LD":13.73,"Con":8.73,"Grn":3.15,"ScotFam":1.3,"Libertarian":0.6}},{"name":"East Kilbride Central South","seats":3,"parties":{"SNP":44.65,"Lab":38.77,"Con":9.13,"Grn":4.2,"LD":2.73,"UKIP":0.6}},{"name":"East Kilbride Central North","seats":3,"parties":{"SNP":43.8,"Lab":37.4,"Con":12.2,"Ind":3.4,"LD":3.3}},{"name":"East Kilbride West","seats":3,"parties":{"Lab":26.5,"Con":20.0,"Ind":18.6,"SNP":30.9,"LD":2.1,"ScotFam":1.6,"UKIP":0.3}},{"name":"East Kilbride East","seats":3,"parties":{"SNP":37.4,"Lab":27.0,"Con":13.5,"Grn":12.7,"Ind":6.8,"LD":2.6}},{"name":"Rutherglen South","seats":3,"parties":{"SNP":31.9,"LD":29.4,"Lab":23.2,"Con":8.5,"Grn":4.6,"ScotFam":1.3,"Ind":1.1}},{"name":"Rutherglen Central and North","seats":3,"parties":{"Lab":35.0,"SNP":37.7,"Con":12.0,"LD":10.2,"Grn":5.1}},{"name":"Cambuslang West","seats":3,"parties":{"Lab":30.1,"SNP":39.0,"Con":12.9,"LD":12.7,"Grn":5.2}},{"name":"Cambuslang East","seats":3,"parties":{"Lab":39.5,"SNP":43.34,"Con":9.64,"Grn":4.41,"LD":2.94}},{"name":"Blantyre","seats":3,"parties":{"SNP":42.1,"Lab":44.9,"Con":7.7,"Grn":3.2,"LD":2.1}},{"name":"Bothwell and Uddingston","seats":3,"parties":{"Lab":30.3,"Con":27.6,"SNP":32.3,"LD":5.3,"Grn":4.5}},{"name":"Hamilton North and East","seats":3,"parties":{"Lab":32.4,"SNP":40.8,"Con":19.0,"LD":5.2,"Ind":2.6}},{"name":"Hamilton West and Earnock","seats":4,"parties":{"SNP":41.4,"Lab":30.7,"Con":12.9,"LD":11.9,"Grn":3.1}},{"name":"Hamilton South","seats":4,"parties":{"SNP":41.4,"Lab":45.4,"Con":13.1}},{"name":"Larkhall","seats":4,"parties":{"Lab":33.0,"Con":24.5,"SNP":28.8,"Ind":10.3,"LD":2.4,"Libertarian":0.6,"UKIP":0.3}}]},"Stirling":{"total_seats":23,"wards":[{"name":"Trossachs and Teith","seats":3,"parties":{"Con":45.0,"SNP":33.4,"Lab":9.1,"Grn":8.3,"LD":3.5,"ScotFam":0.8}},{"name":"Forth and Endrick","seats":3,"parties":{"SNP":35.2,"Con":36.1,"Lab":14.0,"Ind":7.8,"LD":5.7,"ScotFam":1.1}},{"name":"Dunblane and Bridge of Allan","seats":4,"parties":{"Con":30.02,"SNP":26.15,"Grn":16.18,"Lab":11.95,"LD":9.42,"Ind":5.41,"ScotFam":0.7}},{"name":"Stirling North","seats":4,"parties":{"SNP":38.3,"Con":22.8,"Lab":20.2,"Grn":13.7,"LD":3.7,"ScotFam":1.3}},{"name":"Stirling West","seats":3,"parties":{"Con":37.1,"SNP":35.7,"Lab":20.0,"LD":5.2,"ScotFam":2.0}},{"name":"Stirling East","seats":3,"parties":{"SNP":38.7,"Con":23.3,"Lab":21.6,"Ind":7.9,"Grn":4.7,"LD":2.4,"ScotFam":1.4}},{"name":"Bannockburn","seats":3,"parties":{"Ind":26.0,"Lab":20.7,"SNP":28.7,"Con":19.1,"Grn":2.4,"LD":2.1,"ScotFam":1.1}}]},"West Dunbartonshire":{"total_seats":22,"wards":[{"name":"Lomond","seats":3,"parties":{"SNP":34.5,"Lab":38.3,"Con":15.4,"WDC":11.8}},{"name":"Leven","seats":4,"parties":{"SNP":36.9,"Lab":35.1,"WDC":16.4,"Con":7.2,"Grn":3.5,"Ind":0.9}},{"name":"Dumbarton","seats":4,"parties":{"SNP":42.0,"Lab":46.3,"Con":9.4,"TUSC":1.1,"SocLib":0.7,"Sovereignty":0.5}},{"name":"Kilpatrick","seats":3,"parties":{"Lab":56.1,"SNP":37.9,"Con":5.9}},{"name":"Clydebank Central","seats":4,"parties":{"SNP":52.1,"Lab":39.7,"Con":7.9}},{"name":"Clydebank Waterfront","seats":4,"parties":{"SNP":52.3,"Lab":37.4,"Con":7.7,"ScotFam":2.6}}]},"West Lothian":{"total_seats":33,"wards":[{"name":"Linlithgow","seats":3,"parties":{"SNP":26.26,"LD":20.33,"Con":19.83,"Lab":19.54,"Grn":13.22,"ScotFam":0.81}},{"name":"Broxburn, Uphall and Winchburgh","seats":4,"parties":{"SNP":42.68,"Lab":29.68,"Con":17.76,"Grn":4.67,"LD":3.75,"ScotFam":1.33}},{"name":"Livingston North","seats":4,"parties":{"SNP":48.6,"Lab":23.75,"Con":17.37,"Grn":4.48,"LD":3.85,"ScotFam":1.95}},{"name":"Livingston South","seats":4,"parties":{"SNP":38.99,"Lab":32.38,"Con":11.68,"Ind":9.35,"Grn":4.34,"LD":2.21,"ScotFam":1.06}},{"name":"East Livingston and East Calder","seats":4,"parties":{"SNP":41.79,"Con":18.29,"Lab":21.12,"Ind":7.55,"Grn":6.62,"LD":3.31,"ScotFam":1.32}},{"name":"Fauldhouse and the Breich Valley","seats":3,"parties":{"SNP":39.11,"Lab":40.24,"Con":14.19,"Grn":3.97,"LD":2.36}},{"name":"Whitburn and Blackburn","seats":4,"parties":{"SNP":38.63,"Lab":37.37,"Con":18.5,"LD":2.41,"Grn":3.1}},{"name":"Bathgate","seats":4,"parties":{"Lab":38.78,"SNP":40.93,"Con":14.16,"Grn":4.0,"LD":2.04}},{"name":"Armadale and Blackridge","seats":3,"parties":{"Ind":48.92,"SNP":22.05,"Lab":14.12,"Con":10.56,"Grn":2.59,"LD":0.95,"ISP":0.82}}]}};
+// Reform UK didn't contest 2022, so they have no real ward baseline. This is
+// a notional per-ward "shape" instead: 40% Conservative geography + 33%
+// Labour geography + 27% the average of whichever other parties stood,
+// matching where Reform-type sentiment actually concentrates. It is kept
+// completely separate from the real historical ward.parties data below, and
+// only ever contributes when the Reform slider is moved above zero.
+const REFORM_SHAPE = {"Aberdeen City":{"Dyce/Bucksburn/Danestone":21.394,"Bridge of Don":21.702,"Kingswells/Sheddocksley/Summerhill":15.984,"Northfield/Mastrick North":18.303,"Hilton/Woodside/Stockethill":20.205,"Tillydrone/Seaton/Old Aberdeen":17.885,"Midstocket/Rosemount":21.764,"George Street/Harbour":15.565,"Lower Deeside":23.006,"Hazlehead/Queens Cross/Countesswells":16.849,"Airyhall/Broomhill/Garthdee":18.109,"Torry/Ferryhill":17.742,"Kincorth/Nigg/Cove":20.035},"Dumfries and Galloway":{"Stranraer and the Rhins":25.687,"Mid Galloway and Wigtown West":29.007,"Dee and Glenkens":21.797,"Castle Douglas and Crocketford":20.169,"Abbey":28.276,"North West Dumfries":26.316,"Mid and Upper Nithsdale":24.112,"Lochar":28.246,"Nith":23.476,"Annandale South":25.457,"Annandale North":24.16,"Annandale East and Eskdale":26.559},"Angus":{"Kirriemuir and Dean":26.192,"Brechin and Edzell":20.732,"Forfar and District":16.963,"Monifieth and Sidlaw":24.775,"Carnoustie and District":20.035,"Arbroath West, Letham and Friockheim":20.303,"Arbroath East and Lunan":16.167,"Montrose and District":17.59},"Argyll and Bute":{"South Kintyre":15.966,"Kintyre and the Islands":12.984,"Mid Argyll":13.556,"Oban South and the Isles":12.107,"Oban North and Lorn":12.772,"Cowal":18.732,"Dunoon":15.965,"Isle of Bute":13.642,"Lomond North":20.16,"Helensburgh Central":24.67,"Helensburgh and Lomond South":23.796},"Aberdeenshire":{"Banff and District":17.326,"Troup":24.571,"Fraserburgh and District":18.957,"Central Buchan":18.969,"Peterhead North and Rattray":17.28,"Peterhead South and Cruden":24.445,"Turriff and District":21.121,"Mid-Formartine":19.332,"Ellon and District":21.548,"West Garioch":17.762,"Inverurie and District":15.302,"East Garioch":19.342,"Westhill and District":25.401,"Huntly, Strathbogie and Howe of Alford":23.333,"Aboyne, Upper Deeside and Donside":20.592,"Banchory and Mid-Deeside":26.886,"North Kincardine":15.6,"Stonehaven and Lower Deeside":19.201,"Mearns":18.811},"Clackmannanshire":{"Clackmannanshire West":22.491,"Clackmannanshire North":18.967,"Clackmannanshire Central":24.851,"Clackmannanshire South":19.67,"Clackmannanshire East":24.297},"Dundee City":{"Strathmartine":16.133,"Lochee":20.247,"West End":13.681,"Coldside":18.855,"Maryfield":17.145,"North East":17.992,"East End":18.543,"The Ferry":18.48},"East Ayrshire":{"Annick":23.704,"Kilmarnock North":22.617,"Kilmarnock West and Crosshouse":22.599,"Kilmarnock East and Hurlford":21.991,"Kilmarnock South":30.117,"Irvine Valley":25.61,"Ballochmyle":24.342,"Cumnock and New Cumnock":26.832,"Doon Valley":22.43},"East Dunbartonshire":{"Milngavie":17.13,"Bearsden North":14.218,"Bearsden South":18.679,"Bishopbriggs North and Campsie":19.55,"Bishopbriggs South":20.873,"Lenzie and Kirkintilloch South":20.259,"Kirkintilloch East and North and Twechar":22.175},"East Lothian":{"Musselburgh":20.939,"Preston, Seton and Gosford":24.875,"Tranent, Wallyford and Macmerry":24.024,"North Berwick Coastal":26.088,"Haddington and Lammermuir":23.622,"Dunbar and East Linton":21.596},"East Renfrewshire":{"Barrhead, Liboside and Uplawmoor":17.134,"Newton Mearns North and Neilston":27.355,"Giffnock and Thornliebank":22.125,"Clarkston, Netherlee and Williamwood":18.933,"Newton Mearns South and Eaglesham":29.976},"City of Edinburgh":{"Almond":12.366,"Pentland Hills":23.482,"Drum Brae/Gyle":13.83,"Forth":17.983,"Inverleith":16.633,"Corstorphine/Murrayfield":15.76,"Sighthill/Gorgie":16.738,"Colinton/Fairmilehead":26.141,"Fountainbridge/Craiglockhart":22.505,"Morningside":19.898,"City Centre":17.706,"Leith Walk":15.23,"Leith":15.305,"Craigentinny/Duddingston":19.949,"Southside/Newington":20.24,"Liberton/Gilmerton":22.242,"Portobello/Craigmillar":18.129},"Falkirk":{"Bo'ness and Blackness":16.664,"Grangemouth":18.772,"Denny and Banknock":18.968,"Carse, Kinnaird and Tryst":22.351,"Bonnybridge and Larbert":18.933,"Falkirk North":22.672,"Falkirk South":23.215,"Lower Braes":22.732,"Upper Braes":20.106},"Fife":{"West Fife and Coastal Villages":20.912,"Dunfermline North":21.142,"Dunfermline Central":17.772,"Dunfermline South":16.292,"Rosyth":20.408,"Inverkeithing and Dalgety Bay":22.375,"Cowdenbeath":23.877,"Lochgelly, Cardenden and Benarty":21.725,"Burntisland, Kinghorn and Western Kirkcaldy":22.473,"Kirkcaldy North":25.01,"Kirkcaldy Central":23.191,"Kirkcaldy East":22.056,"Glenrothes West and Kinglassie":20.396,"Glenrothes North, Leslie and Markinch":20.949,"Glenrothes Central and Thornton":19.342,"Howe of Fife and Tay Coast":13.442,"Tay Bridgehead":10.686,"St Andrews":15.573,"East Neuk and Landward":11.815,"Cupar":11.399,"Leven, Kennoway and Largo":18.089,"Buckhaven, Methil and Wemyss Villages":20.669},"Glasgow City":{"Linn":18.959,"Newlands/Auldburn":19.062,"Greater Pollok":22.105,"Cardonald":21.784,"Govan":17.797,"Pollokshields":18.086,"Langside":17.963,"Southside Central":16.359,"Calton":20.461,"Anderston/City/Yorkhill":16.845,"Hillhead":16.3,"Victoria Park":20.735,"Garscadden/Scotstounhill":21.514,"Drumchapel/Anniesland":19.802,"Maryhill":19.612,"Canal":17.791,"Springburn/Robroyston":21.834,"East Centre":19.794,"Shettleston":23.411,"Baillieston":23.371,"North East":24.083,"Dennistoun":17.795,"Partick East/Kelvindale":20.809},"Highland":{"North, West and Central Sutherland":12.932,"Thurso and North West Caithness":14.549,"Wick and East Caithness":15.241,"East Sutherland and Edderton":14.117,"Wester Ross, Strathpeffer and Lochalsh":14.363,"Cromarty Firth":10.08,"Tain and Easter Ross":12.286,"Dingwall and Seaforth":12.646,"Black Isle":13.05,"Eilean a' Che\u00f2":13.221,"Caol and Mallaig":22.245,"Aird and Loch Ness":15.052,"Inverness West":11.96,"Inverness Central":17.143,"Inverness Ness-side":11.296,"Inverness Millburn":21.948,"Culloden and Ardersier":17.029,"Nairn and Cawdor":13.959,"Inverness South":14.318,"Badenoch and Strathspey":13.04,"Fort William and Ardnamurchan":10.108},"Inverclyde":{"Inverclyde East":33.27,"Inverclyde East Central":21.93,"Inverclyde Central":30.587,"Inverclyde North":22.33,"Inverclyde West":18.252,"Inverclyde South West":19.811,"Inverclyde South":20.722},"Midlothian":{"Penicuik":20.133,"Bonnyrigg":25.83,"Dalkeith":25.223,"Midlothian West":21.2,"Midlothian East":23.105,"Midlothian South":23.929},"Moray":{"Speyside Glenlivet":19.415,"Keith and Cullen":24.649,"Buckie":22.51,"Fochabers Lhanbryde":25.989,"Heldon and Laich":23.155,"Elgin City North":22.843,"Elgin City South":24.052,"Forres":24.223},"Na h-Eileanan Siar":{"Barraigh agus Bhatarsaigh":27.0,"Uibhist a Deas, Eirisgeigh agus Beinn na Faoghla":8.942,"Uibhist a Tuath":29.574,"Na Hearadh":13.5,"Sg\u00ecre nan Loch":13.5,"Sg\u00ecr' \u00d9ige agus Carlabhagh":33.5,"An Taobh Siar agus Nis":13.5,"Loch a Tuath":13.5,"Ste\u00f2rnabhagh a Tuath":13.5,"Ste\u00f2rnabhagh a Deas":13.5,"Sg\u00ecre an Rubha":27.0},"North Ayrshire":{"North Coast":19.275,"Garnock Valley":20.009,"Ardrossan":21.563,"Arran":21.402,"Saltcoats and Stevenston":24.117,"Kilwinning":26.591,"Irvine West":21.934,"Irvine East":21.473,"Irvine South":30.494},"North Lanarkshire":{"Kilsyth":25.164,"Cumbernauld North":19.933,"Cumbernauld South":28.894,"Cumbernauld East":17.296,"Stepps, Chryston and Muirhead":21.987,"Gartcosh, Glenboig and Moodiesburn":23.622,"Coatbridge North":28.206,"Airdrie North":19.335,"Airdrie Central":31.276,"Coatbridge West":30.072,"Coatbridge South":19.444,"Airdrie South":31.341,"Fortissat":21.034,"Thorniewood":23.845,"Bellshill":24.676,"Mossend and Holytown":30.951,"Motherwell West":24.715,"Motherwell North":30.564,"Motherwell South East and Ravenscraig":23.84,"Murdostoun":21.522,"Wishaw":31.598},"Orkney Islands":{"Kirkwall East":13.5,"Kirkwall West and Orphir":13.5,"Stromness and South Isles":13.5,"West Mainland":13.5,"East Mainland, South Ronaldsay and Burray":13.5,"North Isles":27.0},"Perth and Kinross":{"Carse of Gowrie":25.125,"Strathmore":16.791,"Blairgowrie and Glens":23.123,"Highland":17.904,"Strathtay":22.746,"Strathearn":18.282,"Strathallan":23.462,"Kinross-shire":18.192,"Almond and Earn":23.853,"Perth City South":17.402,"Perth City North":18.774,"Perth City Centre":17.193},"Renfrewshire":{"Renfrew North and Braehead":21.044,"Renfrew South and Gallowhill":30.437,"Paisley Northeast and Ralston":25.382,"Paisley Northwest":18.088,"Paisley East and Central":23.089,"Paisley Southeast":18.347,"Paisley Southwest":18.393,"Johnstone South and Elderslie":25.381,"Johnstone North, Kilbarchan, Howwood and Lochwinnoch":17.811,"Houston, Crosslee and Linwood":32.32,"Bishopton, Bridge of Weir and Langbank":27.16,"Erskine and Inchinnan":24.499},"Scottish Borders":{"Tweeddale West":19.311,"Tweeddale East":16.633,"Galashiels and District":15.434,"Selkirkshire":18.466,"Leaderdale and Melrose":16.038,"Mid Berwickshire":24.431,"East Berwickshire":23.285,"Kelso and District":27.78,"Jedburgh and District":24.59,"Hawick and Denholm":16.713,"Hawick and Hermitage":13.839},"Shetland Islands":{"North Isles":27.0,"Shetland North":28.998,"Shetland West":9.0,"Shetland Central":13.257,"Lerwick North and Bressay":27.0,"Lerwick South":27.0,"Shetland South":9.0},"South Ayrshire":{"Troon":25.153,"Prestwick":23.222,"Ayr North":21.103,"Ayr East":22.209,"Ayr West":23.775,"Kyle":27.698,"Maybole, North Carrick and Coylton":22.981,"Girvan and South Carrick":22.658},"South Lanarkshire":{"Clydesdale West":25.484,"Clydesdale North":27.233,"Clydesdale East":25.503,"Clydesdale South":20.923,"Avondale and Stonehouse":20.149,"East Kilbride South":17.061,"East Kilbride Central South":21.088,"East Kilbride Central North":21.767,"East Kilbride West":21.389,"East Kilbride East":18.326,"Rutherglen South":15.579,"Rutherglen Central and North":21.12,"Cambuslang West":20.214,"Cambuslang East":21.453,"Blantyre":22.163,"Bothwell and Uddingston":24.828,"Hamilton North and East":22.666,"Hamilton West and Earnock":20.367,"Hamilton South":31.4,"Larkhall":24.425},"Stirling":{"Trossachs and Teith":25.071,"Forth and Endrick":23.443,"Dunblane and Bridge of Allan":19.81,"Stirling North":20.799,"Stirling West":26.962,"Stirling East":20.073,"Bannockburn":18.467},"West Dunbartonshire":{"Lomond":28.114,"Leven":18.18,"Dumbarton":30.379,"Kilpatrick":31.106,"Clydebank Central":30.328,"Clydebank Waterfront":29.543},"West Lothian":{"Linlithgow":19.763,"Broxburn, Uphall and Winchburgh":21.497,"Livingston North":19.909,"Livingston South":19.062,"East Livingston and East Calder":18.286,"Fauldhouse and the Breich Valley":23.045,"Whitburn and Blackburn":23.705,"Bathgate":22.689,"Armadale and Blackridge":13.913}};
+const REFORM_BASELINE_ANCHOR = 20.71;
+
+const MAJOR_PARTIES = ['SNP','Lab','Con','LD','Grn','Reform','Ind'];
+const MAJOR_NAMES = {SNP:'SNP', Lab:'Labour', Con:'Conservative', LD:'Liberal Democrat', Grn:'Green', Ind:'Independent', Reform:'Reform UK'};
+const MAJOR_COLORS = {SNP:'#F2C811', Lab:'#D2123A', Con:'#0087DC', LD:'#FAA61A', Grn:'#5C9A2E', Ind:'#7C8089', Reform:'#12B6CF'};
+
+// Full names for the real minor parties recovered from the 2022 ward-level results.
+const MINOR_NAMES = {
+  BUP:'British Unionist Party', Communist:'Communist Party',
+  Freedom:'Freedom Alliance', ISP:'Independence for Scotland Party',
+  Libertarian:'Scottish Libertarian Party', Rubbish:'The Rubbish Party',
+  SDP:'Social Democratic Party', ScotFam:'Scottish Family Party',
+  ScotSoc:'Scottish Socialist Party', SocLab:'Socialist Labour Party',
+  SocLib:'Socialist (independent)', Sovereignty:'Sovereignty',
+  TUSC:'Trade Unionist & Socialist Coalition', UKIP:'UK Independence Party',
+  Vanguard:'Vanguard', Volt:'Volt UK', WDC:'West Dunbartonshire Community Party',
+  Oth:'Other (unidentified minor party)'
+};
+// Muted, low-saturation palette cycled across minor parties so they read as
+// "fringe" without competing visually with the main party colours.
+const MINOR_PALETTE = ['#9B59B6','#E67E22','#16A085','#8D6E63','#D4AC0D','#2C7DA0','#BA68C8','#C05B2E','#5B8C5A','#A1887F','#6B5B95','#CC6677'];
+const MINOR_COLORS = {};
+Object.keys(MINOR_NAMES).forEach((code,i) => { MINOR_COLORS[code] = MINOR_PALETTE[i % MINOR_PALETTE.length]; });
+MINOR_COLORS.Oth = '#B7AE9C';
+
+const PARTY_NAMES = Object.assign({}, MAJOR_NAMES, MINOR_NAMES);
+const PARTY_COLORS = Object.assign({}, MAJOR_COLORS, MINOR_COLORS);
+
+// Real official 2022 national first-preference shares for the six sliders
+// with genuine history, plus the combined share of every minor party (the
+// "Other" readout). Reform has no entry here -- their slider's ratio is
+// computed against REFORM_BASELINE_ANCHOR instead, inside applySwing().
+const BASELINE_2022 = {SNP:34.1, Lab:21.7, Con:19.6, LD:8.6, Grn:6.0, Ind:8.4};
+const OTHER_BASELINE = 1.5;
+// Real official 2022 seat totals. Minor parties are 0 except the three that
+// actually won a seat: West Dunbartonshire Community Party, British
+// Unionist Party and The Rubbish Party. Reform won 0, having not stood.
+const SEATS_2022 = {SNP:453, Lab:282, Con:214, LD:87, Grn:35, Ind:149, WDC:1, BUP:1, Rubbish:1, Reform:0};
+
+const TOTAL_SEATS = 1226;
+const MAJORITY = Math.floor(TOTAL_SEATS/2) + 1;
+
+// Transfer propensity matrix: fraction of a source party's transferring votes
+// going to each named destination, plus the fraction that exhausts. Any
+// destination not explicitly listed falls back to "minorDefault" so every
+// named minor party can still receive and send transfers correctly.
+//
+// Six-party base rates are calibrated against the real 2022 national result.
+// Reform's weight in each row, and the corresponding shrink applied to every
+// other destination in that row, comes from real by-election evidence: Ballot
+// Box Scotland's "2025 in Review" analysis of that year's 22 council
+// by-elections gives the ratio at which each party's voters preferred their
+// own party over Reform, among those expressing any preference between the
+// two: Lib Dem 2.8:1, Labour 2.6:1, Green 2.3:1, SNP 2.1:1, Conservative only
+// 1.5:1 (Reform is markedly less "toxic" to Conservative voters than to
+// everyone else's). Each row was squeezed by a uniform scaling factor to
+// insert Reform's share at a size set by that ratio, while leaving every
+// other destination's *relative* proportion to one another exactly as it
+// was. Independent has no published ratio; its Reform weight is set from
+// qualitative by-election evidence (Ayr North, Tain and Easter Ross) showing
+// Reform voters often favour Independent candidates directly.
+const TRANSFER = {
+  SNP: {Grn:0.161, Lab:0.196, Ind:0.116, LD:0.045, Con:0.018, Reform:0.107, minorDefault:0.018, exhaust:0.339},
+  Lab: {SNP:0.201, Grn:0.128, LD:0.100, Ind:0.119, Con:0.046, Reform:0.087, minorDefault:0.018, exhaust:0.301},
+  Con: {LD:0.230, Ind:0.145, SNP:0.034, Lab:0.034, Grn:0.017, Reform:0.150, minorDefault:0.025, exhaust:0.365},
+  LD:  {Lab:0.184, Grn:0.092, Con:0.184, Ind:0.120, SNP:0.083, Reform:0.080, minorDefault:0.018, exhaust:0.239},
+  Grn: {SNP:0.216, Lab:0.198, LD:0.099, Ind:0.117, Con:0.018, Reform:0.098, minorDefault:0.018, exhaust:0.236},
+  Ind: {SNP:0.081, Lab:0.081, Con:0.126, LD:0.045, Grn:0.045, Reform:0.100, minorDefault:0.027, exhaust:0.495},
+  // Reform's own outgoing profile (when a Reform candidate is eliminated).
+  // No 2022 data exists since they didn't stand; grounded instead in the
+  // documented "mutual flow" between Reform and Conservative voters, and
+  // Reform voters' frequent preference for Independent candidates, with a
+  // high exhaust rate reflecting their generally weaker transfer completion.
+  Reform: {Con:0.27, Ind:0.15, LD:0.05, Lab:0.03, SNP:0.02, Grn:0.01, minorDefault:0.02, exhaust:0.45}
+};
+// Generic profile used whenever the *source* of a transfer is a minor party
+// not explicitly listed above (i.e. almost all of them, since each is tiny).
+const MINOR_TRANSFER = {SNP:0.094, Lab:0.094, Con:0.094, LD:0.047, Grn:0.047, Ind:0.094, Reform:0.06, minorDefault:0.047, exhaust:0.423};
+
+function distribute(source, amount, tally, destinations){
+  if(destinations.length===0 || amount<=0) return;
+  const matrix = TRANSFER[source] || MINOR_TRANSFER;
+  const weightOf = d => matrix[d] !== undefined ? matrix[d] : (matrix.minorDefault || 0);
+  let totalWeight = 0;
+  destinations.forEach(d => totalWeight += weightOf(d));
+  if(totalWeight<=0) return;
+  const transferable = amount * (1 - matrix.exhaust);
+  destinations.forEach(d => {
+    const share = weightOf(d)/totalWeight;
+    tally[d] = (tally[d]||0) + transferable*share;
+  });
+}
+
+// Weighted Inclusive Gregory Method, party-block STV count for one ward.
+// Operates on whichever party codes are actually present in this ward
+// (major or minor), so every named minor party is a genuine candidate.
+// Parties that have already won a seat remain in contention (they can win
+// further seats if support keeps flowing to them) but are never themselves
+// "eliminated" for being temporarily on zero just after winning.
+function countWard(partyPct, seats){
+  let tally = {};
+  let seatsWon = {};
+  let status = {}; // 'contesting' | 'eliminated'
+  Object.keys(partyPct).forEach(p => {
+    seatsWon[p] = 0;
+    if((partyPct[p]||0) > 1e-9){ tally[p] = partyPct[p]; status[p] = 'contesting'; }
+  });
+  const contesting = () => Object.keys(status).filter(p => status[p]==='contesting');
+  const quota = 100/(seats+1);
+  let seatsLeft = seats;
+  let guard = 0;
+  while(seatsLeft > 0 && guard < 500){
+    guard++;
+    let active = contesting();
+    if(active.length===0) break;
+    if(active.length <= seatsLeft){
+      active.forEach(p => { seatsWon[p]++; tally[p]=0; });
+      seatsLeft -= active.length;
+      continue;
+    }
+    const electable = active.filter(p => tally[p] >= quota - 1e-7);
+    if(electable.length>0){
+      electable.sort((a,b)=>tally[b]-tally[a]);
+      const p = electable[0];
+      seatsWon[p]++;
+      seatsLeft--;
+      const surplus = tally[p] - quota;
+      tally[p] = 0;
+      if(surplus>1e-9){
+        distribute(p, surplus, tally, active.filter(x=>x!==p));
+      }
+      continue;
+    }
+    // eliminate the lowest party that hasn't yet won a seat this ward
+    const neverWon = active.filter(p => seatsWon[p]===0);
+    if(neverWon.length>0){
+      const sorted = neverWon.slice().sort((a,b)=>tally[a]-tally[b]);
+      const loser = sorted[0];
+      const loserVotes = tally[loser];
+      tally[loser] = 0;
+      status[loser] = 'eliminated';
+      if(loserVotes>1e-9){
+        distribute(loser, loserVotes, tally, contesting().filter(x=>x!==loser));
+      }
+    } else {
+      // everyone left has already won at least once; force-elect the highest
+      const sorted = active.slice().sort((a,b)=>tally[b]-tally[a]);
+      const p = sorted[0];
+      seatsWon[p]++;
+      seatsLeft--;
+      tally[p] = 0;
+    }
+  }
+  return seatsWon;
+}
+
+// Scales every party in a ward by the ratio between the user's national
+// input and the 2022 baseline. Major parties use their own slider; every
+// minor party shares the single "Other" slider's ratio, which keeps their
+// relative local proportions fixed while letting the user dial the overall
+// fringe vote up or down. Reform has no real 2022 ward data, so it's handled
+// separately: its ratio is computed against REFORM_BASELINE_ANCHOR and
+// applied to its notional geographic "shape" for this ward, then mixed into
+// the same pool as everyone else before renormalising. At the default 0%
+// slider this contributes nothing, exactly matching the real 2022 result.
+function applySwing(wardParties, nationalInput, reformShapeValue){
+  let raw = {};
+  let sum = 0;
+  Object.keys(wardParties).forEach(p => {
+    const base = wardParties[p];
+    if(base && base>0){
+      let ratio;
+      if(MAJOR_PARTIES.indexOf(p) !== -1){
+        ratio = (BASELINE_2022[p]>0) ? (nationalInput[p]/BASELINE_2022[p]) : 1;
+      } else {
+        ratio = (OTHER_BASELINE>0) ? (nationalInput.Oth/OTHER_BASELINE) : 1;
+      }
+      const v = base * ratio;
+      raw[p] = v;
+      sum += v;
+    }
+  });
+  const reformRatio = (nationalInput.Reform||0) / REFORM_BASELINE_ANCHOR;
+  if(reformRatio > 0 && reformShapeValue > 0){
+    const v = reformShapeValue * reformRatio;
+    raw.Reform = v;
+    sum += v;
+  }
+  if(sum<=0) return raw;
+  let out = {};
+  Object.keys(raw).forEach(p => out[p] = raw[p]*100/sum);
+  return out;
+}
+
+function runProjection(nationalInput){
+  let totals = {};
+  let byCouncil = {};
+  for(const councilName in WARD_DATA){
+    const council = WARD_DATA[councilName];
+    const shapesForCouncil = REFORM_SHAPE[councilName] || {};
+    const councilSeats = {};
+    const councilVoteWeighted = {};
+    let councilSeatWeight = 0;
+    council.wards.forEach(ward => {
+      const reformShapeValue = shapesForCouncil[ward.name] || 0;
+      const swung = applySwing(ward.parties, nationalInput, reformShapeValue);
+      const won = countWard(swung, ward.seats);
+      Object.keys(won).forEach(p => {
+        totals[p] = (totals[p]||0) + won[p];
+        councilSeats[p] = (councilSeats[p]||0) + won[p];
+      });
+      // Vote share: uniform swing applied to first preferences, aggregated
+      // for the council weighted by each ward's seat count (the best proxy
+      // available for ward size, since raw vote totals aren't stored).
+      Object.keys(swung).forEach(p => {
+        councilVoteWeighted[p] = (councilVoteWeighted[p]||0) + swung[p]*ward.seats;
+      });
+      councilSeatWeight += ward.seats;
+    });
+    const councilVoteShare = {};
+    Object.keys(councilVoteWeighted).forEach(p => {
+      councilVoteShare[p] = councilVoteWeighted[p] / councilSeatWeight;
+    });
+    byCouncil[councilName] = {seats: councilSeats, voteShare: councilVoteShare, totalSeats: council.total_seats};
+  }
+  return {national: totals, byCouncil: byCouncil};
+}
+
+// ---------- UI ----------
+
+const SLIDER_PARTIES = MAJOR_PARTIES;
+let state = Object.assign({}, BASELINE_2022, {Oth: OTHER_BASELINE, Reform: 0});
+let lastProjection = null;
+
+const slidersEl = document.getElementById('sliders');
+const totalPill = document.getElementById('totalPill');
+
+// "Other" isn't user-adjustable — it's whatever's left over once the six
+// main parties are set, so the total always comes to 100% by construction.
+function recomputeOther(){
+  const majorSum = MAJOR_PARTIES.reduce((s,p)=>s+state[p],0);
+  state.Oth = Math.max(0, Math.round((100 - majorSum)*10)/10);
+  const readout = document.getElementById('otherReadout');
+  const fill = document.getElementById('otherFill');
+  if(readout) readout.textContent = state.Oth.toFixed(1) + '%';
+  if(fill) fill.style.width = Math.min(100, state.Oth) + '%';
+}
+
+function buildSliders(){
+  slidersEl.innerHTML = '';
+  SLIDER_PARTIES.forEach(p => {
+    const row = document.createElement('div');
+    row.className = 'slider-row';
+    row.innerHTML = `
+      <div class="slider-top">
+        <div class="party-label"><span class="swatch" style="background:${PARTY_COLORS[p]}"></span>${PARTY_NAMES[p]}</div>
+        <input class="pct-input" type="number" min="0" max="100" step="0.1" id="num-${p}" value="${state[p].toFixed(1)}">
+      </div>
+      <input type="range" min="0" max="70" step="0.1" id="range-${p}" value="${state[p]}" style="--track-color:${PARTY_COLORS[p]}">
+    `;
+    slidersEl.appendChild(row);
+  });
+
+  const otherRow = document.createElement('div');
+  otherRow.className = 'slider-row other-row';
+  otherRow.innerHTML = `
+    <div class="slider-top">
+      <div class="party-label"><span class="swatch" style="background:${PARTY_COLORS.Oth}"></span>Other (all minor parties)</div>
+      <div class="pct-input other-readout" id="otherReadout">${state.Oth.toFixed(1)}%</div>
+    </div>
+    <div class="other-track"><div class="other-fill" id="otherFill" style="background:${PARTY_COLORS.Oth}"></div></div>
+    <div class="other-note">Calculated automatically as whatever's left over, so the total always reaches 100%</div>
+  `;
+  slidersEl.appendChild(otherRow);
+
+  SLIDER_PARTIES.forEach(p => {
+    const range = document.getElementById('range-'+p);
+    const num = document.getElementById('num-'+p);
+    range.addEventListener('input', () => {
+      state[p] = parseFloat(range.value);
+      num.value = state[p].toFixed(1);
+      update();
+    });
+    num.addEventListener('input', () => {
+      let v = parseFloat(num.value);
+      if(isNaN(v)) v = 0;
+      v = Math.max(0, Math.min(100, v));
+      state[p] = v;
+      range.value = Math.min(70, v);
+      update();
+    });
+  });
+  recomputeOther();
+}
+
+function update(){
+  recomputeOther();
+  const total = MAJOR_PARTIES.reduce((s,p)=>s+state[p],0) + state.Oth;
+  totalPill.textContent = total.toFixed(1) + '%';
+  totalPill.className = 'total-pill ' + (Math.abs(total-100) < 0.6 ? 'ok' : 'warn');
+
+  const projection = runProjection(state);
+  const results = projection.national;
+  lastProjection = projection;
+
+  // Only parties that actually win at least one seat are shown, sorted
+  // together (major and minor) by seat count, just like a real results table.
+  const sortedParties = Object.keys(results)
+    .filter(p => results[p] > 1e-6)
+    .sort((a,b)=>results[b]-results[a]);
+  const top = sortedParties[0];
+  const seatTotal = sortedParties.reduce((s,p)=>s+results[p],0);
+  const hasMajority = results[top] >= MAJORITY;
+  const statStrip = document.getElementById('statStrip');
+  statStrip.innerHTML = `
+    <div><div class="num" style="color:${PARTY_COLORS[top]}">${PARTY_NAMES[top]}</div><div class="lbl">Largest party</div></div>
+    <div><div class="num">${Math.round(results[top])}</div><div class="lbl">Seats for ${PARTY_NAMES[top]}</div></div>
+    <div><div class="num">${hasMajority ? 'Yes' : 'No'}</div><div class="lbl">Outright majority</div></div>
+    <div><div class="num">${Math.round(seatTotal)}</div><div class="lbl">Seats counted / 1226</div></div>
+  `;
+
+  // seat bar
+  const seatBar = document.getElementById('seatBar');
+  seatBar.innerHTML = '';
+  sortedParties.forEach(p => {
+    const div = document.createElement('div');
+    div.style.width = (results[p]/TOTAL_SEATS*100) + '%';
+    div.style.background = PARTY_COLORS[p];
+    div.title = PARTY_NAMES[p] + ': ' + Math.round(results[p]);
+    seatBar.appendChild(div);
+  });
+
+  const majorityTick = document.getElementById('majorityTick');
+  const majPct = MAJORITY/TOTAL_SEATS*100;
+  majorityTick.innerHTML = `<div class="tick" style="left:${majPct}%"></div><div class="ticklabel" style="left:${majPct}%">Majority (${MAJORITY})</div>`;
+
+  // table — major parties show their own slider %; every minor party shows
+  // a share of the combined "Other" slider, proportional to its share of
+  // the projected minor-party seats (a reasonable vote-share stand-in since
+  // they don't have their own slider).
+  const body = document.getElementById('resultsBody');
+  body.innerHTML = '';
+  sortedParties.forEach(p => {
+    const seats = Math.round(results[p]);
+    const baseline2022 = SEATS_2022[p] || 0;
+    const delta = seats - baseline2022;
+    const deltaClass = delta>0 ? 'delta-pos' : (delta<0 ? 'delta-neg' : 'delta-zero');
+    const deltaStr = delta>0 ? ('+'+delta) : (delta===0?'\u2014':delta);
+    const seatShare = (results[p]/TOTAL_SEATS*100).toFixed(1);
+    const voteShareStr = MAJOR_PARTIES.indexOf(p) !== -1 ? (state[p].toFixed(1)+'%') : '—';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div class="party-cell"><span class="swatch" style="background:${PARTY_COLORS[p]}"></span>${PARTY_NAMES[p]}</div></td>
+      <td>${voteShareStr}</td>
+      <td><b>${seats}</b></td>
+      <td>${seatShare}%</td>
+      <td class="${deltaClass}">${deltaStr}</td>
+    `;
+    body.appendChild(tr);
+  });
+
+  renderCouncilBreakdown();
+}
+
+const COUNCIL_NAMES = Object.keys(WARD_DATA).sort();
+const councilSelect = document.getElementById('councilSelect');
+
+function buildCouncilSelector(){
+  councilSelect.innerHTML = COUNCIL_NAMES.map(name =>
+    `<option value="${name}">${name}</option>`
+  ).join('');
+  councilSelect.addEventListener('change', renderCouncilBreakdown);
+}
+
+function renderCouncilBreakdown(){
+  if(!lastProjection) return;
+  const councilName = councilSelect.value || COUNCIL_NAMES[0];
+  const data = lastProjection.byCouncil[councilName];
+  if(!data) return;
+
+  const sortedParties = Object.keys(data.seats)
+    .filter(p => data.seats[p] > 1e-6)
+    .sort((a,b)=>data.seats[b]-data.seats[a]);
+  const seatTotal = sortedParties.reduce((s,p)=>s+data.seats[p],0);
+
+  document.getElementById('councilStatLine').textContent =
+    `${data.totalSeats} seats across this council`;
+
+  const seatBar = document.getElementById('councilSeatBar');
+  seatBar.innerHTML = '';
+  sortedParties.forEach(p => {
+    const div = document.createElement('div');
+    div.style.width = (data.seats[p]/data.totalSeats*100) + '%';
+    div.style.background = PARTY_COLORS[p];
+    div.title = PARTY_NAMES[p] + ': ' + Math.round(data.seats[p]);
+    seatBar.appendChild(div);
+  });
+
+  const body = document.getElementById('councilResultsBody');
+  body.innerHTML = '';
+  sortedParties.forEach(p => {
+    const seats = Math.round(data.seats[p]);
+    const seatShare = (data.seats[p]/data.totalSeats*100).toFixed(1);
+    const voteShare = data.voteShare[p] !== undefined ? data.voteShare[p].toFixed(1)+'%' : '—';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div class="party-cell"><span class="swatch" style="background:${PARTY_COLORS[p]}"></span>${PARTY_NAMES[p]}</div></td>
+      <td>${voteShare}</td>
+      <td><b>${seats}</b></td>
+      <td>${seatShare}%</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  state = Object.assign({}, BASELINE_2022, {Oth: OTHER_BASELINE, Reform: 0});
+  buildSliders();
+  update();
+});
+
+buildCouncilSelector();
+buildSliders();
+update();
+</script>
+
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
