@@ -65,18 +65,22 @@
         }
 
         /* The hidden dropdown content menu */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: white;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
-            border-radius: 6px;
-            padding: 8px 0;
-            margin-top: 10px;
-            z-index: 1000;
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    padding: 8px 0;
+    z-index: 1000;
+    
+    /* FIX: Creates a seamless bridge for your cursor */
+    border-top: 10px solid transparent; 
+    background-clip: padding-box;
+}
         }
 
         /* Links inside the dropdown */
