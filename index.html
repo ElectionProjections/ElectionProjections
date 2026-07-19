@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My GitHub Page</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 30px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* --- THE DROPDOWN CODE --- */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* The button/link that triggers the dropdown */
+        .dropdown-trigger {
+            cursor: pointer;
+            color: #adbac7;
+        }
+
+        /* The hidden dropdown content menu */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+            border-radius: 6px;
+            padding: 8px 0;
+            margin-top: 10px;
+            z-index: 1000;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-menu a {
+            color: #24292f;
+            padding: 10px 16px;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f6f8fa;
+            color: #0969da; /* GitHub link blue */
+        }
+
+        /* Show the dropdown menu when hovering over the trigger container */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Page Content Area */
+        .content {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar">
+        <a href="#" class="nav-logo">My Project Space</a>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            
+            <!-- Dropdown Tab -->
+            <li class="dropdown">
+                <span class="dropdown-trigger">Browse Pages ▾</span>
+                <div class="dropdown-menu">
+                    <a href="page1.html">Project Analysis</a>
+                    <a href="page2.html">Live Dashboard</a>
+                    <a href="page3.html">Documentation</a>
+                </div>
+            </li>
+
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1>Welcome to My Website</h1>
+        <p>This page is hosted entirely for free on GitHub Pages. Use the menu above to navigate through different sections of the project.</p>
+    </div>
+
+</body>
+</html>
