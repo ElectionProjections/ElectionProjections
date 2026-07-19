@@ -29,7 +29,7 @@
             font-weight: bold;
             text-decoration: none;
             font-size: 1.2rem;
-            margin-right: 40px; /* Pushes the menu items out a bit */
+            margin-right: 40px;
         }
 
         /* Navigation Links Menu */
@@ -38,17 +38,16 @@
             list-style: none;
             margin: 0;
             padding: 0;
-            gap: 25px; /* Visual spacing between each menu item */
+            gap: 25px;
         }
 
         .nav-links a {
-            color: #adbac7; /* GitHub muted gray link color */
+            color: #adbac7;
             text-decoration: none;
             font-size: 0.95rem;
             transition: color 0.2s;
         }
 
-        /* Highlights the link when hovered over */
         .nav-links a:hover {
             color: white;
         }
@@ -64,23 +63,24 @@
 </head>
 <body>
 
-    <!-- Header / Navbar -->
-    <nav class="navbar">
-        <a href="index.html" class="nav-logo">Election Projections</a>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="australia.html">Australia</a></li>
-            <li><a href="germany.html">Germany</a></li>
-            <li><a href="malaysia.html">Malaysia</a></li>
-            <li><a href="about.html">About</a></li>
-        </ul>
-    </nav>
+    <!-- Header / Navbar (Now populates automatically!) -->
+    <nav class="navbar" id="global-nav"></nav>
 
     <!-- Main Content -->
     <div class="content">
         <h1>Welcome to My Website</h1>
         <p>This page is hosted entirely for free on GitHub Pages. Use the menu links above to jump straight to different country dashboards or code sections.</p>
     </div>
+
+    <!-- The Magic Script: Feeds navbar.html layout straight into the page -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
 
 </body>
 </html>
