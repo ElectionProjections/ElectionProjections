@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chamber of Deputies Seat Projector</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --paper:#EEEAE0;
+  --paper-raised:#F6F3EB;
+  --ink:#1C1B19;
+  --ink-soft:#5B564C;
+  --rule:#C7BFA9;
+  --seal:#9C4B3E;
+  --seal-soft:#DCB8AF;
+  --avs:#C2185B;
+  --pd:#E2231A;
+  --piue:#F2A71B;
+  --ic:#8A7355;
+  --m5s:#E0C200;
+  --aiv:#00ABA9;
+  --fi:#1E90D8;
+  --nm:#6B8CAE;
+  --lega:#1E8A3C;
+  --fdi:#1A2F66;
+  --other:#C9C2B0;
+  --warn:#B23A2E;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'IBM Plex Sans', sans-serif;
+  padding:28px 18px 60px;
+}
+.wrap{max-width:960px;margin:0 auto;}
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--seal);
+  font-weight:600;
+}
+h1{
+  font-family:'Source Serif 4', serif;
+  font-weight:700;
+  font-size:34px;
+  margin:6px 0 8px;
+  letter-spacing:-0.01em;
+}
+.lede{
+  font-size:14.5px;
+  color:var(--ink-soft);
+  max-width:680px;
+  line-height:1.55;
+  margin:0 0 22px;
+}
+.presets{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+button.preset{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11.5px;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  background:var(--paper-raised);
+  border:1px solid var(--rule);
+  color:var(--ink);
+  padding:9px 14px;
+  cursor:pointer;
+  border-radius:2px;
+  transition:border-color .15s, background .15s;
+}
+button.preset:hover{border-color:var(--seal);background:#fff;}
+button.preset.primary{
+  background:var(--ink);
+  color:var(--paper);
+  border-color:var(--ink);
+}
+button.preset.primary:hover{background:#332f29;}
+
+.panel{
+  background:var(--paper-raised);
+  border:1px solid var(--rule);
+  border-radius:3px;
+  padding:24px 24px 18px;
+  margin-bottom:20px;
+}
+
+/* hemicycle */
+#hemicycle-svg{width:100%;height:auto;display:block;}
+.seat{transition:fill .25s ease;}
+.majority-label{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:10.5px;
+  fill:var(--seal);
+}
+.majority-line{stroke:var(--seal);stroke-width:1.2;stroke-dasharray:3 3;}
+
+.summary-strip{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 16px;
+  align-items:center;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--rule);
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12.5px;
+}
+.chip{display:flex;align-items:center;gap:6px;}
+.swatch{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.headline-stat{
+  font-family:'Source Serif 4', serif;
+  font-size:15px;
+  color:var(--ink);
+  margin-top:10px;
+}
+.headline-stat .num{font-weight:700;}
+.wasted-note{
+  font-size:12px;
+  color:var(--ink-soft);
+  margin-top:6px;
+}
+
+/* controls */
+.section-title{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  margin:0 0 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.section-title::after{content:'';flex:1;height:1px;background:var(--rule);}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+@media (max-width:680px){.cols{grid-template-columns:1fr;}}
+
+.party-row{
+  display:grid;
+  grid-template-columns:14px 1fr 56px 44px;
+  align-items:center;
+  gap:10px;
+  padding:9px 0;
+  border-bottom:1px solid #00000008;
+}
+.party-row label.name{font-size:13.5px;}
+.party-row input[type=range]{
+  width:100%;
+  accent-color:var(--ink);
+}
+.party-row input[type=number]{
+  width:56px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12.5px;
+  border:1px solid var(--rule);
+  background:#fff;
+  padding:4px 5px;
+  border-radius:2px;
+}
+
+.coalition-box{
+  margin:6px 0 10px;
+  padding:9px 11px;
+  background:#00000006;
+  border-left:2px solid var(--seal-soft);
+  border-radius:0 2px 2px 0;
+}
+.coalition-box label{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  font-size:12px;
+  color:var(--ink-soft);
+  cursor:pointer;
+  line-height:1.4;
+}
+.coalition-box input{margin-top:2px;}
+.coalition-box .thresh-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  color:var(--seal);
+}
+
+.others-row{
+  font-size:12px;
+  color:var(--ink-soft);
+  margin-top:10px;
+  font-family:'IBM Plex Mono', monospace;
+}
+.warn{color:var(--warn);font-weight:600;}
+
+footer{
+  margin-top:26px;
+  font-size:11.5px;
+  line-height:1.6;
+  color:var(--ink-soft);
+  border-top:1px solid var(--rule);
+  padding-top:16px;
+}
+footer strong{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">400 Seats · Rosatellum · 147 FPTP + 245 PR + 8 Overseas</div>
+  <h1>Chamber of Deputies Seat Projector</h1>
+  <p class="lede">Adjust national vote shares to see a projected seat distribution for Italy's Chamber of Deputies under the Rosatellum — the mixed system currently in force. About 37% of seats go to first-past-the-post winners in 147 single-member constituencies; the rest are proportional, calculated nationally with a 3% threshold for parties and 10% for coalitions.</p>
+
+  <div class="presets">
+    <button class="preset primary" id="btn2022">Load 2022 election result</button>
+    <button class="preset" id="btnReset">Reset to zero</button>
+  </div>
+
+  <div class="cols">
+    <div class="panel">
+      <div class="section-title">Centre-left &amp; M5S</div>
+
+      <div class="party-row">
+        <span class="swatch" style="background:var(--avs)"></span>
+        <label class="name">Greens and Left Alliance (AVS)</label>
+        <input type="range" id="slider-avs" min="0" max="30" step="0.1">
+        <input type="number" id="num-avs" min="0" max="30" step="0.1">
+      </div>
+      <div class="party-row">
+        <span class="swatch" style="background:var(--pd)"></span>
+        <label class="name">Democratic Party (PD)</label>
+        <input type="range" id="slider-pd" min="0" max="40" step="0.1">
+        <input type="number" id="num-pd" min="0" max="40" step="0.1">
+      </div>
+      <div class="party-row">
+        <span class="swatch" style="background:var(--piue)"></span>
+        <label class="name">+Europa (+E)</label>
+        <input type="range" id="slider-piue" min="0" max="20" step="0.1">
+        <input type="number" id="num-piue" min="0" max="20" step="0.1">
+      </div>
+      <div class="party-row">
+        <span class="swatch" style="background:var(--ic)"></span>
+        <label class="name">Civic Commitment (IC)</label>
+        <input type="range" id="slider-ic" min="0" max="20" step="0.1">
+        <input type="number" id="num-ic" min="0" max="20" step="0.1">
+      </div>
+      <div class="coalition-box">
+        <label><input type="checkbox" id="coal-csx"> Run as the joint centre-left coalition <span class="thresh-tag">(10% threshold combined)</span></label>
+      </div>
+
+      <div class="party-row">
+        <span class="swatch" style="background:var(--m5s)"></span>
+        <label class="name">Five Star Movement (M5S)</label>
+        <input type="range" id="slider-m5s" min="0" max="40" step="0.1">
+        <input type="number" id="num-m5s" min="0" max="40" step="0.1">
+      </div>
+      <div class="party-row">
+        <span class="swatch" style="background:var(--aiv)"></span>
+        <label class="name">Azione – Italia Viva (A–IV)</label>
+        <input type="range" id="slider-aiv" min="0" max="30" step="0.1">
+        <input type="number" id="num-aiv" min="0" max="30" step="0.1">
+      </div>
+
+      <div class="others-row" id="othersRow"></div>
+    </div>
+
+    <div class="panel">
+      <div class="section-title">Centre-right</div>
+
+      <div class="party-row">
+        <span class="swatch" style="background:var(--fi)"></span>
+        <label class="name">Forza Italia (FI)</label>
+        <input type="range" id="slider-fi" min="0" max="30" step="0.1">
+        <input type="number" id="num-fi" min="0" max="30" step="0.1">
+      </div>
+      <div class="party-row">
+        <span class="swatch" style="background:var(--nm)"></span>
+        <label class="name">Us Moderates (NM)</label>
+        <input type="range" id="slider-nm" min="0" max="20" step="0.1">
+        <input type="number" id="num-nm" min="0" max="20" step="0.1">
+      </div>
+      <div class="party-row">
+        <span class="swatch" style="background:var(--lega)"></span>
+        <label class="name">League (Lega)</label>
+        <input type="range" id="slider-lega" min="0" max="30" step="0.1">
+        <input type="number" id="num-lega" min="0" max="30" step="0.1">
+      </div>
+      <div class="party-row">
+        <span class="swatch" style="background:var(--fdi)"></span>
+        <label class="name">Brothers of Italy (FdI)</label>
+        <input type="range" id="slider-fdi" min="0" max="50" step="0.1">
+        <input type="number" id="num-fdi" min="0" max="50" step="0.1">
+      </div>
+      <div class="coalition-box">
+        <label><input type="checkbox" id="coal-cdx"> Run as the joint centre-right coalition <span class="thresh-tag">(10% threshold combined)</span></label>
+      </div>
+
+      <div class="section-title" style="margin-top:22px;">About the thresholds</div>
+      <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.6;margin:0;">
+        Solo parties need <strong>3%</strong> nationally to win proportional seats; coalitions need <strong>10%</strong> combined. Inside a winning coalition, a member polling 1–3% gets no seats of its own — its votes pass proportionally to coalition partners above 3%. Below 1%, votes are simply lost.
+      </p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <svg id="hemicycle-svg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="summary-strip" id="summaryStrip"></div>
+    <div class="headline-stat" id="headlineStat"></div>
+    <div class="wasted-note" id="wastedNote"></div>
+  </div>
+
+  <footer>
+    <strong>Method.</strong> The Rosatellum elects 400 deputies three ways: 147 in single-member constituencies by plurality (FPTP), 245 in proportional seats calculated nationally, and 8 from constituencies abroad. <strong>Proportional seats</strong> use the official two-stage process — Hare quota with largest remainders, first among coalitions/parties that clear the threshold, then within each coalition among its qualifying lists — which should land within a seat or two of the certified 2022 figures (a further regional-distribution step in the real law isn't modelled here). <strong>FPTP seats</strong> can't be modelled district-by-district the way Poland's PR seats were, since only coalition-level results by region are published, not vote shares for all 147 races — so this tool uses a national swing model calibrated to reproduce the actual 2022 coalition-level outcome (centre-right 121, centre-left 12, M5S 10, regional parties 4) exactly, then scales from there. Seats inside each coalition are split using the actual 2022 candidacy allocation between partners, since that's negotiated rather than vote-proportional. South Tyrol's People's Party (3 seats), South calls North (1), Aosta Valley (1), and the Associative Movement of Italians Abroad (1) are fixed at their 2022 levels — fields too regionally specific for a national model — alongside the 7 overseas seats won by PD, FdI, and M5S in 2022.<br><br>
+    <strong>Sources.</strong> 2022 results: Italian Ministry of the Interior, via Wikipedia's certified results breakdown.
+  </footer>
+
+</div>
+
+<script>
+const TOTAL_SEATS = 400;
+const MAJORITY = 201;
+const PR_SEATS = 244; // of 245 domestic PR seats; 1 reserved for SVP-PATT (South Tyrol minority exemption)
+const FPTP_SEATS = 143; // of 147 FPTP seats; 4 fixed to regional parties (SVP-PATT 2, South calls North 1, Aosta Valley 1)
+const FIXED_OTHER = 6; // SVP-PATT (3 total) + South calls North (1) + Aosta Valley (1) + MAIE overseas (1)
+
+const IDS = ['fdi','lega','fi','nm','pd','avs','piue','ic','m5s','aiv'];
+
+const BASELINE_VOTES = {
+  fdi:7301303, lega:2470318, fi:2279266, nm:254127,
+  pd:5348676, avs:1021808, piue:796057, ic:173555,
+  m5s:4335494, aiv:2186505,
+};
+const TOTAL_VALID = 28098196;
+const BASELINE_NATIONAL = {};
+IDS.forEach(k => BASELINE_NATIONAL[k] = BASELINE_VOTES[k]/TOTAL_VALID*100);
+
+const COLORS = {
+  avs:'#C2185B', pd:'#E2231A', piue:'#F2A71B', ic:'#8A7355',
+  m5s:'#E0C200', aiv:'#00ABA9',
+  fi:'#1E90D8', nm:'#6B8CAE', lega:'#1E8A3C', fdi:'#1A2F66',
+  other:'#C9C2B0',
+};
+const LABELS = {
+  fdi:'Brothers of Italy', lega:'League', fi:'Forza Italia', nm:'Us Moderates',
+  pd:'Democratic Party', avs:'Greens & Left', piue:'+Europa', ic:'Civic Commitment',
+  m5s:'M5S', aiv:'Azione–IV',
+};
+
+const PRESET_2022 = { values: { ...BASELINE_NATIONAL }, coalitions: { cdx:true, csx:true } };
+const PRESET_ZERO = { values: Object.fromEntries(IDS.map(k=>[k,0])), coalitions: { cdx:true, csx:true } };
+
+function readState(){
+  const values = {};
+  IDS.forEach(id => values[id] = parseFloat(document.getElementById('num-'+id).value) || 0);
+  const coalitions = {
+    cdx: document.getElementById('coal-cdx').checked,
+    csx: document.getElementById('coal-csx').checked,
+  };
+  return { values, coalitions };
+}
+
+function applyState(state){
+  IDS.forEach(id => {
+    const v = state.values[id];
+    document.getElementById('slider-'+id).value = v;
+    document.getElementById('num-'+id).value = v;
+  });
+  document.getElementById('coal-cdx').checked = state.coalitions.cdx;
+  document.getElementById('coal-csx').checked = state.coalitions.csx;
+  recalc();
+}
+
+// ---- D'Hondt-free Hare quota / largest remainder ----
+function hareLargestRemainder(units, seats, quota){
+  const result = {};
+  let flooredSum = 0;
+  const remainders = [];
+  units.forEach(u => {
+    const exact = quota > 0 ? u.value/quota : 0;
+    const floor = Math.floor(exact);
+    result[u.id] = floor;
+    flooredSum += floor;
+    remainders.push({ id:u.id, rem: exact-floor });
+  });
+  let remaining = seats - flooredSum;
+  remainders.sort((a,b)=>b.rem-a.rem);
+  let i = 0;
+  while (remaining > 0 && remainders.length>0){
+    result[remainders[i % remainders.length].id]++;
+    remaining--; i++;
+  }
+  return result;
+}
+
+const COALITION_MEMBERS = { cdx:['fdi','lega','fi','nm'], csx:['pd','avs','piue','ic'] };
+
+function allocatePR(values, coalitions){
+  const units = [];
+  ['cdx','csx'].forEach(cid => {
+    const members = COALITION_MEMBERS[cid];
+    if (coalitions[cid]){
+      const total = members.reduce((s,m)=>s+values[m],0);
+      if (total/100*TOTAL_VALID/TOTAL_VALID*100 >= 10) units.push({id:'U_'+cid, value:total, type:'coalition', members, cid});
+    } else {
+      members.forEach(m => { if (values[m] >= 3) units.push({id:'U_'+m, value:values[m]*TOTAL_VALID/100, type:'list', members:[m]}); });
+    }
+  });
+  ['m5s','aiv'].forEach(m => { if (values[m] >= 3) units.push({id:'U_'+m, value:values[m]*TOTAL_VALID/100, type:'list', members:[m]}); });
+
+  // recompute coalition unit values in raw votes for internal consistency
+  units.forEach(u => { if (u.type==='coalition') u.value = u.members.reduce((s,m)=>s+values[m]*TOTAL_VALID/100,0); });
+
+  const result = {}; IDS.forEach(k=>result[k]=0);
+  if (units.length === 0) return result;
+
+  const qualSum = units.reduce((s,u)=>s+u.value,0);
+  const quota = qualSum/PR_SEATS;
+  const stage1 = hareLargestRemainder(units, PR_SEATS, quota);
+
+  units.forEach(u => {
+    const seats = stage1[u.id]||0;
+    if (seats===0) return;
+    if (u.type==='list'){
+      result[u.members[0]] = seats;
+    } else {
+      const quals=[], pooled=[];
+      u.members.forEach(m => {
+        if (values[m] >= 3) quals.push(m);
+        else if (values[m] >= 1) pooled.push(m);
+      });
+      if (quals.length===0) return;
+      const poolSum = pooled.reduce((s,m)=>s+values[m]*TOTAL_VALID/100,0);
+      const qualSum2 = quals.reduce((s,m)=>s+values[m]*TOTAL_VALID/100,0) || 1;
+      const adjUnits = quals.map(m => {
+        const own = values[m]*TOTAL_VALID/100;
+        return { id:m, value: own + poolSum*(own/qualSum2) };
+      });
+      const adjSum = adjUnits.reduce((s,a)=>s+a.value,0);
+      const sub = hareLargestRemainder(adjUnits, seats, adjSum/seats);
+      Object.entries(sub).forEach(([id,n])=>{ result[id]=n; });
+    }
+  });
+  return result;
+}
+
+const FPTP_BASELINE_GROUP_PCT = {
+  cdx: BASELINE_NATIONAL.fdi+BASELINE_NATIONAL.lega+BASELINE_NATIONAL.fi+BASELINE_NATIONAL.nm,
+  csx: BASELINE_NATIONAL.pd+BASELINE_NATIONAL.avs+BASELINE_NATIONAL.piue+BASELINE_NATIONAL.ic,
+  m5s: BASELINE_NATIONAL.m5s,
+  aiv: BASELINE_NATIONAL.aiv,
+};
+const FPTP_REAL_SEATS = { cdx:121, csx:12, m5s:10, aiv:0 };
+const FPTP_FACTORS = {
+  cdx: FPTP_REAL_SEATS.cdx / (FPTP_BASELINE_GROUP_PCT.cdx/100*FPTP_SEATS),
+  csx: FPTP_REAL_SEATS.csx / (FPTP_BASELINE_GROUP_PCT.csx/100*FPTP_SEATS),
+  m5s: FPTP_REAL_SEATS.m5s / (FPTP_BASELINE_GROUP_PCT.m5s/100*FPTP_SEATS),
+  aiv: 0.25, // floor — A-IV won 0 FPTP seats in 2022; avoid a hard-zero that can never respond to input
+};
+const FPTP_CANDIDACY_RATIO = {
+  cdx: { fdi:48/121, lega:43/121, fi:23/121, nm:7/121 },
+  csx: { pd:8/12, avs:1/12, piue:2/12, ic:1/12 },
+  m5s: { m5s:1 },
+  aiv: { aiv:1 },
+};
+
+function allocateFPTP(values){
+  const groupPct = {
+    cdx: values.fdi+values.lega+values.fi+values.nm,
+    csx: values.pd+values.avs+values.piue+values.ic,
+    m5s: values.m5s,
+    aiv: values.aiv,
+  };
+  const naive = {}; Object.keys(groupPct).forEach(g => naive[g] = groupPct[g]/100*FPTP_SEATS);
+  const scaled = {}; Object.keys(naive).forEach(g => scaled[g] = naive[g]*FPTP_FACTORS[g]);
+  const scaledSum = Object.values(scaled).reduce((a,b)=>a+b,0) || 1;
+  const norm = {}; Object.keys(scaled).forEach(g => norm[g] = scaled[g]*FPTP_SEATS/scaledSum);
+
+  const floors = {}; let flooredSum = 0;
+  Object.entries(norm).forEach(([g,v]) => { floors[g]=Math.floor(v); flooredSum+=floors[g]; });
+  let remainder = FPTP_SEATS-flooredSum;
+  const rema = Object.entries(norm).map(([g,v])=>({g,rem:v-floors[g]})).sort((a,b)=>b.rem-a.rem);
+  let idx=0;
+  while (remainder>0 && rema.length>0){ floors[rema[idx%rema.length].g]++; remainder--; idx++; }
+
+  const result = {}; IDS.forEach(k=>result[k]=0);
+  Object.entries(floors).forEach(([g,seats]) => {
+    const ratios = FPTP_CANDIDACY_RATIO[g];
+    const units = Object.entries(ratios).map(([id,r])=>({id, value:r}));
+    const sub = hareLargestRemainder(units, seats, 1/seats || 1);
+    Object.entries(sub).forEach(([id,n])=>{ result[id]=n; });
+  });
+  return result;
+}
+
+function calculateSeats(values, coalitions){
+  const pr = allocatePR(values, coalitions);
+  const fptp = allocateFPTP(values);
+  const total = {};
+  IDS.forEach(k => total[k] = (pr[k]||0)+(fptp[k]||0));
+  // fixed overseas bonuses won by these parties in 2022, not swung by sliders
+  total.pd += 4; total.fdi += 2; total.m5s += 1;
+  total.other = FIXED_OTHER;
+  return total;
+}
+
+// ---- hemicycle geometry (static, computed once) ----
+function computeSeatPositions(total, rows, innerR, outerR, cx, cy, angleStart, angleEnd){
+  const radii = [];
+  for (let i=0;i<rows;i++) radii.push(innerR + (outerR-innerR)*(i/(rows-1)));
+  const sumR = radii.reduce((a,b)=>a+b,0);
+  let counts = radii.map(r => Math.round(total*r/sumR));
+  let diff = total - counts.reduce((a,b)=>a+b,0);
+  let order = counts.map((c,i)=>i).sort((a,b)=>radii[b]-radii[a]);
+  let oi=0;
+  while (diff!==0){
+    const i = order[oi % order.length];
+    if (diff>0){counts[i]++; diff--;} else if (counts[i]>0){counts[i]--; diff++;}
+    oi++;
+  }
+  const positions = [];
+  for (let i=0;i<rows;i++){
+    const r = radii[i], c = counts[i];
+    for (let k=0;k<c;k++){
+      const angDeg = c===1 ? (angleStart+angleEnd)/2 : angleStart - (angleStart-angleEnd)*(k/(c-1));
+      const angRad = angDeg*Math.PI/180;
+      positions.push({ x: cx + r*Math.cos(angRad), y: cy - r*Math.sin(angRad), angDeg });
+    }
+  }
+  positions.sort((a,b)=>b.angDeg-a.angDeg);
+  return positions;
+}
+
+const SEAT_POSITIONS = computeSeatPositions(TOTAL_SEATS, 9, 70, 230, 300, 270, 172, 8);
+const MAJORITY_ANGLE = SEAT_POSITIONS[MAJORITY-1].angDeg;
+
+// left-to-right political order for the hemicycle
+const ORDER = ['avs','pd','piue','ic','m5s','aiv','fi','nm','lega','fdi','other'];
+
+function renderHemicycle(seatCounts){
+  const svg = document.getElementById('hemicycle-svg');
+  let html = '';
+
+  const cx=300, cy=270, lineLen=248;
+  const rad = MAJORITY_ANGLE*Math.PI/180;
+  const lx = cx + lineLen*Math.cos(rad), ly = cy - lineLen*Math.sin(rad);
+  html += `<line class="majority-line" x1="${cx}" y1="${cy}" x2="${lx.toFixed(1)}" y2="${ly.toFixed(1)}"/>`;
+  html += `<text class="majority-label" x="${(lx+(lx>cx?6:-46)).toFixed(1)}" y="${(ly-4).toFixed(1)}">201 for majority</text>`;
+
+  let posIdx = 0;
+  ORDER.forEach(id => {
+    const n = seatCounts[id] || 0;
+    const label = id==='other' ? 'Other (regional/overseas)' : LABELS[id];
+    for (let i=0;i<n;i++){
+      const p = SEAT_POSITIONS[posIdx++];
+      html += `<circle class="seat" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.6" fill="${COLORS[id]}"><title>${label}</title></circle>`;
+    }
+  });
+  while (posIdx < SEAT_POSITIONS.length){
+    const p = SEAT_POSITIONS[posIdx++];
+    html += `<circle class="seat" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.6" fill="var(--other)"/>`;
+  }
+  svg.innerHTML = html;
+}
+
+function recalc(){
+  const state = readState();
+  const sumValues = IDS.reduce((a,id)=>a+state.values[id],0);
+  const others = Math.max(0, 100-sumValues);
+  const overflow = sumValues > 100;
+
+  const seatCounts = calculateSeats(state.values, state.coalitions);
+  renderHemicycle(seatCounts);
+
+  const sorted = [...ORDER].filter(id=>id!=='other'||seatCounts.other>0)
+    .sort((a,b)=>(seatCounts[b]||0)-(seatCounts[a]||0));
+  document.getElementById('summaryStrip').innerHTML = sorted.map(id => {
+    const label = id==='other' ? 'Other' : LABELS[id];
+    return `<span class="chip"><span class="swatch" style="background:${COLORS[id]}"></span>${label} ${seatCounts[id]||0}</span>`;
+  }).join('');
+
+  const leader = sorted[0];
+  const leaderSeats = seatCounts[leader]||0;
+  const leaderLabel = leader==='other' ? 'Other' : LABELS[leader];
+  let headline;
+  if (leaderSeats >= MAJORITY){
+    headline = `<span style="color:${COLORS[leader]||'var(--other)'}">${leaderLabel}</span> reaches a majority with <span class="num">${leaderSeats}</span> seats.`;
+  } else {
+    const gap = MAJORITY - leaderSeats;
+    headline = `<span style="color:${COLORS[leader]||'var(--other)'}">${leaderLabel}</span> leads with <span class="num">${leaderSeats}</span> seats — <span class="num">${gap}</span> short of the 201 needed for a majority.`;
+  }
+  document.getElementById('headlineStat').innerHTML = headline;
+
+  document.getElementById('wastedNote').textContent =
+    `6 seats (South Tyrol, South calls North, Aosta Valley, overseas MAIE) are fixed at their 2022 results and aren't swung by these sliders.`;
+
+  const othersEl = document.getElementById('othersRow');
+  if (overflow){
+    othersEl.innerHTML = `<span class="warn">Vote shares sum to ${sumValues.toFixed(1)}% — reduce some sliders so the total stays at or below 100%.</span>`;
+  } else {
+    othersEl.textContent = `Others / undecided: ${others.toFixed(1)}% (below threshold everywhere modelled here)`;
+  }
+}
+
+IDS.forEach(id => {
+  const slider = document.getElementById('slider-'+id);
+  const num = document.getElementById('num-'+id);
+  slider.addEventListener('input', () => { num.value = slider.value; recalc(); });
+  num.addEventListener('input', () => { slider.value = num.value; recalc(); });
+});
+['coal-cdx','coal-csx'].forEach(id => {
+  document.getElementById(id).addEventListener('change', recalc);
+});
+
+document.getElementById('btn2022').addEventListener('click', () => applyState(PRESET_2022));
+document.getElementById('btnReset').addEventListener('click', () => applyState(PRESET_ZERO));
+
+applyState(PRESET_2022);
+</script>
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
