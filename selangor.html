@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selangor DUN Seat Projector</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;padding:1.5rem;max-width:1080px;margin:0 auto;}
+h1{font-size:18px;font-weight:500;margin-bottom:1.5rem;}
+.section{margin-bottom:1.5rem;}
+.inputs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px;margin-bottom:1rem;}
+.input-card{background:#fff;border:0.5px solid #ddddd5;border-radius:12px;padding:0.75rem 1rem;}
+.input-card label{display:block;font-size:12px;font-weight:500;color:#5f5e5a;margin-bottom:5px;}
+.input-row{display:flex;align-items:center;gap:6px;}
+.input-row input[type=number]{flex:1;min-width:0;font-size:14px;border:0.5px solid #ddddd5;border-radius:6px;padding:5px 8px;outline:none;background:#fff;color:#1a1a18;}
+.input-row input[type=number]:focus{border-color:#888780;}
+.pct{font-size:13px;color:#888780;}
+.pdot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;}
+.total-warn{font-size:12px;margin-bottom:1rem;padding:7px 12px;border-radius:8px;border:0.5px solid #ddddd5;color:#5f5e5a;background:#f1efe8;}
+.total-warn.bad{color:#a32d2d;background:#fcebeb;border-color:#f09595;}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:1rem;}
+.result-card{background:#f1efe8;border-radius:8px;padding:0.75rem 1rem;}
+.result-card .pname{font-size:11px;color:#5f5e5a;margin-bottom:3px;display:flex;align-items:center;}
+.result-card .seats{font-size:24px;font-weight:500;color:#1a1a18;}
+.result-card .chg{font-size:11px;margin-top:1px;}
+.chg.pos{color:#3b6d11;}.chg.neg{color:#a32d2d;}.chg.neu{color:#888780;}
+.parl-bar{display:flex;height:22px;border-radius:8px;overflow:hidden;margin-bottom:6px;}
+.bar-legend{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:#5f5e5a;margin-bottom:1rem;}
+.bar-legend span{display:flex;align-items:center;gap:3px;}
+.majority-line{font-size:12px;color:#5f5e5a;margin-bottom:1.25rem;padding:7px 12px;background:#f1efe8;border-radius:8px;border-left:3px solid #b4b2a9;}
+.divider{border:none;border-top:0.5px solid #ddddd5;margin:1.5rem 0;}
+.coalition-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;}
+.coalition-header h3{font-size:14px;font-weight:500;color:#1a1a18;}
+.coalition-checks{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:0.75rem;}
+.coalition-checks label{display:flex;align-items:center;gap:5px;font-size:12px;color:#1a1a18;background:#fff;border:0.5px solid #b4b2a9;border-radius:8px;padding:4px 10px;cursor:pointer;user-select:none;}
+.coalition-checks label:hover{background:#f1efe8;}
+.coalition-checks input[type=checkbox]{width:13px;height:13px;}
+.coalition-result{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;background:#f1efe8;margin-bottom:0.75rem;flex-wrap:wrap;}
+.coalition-seats{font-size:22px;font-weight:500;color:#1a1a18;}
+.coalition-label{font-size:12px;color:#5f5e5a;}
+.coalition-status{font-size:12px;font-weight:500;padding:3px 10px;border-radius:8px;}
+.status-maj{background:#eaf3de;color:#3b6d11;}
+.status-short{background:#faeeda;color:#854f0b;}
+.status-none{background:#f1efe8;color:#888780;}
+.parl-grid{display:grid;grid-template-columns:repeat(14,1fr);gap:2px;margin-bottom:8px;}
+.sq{width:100%;aspect-ratio:1;border-radius:1px;transition:opacity 0.1s;}
+.grid-legend{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:#5f5e5a;margin-bottom:1.5rem;}
+.grid-legend span{display:flex;align-items:center;gap:4px;}
+.grid-legend .swatch{width:10px;height:10px;border-radius:2px;display:inline-block;}
+details summary{cursor:pointer;font-size:12px;color:#5f5e5a;padding:5px 0;user-select:none;}
+details summary:hover{color:#1a1a18;}
+.seats-table{width:100%;border-collapse:collapse;font-size:11px;}
+.seats-table th{text-align:left;padding:5px 7px;color:#5f5e5a;font-weight:500;border-bottom:0.5px solid #ddddd5;white-space:nowrap;cursor:pointer;user-select:none;}
+.seats-table th:hover{color:#1a1a18;}
+.seats-table th.sort-asc::after{content:' ↑';font-size:10px;}
+.seats-table th.sort-desc::after{content:' ↓';font-size:10px;}
+.seats-table td{padding:4px 7px;border-bottom:0.5px solid #ddddd5;color:#1a1a18;white-space:nowrap;}
+.seats-table tr:last-child td{border-bottom:none;}
+.flip-tag{font-size:10px;padding:1px 5px;border-radius:3px;background:#faeeda;color:#854f0b;margin-left:3px;}
+.minor-cell{color:#888780;font-size:10px;}
+.note{font-size:11px;color:#888780;margin-top:1.5rem;padding-top:1rem;border-top:0.5px solid #ddddd5;line-height:1.6;}
+</style>
+</head>
+<body>
+<h1>Selangor DUN seat projector — 2026 election (2023 baseline)</h1>
+<div class="section">
+  <div class="inputs-grid" id="inputsGrid"></div>
+  <div class="total-warn" id="totalWarn"></div>
+  <div class="results-grid" id="resultsGrid"></div>
+  <div class="parl-bar" id="parlBar"></div>
+  <div class="bar-legend" id="barLegend"></div>
+  <div class="majority-line" id="majorityLine"></div>
+</div>
+<hr class="divider">
+<div class="section">
+  <h3 style="font-size:14px;font-weight:500;color:#1a1a18;margin-bottom:0.75rem;">Component party breakdown</h3>
+  <div id="componentBreakdown" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;"></div>
+</div>
+<hr class="divider">
+<div class="section">
+  <h3 style="font-size:14px;font-weight:500;color:#1a1a18;margin-bottom:0.75rem;">Projected statewide vote share by component party</h3>
+  <div id="voteShareBreakdown"></div>
+</div>
+<hr class="divider">
+<div class="section">
+  <div class="coalition-header">
+    <h3>Coalition assembler</h3>
+    <span style="font-size:11px;color:#888780;">Tick coalitions to form a government</span>
+  </div>
+  <div class="coalition-checks" id="coalitionChecks"></div>
+  <div class="coalition-result">
+    <span class="coalition-seats" id="coalSeats">0</span>
+    <span class="coalition-label" id="coalLabel">seats — select coalitions above</span>
+    <span class="coalition-status status-none" id="coalStatus">-</span>
+  </div>
+  <div class="parl-grid" id="parlGrid"></div>
+  <div class="grid-legend" id="gridLegend"></div>
+</div>
+<hr class="divider">
+<details>
+  <summary>Seat-by-seat breakdown ▾</summary>
+  <div style="margin-top:8px;overflow-x:auto;">
+    <table class="seats-table">
+      <thead id="seatsHead"></thead>
+      <tbody id="seatsBody"></tbody>
+    </table>
+  </div>
+</details>
+<p class="note" id="methodNote"></p>
+<script>
+const PARTIES=[
+  {id:'PH', label:'Pakatan Harapan',   color:'#e84c4c',ge:51.23},
+  {id:'BN', label:'Barisan Nasional',  color:'#1a5ea8',ge:9.70},
+  {id:'PN', label:'Perikatan Nasional',color:'#2a8c2a',ge:38.22},
+  {id:'BP', label:'MUDA-PSM',          color:'#e67e22',ge:1.27},
+  {id:'BERSAMA',label:'BERSAMA',       color:'#8e44ad',ge:0.00},
+];
+
+const MINOR_COLORS={OTH:'#888780',IND:'#888780',PRM:'#888780'};
+
+// All parties contest all seats
+const PN_CONTEST=new Set(['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20','N21','N22','N23','N24','N25','N26','N27','N28','N29','N30','N31','N32','N33','N34','N35','N36','N37','N38','N39','N40','N41','N42','N43','N44','N45','N46','N47','N48','N49','N50','N51','N52','N53','N54','N55','N56']);
+const BP_CONTEST=new Set(['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20','N21','N22','N23','N24','N25','N26','N27','N28','N29','N30','N31','N32','N33','N34','N35','N36','N37','N38','N39','N40','N41','N42','N43','N44','N45','N46','N47','N48','N49','N50','N51','N52','N53','N54','N55','N56']);
+const BERSAMA_CONTEST=new Set(['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20','N21','N22','N23','N24','N25','N26','N27','N28','N29','N30','N31','N32','N33','N34','N35','N36','N37','N38','N39','N40','N41','N42','N43','N44','N45','N46','N47','N48','N49','N50','N51','N52','N53','N54','N55','N56']);
+
+const GS={PH:32,BN:2,PN:22,BP:0,BERSAMA:0,OTHERS:0};
+const GN={PH:51.23,BN:9.70,PN:38.22,BP:1.27,BERSAMA:0};
+
+const W23={
+  'N01':'BN','N02':'PN','N03':'PN','N04':'PH','N05':'PN','N06':'PH',
+  'N07':'PN','N08':'PN','N09':'PN','N10':'PN','N11':'PN','N12':'PN',
+  'N13':'PN','N14':'PH','N15':'PH','N16':'PH','N17':'PN','N18':'PN',
+  'N19':'PH','N20':'PH','N21':'PH','N22':'PH','N23':'BN','N24':'PN',
+  'N25':'PH','N26':'PN','N27':'PH','N28':'PH','N29':'PH','N30':'PH',
+  'N31':'PH','N32':'PH','N33':'PN','N34':'PH','N35':'PH','N36':'PH',
+  'N37':'PH','N38':'PN','N39':'PH','N40':'PH','N41':'PH','N42':'PH',
+  'N43':'PN','N44':'PN','N45':'PH','N46':'PH','N47':'PH','N48':'PH',
+  'N49':'PN','N50':'PH','N51':'PN','N52':'PH','N53':'PN','N54':'PH',
+  'N55':'PN','N56':'PH',
+};
+
+// 2026 candidate component parties per seat
+const SEAT_CANDIDATES={
+  'N01':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N02':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
+  'N03':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
+  'N04':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
+  'N05':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
+  'N06':{PH:'DAP', BN:'MCA', PN:'GERAKAN'},
+  'N07':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N08':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
+  'N09':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N10':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N11':{PH:'PKR', BN:'MIC', PN:'PAS'},
+  'N12':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
+  'N13':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N14':{PH:'PKR', BN:'MCA', PN:'BERSATU'},
+  'N15':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
+  'N16':{PH:'PKR', BN:'MIC', PN:'PAS'},
+  'N17':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N18':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N19':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N20':{PH:'PKR', BN:'UMNO',PN:'PAS'},
+  'N21':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
+  'N22':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
+  'N23':{PH:'DAP', BN:'UMNO',PN:'BERSATU'},
+  'N24':{PH:'PKR', BN:'UMNO',PN:'PAS'},
+  'N25':{PH:'PKR', BN:'MCA', PN:'BERSATU'},
+  'N26':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
+  'N27':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
+  'N28':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
+  'N29':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
+  'N30':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
+  'N31':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
+  'N32':{PH:'PKR', BN:'UMNO',PN:'PAS'},
+  'N33':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N34':{PH:'DAP', BN:'MIC', PN:'GERAKAN'},
+  'N35':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
+  'N36':{PH:'DAP', BN:'MCA', PN:'GERAKAN'},
+  'N37':{PH:'PKR', BN:'MIC', PN:'GERAKAN'},
+  'N38':{PH:'PKR', BN:'UMNO',PN:'PAS'},
+  'N39':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N40':{PH:'PKR', BN:'UMNO',PN:'PAS'},
+  'N41':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
+  'N42':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
+  'N43':{PH:'PKR', BN:'UMNO',PN:'PAS'},
+  'N44':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N45':{PH:'DAP', BN:'MCA', PN:'GERAKAN'},
+  'N46':{PH:'PKR', BN:'UMNO',PN:'PAS'},
+  'N47':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
+  'N48':{PH:'PKR', BN:'MIC', PN:'GERAKAN'},
+  'N49':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N50':{PH:'DAP', BN:'UMNO',PN:'GERAKAN'},
+  'N51':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
+  'N52':{PH:'DAP', BN:'MCA', PN:'GERAKAN'},
+  'N53':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
+  'N54':{PH:'PKR', BN:'UMNO',PN:'PAS'},
+  'N55':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N56':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
+};
+
+const SEATS=[
+  ['N01','Sungai Air Tawar',3150,4726,7031,0,14907,{}],
+  ['N02','Sabak',8487,738,13440,0,22665,{}],
+  ['N03','Sungai Panjang',5388,8081,17044,0,30513,{}],
+  ['N04','Sekinchan',9424,820,6227,0,16471,{}],
+  ['N05','Hulu Bernam',9255,805,10729,0,20789,{}],
+  ['N06','Kuala Kubu Baharu',14285,1242,11408,0,27345,{OTH:410}],
+  ['N07','Batang Kali',11735,17602,32314,0,61651,{}],
+  ['N08','Sungai Burong',3449,5173,15463,0,24085,{}],
+  ['N09','Permatang',10240,890,12858,0,23988,{}],
+  ['N10','Bukit Melawati',12702,1105,14684,0,28491,{}],
+  ['N11','Ijok',10304,896,12112,0,23667,{OTH:355}],
+  ['N12','Jeram',4539,6809,16746,0,28094,{}],
+  ['N13','Kuang',5622,8432,18928,0,33484,{OTH:502}],
+  ['N14','Rawang',36063,3136,13541,0,52740,{}],
+  ['N15','Taman Templer',20534,1786,21853,0,44845,{OTH:672}],
+  ['N16','Sungai Tua',18078,1572,14465,0,34634,{OTH:519}],
+  ['N17','Gombak Setia',12150,18224,30431,0,61730,{OTH:925}],
+  ['N18','Hulu Kelang',22096,1921,25633,0,49650,{}],
+  ['N19','Bukit Antarabangsa',28690,2495,14905,0,46791,{OTH:701}],
+  ['N20','Lembah Jaya',24212,2105,19640,0,45957,{}],
+  ['N21','Pandan Indah',25962,2258,17629,0,46547,{OTH:698}],
+  ['N22','Teratai',39140,3403,10610,0,53153,{}],
+  ['N23','Dusun Tua',11178,16767,24932,0,53682,{OTH:805}],
+  ['N24','Semenyih',14341,21511,37114,0,72966,{}],
+  ['N25','Kajang',51158,4449,21213,0,77989,{OTH:1169}],
+  ['N26','Sungai Ramal',29940,2604,40311,0,72855,{}],
+  ['N27','Balakong',50777,4415,17361,0,72553,{}],
+  ['N28','Seri Kembangan',36775,3198,3813,0,44452,{OTH:666}],
+  ['N29','Seri Serdang',34874,3033,27155,0,66052,{OTH:990}],
+  ['N30','Kinrara',65644,5708,16817,0,88169,{}],
+  ['N31','Subang Jaya',57286,4981,11077,0,74460,{OTH:1116}],
+  ['N32','Seri Setia',30377,2641,21687,0,55538,{OTH:833}],
+  ['N33','Taman Medan',20523,1785,22337,0,44645,{}],
+  ['N34','Bukit Gasing',26410,2296,3735,0,32935,{OTH:494}],
+  ['N35','Kampung Tunku',31074,2702,3399,0,37175,{}],
+  ['N36','Bandar Utama',37532,3264,5350,0,46848,{OTH:702}],
+  ['N37','Bukit Lanjan',52534,4568,15875,0,72977,{}],
+  ['N38','Paya Jaras',23272,2024,27381,0,53479,{OTH:802}],
+  ['N39','Kota Damansara',31863,2771,28941,0,64543,{OTH:968}],
+  ['N40','Kota Anggerik',36180,3146,28493,0,68851,{OTH:1032}],
+  ['N41','Batu Tiga',27256,2370,26245,0,56721,{OTH:850}],
+  ['N42','Meru',24909,2166,23653,0,51500,{OTH:772}],
+  ['N43','Sementa',20511,1784,32333,0,54628,{}],
+  ['N44','Selat Klang',6758,10138,25221,0,42758,{OTH:641}],
+  ['N45','Bandar Baru Klang',49395,4295,8019,0,61709,{}],
+  ['N46','Pelabuhan Klang',20005,1740,16515,0,38842,{OTH:582}],
+  ['N47','Pandamaran',43108,3749,6560,0,54230,{OTH:813}],
+  ['N48','Sentosa',50976,4433,9060,0,65450,{OTH:981}],
+  ['N49','Sungai Kandis',26718,2323,29208,0,59136,{OTH:887}],
+  ['N50','Kota Kemuning',37899,3296,16908,0,58987,{OTH:884}],
+  ['N51','Sijangkang',7654,11482,30443,0,49579,{}],
+  ['N52','Banting',25487,2216,5602,0,33812,{OTH:507}],
+  ['N53','Morib',13899,1209,18950,0,34058,{}],
+  ['N54','Tanjong Sepat',12759,1110,11345,0,25214,{}],
+  ['N55','Dengkil',13575,20362,34318,0,69294,{OTH:1039}],
+  ['N56','Sungai Pelek',16429,1429,16401,0,34780,{OTH:521}],
+];
+
+let curDetails=[];
+let inputEls={};
+let sortCol='id';let sortDir=1;
+
+function taper(id,v){
+  const base=GN[id]||0;
+  if(base===0)return 1;
+  const t=base*0.5;
+  if(v>=t)return 1;
+  return Math.max(0,v/t);
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  const ig=document.getElementById('inputsGrid');
+  PARTIES.forEach(p=>{
+    const c=document.createElement('div');c.className='input-card';
+    const el=document.createElement('input');
+    el.type='number';el.min=0;el.max=100;el.step=0.1;
+    el.value=p.ge.toFixed(2);
+    el.id='inp_'+p.id;
+    inputEls[p.id]=el;
+    el.addEventListener('input',project);
+    c.innerHTML=`<label><span class="pdot" style="background:${p.color}"></span>${p.label}</label>`;
+    const row=document.createElement('div');row.className='input-row';
+    row.appendChild(el);
+    const pct=document.createElement('span');pct.className='pct';pct.textContent='%';
+    row.appendChild(pct);
+    c.appendChild(row);
+    if(p.id==='BERSAMA'||p.id==='BP'){
+      const note=document.createElement('div');
+      note.style.cssText='font-size:10px;color:#888780;padding-top:4px;';
+      note.textContent='Assumed contesting all seats';
+      c.appendChild(note);
+    }
+    ig.appendChild(c);
+  });
+  const oc=document.createElement('div');oc.className='input-card';
+  oc.innerHTML=`<label><span class="pdot" style="background:#888780"></span>Minor parties <span style="color:#888780;font-size:11px;">(redistributed)</span></label><div style="font-size:12px;color:#888780;padding-top:4px;">2023 MUDA+PSM+PRM+IND votes redistributed proportionally before swing.</div>`;
+  ig.appendChild(oc);
+
+  const cc=document.getElementById('coalitionChecks');
+  PARTIES.forEach(p=>{
+    const lbl=document.createElement('label');
+    lbl.innerHTML=`<input type="checkbox" id="chk_${p.id}"><span class="pdot" style="background:${p.color}"></span>${p.label}`;
+    lbl.querySelector('input').addEventListener('change',updateCoalition);
+    cc.appendChild(lbl);
+  });
+  project();
+});
+
+function renderComponentBreakdown(){
+  const div=document.getElementById('componentBreakdown');div.innerHTML='';
+  const partyMap={};
+  Object.entries(W23).forEach(([sid,coal])=>{
+    const comp=(SEAT_CANDIDATES[sid]||{})[coal]||coal;
+    if(!partyMap[coal])partyMap[coal]={};
+    if(!partyMap[coal][comp])partyMap[coal][comp]={base:0,now:0};
+    partyMap[coal][comp].base++;
+  });
+  curDetails.forEach(d=>{
+    const coal=d.coalW;
+    const cands=SEAT_CANDIDATES[d.id]||{};
+    const comp=cands[coal]||coal;
+    if(!partyMap[coal])partyMap[coal]={};
+    if(!partyMap[coal][comp])partyMap[coal][comp]={base:0,now:0};
+    partyMap[coal][comp].now++;
+  });
+  ['PH','BN','PN','BP','BERSAMA'].forEach(cid=>{
+    const party=PARTIES.find(p=>p.id===cid);if(!party)return;
+    const cdata=partyMap[cid];if(!cdata)return;
+    const totalNow=Object.values(cdata).reduce((a,b)=>a+b.now,0);
+    if(totalNow===0&&!Object.values(cdata).some(v=>v.base>0))return;
+    const card=document.createElement('div');
+    card.style.cssText='background:#fff;border:0.5px solid #ddddd5;border-radius:10px;padding:0.75rem 1rem;';
+    let rows='';
+    Object.entries(cdata).sort((a,b)=>b[1].now-a[1].now).forEach(([comp,counts])=>{
+      if(counts.now===0&&counts.base===0)return;
+      const delta=counts.now-counts.base;
+      const chgStr=delta>0?`+${delta}`:delta<0?`${delta}`:'—';
+      const chgCol=delta>0?'#3b6d11':delta<0?'#a32d2d':'#888780';
+      rows+=`<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:2px 0;"><span style="color:#5f5e5a;">${comp}</span><span style="font-weight:500;">${counts.now} <span style="color:${chgCol};font-size:10px;">${chgStr}</span></span></div>`;
+    });
+    card.innerHTML=`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px;"><span style="width:9px;height:9px;border-radius:50%;background:${party.color};display:inline-block;flex-shrink:0;"></span><span style="font-size:12px;font-weight:500;">${party.label}</span><span style="margin-left:auto;font-size:13px;font-weight:500;">${totalNow}</span></div>${rows}`;
+    div.appendChild(card);
+  });
+}
+
+function renderVoteShareBreakdown(){
+  const div=document.getElementById('voteShareBreakdown');div.innerHTML='';
+  const ns={};PARTIES.forEach(p=>{ns[p.id]=parseFloat(inputEls[p.id].value)||0;});
+  const coalVoteCol={PH:2,BN:3,PN:4,BP:5};
+  const compVotes={};
+  SEATS.forEach(s=>{
+    const sid=s[0];
+    const cands=SEAT_CANDIDATES[sid]||{};
+    Object.entries(cands).forEach(([cid,comp])=>{
+      const colIdx=coalVoteCol[cid];
+      const votes=colIdx!=null?(s[colIdx]||0):0;
+      if(votes<=0)return;
+      if(!compVotes[cid])compVotes[cid]={};
+      compVotes[cid][comp]=(compVotes[cid][comp]||0)+votes;
+    });
+  });
+  const coalOrder=['PH','BN','PN','BP','BERSAMA'];
+  const container=document.createElement('div');
+  container.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;';
+  coalOrder.forEach(cid=>{
+    const party=PARTIES.find(p=>p.id===cid);if(!party)return;
+    const coalPct=ns[cid]||0;if(!coalPct)return;
+    const cdata=compVotes[cid];
+    let compWeights={};
+    if(!cdata||Object.keys(cdata).length===0){
+      curDetails.forEach(d=>{
+        const comp=(SEAT_CANDIDATES[d.id]||{})[cid];
+        if(!comp)return;
+        compWeights[comp]=(compWeights[comp]||0)+(d.tot2||0);
+      });
+    } else { compWeights=cdata; }
+    if(!Object.keys(compWeights).length)return;
+    const totalW=Object.values(compWeights).reduce((a,b)=>a+b,0);
+    const card=document.createElement('div');
+    card.style.cssText='background:#fff;border:0.5px solid #ddddd5;border-radius:10px;padding:0.75rem 1rem;';
+    let rows='';
+    Object.entries(compWeights).sort((a,b)=>b[1]-a[1]).forEach(([comp,w])=>{
+      const compPct=(coalPct*(w/totalW)).toFixed(1);
+      rows+=`<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:2px 0;"><span style="color:#5f5e5a;">${comp}</span><span style="font-weight:500;">${compPct}%</span></div>`;
+    });
+    card.innerHTML=`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px;"><span style="width:9px;height:9px;border-radius:50%;background:${party.color};display:inline-block;flex-shrink:0;"></span><span style="font-size:12px;font-weight:500;">${party.label}</span><span style="margin-left:auto;font-size:13px;font-weight:500;">${coalPct.toFixed(1)}%</span></div>${rows}`;
+    container.appendChild(card);
+  });
+  div.appendChild(container);
+}
+
+function renderTable(){
+  const thead=document.getElementById('seatsHead');thead.innerHTML='';
+  const tbody=document.getElementById('seatsBody');tbody.innerHTML='';
+  const cols=[
+    {key:'id',label:'Seat'},{key:'name',label:'Name'},
+    {key:'w23',label:'2023'},{key:'projW',label:'Proj.'},
+    {key:'ph',label:'PH%'},{key:'bn',label:'BN%'},
+    {key:'pn',label:'PN%'},{key:'bp',label:'MUDA%'},
+    {key:'bersama',label:'BERSAMA%'},{key:'minors',label:'Others'},
+  ];
+  const tr=document.createElement('tr');
+  cols.forEach(c=>{
+    const th=document.createElement('th');
+    th.textContent=c.label;
+    if(c.key===sortCol)th.className=sortDir===1?'sort-asc':'sort-desc';
+    th.addEventListener('click',()=>{
+      if(sortCol===c.key)sortDir*=-1;else{sortCol=c.key;sortDir=1;}
+      renderTable();
+    });
+    tr.appendChild(th);
+  });
+  thead.appendChild(tr);
+  const sorted=[...curDetails].sort((a,b)=>{
+    let av=a[sortCol],bv=b[sortCol];
+    if(typeof av==='string')return sortDir*av.localeCompare(bv);
+    return sortDir*(av-bv);
+  });
+  sorted.forEach(d=>{
+    const tr=document.createElement('tr');
+    const isFlip=d.projW!==d.w23;
+    const winParty=PARTIES.find(p=>p.id===d.coalW);
+    const winColor=winParty?winParty.color:'#888780';
+    const w23Party=PARTIES.find(p=>p.id===d.w23);
+    const w23Color=w23Party?w23Party.color:'#888780';
+    const cands=SEAT_CANDIDATES[d.id]||{};
+    const projComp=cands[d.coalW]||d.coalW;
+    const w23Comp=cands[d.w23]||d.w23;
+    [
+      {v:d.id},{v:d.name},
+      {v:`<span style="color:${w23Color};font-weight:500;">${d.w23}</span> <span style="color:#888780;font-size:10px;">(${w23Comp})</span>`},
+      {v:`<span style="color:${winColor};font-weight:500;">${d.coalW}</span> <span style="color:#888780;font-size:10px;">(${projComp})</span>${isFlip?'<span class="flip-tag">flip</span>':''}`},
+      {v:d.proj.PH!=null?d.proj.PH.toFixed(1):'—'},
+      {v:d.proj.BN!=null?d.proj.BN.toFixed(1):'—'},
+      {v:d.proj.PN!=null?d.proj.PN.toFixed(1):'—'},
+      {v:d.proj.BP!=null&&d.proj.BP>0?d.proj.BP.toFixed(1):'—'},
+      {v:d.proj.BERSAMA!=null&&d.proj.BERSAMA>0?d.proj.BERSAMA.toFixed(1):'—'},
+    ].forEach(cell=>{
+      const td=document.createElement('td');td.innerHTML=cell.v;tr.appendChild(td);
+    });
+    const tdm=document.createElement('td');tdm.className='minor-cell';
+    const minorParts=Object.entries(d.minors||{}).filter(([,v])=>v>0.1).map(([party,pct])=>{
+      const col=MINOR_COLORS[party]||'#888780';
+      return `<span style="color:${col};font-size:10px;">${party} ${pct.toFixed(1)}%</span>`;
+    });
+    tdm.innerHTML=minorParts.join('<span style="color:#ddddd5;"> · </span>')||'<span style="color:#ddddd5;">--</span>';
+    tr.appendChild(tdm);
+    tbody.appendChild(tr);
+  });
+}
+
+function project(){
+  const ns={};PARTIES.forEach(p=>{ns[p.id]=parseFloat(inputEls[p.id].value)||0;});
+  const tot=Object.values(ns).reduce((a,b)=>a+b,0);
+  const w=document.getElementById('totalWarn');
+  w.textContent=`Total: ${tot.toFixed(1)}% — ideally ~100%`;
+  w.className='total-warn'+(Math.abs(tot-100)>5?' bad':'');
+
+  const sw={},sc={};
+  PARTIES.forEach(p=>{sw[p.id]=ns[p.id]-(GN[p.id]||0);sc[p.id]=taper(p.id,ns[p.id]);});
+
+  const FOLDED_MINORS=new Set(['OTH','IND','PRM']);
+  const det=[];
+
+  SEATS.forEach(s=>{
+    const[id,name,ph,bn,pn,bp,tot2,minorVotes]=s;
+    if(!tot2)return;
+
+    let basePH=ph/tot2*100,baseBN=bn/tot2*100,basePN=pn/tot2*100,baseBP=bp/tot2*100;
+
+    // Redistribute absent minors proportionally
+    let absentTotal=0;
+    Object.entries(minorVotes||{}).forEach(([k,v])=>{if(FOLDED_MINORS.has(k))absentTotal+=v/tot2*100;});
+    if(absentTotal>0){
+      const contestBase=basePH+baseBN+basePN+baseBP;
+      if(contestBase>0){
+        basePH+=absentTotal*(basePH/contestBase);
+        baseBN+=absentTotal*(baseBN/contestBase);
+        basePN+=absentTotal*(basePN/contestBase);
+        baseBP+=absentTotal*(baseBP/contestBase);
+      }
+    }
+
+    const base={PH:basePH,BN:baseBN,PN:basePN,BP:baseBP,BERSAMA:0};
+    const minorPct={};
+    Object.entries(minorVotes||{}).forEach(([k,v])=>{if(!FOLDED_MINORS.has(k)){minorPct[k]=v/tot2*100;}});
+
+    const raw={};PARTIES.forEach(p=>{raw[p.id]=Math.max(0,base[p.id]+sw[p.id]);});
+    const tap={};PARTIES.forEach(p=>{tap[p.id]=raw[p.id]*sc[p.id];});
+    const tOut=PARTIES.reduce((a,p)=>a+(raw[p.id]-tap[p.id]),0);
+    const tTot=PARTIES.reduce((a,p)=>a+tap[p.id],0);
+    const proj={};
+    if(tTot>0&&tOut>0){
+      PARTIES.forEach(p=>{proj[p.id]=tap[p.id]+tOut*(tap[p.id]/tTot);});
+    } else {
+      PARTIES.forEach(p=>{proj[p.id]=tap[p.id];});
+    }
+
+    const allCands={...proj};
+    Object.entries(minorPct).forEach(([k,v])=>{allCands[k]=v;});
+    const winner=Object.entries(allCands).sort((a,b)=>b[1]-a[1])[0][0];
+    const coalW=PARTIES.find(p=>p.id===winner)?winner:'OTHERS';
+
+    det.push({
+      id,name,
+      w23:W23[id]||'OTHERS',
+      projW:winner,coalW,
+      proj,base,
+      ph:proj.PH,bn:proj.BN,pn:proj.PN,bp:proj.BP,bersama:proj.BERSAMA,
+      minors:minorPct,
+      tot2,
+    });
+  });
+
+  curDetails=det;
+
+  const tally={};
+  PARTIES.forEach(p=>{tally[p.id]=0;});tally.OTHERS=0;
+  det.forEach(d=>{tally[d.coalW]=(tally[d.coalW]||0)+1;});
+
+  const rg=document.getElementById('resultsGrid');rg.innerHTML='';
+  PARTIES.forEach(p=>{
+    const n=tally[p.id]||0;
+    const base=GS[p.id]||0;
+    const delta=n-base;
+    const chgStr=delta>0?`+${delta}`:delta<0?`${delta}`:'—';
+    const chgCls=delta>0?'pos':delta<0?'neg':'neu';
+    const card=document.createElement('div');card.className='result-card';
+    card.innerHTML=`<div class="pname"><span class="pdot" style="background:${p.color}"></span>${p.label}</div><div class="seats">${n}</div><div class="chg ${chgCls}">${chgStr} vs 2023</div>`;
+    rg.appendChild(card);
+  });
+
+  const pb=document.getElementById('parlBar');pb.innerHTML='';
+  PARTIES.forEach(p=>{
+    const n=tally[p.id]||0;if(!n)return;
+    const seg=document.createElement('div');
+    seg.style.cssText=`flex:${n};background:${p.color};`;
+    pb.appendChild(seg);
+  });
+  document.getElementById('barLegend').innerHTML=
+    PARTIES.filter(p=>tally[p.id]>0).map(p=>`<span><span style="width:10px;height:10px;border-radius:50%;background:${p.color};display:inline-block;"></span>${p.label}: ${tally[p.id]}</span>`).join('');
+
+  const maj=29;
+  const phbn=(tally.PH||0)+(tally.BN||0);
+  document.getElementById('majorityLine').textContent=`Majority: 29 of 56 seats. PH+BN combined: ${phbn} seats${phbn>=maj?' ✓ majority':''}`;
+
+  renderTable();
+  renderComponentBreakdown();
+  renderVoteShareBreakdown();
+  updateCoalition();
+
+  document.getElementById('methodNote').textContent=
+    'Methodology: Universal national swing (UNS) from 2023 Selangor state election results. 2023 baseline derived by splitting each seat\'s unity (PH-BN pact) vote asymmetrically: in PH-won seats (and PN-won seats where PH was the unity candidate), PH receives 92% and BN 8% of the unity vote in PH-contested seats; in BN-contested seats, BN receives 60% and PH 40%. Seat-level unity and PN vote counts are derived from official 2023 EC majority and turnout data published by ElectionData.MY. This produces statewide baselines of approximately PH 51.2%, BN 9.7%, PN 38.2%. Note: seat-level vote counts are estimates derived from registered voter data and statewide proportions, as official EC seat-level totals were not available; two seats (N36 Bandar Utama, N52 Banting) use confirmed reported figures. BP (MUDA+PSM) and BERSAMA are assumed to contest all 56 seats. 2023 minor party votes (MUDA, PSM, PRM, Independents) redistributed proportionally before swing is applied. Taper scalar applied below 50% of each party\'s baseline share. Majority: 29 of 56 seats.';
+}
+
+function updateCoalition(){
+  const selected=PARTIES.filter(p=>document.getElementById('chk_'+p.id)?.checked).map(p=>p.id);
+  const total=selected.reduce((a,p)=>a+(curDetails.filter(d=>d.coalW===p).length),0);
+  document.getElementById('coalSeats').textContent=total;
+  const maj=29;
+  const statusEl=document.getElementById('coalStatus');
+  const labelEl=document.getElementById('coalLabel');
+  if(selected.length===0){labelEl.textContent='seats — select coalitions above';statusEl.className='coalition-status status-none';statusEl.textContent='-';}
+  else if(total>=maj){labelEl.textContent=`seats — majority government`;statusEl.className='coalition-status status-maj';statusEl.textContent='Majority';}
+  else{labelEl.textContent=`seats — ${maj-total} short of majority`;statusEl.className='coalition-status status-short';statusEl.textContent='Short';}
+
+  const pg=document.getElementById('parlGrid');pg.innerHTML='';
+  const gl=document.getElementById('gridLegend');gl.innerHTML='';
+  const inCoal=new Set(selected);
+  const cs=[],os=[];
+  PARTIES.forEach(p=>{
+    const n=curDetails.filter(d=>d.coalW===p.id).length;
+    const target=inCoal.has(p.id)?cs:os;
+    for(let i=0;i<n;i++)target.push({color:p.color,inCoal:inCoal.has(p.id),label:p.label});
+  });
+  [...cs,...os].forEach(g=>{
+    const sq=document.createElement('div');sq.className='sq';
+    sq.style.background=g.color;
+    sq.style.opacity=inCoal.size===0?'1':(g.inCoal?'1':'0.2');
+    pg.appendChild(sq);
+  });
+  PARTIES.forEach(p=>{
+    if(!curDetails.some(d=>d.coalW===p.id))return;
+    const sp=document.createElement('span');
+    sp.innerHTML=`<span class="swatch" style="background:${p.color};"></span>${p.label}`;
+    gl.appendChild(sp);
+  });
+}
+</script>
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
