@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U.S. 2026 Election Projection</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:700px;margin:0 auto;padding:1.5rem 1rem;background:#fff;color:#111;}
+h1{font-size:18px;font-weight:500;margin:0 0 1.5rem;}
+h2{font-size:14px;font-weight:600;color:#374151;margin:1.5rem 0 .75rem;padding-top:1rem;border-top:1px solid #e5e7eb;}
+.input-group{margin-bottom:1rem;}
+.input-row{display:flex;align-items:center;gap:10px;}
+.lbl{font-size:14px;font-weight:500;width:100px;flex-shrink:0;}
+.num-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0;}
+.num-box{width:52px;height:52px;padding:0;font-size:15px;font-weight:500;text-align:center;border-radius:8px;border:1.5px solid;background:#fff;-moz-appearance:textfield;}
+.num-box::-webkit-outer-spin-button,.num-box::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+.pct{font-size:12px;color:#6b7280;}
+.input-row input[type=range]{flex:1;min-width:0;}
+.divider{border:none;border-top:1px solid #e5e7eb;margin:1rem 0;}
+.sum-row{display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:13px;margin:.75rem 0 1rem;}
+.ok{color:#16a34a;font-weight:600;}
+.warn{color:#b45309;font-weight:600;}
+.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:1.25rem 0;}
+.metric-card{background:#f9fafb;border-radius:8px;padding:1rem;text-align:center;}
+.metric-label{font-size:12px;color:#6b7280;margin-bottom:4px;}
+.metric-val{font-size:28px;font-weight:500;}
+.metric-sub{font-size:11px;color:#9ca3af;margin-top:2px;}
+.tp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem;}
+.tp-card{background:#f9fafb;border-radius:8px;padding:.6rem;text-align:center;}
+.tp-label{font-size:11px;}
+.tp-val{font-size:18px;font-weight:500;}
+.chamber-box{background:#f9fafb;border-radius:12px;padding:1rem;margin-bottom:1rem;}
+.chamber-label{font-size:12px;font-weight:600;color:#374151;margin-bottom:.5rem;}
+.legend-row{display:flex;gap:12px;font-size:12px;color:#6b7280;margin-bottom:.75rem;flex-wrap:wrap;}
+.leg-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:3px;vertical-align:middle;}
+.bar-outer{position:relative;width:100%;height:20px;border-radius:8px;overflow:hidden;background:#e5e7eb;display:flex;}
+.bar-seg{height:100%;transition:width .3s ease;flex-shrink:0;}
+.bar-thresh{position:absolute;top:0;bottom:0;width:2px;background:#9ca3af;opacity:.9;}
+.maj-note{font-size:12px;color:#6b7280;margin-top:.75rem;}
+.result-box{font-size:13px;color:#374151;padding:.75rem 1rem;background:#f9fafb;border-radius:8px;margin-top:1rem;line-height:1.6;}
+.source-box{font-size:11px;color:#9ca3af;margin-top:.75rem;}
+.sen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:1.25rem 0;}
+</style>
+</head>
+<body>
+<h1>U.S. 2026 Election Projection</h1>
+
+<div class="input-group"><div class="input-row">
+  <span class="lbl" style="color:#2563eb">Democrat</span>
+  <div class="num-wrap"><input type="number" min="0" max="100" step="0.5" value="47" id="dem-num" class="num-box" style="border-color:#2563eb;color:#2563eb"><span class="pct">%</span></div>
+  <input type="range" min="0" max="100" step="0.5" value="47" id="dem-slider">
+</div></div>
+<div class="input-group"><div class="input-row">
+  <span class="lbl" style="color:#dc2626">Republican</span>
+  <div class="num-wrap"><input type="number" min="0" max="100" step="0.5" value="49" id="rep-num" class="num-box" style="border-color:#dc2626;color:#dc2626"><span class="pct">%</span></div>
+  <input type="range" min="0" max="100" step="0.5" value="49" id="rep-slider">
+</div></div>
+<hr class="divider">
+<div class="input-group"><div class="input-row">
+  <span class="lbl" style="color:#ca8a04">Libertarian</span>
+  <div class="num-wrap"><input type="number" min="0" max="100" step="0.1" value="2" id="lib-num" class="num-box" style="border-color:#facc15;color:#ca8a04"><span class="pct">%</span></div>
+  <input type="range" min="0" max="100" step="0.1" value="2" id="lib-slider">
+</div></div>
+<div class="input-group"><div class="input-row">
+  <span class="lbl" style="color:#16a34a">Green</span>
+  <div class="num-wrap"><input type="number" min="0" max="100" step="0.1" value="1" id="grn-num" class="num-box" style="border-color:#16a34a;color:#16a34a"><span class="pct">%</span></div>
+  <input type="range" min="0" max="100" step="0.1" value="1" id="grn-slider">
+</div></div>
+<div class="input-group"><div class="input-row">
+  <span class="lbl" style="color:#1e3a8a">Constitution</span>
+  <div class="num-wrap"><input type="number" min="0" max="100" step="0.1" value="0.1" id="con-num" class="num-box" style="border-color:#1e3a8a;color:#1e3a8a"><span class="pct">%</span></div>
+  <input type="range" min="0" max="100" step="0.1" value="0.1" id="con-slider">
+</div></div>
+<div class="input-group"><div class="input-row">
+  <span class="lbl" style="color:#6b7280">Independent</span>
+  <div class="num-wrap"><input type="number" min="0" max="100" step="0.1" value="1" id="ind-num" class="num-box" style="border-color:#6b7280;color:#6b7280"><span class="pct">%</span></div>
+  <input type="range" min="0" max="100" step="0.1" value="1" id="ind-slider">
+</div></div>
+
+<div class="sum-row">
+  <span style="color:#6b7280">Total:</span>
+  <span id="sum-val" class="ok">100.0%</span>
+  <span id="sum-note" class="ok">✓</span>
+</div>
+
+<!-- HOUSE -->
+<h2>House of Representatives</h2>
+<div class="metric-grid">
+  <div class="metric-card"><div class="metric-label">Democrat seats</div><div class="metric-val" id="h-dem" style="color:#2563eb">—</div></div>
+  <div class="metric-card"><div class="metric-label">Republican seats</div><div class="metric-val" id="h-rep" style="color:#dc2626">—</div></div>
+  </div>
+<div class="tp-grid" id="tp-grid" style="display:none">
+  <div class="tp-card"><div class="tp-label" style="color:#ca8a04">Libertarian</div><div class="tp-val" id="lib-seats" style="color:#ca8a04">0</div></div>
+  <div class="tp-card"><div class="tp-label" style="color:#16a34a">Green</div><div class="tp-val" id="grn-seats" style="color:#16a34a">0</div></div>
+  <div class="tp-card"><div class="tp-label" style="color:#1e3a8a">Constitution</div><div class="tp-val" id="con-seats" style="color:#1e3a8a">0</div></div>
+  <div class="tp-card"><div class="tp-label" style="color:#6b7280">Independent</div><div class="tp-val" id="ind-seats" style="color:#6b7280">0</div></div>
+</div>
+<div class="chamber-box">
+  <div class="legend-row">
+    <span><span class="leg-dot" style="background:#2563eb"></span>Democrat</span>
+    <span><span class="leg-dot" style="background:#6b7280"></span>Independent (D caucus)</span>
+    <span><span class="leg-dot" style="background:#dc2626"></span>Republican</span>
+    <span id="leg-lib" style="display:none"><span class="leg-dot" style="background:#facc15"></span>Libertarian</span>
+    <span id="leg-grn" style="display:none"><span class="leg-dot" style="background:#16a34a"></span>Green</span>
+    <span id="leg-con" style="display:none"><span class="leg-dot" style="background:#1e3a8a"></span>Constitution</span>
+    <span id="leg-ind" style="display:none"><span class="leg-dot" style="background:#6b7280"></span>Independent</span>
+    <span><span class="leg-dot" style="background:#9ca3af"></span>Majority (218)</span>
+  </div>
+  <div class="bar-outer">
+    <div class="bar-seg" id="h-seg-d" style="background:#2563eb;width:50%"></div>
+    <div class="bar-seg" id="h-seg-r" style="background:#dc2626;width:50%"></div>
+    <div class="bar-seg" id="h-seg-l" style="background:#facc15;width:0%"></div>
+    <div class="bar-seg" id="h-seg-g" style="background:#16a34a;width:0%"></div>
+    <div class="bar-seg" id="h-seg-c" style="background:#1e3a8a;width:0%"></div>
+    <div class="bar-seg" id="h-seg-i" style="background:#6b7280;width:0%"></div>
+    <div class="bar-thresh" style="left:50.1%"></div>
+  </div>
+  <div class="maj-note">218 seats needed for a majority · 435 total seats</div>
+</div>
+<div class="result-box" id="h-result">Adjust the inputs above to see projected seat totals.</div>
+
+<!-- SENATE -->
+<h2>Senate</h2>
+<div class="metric-grid sen-grid">
+  <div class="metric-card"><div class="metric-label">Dem + Ind total</div><div class="metric-val" id="s-dem" style="color:#2563eb">—</div><div class="metric-sub" id="s-dem-sub">—</div></div>
+  <div class="metric-card" id="s-toss-card" style="display:none"><div class="metric-label" style="color:#9ca3af">Tossup seats</div><div class="metric-val" id="s-toss-seats" style="color:#9ca3af">—</div><div class="metric-sub">within 5pp</div></div>
+  <div class="metric-card"><div class="metric-label">Republican total</div><div class="metric-val" id="s-rep" style="color:#dc2626">—</div><div class="metric-sub">incl. 31 not up</div></div>
+</div>
+<div class="chamber-box">
+  <div class="legend-row">
+    <span><span class="leg-dot" style="background:#2563eb"></span>Democrat</span>
+    <span><span class="leg-dot" style="background:#6b7280"></span>Independent (D caucus)</span>
+    <span><span class="leg-dot" style="background:#dc2626"></span>Republican</span>
+    <span id="s-leg-lib" style="display:none"><span class="leg-dot" style="background:#facc15"></span>Libertarian</span>
+    <span id="s-leg-grn" style="display:none"><span class="leg-dot" style="background:#16a34a"></span>Green</span>
+    <span id="s-leg-con" style="display:none"><span class="leg-dot" style="background:#1e3a8a"></span>Constitution</span>
+    <span id="s-leg-ind" style="display:none"><span class="leg-dot" style="background:#6b7280"></span>Independent</span>
+    <span id="s-leg-toss" style="display:none"><span class="leg-dot" style="background:#d1d5db"></span>Tossup</span>
+    <span><span class="leg-dot" style="background:#9ca3af"></span>Majority (51)</span>
+  </div>
+  <div class="bar-outer">
+    <div class="bar-seg" id="s-seg-d" style="background:#2563eb;width:0%"></div>
+    <div class="bar-seg" id="s-seg-di" style="background:#6b7280;width:0%"></div>
+    <div class="bar-seg" id="s-seg-l" style="background:#facc15;width:0%"></div>
+    <div class="bar-seg" id="s-seg-g" style="background:#16a34a;width:0%"></div>
+    <div class="bar-seg" id="s-seg-i" style="background:#6b7280;width:0%"></div>
+    <div class="bar-seg" id="s-seg-t" style="background:#d1d5db;width:0%"></div>
+    <div class="bar-seg" id="s-seg-c" style="background:#1e3a8a;width:0%"></div>
+    <div class="bar-seg" id="s-seg-r" style="background:#dc2626;width:0%"></div>
+    <div class="bar-thresh" style="left:50%"></div>
+  </div>
+  <div class="maj-note">51 seats needed for a majority · 100 total seats</div>
+</div>
+<div class="tp-grid" id="s-tp-grid" style="display:none">
+  <div class="tp-card"><div class="tp-label" style="color:#ca8a04">Libertarian</div><div class="tp-val" id="s-lib-seats" style="color:#ca8a04">0</div></div>
+  <div class="tp-card"><div class="tp-label" style="color:#16a34a">Green</div><div class="tp-val" id="s-grn-seats" style="color:#16a34a">0</div></div>
+  <div class="tp-card"><div class="tp-label" style="color:#1e3a8a">Constitution</div><div class="tp-val" id="s-con-seats" style="color:#1e3a8a">0</div></div>
+  <div class="tp-card"><div class="tp-label" style="color:#6b7280">Independent</div><div class="tp-val" id="s-ind-seats" style="color:#6b7280">0</div></div>
+</div>
+<div class="result-box" id="s-result">Adjust the inputs above to see projected Senate totals.</div>
+
+<div id="s-toss-list" style="display:none;font-size:12px;color:#6b7280;padding:.6rem 1rem;background:#f9fafb;border-radius:8px;margin-top:.5rem"></div>
+
+
+<h2>Electoral College</h2>
+<div class="metric-grid">
+  <div class="metric-card"><div class="metric-label">Democrat EV</div><div class="metric-val" id="ec-dem" style="color:#2563eb">—</div></div>
+  <div class="metric-card" id="ec-toss-card" style="display:none"><div class="metric-label" style="color:#9ca3af">Tossup EV</div><div class="metric-val" id="ec-toss-ev" style="color:#9ca3af">—</div><div class="metric-sub">within 5pp</div></div>
+  <div class="metric-card"><div class="metric-label">Republican EV</div><div class="metric-val" id="ec-rep" style="color:#dc2626">—</div></div>
+</div>
+<div class="chamber-box">
+  <div class="legend-row">
+    <span><span class="leg-dot" style="background:#2563eb"></span>Democrat</span>
+    <span id="ec-leg-toss" style="display:none"><span class="leg-dot" style="background:#d1d5db"></span>Tossup</span>
+    <span><span class="leg-dot" style="background:#dc2626"></span>Republican</span>
+    <span><span class="leg-dot" style="background:#9ca3af"></span>270 to win</span>
+  </div>
+  <div class="bar-outer">
+    <div class="bar-seg" id="ec-seg-d" style="background:#2563eb;width:0%"></div>
+    <div class="bar-seg" id="ec-seg-t" style="background:#d1d5db;width:0%"></div>
+    <div class="bar-seg" id="ec-seg-r" style="background:#dc2626;width:0%"></div>
+    <div class="bar-thresh" style="left:50.19%"></div>
+  </div>
+  <div class="maj-note">270 electoral votes needed to win · 538 total</div>
+</div>
+<div class="result-box" id="ec-result">Adjust the inputs above to see projected Electoral College totals.</div>
+<div id="ec-toss-list" style="display:none;font-size:12px;color:#6b7280;padding:.6rem 1rem;background:#f9fafb;border-radius:8px;margin-top:.5rem"></div>
+
+<div class="source-box">House: first-past-the-post FPTP on 2024 per-district baselines (non-redistricted) and 2026 Cook PVI (TX, CA, OH, NC, MO, UT, TN, FL). Senate: uniform national swing on 2020 presidential state results as baseline (35 seats up including OH and FL specials; 34D+31R not up — D total includes Ind caucusing with Democrats: Sanders VT, King ME in safe seats; Osborn NE and Bodnar MT modelled as D). Third-party baselines from 2024 Green Papers data.</div>
+
+<script>
+var Rv=[49.8,77.4,44.8,93.7,93.7,93.7,69.4,35.8,72.8,58.1,63.7,71.9,51.2,53.7,26.6,45.4,59.6,49.9,36.0,55.7,64.4,69.3,29.9,8.2,5.2,50.6,29.9,19.0,23.0,28.9,32.9,25.9,24.0,78.2,46.7,55.5,63.4,32.9,41.7,36.8,50.6,28.9,26.9,55.5,29.9,39.8,30.9,39.8,12.1,39.8,26.9,17.1,35.8,41.7,36.8,58.5,54.5,29.9,23.0,26.9,49.6,35.8,47.6,58.5,46.7,57.5,30.9,34.8,27.9,44.7,28.9,19.0,46.7,21.5,29.3,51.4,55.0,56.2,38.8,42.0,49.4,36.0,41.4,39.6,37.4,47.2,41.6,76.2,28.9,65.4,77.2,60.5,41.7,63.4,68.4,77.2,70.3,76.2,73.3,22.0,73.3,41.7,42.7,24.0,41.7,72.3,64.4,72.3,73.3,70.3,74.3,77.2,63.4,75.3,42.7,61.1,62.2,66.4,59.5,27.8,63.5,43.1,65.4,24.1,14.1,25.0,64.0,68.0,68.1,27.9,30.9,48.0,55.4,49.7,64.4,70.5,63.6,33.7,39.5,43.8,73.2,41.3,44.3,93.7,93.7,45.0,32.0,32.3,28.4,30.6,45.2,16.5,42.4,31.2,44.3,62.4,65.4,65.5,58.1,64.8,28.8,67.7,64.0,67.5,59.1,43.8,63.5,73.7,72.1,37.5,93.7,93.7,62.2,74.5,26.8,79.4,93.7,93.7,31.3,36.9,21.0,17.1,20.0,21.0,28.9,9.2,13.1,41.2,60.5,35.3,32.6,17.1,34.8,41.6,16.9,29.0,37.3,48.3,57.9,51.0,39.5,25.4,24.5,66.1,44.0,55.0,65.6,34.3,48.5,42.7,66.3,57.8,42.5,40.9,32.2,24.5,61.7,69.6,57.2,16.8,58.5,68.2,76.5,32.3,72.6,75.9,79.4,68.9,34.8,93.7,71.1,60.4,64.0,65.4,69.7,68.4,22.0,56.5,57.5,56.0,68.4,28.9,71.3,39.8,61.5,64.4,58.5,93.7,73.5,63.8,93.7,44.5,46.0,40.3,34.7,40.0,40.6,51.2,45.1,59.1,42.1,39.8,49.9,40.6,34.5,46.6,38.9,35.8,29.9,51.3,47.7,39.7,54.2,29.1,54.7,25.5,25.9,30.5,14.7,34.0,50.5,48.0,42.5,50.4,42.0,64.2,59.8,59.6,46.5,37.7,40.2,46.9,39.3,30.8,28.0,21.1,22.9,25.4,54.5,63.4,16.1,57.5,44.7,65.4,62.4,69.3,23.0,74.3,71.3,69.3,72.3,78.2,42.4,70.8,91.2,67.7,93.7,71.2,42.5,79.2,46.7,46.2,44.1,45.5,61.6,54.0,56.7,13.1,57.9,47.5,57.0,57.9,47.7,13.1,48.7,59.8,44.1,36.8,52.1,51.9,64.6,39.5,37.3,66.6,54.3,66.6,61.3,65.6,33.5,93.7,72.4,86.2,79.4,75.5,76.5,61.8,76.5,76.5,79.4,24.7,75.5,59.7,68.4,69.3,79.2,68.4,52.8,39.8,61.5,25.0,78.2,59.5,38.8,61.7,59.7,57.5,71.3,68.6,61.5,62.4,49.6,36.8,60.5,16.1,61.5,33.8,10.2,49.6,57.5,70.3,6.2,60.5,66.4,62.4,64.4,34.9,66.4,61.5,77.2,47.6,74.3,63.4,61.0,44.7,45.8,50.5,0.0,26.8,60.9,63.6,44.2,25.0,72.5,29.9,46.6,45.1,44.0,47.2,59.4,50.9,39.2,48.7,45.5,48.1,54.8,46.2,55.8,48.2,98.6,56.2,60.2,49.7,73.1,71.7,89.9];
+var Dv=[48.8,21.2,53.9,4.9,4.9,4.9,29.2,62.9,24.0,40.5,31.7,26.7,47.4,44.9,70.8,52.7,39.1,47.4,62.6,42.9,34.2,29.3,68.8,90.5,93.4,48.0,68.8,79.6,75.7,69.7,65.8,72.7,74.7,20.4,52.0,43.1,35.2,65.8,56.9,61.9,48.0,69.7,71.7,43.1,68.8,58.9,67.8,58.9,86.5,58.9,71.7,81.6,62.8,56.9,61.9,40.1,44.1,68.8,75.7,71.7,49.0,62.8,51.0,40.1,52.0,41.1,67.8,63.8,70.7,54.0,69.7,79.6,52.0,76.3,69.1,46.3,43.1,42.0,59.5,56.5,48.6,61.8,57.2,59.0,61.2,51.4,57.1,22.4,69.7,33.2,21.4,38.2,56.9,35.2,30.3,21.4,28.3,22.4,25.4,76.6,25.4,56.9,55.9,74.7,56.9,26.3,34.2,26.3,25.4,28.3,24.4,21.4,35.2,23.4,55.9,37.5,36.5,32.2,39.1,70.8,35.1,55.6,33.2,74.5,84.5,73.7,34.7,30.7,30.6,71.2,68.2,47.8,40.3,46.0,31.4,25.3,32.1,65.0,59.2,54.8,25.5,57.3,54.4,4.9,4.9,53.7,66.6,66.4,70.2,68.0,53.5,82.2,56.3,67.5,52.7,34.4,31.6,31.2,39.0,32.1,68.0,29.3,32.6,30.1,39.5,54.8,34.1,24.9,26.5,61.1,4.9,4.9,36.5,24.1,71.8,19.3,4.9,4.9,67.3,61.7,77.6,81.6,78.6,77.6,69.7,89.5,85.5,55.4,38.1,63.4,66.0,81.6,63.8,57.1,81.7,69.6,60.1,49.0,40.8,44.9,58.1,69.6,68.6,32.2,54.0,43.3,32.7,60.8,44.9,49.0,29.3,40.9,56.1,57.7,66.5,74.2,37.0,29.1,41.4,80.2,38.5,28.8,21.2,64.7,25.1,21.0,18.3,29.8,63.8,4.9,27.6,37.8,34.2,33.2,28.1,30.3,76.6,42.1,41.1,41.8,30.3,69.7,27.3,58.9,37.2,34.2,40.1,4.9,25.1,34.8,4.9,52.0,50.5,58.3,63.9,58.7,58.0,47.5,53.6,39.5,56.5,58.9,48.8,58.0,64.2,52.0,59.7,62.8,66.4,45.0,48.7,58.2,44.4,69.5,44.0,73.2,72.7,68.1,83.9,64.6,48.1,50.6,56.1,48.2,56.7,34.5,38.8,39.1,52.2,60.9,58.4,51.7,59.3,67.9,70.6,77.6,75.7,73.2,44.1,35.2,82.6,41.1,54.0,33.2,36.2,29.3,75.7,24.4,27.3,29.3,26.3,20.4,53.3,25.2,4.8,28.3,4.9,27.5,55.2,19.2,50.8,51.5,54.5,53.1,37.0,44.6,41.9,85.5,40.8,51.1,41.7,40.7,50.9,85.5,49.9,38.9,54.6,61.9,46.6,46.8,34.0,59.2,61.4,32.0,44.4,31.8,38.2,33.1,65.2,4.9,26.3,11.4,18.3,22.2,21.2,35.8,21.2,21.2,18.3,73.0,23.5,39.3,30.3,29.3,19.4,30.3,46.2,58.9,37.2,73.7,20.4,39.2,59.9,37.3,39.3,41.1,27.3,30.4,37.2,36.2,49.0,61.9,38.2,82.6,37.2,64.8,88.5,49.0,41.1,28.3,92.4,38.2,32.3,36.2,34.2,64.0,32.3,37.2,20.2,51.0,24.4,35.2,38.1,54.0,52.9,48.7,99.2,72.4,37.8,35.0,54.9,73.7,26.1,62.7,52.0,53.5,54.6,51.4,39.2,47.8,59.4,49.9,53.1,50.5,43.9,52.5,42.9,50.4,0.0,42.4,38.5,49.0,23.3,24.7,4.7];
+var Lv=[0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,3.13,0.48,4.43,0.48,0.48,0.48,0.0,0.0,0.48,0.0,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,2.0,1.5,2.2,1.8,1.7,1.6,1.4,1.9,0.0,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.0,0.0,0.0,0.0,0.0,0.0,3.37,3.37,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,2.8,3.1,2.9,3.2,2.7,3.0,3.1,2.8,3.3,2.3,0.48,0.48,2.3,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.0,1.3,0.48,1.3,0.48,1.3,0.48,1.3,0.48,0.0,0.0,1.2,3.9,2.2,4.9,6.8,1.6,1.3,1.6,1.6,3.0,3.2,4.1,3.7,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,2.2,2.2,2.2,2.2,2.2,2.2,2.2,2.2,0.48,0.48,0.48,0.48,1.7,1.7,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.48,0.48,0.48,1.6,1.6,1.6,0.0,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,4.1,0.0,0.0,0.0,0.48,0.48,1.1,0.48,1.1,1.1,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.0,0.48,0.48,0.48,0.48,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.9,0.48,0.48,0.48,0.48,0.9,0.48,0.48,0.48,0.48,0.48,0.48,0.9,0.9,0.48,0.48,0.9,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.9,0.48,0.48,0.48,0.48,1.2,0.48,0.0,0.48,0.48,0.0,0.0,0.0,0.48,0.48,0.0,0.48,0.48,0.0,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.48,0.0,0.0,3.4];
+var Gv=[0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.13,0.0,0.13,0.13,0.13,2.48,1.81,0.13,2.5,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2.05,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13,0.13,0.0,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.0,0.13,0.0,0.13,0.0,0.13,0.0,0.13,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.6,0.0,0.0,0.6,0.0,0.0,0.6,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.7,0.7,0.7,0.0,0.7,0.0,0.7,0.0,0.13,0.13,0.13,0.13,0.0,0.0,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.0,1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2,1.2,0.13,0.13,0.13,0.0,0.0,0.0,0.0,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.0,0.0,0.0,0.13,0.13,1.1,0.13,1.1,1.1,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.13,0.13,0.13,0.13,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.13,0.13,0.13,0.13,0.0,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.0,0.13,0.13,0.0,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.13,0.13,0.13,0.13,0.0,0.13,0.0,0.13,0.13,0.0,0.0,0.0,0.13,0.13,0.0,0.13,0.13,2.0,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.0,0.0,0.0];
+var Iv=[0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.0,0.62,0.0,0.62,0.62,0.62,0.0,0.0,0.62,0.0,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.75,0.75,4.1,4.1,4.1,4.1,0.0,0.0,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.62,0.62,0.0,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,3.25,0.0,0.62,0.0,0.62,0.0,0.62,0.0,0.62,2.5,2.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.2,3.2,4.1,0.0,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.62,0.62,0.62,0.62,0.0,0.0,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,3.3,3.3,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.62,0.62,0.62,1.9,1.9,1.9,1.9,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.0,3.9,3.9,3.9,0.62,0.62,0.0,0.62,0.0,0.0,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.4,0.62,0.62,0.62,0.62,2.2,2.2,2.2,2.2,2.2,2.2,2.2,2.2,2.2,0.0,0.0,0.62,0.62,0.62,0.62,0.0,0.62,0.62,0.62,0.62,0.62,0.62,0.0,0.0,0.62,0.62,0.0,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.0,0.62,0.62,0.62,0.62,0.0,0.62,0.7,0.62,0.62,0.7,0.7,0.7,0.62,0.62,0.7,0.62,0.62,5.2,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,0.62,3.5,3.5,0.0];
+var Cv=[0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.91,0.91,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,1.0,0.13,0.13,0.13,0.13,1.0,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.32,0.32,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.4,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,1.36,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.13,1.98];
+// Senate: [state, current_party, 2020_r2p, is_special]
+var ST={"AL":"Alabama","AK":"Alaska","AR":"Arkansas","CO":"Colorado","DE":"Delaware","FL":"Florida","GA":"Georgia","ID":"Idaho","IL":"Illinois","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MT":"Montana","NE":"Nebraska","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NC":"North Carolina","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","VA":"Virginia","WV":"West Virginia","WY":"Wyoming"};
+var D_IND={"NE":"Ind","MT":"Ind"};
+var SEN=[["AL","R",60.1,39.74,0,0,0,0],["AK","R",53.9,41.19,0,0,0,4.74],["AR","R",66.53,0,33.47,0,0,0],["CO","D",44.18,53.5,1.74,0,0,0],["DE","D",37.9,59.44,1.07,0,0,1.6],["FL","R",55.57,42.79,0.53,0,0,1.11],["GA","D",49.39,50.61,0,0,0,0],["ID","R",62.62,33.25,0,0,1.18,2.95],["IL","D",38.87,54.93,1.27,0.95,0,0],["IA","R",50.88,44.4,2.17,0,0,0.81],["KS","R",53.22,41.79,4.99,0,0,0],["KY","R",57.76,38.23,4.0,0,0,0],["LA","R",61.18,35.29,0.55,0,0,0.38],["ME","R",50.42,41.92,0,0,0,6.53],["MA","D",32.2,64.46,0,0,0,0],["MI","D",48.22,49.9,0,0.72,0,0.92],["MN","D",43.5,48.74,0,0,0,7.7],["MS","R",54.11,44.13,1.77,0,0,0],["MT","R",53.3,46.7,0,0,0,0],["NE","R",53.4,46.5,0,0,0,0],["NH","D",40.99,56.64,2.31,0,0,0],["NJ","D",40.92,57.23,0,0.86,0,0],["NM","D",45.62,51.73,2.65,0,0,0],["NC","R",48.69,46.94,3.13,0,1.24,0],["OH","R",50.09,46.47,3.43,0,0,0],["OK","R",62.91,32.75,2.21,0,0,2.12],["OR","D",39.32,56.91,1.84,1.82,0,0],["RI","D",33.35,66.48,0,0,0,0],["SC","R",54.44,44.17,0,0,1.31,0],["SD","R",65.74,34.26,0,0,0,0],["TN","R",62.2,35.16,0,0,0,2.64],["TX","R",53.51,43.87,1.88,0.73,0,0],["VA","D",43.91,55.99,0,0,0,0],["WV","R",70.28,27.0,2.72,0,0,0],["WY","R",71.13,26.13,0,0,0,2.74]];
+var H_NAT_R=49.64,H_NAT_D=48.81,H_NAT_L=0.69,H_NAT_G=0.17,H_NAT_I=0.68,H_NAT_C=0.13;
+var S_NAT_R=49.36,S_NAT_D=47.1,S_NAT_L=1.66,S_NAT_G=0.32,S_NAT_C=0.14,S_NAT_I=0.38; // 2020 national presidential two-party R
+var S_R_SAFE=31,S_D_SAFE=34;
+var H_TOTAL=435,H_MAJ=218,S_MAJ=51;
+
+function g(id){return document.getElementById(id);}
+function fv(id){return parseFloat(g(id).value)||0;}
+
+function projectHouse(ir,id,il,ig,ii,ic){
+  var sr=ir-H_NAT_R,sd=id-H_NAT_D,sl=il-H_NAT_L,sg=ig-H_NAT_G,si=ii-H_NAT_I,sc=ic-H_NAT_C;
+  var rc=0,dc=0,lc=0,gc=0,ic2=0,cc=0;
+  for(var j=0;j<435;j++){
+    var dr=Math.max(0,Rv[j]+sr),dd=Math.max(0,Dv[j]+sd);
+    var dl=Math.max(0,Lv[j]+sl),dg=Math.max(0,Gv[j]+sg);
+    var di=Math.max(0,Iv[j]+si),dc2=Math.max(0,Cv[j]+sc);
+    var best=Math.max(dr,dd,dl,dg,di,dc2);
+    if(best===dr)rc++;else if(best===dd)dc++;else if(best===dl)lc++;
+    else if(best===dg)gc++;else if(best===dc2)cc++;else ic2++;
+  }
+  return{r:rc,d:dc,l:lc,g:gc,i:ic2,c:cc};
+}
+
+function projectSenate(ir,id,il,ig,ic2,ii){
+  var sr=ir-S_NAT_R,sd=id-S_NAT_D,sl=il-S_NAT_L,sg=ig-S_NAT_G,sc=ic2-S_NAT_C,si=ii-S_NAT_I;
+  var rc=0,dc=0,lc=0,gc=0,cc=0,ic3=0,toss=0,tossStates=[],indWins=0;
+  var IND_SAFE=2; // Sanders (VT) + King (ME)
+  for(var j=0;j<SEN.length;j++){
+    var s=SEN[j];
+    var dr=Math.max(0,s[2]+sr),dd=Math.max(0,s[3]+sd);
+    var dl=Math.max(0,s[4]+sl),dg=Math.max(0,s[5]+sg);
+    var dc2=Math.max(0,s[6]+sc),di=Math.max(0,s[7]+si);
+    var best=Math.max(dr,dd,dl,dg,dc2,di);
+    var vals=[dr,dd,dl,dg,dc2,di].slice().sort(function(a,b){return b-a;});
+    var margin=vals[0]-vals[1];
+    if(margin<5){
+      toss++;
+      var hlbl=s[1]==='D'&&D_IND[s[0]]?'Ind':s[1];
+      var leader=best===dr?'R':best===dd?(D_IND[s[0]]?'Ind':'D'):best===dl?'L':best===dg?'G':best===dc2?'C':'I';
+      var holder=s[1]==='D'&&D_IND[s[0]]?'Ind':s[1];
+      tossStates.push({code:s[0],party:holder,name:ST[s[0]]||s[0],leader:leader});
+    } else if(best===dr)rc++;
+    else if(best===dd){
+      dc++;
+      if(D_IND[s[0]])indWins++;  // challenger is an independent
+    }
+    else if(best===dl)lc++;
+    else if(best===dg)gc++;
+    else if(best===dc2)cc++;
+    else ic3++;
+  }
+  var totalD=dc+S_D_SAFE;
+  var totalInd=indWins+IND_SAFE;
+  var pureD=totalD-totalInd;
+  return{r:rc+S_R_SAFE,d:totalD,pureD:pureD,ind:totalInd,l:lc,g:gc,c:cc,i:ic3,toss:toss,tossStates:tossStates};
+}
+
+function update(){
+  var dem=fv('dem-num'),rep=fv('rep-num'),lib=fv('lib-num'),grn=fv('grn-num'),ind=fv('ind-num'),con=fv('con-num');
+  var total=dem+rep+lib+grn+ind+con,diff=Math.abs(total-100);
+  g('sum-val').textContent=total.toFixed(1)+'%';
+  var ok=diff<0.2;
+  g('sum-val').className=ok?'ok':'warn';
+  g('sum-note').textContent=ok?'✓':(total<100?'('+(100-total).toFixed(1)+'% unallocated)':'('+(total-100).toFixed(1)+'% over)');
+  g('sum-note').className=ok?'ok':'warn';
+
+  // House
+  var hres=projectHouse(rep,dem,lib,grn,ind,con);
+  g('h-dem').textContent=hres.d; g('h-rep').textContent=hres.r;
+  g('lib-seats').textContent=hres.l; g('grn-seats').textContent=hres.g;
+  g('ind-seats').textContent=hres.i; g('con-seats').textContent=hres.c;
+  var anyTp=hres.l+hres.g+hres.i+hres.c>0;
+  g('tp-grid').style.display=anyTp?'grid':'none';
+  g('leg-lib').style.display=hres.l>0?'inline':'none';
+  g('leg-grn').style.display=hres.g>0?'inline':'none';
+  g('leg-ind').style.display=hres.i>0?'inline':'none';
+  g('leg-con').style.display=hres.c>0?'inline':'none';
+  var hdw=hres.d>=H_MAJ,hrw=hres.r>=H_MAJ,hmargin=Math.abs(hres.d-hres.r);
+  g('h-seg-d').style.width=(hres.d/H_TOTAL*100).toFixed(2)+'%';
+  g('h-seg-r').style.width=(hres.r/H_TOTAL*100).toFixed(2)+'%';
+  g('h-seg-l').style.width=(hres.l/H_TOTAL*100).toFixed(2)+'%';
+  g('h-seg-g').style.width=(hres.g/H_TOTAL*100).toFixed(2)+'%';
+  g('h-seg-c').style.width=(hres.c/H_TOTAL*100).toFixed(2)+'%';
+  g('h-seg-i').style.width=(hres.i/H_TOTAL*100).toFixed(2)+'%';
+  var hparts=[];
+  if(hres.d)hparts.push('D '+hres.d);if(hres.r)hparts.push('R '+hres.r);
+  if(hres.l)hparts.push('Lib '+hres.l);if(hres.g)hparts.push('Green '+hres.g);
+  if(hres.c)hparts.push('Con '+hres.c);if(hres.i)hparts.push('Ind '+hres.i);
+  var hnote=hdw?'Democrats win the majority with '+hres.d+' seats — '+(hres.d-H_MAJ)+' above the 218 threshold.':
+    hrw?'Republicans win the majority with '+hres.r+' seats — '+(hres.r-H_MAJ)+' above the 218 threshold.':
+    'No party wins a majority.';
+  hnote+=' Breakdown: '+hparts.join(', ')+'.';
+  if((hdw&&hres.d-H_MAJ<=10)||(hrw&&hres.r-H_MAJ<=10))hnote+=' Extremely narrow majority.';
+  g('h-result').textContent=hnote;
+
+  // Senate — derive two-party R from raw inputs
+  var sres=projectSenate(rep,dem,lib,grn,con,ind);
+  g('s-dem').textContent=sres.d;
+  g('s-dem-sub').textContent=sres.pureD+'D + '+sres.ind+' Ind';
+  g('s-seg-d').style.width=sres.pureD+'%';
+  g('s-seg-di').style.width=sres.ind+'%'; g('s-rep').textContent=sres.r;
+  var sdw=sres.d>=S_MAJ,srw=sres.r>=S_MAJ;
+  // s-seg-d width set above with pureD
+  g('s-seg-r').style.width=sres.r+'%';
+  g('s-seg-l').style.width=sres.l+'%';
+  g('s-seg-g').style.width=sres.g+'%';
+  g('s-seg-c').style.width=sres.c+'%';
+  g('s-seg-i').style.width=sres.i+'%';
+  g('s-seg-t').style.width=sres.toss+'%';
+  g('s-toss-seats').textContent=sres.toss;
+  var sToss=sres.toss>0;
+  g('s-leg-toss').style.display=sToss?'inline':'none';
+  g('s-toss-card').style.display=sToss?'block':'none';
+  g('s-toss-card').parentElement.style.gridTemplateColumns=sToss?'repeat(3,minmax(0,1fr))':'repeat(2,minmax(0,1fr))';
+  var tl=g('s-toss-list');
+  if(sToss){
+    tl.style.display='block';
+    var chips=sres.tossStates.map(function(t){
+      var ldr=t.leader||t.party;
+      var bg=ldr==='R'?'#fee2e2':ldr==='D'?'#dbeafe':ldr==='L'?'#fef9c3':ldr==='G'?'#dcfce7':'#f3f4f6';
+      var tc=ldr==='R'?'#dc2626':ldr==='D'?'#2563eb':ldr==='L'?'#ca8a04':ldr==='G'?'#16a34a':'#6b7280';
+      var leadLbl=t.leader===t.party?t.party+' leading':t.leader+' leading ('+t.party+' held)';
+      return '<span style="display:inline-block;margin:2px 4px 2px 0;padding:3px 10px;border-radius:12px;background:'+bg+';color:'+tc+';font-weight:500;font-size:12px">'+t.name+' <span style="opacity:0.7;font-size:10px">('+leadLbl+')</span></span>';
+    }).join('');
+    tl.innerHTML='<div style="font-weight:600;margin-bottom:6px;color:#374151;font-size:12px">Tossup seats</div>'+chips;
+  }else{tl.style.display='none';}
+  g('s-lib-seats').textContent=sres.l;
+  g('s-grn-seats').textContent=sres.g;
+  g('s-con-seats').textContent=sres.c;
+  g('s-ind-seats').textContent=sres.i;
+  var sTp=sres.l+sres.g+sres.c+sres.i+sres.toss;
+  g('s-tp-grid').style.display=sTp>0?'grid':'none';
+  g('s-leg-lib').style.display=sres.l>0?'inline':'none';
+  g('s-leg-grn').style.display=sres.g>0?'inline':'none';
+  g('s-leg-con').style.display=sres.c>0?'inline':'none';
+  g('s-leg-ind').style.display=sres.i>0?'inline':'none';
+  var snote=sdw?'Democrats win a Senate majority: '+sres.d+'D / '+sres.r+'R.':
+    srw?'Republicans hold the Senate majority: '+sres.r+'R / '+sres.d+'D.':
+    'Senate is tied 50-50.';
+  g('s-result').textContent=snote;
+
+  // Electoral College
+  var ecres=projectEC(rep,dem,lib,grn,con,ind);
+  g('ec-dem').textContent=ecres.d;
+  g('ec-rep').textContent=ecres.r;
+  g('ec-toss-ev').textContent=ecres.t;
+  var ecToss=ecres.t>0;
+  g('ec-toss-card').style.display=ecToss?'block':'none';
+  g('ec-toss-card').parentElement.style.gridTemplateColumns=ecToss?'repeat(3,minmax(0,1fr))':'repeat(2,minmax(0,1fr))';
+  g('ec-leg-toss').style.display=ecToss?'inline':'none';
+  g('ec-seg-d').style.width=(ecres.d/538*100).toFixed(2)+'%';
+  g('ec-seg-t').style.width=(ecres.t/538*100).toFixed(2)+'%';
+  g('ec-seg-r').style.width=(ecres.r/538*100).toFixed(2)+'%';
+  var ecWin=ecres.r>=270?'Republicans':ecres.d>=270?'Democrats':null;
+  var ecNote=ecWin?ecWin+' win the Electoral College with '+(ecWin==='Republicans'?ecres.r:ecres.d)+' electoral votes.':'No candidate reaches 270 electoral votes — outcome depends on tossup states.';
+  g('ec-result').textContent=ecNote;
+  var ecTL=g('ec-toss-list');
+  if(ecToss){{
+    ecTL.style.display='block';
+    var ecChips=ecres.tossups.map(function(t){{
+      var bg=t.leader==='R'?'#fee2e2':'#dbeafe';
+      var tc=t.leader==='R'?'#dc2626':'#2563eb';
+      return '<span style="display:inline-block;margin:2px 4px 2px 0;padding:3px 10px;border-radius:12px;background:'+bg+';color:'+tc+';font-weight:500;font-size:12px">'+t.name+' ('+t.ev+'EV) <span style="opacity:0.7;font-size:10px">('+t.leader+' leading)</span></span>';
+    }}).join('');
+    ecTL.innerHTML='<div style="font-weight:600;margin-bottom:6px;color:#374151;font-size:12px">Tossup states</div>'+ecChips;
+  }}else{{ecTL.style.display='none';}}
+
+}
+
+function sn(sid,nid){g(nid).value=parseFloat(g(sid).value).toFixed(1);update();}
+function ns(nid,sid){var v=parseFloat(g(nid).value);if(!isNaN(v)){g(sid).value=v;}update();}
+['dem','rep','lib','grn','con','ind'].forEach(function(p){
+  g(p+'-slider').addEventListener('input',function(){sn(p+'-slider',p+'-num');});
+  g(p+'-num').addEventListener('input',function(){ns(p+'-num',p+'-slider');});
+});
+var pollLabels={'Democrat':'D leading','Republican':'R leading','Tossup':'No clear leader','loading':'Checking polls…'};
+
+
+
+var EC_STATES={"AL":[9,66.4],"AK":[3,57.1],"AZ":[11,51.5],"AR":[6,68.0],"CA":[54,37.0],"CO":[10,43.8],"CT":[7,40.1],"DE":[3,41.0],"FL":[30,56.4],"GA":[16,51.1],"HI":[4,29.5],"ID":[4,68.9],"IL":[19,40.2],"IN":[11,60.5],"IA":[6,57.0],"KS":[6,62.1],"KY":[8,68.1],"LA":[8,63.0],"ME_AL":[2,46.0],"ME_1":[1,43.0],"ME_2":[1,55.0],"MD":[10,34.7],"MA":[11,34.1],"MI":[15,50.9],"MN":[10,48.1],"MS":[6,62.0],"MO":[10,60.5],"MT":[4,60.5],"NE_AL":[2,60.1],"NE_1":[1,62.0],"NE_2":[1,40.0],"NE_3":[1,72.0],"NV":[6,51.8],"NH":[4,47.6],"NJ":[14,45.1],"NM":[5,43.9],"NY":[28,41.5],"NC":[16,52.2],"ND":[3,68.9],"OH":[17,56.9],"OK":[7,68.2],"OR":[8,43.9],"PA":[19,51.9],"RI":[4,40.3],"SC":[9,59.5],"SD":[3,64.9],"TN":[11,65.6],"TX":[40,56.7],"UT":[6,58.4],"VT":[3,27.0],"VA":[13,45.6],"WA":[12,40.1],"WV":[4,74.8],"WI":[10,50.7],"WY":[3,76.9],"DC":[3,5.4]};
+var EC_NAMES={"AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut","DE":"Delaware","FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME_AL":"Maine (At-large)","ME_1":"Maine CD-1","ME_2":"Maine CD-2","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE_AL":"Nebraska (At-large)","NE_1":"Nebraska CD-1","NE_2":"Nebraska CD-2","NE_3":"Nebraska CD-3","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming","DC":"D.C."};
+var EC_NAT=51.9;
+
+function projectEC(inp_r,inp_d,inp_l,inp_g,inp_c,inp_i){
+  // Two-party R% from inputs
+  var tp_r=inp_r/(inp_r+inp_d)*100;
+  var swing=tp_r-EC_NAT;
+  var ev_r=0,ev_d=0,ev_t=0,tossups=[];
+  for(var code in EC_STATES){
+    var s=EC_STATES[code];
+    var ev=s[0], base_r=s[1];
+    var adj=base_r+swing;
+    var margin=Math.abs(adj-50);
+    if(margin<5){
+      ev_t+=ev;
+      var leader=adj>50?'R':'D';
+      tossups.push({code:code,name:EC_NAMES[code]||code,ev:ev,leader:leader});
+    }else if(adj>50){ev_r+=ev;}
+    else{ev_d+=ev;}
+  }
+  return{r:ev_r,d:ev_d,t:ev_t,tossups:tossups};
+}
+
+window.addEventListener('load',function(){update();});
+</script>
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
