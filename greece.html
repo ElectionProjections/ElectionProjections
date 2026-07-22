@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greece Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+<!-- GoatCounter Analytics -->
+    <script data-goatcounter="https://electionprojections.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greek Parliamentary Seat Calculator</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: system-ui, sans-serif; font-size: 15px; line-height: 1.6; color: #1a1a1a; background: #fff; margin: 0 auto; padding: 1.25rem; max-width: 720px; }
+  input[type="text"], input[type="number"] { height: 36px; padding: 0 10px; border: 0.5px solid #ccc; border-radius: 8px; font-size: 13px; font-family: inherit; color: #1a1a1a; background: #fff; width: 100%; outline: none; }
+  input:hover { border-color: #999; }
+  input:focus { border-color: #555; box-shadow: 0 0 0 3px rgba(0,0,0,0.08); }
+  button { height: 36px; padding: 0 14px; border: 0.5px solid #ccc; border-radius: 8px; font-size: 13px; font-family: inherit; cursor: pointer; background: transparent; color: #1a1a1a; }
+  button:hover { background: #f5f5f5; }
+  button:active { transform: scale(0.98); }
+  .section-hint { font-size: 13px; color: #666; margin: 0 0 10px; }
+  .party-row { display: grid; grid-template-columns: 14px 1fr 100px 32px; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .swatch { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .vote-wrap { position: relative; display: flex; align-items: center; }
+  .vote-wrap input { padding-right: 26px; }
+  .vote-suffix { position: absolute; right: 9px; font-size: 13px; color: #666; pointer-events: none; }
+  .remove-btn { background: none; border: none; cursor: pointer; color: #999; font-size: 17px; padding: 0; line-height: 1; display: flex; align-items: center; justify-content: center; height: 32px; }
+  .remove-btn:hover { color: #1a1a1a; background: none; }
+  .btn-row { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .warn { font-size: 13px; color: #666; margin: 0 0 8px; }
+  .warn.err { color: #c00; }
+  .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .metric { background: #f5f5f5; border-radius: 8px; padding: 12px; }
+  .metric p { margin: 0; }
+  .metric-label { font-size: 12px; color: #666; margin-bottom: 4px !important; }
+  .metric-value { font-size: 22px; font-weight: 500; }
+  .result-row { display: grid; grid-template-columns: 12px 1fr 64px 60px 60px; gap: 8px; align-items: center; padding: 7px 0; border-bottom: 0.5px solid #e0e0e0; font-size: 13px; }
+  .result-hdr { font-size: 11px; color: #888; font-weight: 500; text-transform: uppercase; letter-spacing: .03em; }
+  .bonus-pill { background: #FAEEDA; color: #633806; font-size: 11px; padding: 2px 5px; border-radius: 4px; display: inline-block; margin-left: 4px; }
+  .majority-note { font-size: 13px; margin-top: 10px; }
+  #chart-wrap { display: none; margin-top: 1.5rem; overflow: hidden; }
+  #legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; font-size: 12px; color: #666; }
+  #chart-container { position: relative; width: 100%; }
+</style>
+</head>
+<body>
+
+<h1 style="font-size: 20px; font-weight: 500; margin: 0 0 0.15rem;">Greek parliamentary seat calculator</h1>
+<p style="color: #666; font-size: 14px; margin: 0 0 1rem;">Based on the reinforced proportional representation system in effect since June 2023.</p>
+
+<p class="section-hint">Pre-loaded with the June 2023 election result. ELAS, Elpida, Voice of Reason, and MeRA25 are included at 0% — adjust to model current polling.</p>
+
+<div id="party-inputs"></div>
+
+<div class="btn-row">
+  <button onclick="addParty()"><i class="ti ti-plus"></i> Add party</button>
+  <button onclick="calculate()" style="font-weight: 500;">Calculate seats</button>
+  <button onclick="loadResult('2023')">Load June 2023 result ↗</button>
+</div>
+
+<div id="warnings"></div>
+<div id="metrics" class="metric-grid" style="display: none;"></div>
+
+<div id="results-section" style="display: none;">
+  <div class="result-row result-hdr">
+    <span></span><span>Party</span>
+    <span style="text-align:right">Vote %</span>
+    <span style="text-align:right">Prop.</span>
+    <span style="text-align:right">Total</span>
+  </div>
+  <div id="results-rows"></div>
+</div>
+
+<div id="chart-wrap">
+  <div id="legend"></div>
+  <div id="chart-container">
+    <canvas id="seatChart" role="img" aria-label="Bar chart of Greek parliamentary seat allocations"></canvas>
+  </div>
+</div>
+
+<div id="coalition-section" style="display:none; margin-top:2rem;">
+  <hr style="border:none; border-top:0.5px solid #e0e0e0; margin-bottom:1.5rem;">
+  <h2 style="font-size:16px; font-weight:500; margin:0 0 0.25rem;">Coalition builder</h2>
+  <p style="font-size:13px; color:#666; margin:0 0 1rem;">Select parties to form a coalition and see whether they reach a majority.</p>
+  <div id="coalition-checkboxes" style="display:flex; flex-direction:column; gap:6px; margin-bottom:1rem;"></div>
+  <div id="coalition-result" style="font-size:14px; margin-top:0.75rem;"></div>
+  <div id="coalition-bar-wrap" style="margin-top:1rem; height:28px; border-radius:6px; overflow:visible; background:#f0f0f0; display:none; position:relative;">
+    <div id="coalition-bar" style="height:100%; border-radius:6px; transition:width 0.3s ease;"></div>
+    <div style="position:absolute; top:-4px; bottom:-4px; width:2px; background:rgba(180,0,0,0.5); left:50.33%;" title="Majority threshold (151 seats)"></div>
+  </div>
+  <div id="coalition-bar-label" style="font-size:12px; color:#888; margin-top:4px;"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<script>
+const PARTIES = [
+  { name:'New Democracy',      abbr:'ND',    color:'#1E5BB5', votes:40.55, pos:'Centre-right' },
+  { name:'SYRIZA',             abbr:'SY',    color:'#AE4132', votes:17.83, pos:'Left-wing' },
+  { name:'PASOK–KINAL',        abbr:'PASOK', color:'#1EA04B', votes:11.84, pos:'Centre-left' },
+  { name:'KKE',                abbr:'KKE',   color:'#CC0000', votes:7.69,  pos:'Communist' },
+  { name:'Spartans',           abbr:'SP',    color:'#4A3000', votes:4.74,  pos:'Far-right' },
+  { name:'Greek Solution',     abbr:'EL',    color:'#D4A017', votes:4.45,  pos:'National-conservative' },
+  { name:'Victory (Niki)',     abbr:'NK',    color:'#8B6914', votes:3.69,  pos:'Religious nationalist' },
+  { name:'Course of Freedom',  abbr:'PE',    color:'#7B3F9E', votes:3.38,  pos:'Left-wing' },
+  { name:'MeRA25',             abbr:'MeRA',  color:'#E67E22', votes:2.5,   pos:'Left-wing' },
+  { name:'ELAS',               abbr:'ELAS',  color:'#C0392B', votes:0,     pos:'Left-wing to centre-left' },
+  { name:'Elpida',             abbr:'EgtD',  color:'#16A085', votes:0,     pos:'Anti-establishment' },
+  { name:'Voice of Reason',    abbr:'FL',    color:'#1A237E', votes:0,     pos:'Far-right' },
+];
+
+let parties = PARTIES.map(p => ({...p}));
+let chartInstance = null;
+let lastFinal = [];
+
+function renderInputs() {
+  const c = document.getElementById('party-inputs');
+  c.innerHTML = '';
+  parties.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'party-row';
+    row.innerHTML = `
+      <div class="swatch" style="background:${p.color}" title="${p.pos}"></div>
+      <input type="text" value="${p.name}" placeholder="Party name" oninput="parties[${i}].name=this.value" />
+      <div class="vote-wrap">
+        <input type="number" min="0" max="100" step="0.1" value="${p.votes}" oninput="parties[${i}].votes=parseFloat(this.value)||0" />
+        <span class="vote-suffix">%</span>
+      </div>
+      <button class="remove-btn" onclick="removeParty(${i})" aria-label="Remove ${p.name}"><i class="ti ti-x"></i></button>
+    `;
+    c.appendChild(row);
+  });
+}
+
+function addParty() {
+  const colors = ['#888780','#5DCAA5','#F0997B','#AFA9EC'];
+  parties.push({ name:'New party', abbr:'NP', color:colors[parties.length % colors.length], votes:0, pos:'' });
+  renderInputs();
+}
+
+function removeParty(i) { parties.splice(i, 1); renderInputs(); }
+
+function loadResult(key) {
+  if (key === '2023') {
+    parties = [
+      { name:'New Democracy',      abbr:'ND',    color:'#1E5BB5', votes:40.55, pos:'Centre-right' },
+      { name:'SYRIZA',             abbr:'SY',    color:'#AE4132', votes:17.83, pos:'Left-wing' },
+      { name:'PASOK–KINAL',        abbr:'PASOK', color:'#1EA04B', votes:11.84, pos:'Centre-left' },
+      { name:'KKE',                abbr:'KKE',   color:'#CC0000', votes:7.69,  pos:'Communist' },
+      { name:'Spartans',           abbr:'SP',    color:'#4A3000', votes:4.74,  pos:'Far-right' },
+      { name:'Greek Solution',     abbr:'EL',    color:'#D4A017', votes:4.45,  pos:'National-conservative' },
+      { name:'Victory (Niki)',     abbr:'NK',    color:'#8B6914', votes:3.69,  pos:'Religious nationalist' },
+      { name:'Course of Freedom',  abbr:'PE',    color:'#7B3F9E', votes:3.38,  pos:'Left-wing' },
+      { name:'MeRA25',             abbr:'MeRA',  color:'#E67E22', votes:2.5,   pos:'Left-wing' },
+      { name:'ELAS',               abbr:'ELAS',  color:'#C0392B', votes:0,     pos:'Left-wing to centre-left' },
+      { name:'Elpida',             abbr:'EgtD',  color:'#16A085', votes:0,     pos:'Anti-establishment' },
+      { name:'Voice of Reason',    abbr:'FL',    color:'#1A237E', votes:0,     pos:'Far-right' },
+    ];
+    renderInputs();
+    calculate();
+  }
+}
+
+function calcBonus(pct) {
+  if (pct < 25) return 0;
+  if (pct >= 40) return 50;
+  return 20 + Math.floor((pct - 25) / 0.5);
+}
+
+function largestRemainder(pts, total) {
+  const sum = pts.reduce((s, v) => s + v, 0);
+  if (!sum) return pts.map(() => 0);
+  const q = pts.map(v => (v / sum) * total);
+  const f = q.map(Math.floor);
+  let left = total - f.reduce((s, v) => s + v, 0);
+  const rem = q.map((v, i) => v - f[i]);
+  const ord = rem.map((r, i) => [r, i]).sort((a, b) => b[0] - a[0]);
+  const seats = [...f];
+  for (let k = 0; k < left; k++) seats[ord[k][1]]++;
+  return seats;
+}
+
+function calculate() {
+  const warnEl = document.getElementById('warnings');
+  warnEl.innerHTML = '';
+
+  const eligible = parties.filter(p => p.votes >= 3 && p.name.trim());
+  const below    = parties.filter(p => p.votes > 0 && p.votes < 3 && p.name.trim());
+  const total    = parties.reduce((s, p) => s + (p.votes || 0), 0);
+
+  if (total > 100.5) {
+    const w = document.createElement('p');
+    w.className = 'warn err';
+    w.textContent = `Total vote share is ${total.toFixed(1)}% — exceeds 100%. Please check your inputs.`;
+    warnEl.appendChild(w);
+  }
+
+  if (below.length) {
+    const w = document.createElement('p');
+    w.className = 'warn';
+    w.textContent = `Below 3% threshold (excluded): ${below.map(p => p.name).join(', ')}.`;
+    warnEl.appendChild(w);
+  }
+
+  if (!eligible.length) {
+    document.getElementById('results-section').style.display = 'none';
+    document.getElementById('metrics').style.display = 'none';
+    document.getElementById('chart-wrap').style.display = 'none';
+    return;
+  }
+
+  const sorted    = [...eligible].sort((a, b) => b.votes - a.votes);
+  const bonus     = calcBonus(sorted[0].votes);
+  const propTotal = 300 - bonus;
+  const propSeats = largestRemainder(sorted.map(p => p.votes), propTotal);
+
+  const final = sorted.map((p, i) => ({
+    ...p,
+    propSeats: propSeats[i],
+    bonus: i === 0 ? bonus : 0,
+    total: propSeats[i] + (i === 0 ? bonus : 0),
+  }));
+
+  lastFinal = final;
+
+  const mEl = document.getElementById('metrics');
+  mEl.style.display = 'grid';
+  mEl.innerHTML = `
+    <div class="metric"><p class="metric-label">Winner's bonus</p><p class="metric-value">${bonus}</p></div>
+    <div class="metric"><p class="metric-label">Proportional seats</p><p class="metric-value">${propTotal}</p></div>
+    <div class="metric"><p class="metric-label">${final[0].name.split(' ')[0]} total</p><p class="metric-value">${final[0].total}</p></div>
+  `;
+
+  const rowsEl = document.getElementById('results-rows');
+  rowsEl.innerHTML = '';
+  final.forEach((p, i) => {
+    const row = document.createElement('div');
+    row.className = 'result-row';
+    row.innerHTML = `
+      <div class="swatch" style="background:${p.color}"></div>
+      <span style="font-weight:${i === 0 ? '500' : '400'}">${p.name}${i === 0 && bonus > 0 ? `<span class="bonus-pill">+${bonus} bonus</span>` : ''}</span>
+      <span style="text-align:right;color:#666">${p.votes.toFixed(1)}%</span>
+      <span style="text-align:right">${p.propSeats}</span>
+      <span style="text-align:right;font-weight:${i === 0 ? '500' : '400'}">${p.total}</span>
+    `;
+    rowsEl.appendChild(row);
+  });
+
+  const note = document.createElement('p');
+  note.className = 'majority-note';
+  if (final[0].total >= 151) {
+    note.style.color = '#1a7a3a';
+    note.textContent = `${final[0].name} wins an outright majority with ${final[0].total} seats.`;
+  } else {
+    note.style.color = '#666';
+    note.textContent = `No outright majority — coalition talks would follow. ${final[0].name} is ${151 - final[0].total} seat${151 - final[0].total === 1 ? '' : 's'} short of 151.`;
+  }
+  rowsEl.appendChild(note);
+
+  document.getElementById('results-section').style.display = 'block';
+
+  const wrap = document.getElementById('chart-wrap');  wrap.style.display = 'block';
+  const cc = document.getElementById('chart-container');
+  cc.style.height = '320px';
+
+  document.getElementById('legend').innerHTML = final.map(p =>
+    `<span style="display:flex;align-items:center;gap:4px">
+      <span style="width:10px;height:10px;border-radius:2px;background:${p.color}"></span>
+      ${p.abbr || p.name.split(' ')[0]} ${p.total}
+    </span>`
+  ).join('');
+
+  document.getElementById('seatChart').setAttribute('aria-label',
+    `Seat allocations: ${final.map(p => p.name + ' ' + p.total).join(', ')}`);
+
+  if (chartInstance) chartInstance.destroy();
+  chartInstance = new Chart(document.getElementById('seatChart'), {
+    type: 'bar',
+    data: {
+      labels: final.map(p => p.abbr || p.name.split(' ')[0]),
+      datasets: [
+        { label:'Seats', data:final.map(p => p.total), backgroundColor:final.map(p => p.color + 'DD') },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { top: 8 } },
+      scales: {
+        x: { ticks:{ color:'#888', autoSkip:false, maxRotation:35, font:{ size:11 } }, grid:{ display:false } },
+        y: { ticks:{ color:'#888', maxTicksLimit:7 }, grid:{ color:'rgba(0,0,0,0.07)' } }
+      },
+      plugins: {
+        legend: { display:false },
+        tooltip: { callbacks:{ label: item => `${item.raw} seats` } },
+        annotation: {
+          annotations: {
+            majority: {
+              type: 'line',
+              yMin: 151,
+              yMax: 151,
+              borderColor: 'rgba(180,0,0,0.5)',
+              borderWidth: 1.5,
+              borderDash: [4, 4],
+              label: {
+                display: true,
+                content: 'Majority (151)',
+                position: 'end',
+                backgroundColor: 'transparent',
+                color: 'rgba(180,0,0,0.7)',
+                font: { size: 11 },
+                yAdjust: -10,
+              }
+            }
+          }
+        }
+      }
+    }
+  });
+
+  renderCoalition();
+}
+
+function renderCoalition() {
+  const section = document.getElementById('coalition-section');
+  if (!lastFinal.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  const cb = document.getElementById('coalition-checkboxes');
+  const existing = {};
+  cb.querySelectorAll('input[type=checkbox]').forEach(el => { existing[el.dataset.name] = el.checked; });
+
+  cb.innerHTML = '';
+  lastFinal.forEach(p => {
+    const checked = p.name in existing ? existing[p.name] : false;
+    const row = document.createElement('label');
+    row.style.cssText = 'display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;user-select:none;';
+    row.innerHTML = `
+      <input type="checkbox" data-name="${p.name}" ${checked ? 'checked' : ''} onchange="updateCoalition()" style="width:15px;height:15px;cursor:pointer;accent-color:${p.color};">
+      <span style="width:10px;height:10px;border-radius:2px;background:${p.color};flex-shrink:0;"></span>
+      <span style="flex:1;">${p.name}</span>
+      <span style="color:#888;min-width:60px;text-align:right;">${p.total} seat${p.total === 1 ? '' : 's'}</span>
+    `;
+    cb.appendChild(row);
+  });
+
+  updateCoalition();
+}
+
+function updateCoalition() {
+  const checked = document.querySelectorAll('#coalition-checkboxes input:checked');
+  const names = Array.from(checked).map(el => el.dataset.name);
+  const total = lastFinal.filter(p => names.includes(p.name)).reduce((s, p) => s + p.total, 0);
+  const needed = 151;
+  const hasMajority = total >= needed;
+
+  const result = document.getElementById('coalition-result');
+  const barWrap = document.getElementById('coalition-bar-wrap');
+  const bar = document.getElementById('coalition-bar');
+  const barLabel = document.getElementById('coalition-bar-label');
+
+  if (!names.length) {
+    result.textContent = '';
+    barWrap.style.display = 'none';
+    barLabel.textContent = '';
+    return;
+  }
+
+  const selectedParties = lastFinal.filter(p => names.includes(p.name));
+
+  barWrap.style.display = 'block';
+  const gradientStops = [];
+  let cumulative = 0;
+  selectedParties.forEach(p => {
+    const start = (cumulative / total * 100).toFixed(2);
+    cumulative += p.total;
+    const end = (cumulative / total * 100).toFixed(2);
+    gradientStops.push(`${p.color} ${start}%, ${p.color} ${end}%`);
+  });
+  bar.style.width = Math.min(100, (total / 300 * 100)) + '%';
+  bar.style.background = gradientStops.length ? `linear-gradient(to right, ${gradientStops.join(', ')})` : '#ccc';
+
+  if (hasMajority) {
+    result.style.color = '#1a7a3a';
+    result.textContent = `Coalition total: ${total} seats — majority achieved (${total - needed} over the line).`;
+    barLabel.textContent = `${total} / 300 seats`;
+  } else {
+    result.style.color = '#c00';
+    result.textContent = `Coalition total: ${total} seats — ${needed - total} short of a majority.`;
+    barLabel.textContent = `${total} / 300 seats — need ${needed - total} more`;
+  }
+}
+
+renderInputs();
+calculate();
+</script>
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
