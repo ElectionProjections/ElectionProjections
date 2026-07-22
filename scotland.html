@@ -735,8 +735,21 @@ function distribute(source, amount, tally, destinations){
     if(d === source) return selfWeight;
     return matrix[d] !== undefined ? matrix[d] : (matrix.minorDefault || 0);
   };
-  let totalWeight = 0;
-  effectiveDests.forEach(d => totalWeight += weightOf(d));
+  // The denominator uses the FULL transfer profile this source was
+  // calibrated against -- every named party in its matrix, whether or not
+  // they happen to be standing in this particular ward -- not just the
+  // parties actually present. A named recipient's weight that can't be
+  // paid out here (no candidate of theirs on this ballot) is simply left
+  // unclaimed, i.e. treated as extra exhaust, rather than being folded
+  // into whoever else is standing and inflating their share. Otherwise a
+  // party with near-zero real support can hoover up a windfall of
+  // transfers in wards where its usual competitors for them aren't
+  // contesting, and cross quota on an artifact rather than real votes.
+  const namedKeys = Object.keys(matrix).filter(k => k!=='exhaust' && k!=='minorDefault' && k!=='self');
+  let totalWeight = namedKeys.reduce((s,k)=>s+matrix[k], 0) + selfWeight;
+  effectiveDests.forEach(d => {
+    if(d !== source && matrix[d] === undefined) totalWeight += (matrix.minorDefault || 0);
+  });
   if(totalWeight<=0) return;
   const transferable = amount * (1 - matrix.exhaust);
   effectiveDests.forEach(d => {
@@ -1177,11 +1190,12 @@ function getCoalitionSet(councilName){
 }
 
 function renderCoalitionBuilder(councilName, data, sortedParties){
+  const seatParties = sortedParties.filter(p => (data.seats[p]||0) > 1e-6);
   const selected = getCoalitionSet(councilName);
-  Array.from(selected).forEach(p => { if(!sortedParties.includes(p)) selected.delete(p); });
+  Array.from(selected).forEach(p => { if(!seatParties.includes(p)) selected.delete(p); });
 
   const chipsEl = document.getElementById('coalitionChips');
-  chipsEl.innerHTML = sortedParties.map(p => {
+  chipsEl.innerHTML = seatParties.map(p => {
     const seats = Math.round(data.seats[p]);
     const isSel = selected.has(p);
     const color = PARTY_COLORS[p] || '#888';
@@ -1244,10 +1258,14 @@ function renderCouncilBreakdown(){
   const data = lastProjection.byCouncil[councilName];
   if(!data) return;
 
-  const sortedParties = Object.keys(data.seats)
-    .filter(p => data.seats[p] > 1e-6)
-    .sort((a,b)=>data.seats[b]-data.seats[a]);
-  const seatTotal = sortedParties.reduce((s,p)=>s+data.seats[p],0);
+  // Every party clearing a small vote-share threshold in this council is
+  // shown, not just seat-winners -- otherwise parties like Reform or small
+  // independents that poll here but don't clear quota anywhere just vanish.
+  const allPartyCodes = new Set([...Object.keys(data.seats), ...Object.keys(data.voteShare)]);
+  const sortedParties = Array.from(allPartyCodes)
+    .filter(p => (data.seats[p]||0) > 1e-6 || (data.voteShare[p]||0) > 0.3)
+    .sort((a,b) => ((data.seats[b]||0)-(data.seats[a]||0)) || ((data.voteShare[b]||0)-(data.voteShare[a]||0)));
+  const seatTotal = sortedParties.reduce((s,p)=>s+(data.seats[p]||0),0);
 
   document.getElementById('councilStatLine').textContent =
     `${data.totalSeats} seats across this council`;
@@ -1255,6 +1273,7 @@ function renderCouncilBreakdown(){
   const seatBar = document.getElementById('councilSeatBar');
   seatBar.innerHTML = '';
   sortedParties.forEach(p => {
+    if(!(data.seats[p] > 1e-6)) return;
     const div = document.createElement('div');
     div.style.width = (data.seats[p]/data.totalSeats*100) + '%';
     div.style.background = PARTY_COLORS[p];
@@ -1265,15 +1284,15 @@ function renderCouncilBreakdown(){
   const body = document.getElementById('councilResultsBody');
   body.innerHTML = '';
   sortedParties.forEach(p => {
-    const seats = Math.round(data.seats[p]);
-    const seatShare = (data.seats[p]/data.totalSeats*100).toFixed(1);
+    const seats = Math.round(data.seats[p]||0);
+    const seatShare = seats>0 ? (data.seats[p]/data.totalSeats*100).toFixed(1)+'%' : '—';
     const voteShare = data.voteShare[p] !== undefined ? data.voteShare[p].toFixed(1)+'%' : '—';
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><div class="party-cell"><span class="swatch" style="background:${PARTY_COLORS[p]}"></span>${PARTY_NAMES[p]}</div></td>
+      <td><div class="party-cell"><span class="swatch" style="background:${PARTY_COLORS[p]||'#888'}"></span>${PARTY_NAMES[p]||p}</div></td>
       <td>${voteShare}</td>
       <td><b>${seats}</b></td>
-      <td>${seatShare}%</td>
+      <td>${seatShare}</td>
     `;
     body.appendChild(tr);
   });
