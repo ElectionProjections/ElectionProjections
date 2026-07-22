@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Australia Election Projection</title>
+    <title>Malaysia Election Projection</title>
     <style>
         /* Basic reset and font styling */
         body {
@@ -189,32 +189,6 @@ details summary:hover{color:#1a1a18;}
 .cvs-heading{font-size:12px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:5px;}
 .cvs-row{display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#5f5e5a;margin-bottom:3px;}
 .cvs-pct{font-weight:500;color:#1a1a18;font-size:12px;}
-    /* Direct, high-priority layout override for the navigation list */
-#global-nav .nav-links, 
-body #global-nav .nav-links {
-    display: flex !important;
-    justify-content: flex-start !important;
-    margin: 0 0 0 auto !important; /* Pushes the links to the right side of the bar */
-    padding: 0 !important;
-    text-align: left !important;
-    list-style: none !important;
-}
-
-/* Ensure individual menu items inside the list don't inherit centering */
-#global-nav .nav-links li,
-body #global-nav .nav-links li {
-    text-align: left !important;
-    display: block !important;
-    margin: 0 !important;
-}
-
-/* Force the brand title/logo to stay anchored to the left */
-#global-nav .nav-logo,
-body #global-nav .nav-logo {
-    text-align: left !important;
-    margin-right: 40px !important;
-    margin-left: 0 !important;
-}
 </style>
 </head>
 <body>
@@ -486,7 +460,7 @@ const COALITION_COLORS={PH:'#e84c4c',BN:'#1a5ea8',PN:'#2a8c2a',GPS:'#f5a623',GRS
 // seat is never counted for winner/seat-share purposes but excluded from
 // vote-share purposes.
 const DEFAULT_COMP={PH:'PKR',BN:'UMNO',PN:'PAS',BNPN:'UMNO',IPR:'BERSATU',
-  GPS:'PBB',GRS:'BERSATU',WARISAN:'WARISAN',BP:'MUDA',OTHERS:'IND',BERSAMA:'BERSAMA'};
+  GPS:'PBB',GRS:'GAGASAN',WARISAN:'WARISAN',BP:'MUDA',OTHERS:'IND',BERSAMA:'BERSAMA'};
 
 // Per-seat component party for each coalition's candidate — covers both held seats (via SEAT_COMPONENT)
 // and non-held seats so that gains are attributed to the right component party, not just the default.
@@ -590,7 +564,7 @@ P175:{PH:'DAP'},P177:{PH:'PKR',BN:'UMNO'},
 P178:{PH:'AMANAH'},P179:{PH:'PKR',BN:'UMNO'},
 P180:{PH:'DAP'},P185:{PH:'DAP'},P190:{PH:'PKR'},
 // Sabah — non-GRS seats: GRS candidate party + other contestants
-P167:{PH:'PKR',GRS:'BERSATU'},P168:{BP:'MUDA',GRS:'PBS'},
+P167:{PH:'PKR'},P168:{BP:'MUDA',GRS:'PBS'},
 P169:{PH:'PKR',BN:'UMNO'},
 P170:{BN:'UMNO',GRS:'PBS'},P171:{BN:'UMNO'},P172:{BN:'UMNO',GRS:'PBS'},
 P173:{PH:'PKR'},P174:{BN:'UMNO'},
@@ -598,7 +572,7 @@ P176:{GRS:'UPKO'},
 P181:{PH:'DAP',BN:'UMNO'},P182:{PH:'PKR'},
 P183:{GRS:'UPKO',BN:'UMNO'},P184:{GRS:'UPKO'},
 P186:{BN:'UMNO'},P187:{BN:'UMNO'},P188:{BN:'UMNO'},
-P189:{PH:'PKR',GRS:'BERSATU'},P191:{BN:'UMNO'},
+P189:{PH:'PKR'},P191:{BN:'UMNO'},
 // Sarawak — PH-held seats: GPS candidate party (for GPS gains)
 P192:{PH:'DAP',GPS:'PDP'},
 P195:{PH:'DAP',GPS:'SUPP'},P196:{PH:'DAP',GPS:'SUPP'},
@@ -896,6 +870,12 @@ function bnpnNominee(id){
 // caught by a sanity check, not worth risking silently. Those coalitions still
 // use 2022 data below. BN/PH/PN were cross-checked and are reliable.
 const CAND_2026={P001:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P002:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P003:{BN:'UMNO',PH:'PKR',PN:'PAS'},P004:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P005:{BN:'UMNO',PH:'PKR',PN:'PAS'},P006:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P007:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P008:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P009:{BN:'MCA',PH:'DAP',PN:'PAS'},P010:{BN:'UMNO',PH:'PKR',PN:'PAS'},P011:{BN:'UMNO',PH:'PKR',PN:'PAS'},P012:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P013:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P014:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P015:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P016:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P017:{BN:'MIC',PH:'PKR',PN:'BERSATU'},P018:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P019:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P020:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P021:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P022:{BN:'UMNO',PH:'PKR',PN:'PAS'},P023:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P024:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P025:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P026:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P027:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P028:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P029:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P030:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P031:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P032:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P033:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P034:{BN:'UMNO',PH:'PKR',PN:'PAS'},P035:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P036:{BN:'UMNO',PH:'PKR',PN:'PAS'},P037:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P038:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P039:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P040:{BN:'UMNO',PH:'PKR',PN:'PAS'},P041:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P042:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P043:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P044:{BN:'UMNO',PH:'PKR',PN:'PAS'},P045:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P046:{BN:'MIC',PH:'DAP',PN:'GERAKAN'},P047:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P048:{BN:'MCA',PH:'PKR',PN:'GERAKAN'},P049:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P050:{BN:'MIC',PH:'DAP',PN:'GERAKAN'},P051:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P052:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P053:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P054:{BN:'UMNO',PH:'DAP',PN:'BERSATU'},P055:{BN:'UMNO',PH:'PKR',PN:'PAS'},P056:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P057:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P058:{BN:'UMNO',PH:'PKR',PN:'PAS'},P059:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P060:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P061:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P062:{BN:'MIC',PH:'PKR',PN:'BERSATU'},P063:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P064:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P065:{BN:'MIC',PH:'DAP',PN:'MIPP'},P066:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P067:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P068:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P069:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P070:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P071:{BN:'MCA',PH:'PKR',PN:'BERSATU'},P072:{BN:'MIC',PH:'PKR',PN:'BERSATU'},P073:{BN:'UMNO',PH:'PKR',PN:'PAS'},P074:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P075:{BN:'UMNO',PH:'PKR',PN:'PAS'},P076:{BN:'MIC',PH:'DAP',PN:'BERSATU'},P077:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P078:{BN:'UMNO',PH:'DAP',PN:'BERSATU'},P079:{BN:'UMNO',PH:'DAP',PN:'BERSATU'},P080:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P081:{BN:'UMNO',PH:'PKR',PN:'PAS'},P082:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P083:{BN:'UMNO',PH:'PKR',PN:'PAS'},P084:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P085:{BN:'UMNO',PH:'PKR',PN:'PAS'},P086:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P087:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P088:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P089:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P090:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P091:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P092:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P093:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P094:{BN:'MIC',PH:'PKR',PN:'PAS'},P095:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P096:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P097:{BN:'MIC',PH:'PKR',PN:'BERSATU'},P098:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P099:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P100:{BN:'MCA',PH:'PKR',PN:'PAS'},P101:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P102:{BN:'MIC',PH:'DAP',PN:'PAS'},P103:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P104:{BN:'MCA',PH:'PKR',PN:'GERAKAN'},P105:{BN:'MIC',PH:'PKR',PN:'BERSATU'},P106:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P107:{BN:'UMNO',PH:'PKR',PN:'PAS'},P108:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P109:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P110:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P111:{BN:'MIC',PH:'PKR',PN:'PAS'},P112:{BN:'MIC',PH:'PKR',PN:'PAS'},P113:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P114:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P115:{BN:'MIC',PH:'PKR',PN:'PAS'},P116:{BN:'UMNO',PH:'PKR',PN:'PAS'},P117:{BN:'MIC',PH:'DAP',PN:'GERAKAN'},P118:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P119:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P120:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P121:{BN:'UMNO',PH:'PKR',PN:'PAS'},P122:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P123:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P124:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P125:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P126:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P127:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P128:{BN:'MIC',PH:'DAP',PN:'PAS'},P129:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P130:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P131:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P132:{BN:'MIC',PH:'PKR',PN:'PAS'},P133:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P134:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P135:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P136:{BN:'UMNO',PH:'PKR',PN:'PAS'},P137:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P138:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P139:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P140:{BN:'MIC',PH:'PKR',PN:'BERSATU'},P141:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P142:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P143:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P144:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P145:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P146:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P147:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P148:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P149:{BN:'UMNO',PH:'AMANAH',PN:'PAS'},P150:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P151:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P152:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P153:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P154:{BN:'UMNO',PH:'DAP',PN:'BERSATU'},P155:{BN:'UMNO',PH:'PKR',PN:'PAS'},P156:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P157:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P158:{BN:'MIC',PH:'PKR',PN:'BERSATU'},P159:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P160:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P161:{BN:'UMNO',PH:'AMANAH',PN:'GERAKAN'},P162:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P163:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P164:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P165:{BN:'MCA',PH:'DAP',PN:'BERSATU'},P166:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P167:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P168:{PH:'PKR'},P169:{BN:'UMNO',PH:'PKR'},P170:{PH:'PKR'},P171:{BN:'UMNO',PH:'PKR',PN:'PAS'},P172:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P173:{BN:'UMNO',PH:'PKR'},P174:{PH:'PKR'},P175:{BN:'UMNO',PH:'DAP',PN:'BERSATU'},P176:{BN:'UMNO',PH:'PKR'},P177:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P178:{BN:'UMNO',PH:'AMANAH',PN:'BERSATU'},P179:{BN:'PBRS',PH:'PKR',PN:'BERSATU'},P180:{PH:'DAP'},P181:{BN:'UMNO',PH:'DAP'},P182:{BN:'PBRS',PH:'PKR'},P183:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P184:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P185:{BN:'UMNO',PH:'DAP',PN:'PAS'},P186:{BN:'MCA',PH:'DAP',PN:'GERAKAN'},P187:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P188:{BN:'UMNO',PH:'DAP',PN:'PAS'},P189:{BN:'UMNO',PH:'PKR',PN:'BERSATU'},P190:{PH:'PKR',PN:'PAS'},P191:{BN:'UMNO',PH:'PKR',PN:'PAS'},P192:{PH:'DAP'},P193:{PH:'AMANAH'},P194:{PH:'PKR'},P195:{PH:'DAP'},P196:{PH:'DAP'},P197:{PH:'AMANAH'},P198:{PH:'PKR'},P199:{PH:'DAP'},P200:{PH:'AMANAH'},P201:{PH:'AMANAH',PN:'PAS'},P202:{PH:'PKR'},P203:{PH:'PKR'},P204:{PH:'PKR'},P205:{PH:'PKR',PN:'BERSATU'},P206:{PH:'AMANAH'},P207:{PH:'AMANAH'},P208:{PH:'DAP'},P209:{PH:'PKR'},P210:{PH:'PKR'},P211:{PH:'DAP'},P212:{PH:'DAP'},P213:{PH:'PKR'},P214:{PH:'PKR'},P215:{PH:'PKR'},P216:{PH:'PKR'},P217:{PH:'DAP'},P218:{PH:'PKR'},P219:{PH:'PKR'},P220:{PH:'PKR'},P221:{PH:'PKR'},P222:{PH:'PKR'}};
+// Verified 2026 GRS candidate list, sourced the same way as CAND_2026 above.
+// Supersedes the older 2022-sourced GRS entries in CAND_COMP (which had at
+// least P167 and P189 wrongly attributed to "BERSATU Sabah" -- BERSATU was
+// expelled from GRS in the January 2023 Sabah political crisis and now sits
+// under PN/IPR instead; GRS's real 2026 components are GAGASAN/PBS/LDP/PCS/PHRS).
+const CAND_2026_GRS={P167:'GAGASAN',P168:'PBS',P169:'GAGASAN',P170:'PBS',P171:'GAGASAN',P172:'LDP',P173:'GAGASAN',P174:'PBS',P175:'GAGASAN',P176:'PCS',P177:'GAGASAN',P178:'GAGASAN',P179:'PBS',P180:'PBS',P181:'GAGASAN',P182:'PBS',P183:'GAGASAN',P184:'GAGASAN',P185:'GAGASAN',P186:'LDP',P187:'GAGASAN',P188:'GAGASAN',P189:'GAGASAN',P190:'PBS',P191:'PHRS'};
 
 // Single resolver used by all three attribution panels (component breakdown,
 // vote-share, state summary), in both modes. PH's 2026 candidate applies
@@ -1154,6 +1134,7 @@ function othersPartyFor(id){
 // map and its tooltip/legend all agree with the rest of the app.
 function resolveComponentParty(coal, id){
   if(coal==='OTHERS') return othersPartyFor(id);
+  if(coal==='GRS' && CAND_2026_GRS[id]) return CAND_2026_GRS[id];
   const viaNominee=nomineeFor(coal, id);
   if(viaNominee) return viaNominee;
   const comp=SEAT_COMPONENT[id];
