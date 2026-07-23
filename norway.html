@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Norway Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+<!-- GoatCounter Analytics -->
+    <script data-goatcounter="https://electionprojections.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Norway Election Calculator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; }
+  #root { min-height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+const TOTAL_SEATS = 169;
+const MAJORITY = 85;
+const THRESHOLD_PCT = 4;
+
+// 19 constituencies, current apportionment (in effect since the 2025 election).
+// totalSeats includes that constituency's one guaranteed levelling seat;
+// directSeats = totalSeats - 1 are allocated purely from that constituency's
+// own vote count via the modified Sainte-Laguë method.
+// Population (1.1.2024) is used as a proxy for relative vote weight between
+// constituencies, since this tool assumes a uniform national vote share
+// rather than requiring real per-constituency results.
+const CONSTITUENCIES = [{
+  name: "Østfold",
+  totalSeats: 9,
+  population: 312152
+}, {
+  name: "Akershus",
+  totalSeats: 20,
+  population: 728803
+}, {
+  name: "Oslo",
+  totalSeats: 20,
+  population: 717710
+}, {
+  name: "Hedmark",
+  totalSeats: 7,
+  population: 202048
+}, {
+  name: "Oppland",
+  totalSeats: 6,
+  population: 174256
+}, {
+  name: "Buskerud",
+  totalSeats: 8,
+  population: 269819
+}, {
+  name: "Vestfold",
+  totalSeats: 7,
+  population: 256432
+}, {
+  name: "Telemark",
+  totalSeats: 6,
+  population: 177093
+}, {
+  name: "Aust-Agder",
+  totalSeats: 4,
+  population: 122968
+}, {
+  name: "Vest-Agder",
+  totalSeats: 6,
+  population: 196882
+}, {
+  name: "Rogaland",
+  totalSeats: 14,
+  population: 499417
+}, {
+  name: "Hordaland",
+  totalSeats: 16,
+  population: 541875
+}, {
+  name: "Sogn og Fjordane",
+  totalSeats: 4,
+  population: 109424
+}, {
+  name: "Møre og Romsdal",
+  totalSeats: 8,
+  population: 270624
+}, {
+  name: "Sør-Trøndelag",
+  totalSeats: 10,
+  population: 347516
+}, {
+  name: "Nord-Trøndelag",
+  totalSeats: 5,
+  population: 135440
+}, {
+  name: "Nordland",
+  totalSeats: 9,
+  population: 243081
+}, {
+  name: "Troms",
+  totalSeats: 6,
+  population: 169610
+}, {
+  name: "Finnmark",
+  totalSeats: 4,
+  population: 75053
+}];
+
+// Real 2025 national result, used as sensible defaults.
+// Real 2025 vote share by constituency, for the 9 parties that hold seats.
+// Party order matches DEFAULT_PARTIES below: Ap, FrP, H, SV, Sp, R, MDG, KrF, V.
+// Source: official constituency results, Norwegian Directorate of Elections.
+const CONSTITUENCY_PCT = {
+  "Østfold": [29.8, 28.7, 12.5, 4.3, 4.8, 5.2, 3.4, 3.9, 2.5],
+  "Akershus": [27.3, 23.6, 19.4, 5.2, 2.9, 4.2, 5.4, 2.6, 5.4],
+  "Oslo": [25.7, 14.3, 18.5, 10.7, 0.8, 7.2, 10.3, 2.1, 7.3],
+  "Hedmark": [35.0, 21.1, 9.0, 4.5, 13.6, 4.8, 2.8, 2.2, 1.9],
+  "Oppland": [33.2, 21.4, 9.2, 4.5, 15.8, 4.5, 2.9, 2.2, 2.2],
+  "Buskerud": [29.4, 27.6, 15.3, 4.4, 5.5, 4.0, 3.6, 2.8, 3.1],
+  "Vestfold": [27.5, 27.6, 16.5, 4.1, 3.3, 4.9, 4.3, 4.1, 3.5],
+  "Telemark": [31.3, 26.1, 11.0, 4.1, 6.2, 5.9, 3.3, 5.0, 2.1],
+  "Aust-Agder": [26.9, 27.8, 13.0, 3.9, 5.1, 4.6, 3.4, 8.1, 2.6],
+  "Vest-Agder": [22.8, 27.7, 13.5, 3.9, 4.0, 4.0, 3.5, 13.0, 3.1],
+  "Rogaland": [23.7, 28.7, 15.3, 3.7, 5.0, 5.5, 2.7, 8.4, 2.6],
+  "Hordaland": [26.7, 23.8, 16.9, 5.8, 4.2, 5.0, 4.9, 5.0, 3.4],
+  "Sogn og Fjordane": [30.9, 20.8, 10.2, 4.3, 16.0, 4.0, 3.3, 4.3, 2.9],
+  "Møre og Romsdal": [23.6, 32.3, 12.6, 3.8, 7.3, 3.5, 3.1, 6.8, 3.0],
+  "Sør-Trøndelag": [32.0, 19.8, 12.5, 6.9, 6.8, 6.0, 5.8, 2.5, 3.7],
+  "Nord-Trøndelag": [36.3, 19.5, 9.0, 4.2, 14.8, 5.2, 2.4, 2.6, 1.8],
+  "Nordland": [30.6, 25.6, 11.2, 5.7, 8.6, 6.6, 2.9, 2.4, 2.0],
+  "Troms": [29.5, 25.8, 10.9, 7.2, 6.3, 7.4, 3.6, 2.9, 2.0],
+  "Finnmark": [28.1, 24.5, 5.9, 5.2, 5.5, 9.8, 2.2, 2.1, 1.2]
+};
+// Party ids 1-9 map onto CONSTITUENCY_PCT's array positions in this order.
+const CONSTITUENCY_PARTY_ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+// The real national result each of those 9 parties actually got — the
+// baseline against which live input changes are compared to derive a
+// uniform swing, which then gets applied on top of each constituency's
+// own real 2025 result (same technique used for the Faroe Islands tool).
+const NATIONAL_ACTUAL_PCT = {
+  1: 28.02,
+  2: 23.85,
+  3: 14.65,
+  4: 5.63,
+  5: 5.59,
+  6: 5.32,
+  7: 4.74,
+  8: 4.20,
+  9: 3.69
+};
+const NORWAY_MAP = {
+  "viewBox": "0 0 655 760",
+  "features": [{
+    "name": "Rogaland",
+    "d": "M74.3,650.6L69.0,654.8L68.3,659.2L69.8,661.2L66.5,664.0L65.2,670.1L65.4,677.0L67.8,677.8L58.8,692.7L57.8,700.6L60.3,704.5L55.9,707.0L60.0,710.9L60.0,722.4L56.0,726.9L46.5,721.9L45.1,717.8L42.6,719.3L43.7,717.4L37.3,712.0L33.5,701.3L35.5,690.0L38.1,691.6L35.5,686.1L40.1,689.6L39.5,695.4L43.0,689.5L49.8,696.8L52.2,696.6L47.3,693.1L45.4,689.5L47.7,688.6L42.9,683.7L48.3,679.9L46.1,679.8L50.7,673.1L58.8,670.0L49.2,673.4L48.3,671.0L51.3,668.7L46.0,669.0L48.2,665.3L44.2,667.8L43.5,663.0L50.3,661.2L43.4,661.5L42.1,657.7L42.1,662.1L37.7,666.2L41.9,663.6L42.9,668.4L37.1,673.4L36.8,660.1L35.5,660.1L32.8,663.7L35.9,661.5L36.4,669.4L34.9,672.8L28.9,667.2L29.7,672.8L28.9,679.7L26.0,677.9L26.3,668.1L28.6,666.6L27.1,660.2L29.1,661.2L33.9,658.7L35.3,656.8L35.0,652.0L36.0,650.0L49.8,655.4L52.7,645.4L58.3,641.2L61.8,641.9L61.0,648.5L71.5,644.6L71.9,649.1L74.3,650.6Z"
+  }, {
+    "name": "Hordaland",
+    "d": "M80.3,595.3L79.6,596.1L84.3,597.6L84.4,601.7L86.5,603.8L85.2,616.3L80.8,627.2L74.7,634.6L71.5,644.6L61.0,648.5L61.8,641.9L58.3,641.2L52.7,645.4L49.8,655.4L40.7,651.9L54.6,639.4L46.0,646.2L37.9,640.9L45.4,635.0L46.5,628.8L53.1,625.5L49.0,626.6L47.5,622.0L53.9,612.1L61.4,610.2L58.9,619.1L58.5,628.8L61.8,611.2L65.2,606.5L60.5,606.8L62.6,603.9L52.2,610.9L50.5,606.7L52.2,611.4L49.7,612.5L50.2,617.1L49.1,619.1L45.9,617.6L43.7,623.3L43.5,630.7L41.2,633.4L39.1,632.3L38.9,623.1L35.5,624.1L39.5,619.4L35.7,618.7L39.8,610.5L37.1,611.9L32.4,623.9L27.6,621.0L29.8,618.2L27.5,619.0L26.7,616.5L27.7,614.7L25.9,611.9L29.1,611.1L28.1,604.6L34.2,609.3L39.4,607.3L39.3,596.3L40.7,596.6L38.4,594.0L39.3,595.4L38.7,606.5L34.5,608.9L29.9,602.6L35.9,598.2L38.6,590.6L28.5,602.7L26.8,598.2L24.5,596.1L28.5,597.6L20.5,587.8L33.0,596.1L28.2,590.2L29.6,587.1L25.2,586.2L27.2,581.4L42.8,580.1L45.9,575.4L52.8,583.9L64.5,581.5L65.1,583.0L62.6,585.5L68.1,586.1L66.2,590.2L69.0,592.8L80.3,595.3ZM31.9,628.5L38.4,629.3L38.6,632.6L36.7,638.4L29.9,631.0L31.9,628.5ZM34.6,644.1L31.5,646.3L28.3,638.7L30.5,634.2L33.7,637.4L34.6,644.1ZM29.1,661.2L27.2,658.6L30.7,652.0L33.1,653.8L31.6,651.1L34.6,647.3L33.9,658.7L29.1,661.2ZM26.1,639.3L31.3,648.5L28.9,650.6L30.0,649.1L27.5,646.6L27.7,654.5L26.2,656.0L25.4,650.4L27.6,646.2L24.4,645.3L25.0,641.9L23.3,640.6L26.1,639.3ZM27.6,609.6L26.0,611.1L21.0,601.6L27.0,605.5L27.6,609.6ZM25.0,614.1L25.8,620.6L23.7,623.5L20.6,617.4L23.5,615.3L22.2,615.9L20.8,609.0L21.5,607.3L22.2,608.9L21.9,609.3L25.0,614.1Z"
+  }, {
+    "name": "Sogn og Fjordane",
+    "d": "M27.5,545.1L21.8,544.7L31.7,541.7L21.7,542.8L21.2,537.5L27.0,537.5L25.4,535.7L28.9,534.7L24.0,535.2L30.9,530.6L29.0,530.0L32.2,526.7L40.3,530.3L37.1,532.5L45.2,530.6L43.5,537.1L45.8,530.9L49.8,535.2L50.6,534.6L47.5,530.6L57.0,533.0L60.1,530.3L59.4,529.5L65.6,529.3L60.5,528.1L55.7,531.5L43.5,528.6L41.0,530.0L39.2,528.0L45.2,527.4L32.7,525.5L26.1,528.0L21.6,522.6L24.8,520.4L25.2,524.6L28.7,524.9L32.0,521.1L24.0,512.9L26.2,510.3L33.5,521.4L53.0,524.5L61.1,518.2L65.5,524.2L77.5,521.7L81.4,537.2L89.2,536.3L90.7,537.5L90.5,541.9L91.7,546.6L99.2,547.9L100.6,552.1L96.5,553.7L98.7,559.6L94.2,564.6L98.9,573.3L98.0,574.4L99.6,575.5L98.2,579.2L89.4,581.8L85.9,591.8L80.3,595.3L69.0,592.8L66.2,590.2L68.1,586.1L62.6,585.5L65.1,583.0L64.5,581.5L52.8,583.9L45.9,575.4L42.8,580.1L27.2,581.4L25.2,586.2L22.0,579.9L24.6,579.2L22.5,576.8L45.2,570.3L55.3,574.2L60.9,567.6L65.7,569.2L70.1,577.4L65.5,583.9L70.3,578.2L72.9,580.8L72.1,585.0L73.9,581.5L69.8,572.5L80.6,571.9L79.0,569.8L86.1,564.6L79.5,566.3L76.6,560.8L83.1,550.1L76.0,555.5L77.5,558.1L75.1,560.8L78.6,567.3L69.0,571.6L67.5,569.5L73.3,566.3L60.5,565.7L63.4,554.2L56.8,571.0L45.7,568.4L46.7,566.6L31.2,573.5L23.6,567.5L29.2,566.9L20.6,563.1L26.8,558.9L22.5,556.7L25.9,553.7L21.3,554.3L27.5,551.1L35.8,552.9L39.6,550.2L41.9,552.0L38.7,549.3L33.2,552.3L32.3,551.7L32.8,550.4L26.0,548.9L31.3,546.9L27.5,545.1ZM27.5,545.1L32.8,544.8L26.1,544.5L27.5,545.1ZM24.6,579.2L24.6,579.3L29.3,578.0L24.6,579.2ZM28.0,531.2L20.9,534.6L19.6,532.4L21.9,531.2L17.6,530.2L20.7,527.1L28.0,531.2ZM22.4,571.3L18.8,573.3L19.6,574.7L16.0,571.9L17.6,572.9L19.1,565.7L21.9,566.3L22.4,571.3Z"
+  }, {
+    "name": "Vest-Agder",
+    "d": "M97.3,735.1L94.4,736.2L95.0,732.6L93.7,729.8L94.1,733.8L91.8,738.7L81.4,742.7L73.5,739.6L70.6,744.0L70.1,741.7L72.7,738.9L68.9,741.2L70.7,736.4L67.8,740.1L64.8,737.6L70.5,735.1L64.4,732.4L66.1,735.7L64.1,736.4L63.3,732.3L63.0,736.8L65.0,739.3L58.6,736.4L66.6,727.8L62.6,730.7L61.5,727.3L54.6,727.8L60.0,722.4L60.0,710.9L55.9,707.0L60.3,704.5L57.8,700.6L58.8,692.7L67.8,677.8L73.9,679.4L72.6,685.4L73.5,687.1L71.8,688.0L73.0,692.4L70.0,697.6L82.9,695.6L85.0,700.9L84.1,705.4L82.2,705.2L82.1,708.5L83.8,710.1L81.6,716.4L87.4,717.8L91.7,725.4L94.1,722.4L94.8,726.0L93.9,727.3L97.9,729.5L96.3,733.5L97.3,735.1Z"
+  }, {
+    "name": "Aust-Agder",
+    "d": "M125.3,700.3L118.5,701.6L118.0,702.9L122.4,702.9L118.4,705.1L122.1,705.0L115.9,710.1L116.5,712.6L109.8,718.8L110.2,721.2L105.1,728.6L102.2,728.8L98.7,734.3L99.0,735.5L97.3,735.1L96.3,733.5L97.9,729.5L93.9,727.3L94.8,726.0L94.1,722.4L91.7,725.4L87.4,717.8L81.6,716.4L83.8,710.1L82.1,708.5L82.2,705.2L84.1,705.4L85.0,700.9L82.9,695.6L70.0,697.6L73.0,692.4L71.8,688.0L73.5,687.1L72.6,685.4L73.9,679.4L65.4,677.0L65.2,670.1L66.5,664.0L69.8,661.2L68.3,659.2L69.0,654.8L74.3,650.6L81.2,654.2L84.1,662.2L82.0,665.8L85.7,669.7L87.2,675.1L86.8,679.8L92.1,689.5L106.5,691.5L110.5,697.1L112.6,692.5L111.0,690.6L116.6,688.1L121.3,698.5L125.3,700.3Z"
+  }, {
+    "name": "M\u00f8re og Romsdal",
+    "d": "M118.1,501.7L97.8,503.9L92.5,512.4L86.6,511.9L77.5,521.7L65.5,524.2L61.1,518.2L53.0,524.5L33.5,521.4L36.6,518.5L31.5,515.1L33.3,511.2L39.3,517.3L37.8,512.5L42.0,511.0L44.3,513.5L41.9,521.9L45.1,514.4L53.2,518.8L43.9,510.2L48.3,511.8L44.6,508.5L53.3,501.4L59.3,514.1L58.5,516.4L60.0,514.7L58.7,511.5L61.0,511.5L55.1,502.4L62.7,497.3L67.2,499.5L66.6,501.1L69.4,506.5L69.6,512.5L66.3,517.6L74.1,516.6L68.3,515.9L70.2,512.8L70.4,506.8L79.3,508.3L69.0,504.9L67.9,498.6L63.9,496.7L64.8,495.5L50.7,496.6L62.6,494.9L56.5,493.8L59.1,492.3L51.6,492.9L53.5,488.4L59.0,487.8L60.1,491.4L61.2,487.3L70.3,486.0L72.5,493.3L72.2,488.7L73.2,487.3L82.5,492.9L87.9,490.3L78.6,487.5L92.2,481.1L96.4,484.1L93.4,480.8L94.5,479.3L77.5,483.7L86.4,478.4L68.9,482.2L68.5,479.2L69.7,477.0L74.9,477.5L66.8,472.0L76.4,466.4L79.9,472.3L85.5,468.8L88.0,469.2L85.3,472.6L93.7,468.8L95.7,471.3L96.1,476.8L105.5,485.3L106.1,482.5L97.5,476.4L96.1,469.9L92.7,466.3L90.1,467.6L95.4,461.2L96.3,463.1L96.0,465.1L100.8,468.9L100.9,473.0L109.6,477.0L102.9,469.9L108.7,468.6L104.0,468.6L107.0,465.7L101.6,468.6L100.6,467.3L104.7,466.0L98.2,465.4L96.7,460.7L111.1,456.8L114.7,460.6L127.7,457.2L126.9,464.2L130.4,466.4L126.8,469.5L127.6,475.4L126.6,477.1L114.7,483.0L122.4,491.4L120.9,498.6L118.1,501.7ZM110.8,443.6L114.1,447.4L112.2,452.2L112.7,455.9L104.6,451.7L111.1,448.1L108.3,444.9L110.8,443.6ZM103.5,451.4L106.6,456.9L101.4,458.1L98.6,452.4L103.5,451.4ZM98.0,446.4L92.9,449.2L91.3,448.0L93.9,448.3L87.9,444.5L95.2,441.1L98.0,446.4ZM86.5,466.6L77.6,468.0L80.1,463.8L84.1,463.5L84.5,462.9L83.3,461.0L84.3,460.6L83.9,460.7L86.5,466.6ZM48.3,502.7L40.0,510.9L34.4,508.0L41.6,506.5L42.2,504.7L40.0,504.3L43.1,498.9L48.3,502.7Z"
+  }, {
+    "name": "Telemark",
+    "d": "M135.1,665.0L135.1,670.3L137.9,677.9L136.1,679.1L136.5,685.2L132.7,684.6L134.4,688.3L123.5,696.6L127.7,697.1L125.3,700.3L121.3,698.5L116.6,688.1L111.0,690.6L112.6,692.5L110.5,697.1L106.5,691.5L92.1,689.5L86.8,679.8L87.2,675.1L85.7,669.7L82.0,665.8L84.1,662.2L81.2,654.2L71.9,649.1L71.5,644.6L74.7,634.6L80.8,627.2L110.1,622.5L115.6,627.2L116.5,633.6L121.2,637.1L121.0,642.1L125.4,644.6L124.5,649.5L126.3,650.0L128.8,658.0L127.8,661.1L135.1,665.0Z"
+  }, {
+    "name": "Buskerud",
+    "d": "M152.1,644.3L155.0,656.1L150.3,658.7L150.7,651.0L145.4,647.0L147.8,649.5L140.3,651.1L138.3,655.5L141.7,661.7L134.6,662.4L135.1,665.0L127.8,661.1L128.8,658.0L126.3,650.0L124.5,649.5L125.4,644.6L121.0,642.1L121.2,637.1L116.5,633.6L115.6,627.2L110.1,622.5L80.8,627.2L85.2,616.3L86.5,603.8L84.4,601.7L84.3,597.6L79.6,596.1L85.9,591.8L89.4,581.8L98.2,579.2L99.6,575.5L98.0,574.4L98.9,573.3L123.5,590.4L127.9,603.3L136.3,607.4L135.9,603.5L139.1,598.8L138.0,597.5L141.2,597.6L147.7,619.0L154.5,625.3L151.9,631.5L149.4,633.6L148.5,644.0L152.1,644.3Z"
+  }, {
+    "name": "Oppland",
+    "d": "M167.7,599.1L162.1,606.5L157.2,603.6L156.2,608.6L162.4,613.4L156.5,625.1L154.5,625.3L147.7,619.0L141.2,597.6L138.0,597.5L139.1,598.8L135.9,603.5L136.3,607.4L127.9,603.3L123.5,590.4L98.9,573.3L94.2,564.6L98.7,559.6L96.5,553.7L100.6,552.1L99.2,547.9L91.7,546.6L90.5,541.9L90.7,537.5L89.2,536.3L81.4,537.2L77.5,521.7L86.6,511.9L92.5,512.4L97.8,503.9L118.1,501.7L135.4,506.2L130.4,511.9L138.6,519.5L136.5,521.4L136.7,527.4L144.2,528.7L141.5,535.9L149.9,540.4L155.5,538.2L157.0,549.6L156.5,551.4L160.5,562.7L150.8,573.9L155.8,579.8L158.0,589.7L167.7,599.1Z"
+  }, {
+    "name": "\u00d8stfold",
+    "d": "M183.6,674.5L179.0,692.8L174.9,693.8L174.9,688.3L175.3,688.6L172.9,682.3L173.2,681.3L171.8,681.7L159.8,679.2L157.4,672.9L159.6,669.6L155.9,669.1L156.6,660.6L158.8,660.3L163.6,651.4L163.3,648.8L169.4,650.1L170.1,645.3L172.1,646.0L175.7,654.9L180.8,647.9L180.1,646.7L186.0,644.1L186.2,649.4L180.4,655.2L183.6,674.5Z"
+  }, {
+    "name": "Akershus",
+    "d": "M183.9,641.3L186.0,644.1L180.1,646.7L180.8,647.9L175.7,654.9L172.1,646.0L170.1,645.3L169.4,650.1L163.3,648.8L163.6,651.4L158.8,660.3L156.6,660.6L154.1,646.0L155.9,639.6L158.4,641.9L162.5,641.8L161.8,638.9L162.7,635.5L156.5,625.1L162.4,613.4L156.2,608.6L157.2,603.6L162.1,606.5L167.7,599.1L169.0,604.6L178.2,617.8L177.3,622.8L183.5,629.6L182.8,634.9L183.9,641.3ZM151.9,631.5L155.5,637.4L152.3,639.3L152.1,644.3L148.5,644.0L149.4,633.6L151.9,631.5Z"
+  }, {
+    "name": "Hedmark",
+    "d": "M203.6,574.2L193.0,576.7L202.0,604.2L202.0,610.2L199.5,614.7L200.5,621.9L199.6,627.2L191.8,638.6L183.9,641.3L182.8,634.9L183.5,629.6L177.3,622.8L178.2,617.8L169.0,604.6L167.7,599.1L158.0,589.7L155.8,579.8L150.8,573.9L160.5,562.7L156.5,551.4L157.0,549.6L155.5,538.2L149.9,540.4L141.5,535.9L144.2,528.7L136.7,527.4L136.5,521.4L138.6,519.5L130.4,511.9L142.6,498.6L140.5,491.3L145.0,484.3L162.3,483.7L167.8,486.5L177.2,501.7L193.7,503.9L194.8,507.4L190.9,537.4L197.6,546.3L201.2,546.0L208.3,557.7L203.6,574.2Z"
+  }, {
+    "name": "Vestfold",
+    "d": "M136.5,685.2L136.1,679.1L137.9,677.9L135.1,670.3L135.1,665.0L134.6,662.4L141.7,661.7L138.3,655.5L140.3,651.1L147.8,649.5L149.2,650.4L150.1,653.3L149.5,658.0L145.8,656.4L149.4,663.6L152.0,663.6L151.2,667.2L152.6,671.5L149.4,672.5L146.8,685.4L140.7,685.1L141.3,688.9L139.6,689.6L136.5,685.2Z"
+  }, {
+    "name": "Oslo",
+    "d": "M155.5,637.4L151.9,631.5L154.5,625.3L156.5,625.1L162.7,635.5L161.8,638.9L162.5,641.8L158.4,641.9L158.3,637.7L155.5,637.4Z"
+  }, {
+    "name": "S\u00f8r-Tr\u00f8ndelag",
+    "d": "M160.6,442.7L160.6,448.0L174.8,449.0L178.9,457.1L188.9,456.9L192.9,467.0L189.4,472.4L190.9,480.9L189.0,488.4L193.7,503.9L177.2,501.7L167.8,486.5L162.3,483.7L145.0,484.3L140.5,491.3L142.6,498.6L135.4,506.2L118.1,501.7L120.9,498.6L122.4,491.4L114.7,483.0L126.6,477.1L127.6,475.4L126.8,469.5L130.4,466.4L126.9,464.2L127.7,457.2L114.7,460.6L111.1,456.8L116.3,455.5L112.7,455.9L112.2,452.2L114.1,447.4L110.8,443.6L114.4,445.7L116.8,441.4L120.8,446.4L118.8,451.1L128.5,445.1L122.5,446.7L120.8,444.1L123.7,442.3L120.1,440.1L130.5,437.8L128.3,435.0L134.4,431.3L133.5,433.1L139.8,442.6L136.1,449.8L145.3,449.2L141.7,445.7L144.8,442.2L160.6,442.7ZM144.4,437.9L139.1,439.7L135.7,432.4L143.4,425.3L129.2,427.7L135.7,424.8L129.9,424.6L132.7,420.4L145.6,415.8L139.1,417.0L145.7,411.7L139.1,414.8L140.6,409.2L138.7,408.4L145.9,406.2L143.1,405.2L145.4,400.5L149.2,401.9L146.8,398.9L150.9,392.3L156.5,391.8L151.0,389.5L155.3,390.2L162.2,396.4L157.9,402.1L161.2,406.5L158.6,412.5L143.5,434.5L144.4,437.9ZM121.4,435.9L105.5,443.5L100.0,440.5L110.6,436.0L105.8,434.3L106.9,433.2L121.4,435.9Z"
+  }, {
+    "name": "Nord-Tr\u00f8ndelag",
+    "d": "M192.0,357.6L205.9,359.8L213.4,350.6L242.8,350.0L226.9,379.7L237.8,386.3L238.8,401.1L234.3,411.3L216.3,406.5L203.9,413.2L191.2,434.3L192.7,440.5L187.1,452.1L188.9,456.9L178.9,457.1L174.8,449.0L160.6,448.0L160.6,442.7L161.9,441.3L158.2,438.2L162.6,435.9L155.2,436.7L174.9,422.7L165.7,419.6L175.8,411.4L169.3,407.6L154.3,422.6L163.1,417.0L165.7,420.5L162.9,425.8L144.4,437.9L143.5,434.5L158.6,412.5L161.2,406.5L157.9,402.1L162.2,396.4L155.3,390.2L153.3,387.5L160.2,391.4L155.8,386.9L162.8,383.8L163.5,382.5L161.8,380.0L163.4,378.2L172.1,387.8L169.3,394.6L173.7,391.4L172.4,388.8L179.2,385.6L174.1,385.6L181.2,379.6L176.2,380.6L173.0,374.9L184.5,367.9L178.3,366.8L183.4,364.4L179.5,365.7L180.5,363.6L190.9,358.6L178.6,363.9L179.6,364.2L173.3,370.3L168.3,370.9L174.6,367.1L169.7,366.8L170.6,365.1L176.2,363.3L170.6,364.5L190.1,350.3L190.6,346.2L195.6,350.5L187.3,352.7L190.5,353.8L189.9,354.4L192.1,356.6L192.0,357.6ZM166.9,357.6L165.3,360.1L172.7,359.8L167.4,366.3L165.8,362.6L160.0,365.2L164.7,360.5L157.5,364.1L166.9,357.6Z"
+  }, {
+    "name": "Nordland",
+    "d": "M296.2,161.2L295.7,162.1L330.4,157.6L332.8,161.5L332.2,168.7L333.4,180.1L327.5,192.8L312.8,184.5L299.9,195.7L292.1,216.8L286.2,217.7L284.6,222.2L292.0,234.9L291.6,243.7L267.7,274.7L270.3,285.8L247.3,294.2L249.9,311.9L246.9,327.8L247.1,339.5L244.1,343.0L242.8,350.0L213.4,350.6L205.9,359.8L192.0,357.6L192.8,355.7L191.7,354.0L198.6,352.4L199.5,350.8L197.2,351.2L210.6,338.9L198.9,349.3L196.0,347.8L199.8,345.8L195.6,343.7L198.7,342.4L195.0,342.3L198.8,336.1L188.6,344.8L191.0,341.1L189.7,339.8L191.2,336.1L194.2,335.0L191.5,335.1L196.1,330.9L192.0,332.0L194.7,324.1L202.7,333.6L206.2,331.2L197.2,326.9L195.9,321.9L199.4,316.1L202.7,318.1L200.4,315.1L203.0,311.7L204.7,313.8L205.0,312.3L201.9,311.1L203.5,305.9L196.7,307.3L212.6,297.2L203.3,299.0L207.4,294.3L219.5,288.9L225.9,290.4L224.3,295.8L230.8,293.9L225.6,289.0L238.6,283.2L211.6,290.9L224.7,284.6L212.0,283.5L211.2,282.2L215.2,278.9L215.5,275.7L210.8,272.2L217.4,276.8L221.5,275.3L217.6,272.2L227.4,272.9L222.5,270.2L228.8,267.8L215.8,270.0L221.2,267.1L215.4,265.1L224.8,265.6L216.3,261.8L235.1,257.4L225.9,254.8L227.6,253.6L223.0,249.1L235.4,248.4L236.5,246.8L235.5,243.8L236.3,241.8L239.2,245.3L238.0,242.2L235.3,241.2L236.7,237.3L242.2,236.0L240.2,246.6L245.2,241.5L242.1,240.5L243.2,236.7L249.4,235.5L247.2,234.8L258.9,233.0L256.1,237.0L258.0,239.6L258.7,239.6L256.9,237.1L260.9,233.2L269.0,240.5L270.2,236.1L267.1,234.0L268.9,231.9L259.7,231.3L262.6,228.1L242.4,231.7L250.2,222.1L257.4,221.5L250.5,219.9L258.8,214.5L260.7,217.1L256.9,219.3L269.5,219.1L272.6,225.6L273.7,223.4L271.0,221.5L274.2,216.5L262.5,211.4L266.8,208.0L264.6,207.6L266.1,205.5L274.3,208.3L268.9,204.5L279.1,207.1L269.1,201.6L252.5,209.0L262.2,204.2L253.0,201.9L262.0,198.4L254.7,198.8L256.1,197.5L282.4,191.3L271.3,187.4L268.1,189.0L269.2,189.7L268.6,191.3L265.3,188.3L268.4,183.2L274.7,181.0L276.0,184.5L272.9,184.9L276.4,186.2L284.0,177.0L284.6,179.6L282.9,180.7L285.8,180.8L284.2,188.1L287.8,193.1L287.2,196.6L294.2,201.3L288.0,196.5L289.2,191.8L287.0,189.9L289.2,189.6L293.4,195.7L289.9,189.6L294.9,193.0L290.9,188.4L299.9,186.4L290.5,185.9L288.1,183.4L296.8,181.0L285.8,175.0L301.9,182.6L289.0,170.4L310.2,169.4L314.1,175.6L313.7,180.5L315.8,176.7L312.0,169.3L327.5,167.9L317.3,165.3L319.8,161.4L319.0,160.6L311.1,165.8L306.4,165.9L308.7,164.3L306.1,162.1L295.7,166.3L294.4,166.3L295.1,164.4L293.9,163.4L294.6,165.2L284.2,168.2L288.0,161.1L296.2,161.2ZM282.6,149.4L273.0,159.8L274.4,165.9L281.6,157.3L293.3,160.3L287.4,160.3L282.2,168.1L282.7,168.4L279.2,169.8L279.5,163.0L274.4,173.8L266.5,171.2L272.1,163.6L258.3,176.0L266.4,165.2L264.2,162.7L267.4,163.4L263.0,161.7L263.6,159.5L273.7,157.0L269.1,151.6L275.7,152.7L269.7,149.5L275.0,146.0L271.9,143.5L273.5,138.6L281.5,142.1L278.0,149.8L282.6,149.4ZM273.0,136.9L268.6,141.3L272.9,129.3L286.7,120.1L279.4,134.5L271.5,135.6L273.0,136.9ZM266.3,140.5L264.6,145.6L268.1,144.5L264.8,149.4L268.7,152.3L259.5,159.2L253.7,155.8L262.3,149.5L247.4,157.6L243.8,153.3L248.9,150.5L245.4,149.1L248.1,145.9L251.8,145.1L251.3,148.8L251.7,149.8L257.3,147.8L256.4,144.4L258.0,143.2L262.4,146.2L259.3,138.7L261.8,134.6L263.3,135.8L262.8,139.7L266.3,140.5ZM262.6,166.6L240.0,181.4L242.8,172.3L247.2,172.8L245.0,169.4L263.3,164.9L262.6,166.6ZM239.1,176.9L222.3,186.4L222.7,179.8L227.1,178.0L223.5,177.5L227.7,173.9L241.5,174.5L238.5,175.8L239.1,176.9ZM212.5,189.3L215.8,192.4L211.7,191.5L210.8,194.3L213.4,195.0L206.6,199.8L210.4,189.4L215.9,185.5L212.5,189.3ZM203.5,295.8L194.8,300.3L201.7,288.9L202.6,292.8L200.7,294.3L203.5,295.8Z"
+  }, {
+    "name": "Troms",
+    "d": "M424.2,131.8L415.8,120.6L407.5,118.7L400.6,125.2L403.5,130.2L402.3,133.9L390.2,132.6L378.7,133.3L384.4,140.0L385.2,146.7L375.7,160.3L382.6,164.0L375.4,171.5L339.5,159.0L332.8,161.5L330.4,157.6L295.7,162.1L296.2,161.2L297.4,161.4L295.9,158.9L297.0,155.5L305.3,151.7L322.3,153.9L312.1,149.1L325.3,149.7L317.4,145.1L326.3,143.2L316.7,141.0L322.6,131.1L321.3,130.1L333.8,127.6L329.1,123.3L335.5,109.3L341.6,115.6L341.1,124.4L342.7,118.1L353.7,120.1L340.3,108.3L349.4,104.8L353.3,114.4L361.8,118.7L359.0,122.9L366.5,124.1L361.9,115.6L355.3,114.3L352.8,110.3L355.3,105.8L352.0,102.7L360.0,92.9L370.8,91.5L369.4,109.2L363.9,114.3L365.6,114.1L370.8,109.0L370.8,102.3L380.7,103.7L371.7,98.3L380.4,84.1L386.6,86.8L383.2,98.2L385.5,101.6L374.8,120.7L375.6,121.1L383.6,114.0L386.7,103.6L396.7,108.4L388.6,102.0L389.7,96.0L388.1,93.8L394.0,92.0L396.0,89.3L395.0,88.1L401.6,83.1L402.8,83.3L397.2,88.7L400.5,93.1L408.6,85.8L405.2,84.3L406.7,80.2L428.0,94.8L421.9,89.7L425.2,89.1L421.3,84.3L426.7,79.2L419.3,78.7L426.3,73.6L418.1,77.9L405.4,68.5L411.0,68.4L412.2,69.7L415.4,70.8L420.5,75.1L427.4,71.3L430.4,82.8L437.0,86.2L435.3,87.7L437.6,89.3L435.3,92.2L438.1,97.5L445.8,100.1L441.7,107.8L431.1,109.9L437.1,122.8L436.0,129.8L424.2,131.8ZM396.2,77.6L385.9,76.0L395.0,67.9L396.4,69.7L394.9,75.2L396.2,77.6ZM370.8,68.1L380.2,75.1L371.1,77.6L365.5,67.9L370.8,68.1ZM360.7,76.1L359.9,78.7L369.5,80.9L356.5,92.5L346.5,84.9L360.7,76.1ZM336.3,101.3L339.3,100.8L334.2,96.7L344.5,97.5L337.0,93.4L345.0,91.5L345.2,97.8L347.6,97.9L345.9,97.2L347.2,91.3L345.1,88.2L354.9,93.2L347.9,98.8L347.0,100.8L349.7,102.6L347.2,105.1L330.0,104.6L336.3,101.3ZM321.7,109.0L322.0,103.3L327.0,103.9L327.9,107.3L325.4,110.6L329.1,107.3L331.4,108.9L328.4,112.5L331.8,112.4L326.2,123.3L330.1,125.2L328.9,126.1L317.1,124.8L309.8,135.2L306.9,133.9L310.1,131.2L301.0,132.7L311.1,125.1L303.5,124.8L310.5,120.0L303.7,118.5L310.6,116.5L303.0,115.2L317.9,112.4L310.8,108.4L315.7,109.2L313.5,105.9L322.3,110.0L317.5,102.7L321.7,109.0ZM293.3,160.3L281.6,157.3L274.4,165.9L273.0,159.8L282.6,149.4L275.9,161.5L284.3,149.8L289.6,151.6L284.5,145.7L285.4,144.5L292.1,143.7L296.7,147.2L296.6,153.6L297.5,154.1L293.3,160.3Z"
+  }, {
+    "name": "Finnmark",
+    "d": "M634.0,93.1L636.8,101.0L633.4,106.7L616.1,99.5L618.5,104.5L614.4,113.0L597.3,119.5L597.8,123.3L596.2,129.6L588.8,133.0L585.9,129.8L586.5,123.5L598.4,109.4L593.6,97.5L576.3,90.7L566.4,79.9L565.8,75.7L543.9,85.6L530.9,83.7L516.8,99.2L518.8,102.1L512.3,121.9L514.1,134.9L499.4,146.9L498.4,155.8L493.4,160.5L468.9,144.8L452.2,156.4L433.5,151.6L432.7,145.4L424.2,131.8L436.0,129.8L437.1,122.8L431.1,109.9L441.7,107.8L445.8,100.1L438.1,97.5L435.3,92.2L437.6,89.3L435.3,87.7L437.0,86.2L430.4,82.8L427.4,71.3L420.5,75.1L415.4,70.8L412.6,69.7L412.2,64.1L414.3,62.8L420.6,71.4L419.4,66.5L424.2,62.5L424.9,63.1L423.4,65.1L431.7,65.4L431.0,73.3L437.4,74.5L431.5,71.7L432.9,66.5L447.5,70.3L444.7,74.2L448.3,73.3L447.2,78.4L451.7,82.1L448.3,85.3L457.9,82.7L460.8,79.8L451.4,76.0L457.6,73.9L452.6,68.8L460.3,67.3L454.1,67.0L462.6,64.3L458.4,63.4L467.3,54.3L479.8,56.1L474.1,50.8L479.1,42.9L488.5,45.8L477.6,34.6L488.7,32.7L485.1,26.8L496.1,27.3L496.8,28.3L493.7,31.9L498.4,29.3L501.2,36.8L505.0,31.8L502.8,27.8L503.7,26.7L508.6,30.2L505.0,33.5L517.3,32.4L497.7,52.3L501.4,52.0L497.0,53.7L501.1,55.2L496.7,61.2L500.0,62.9L494.2,67.9L493.6,75.4L499.3,77.1L508.4,63.5L504.7,62.7L506.1,60.5L532.9,28.0L536.0,27.4L536.7,30.6L534.9,34.9L536.7,35.2L526.1,44.7L534.5,45.0L530.6,61.2L531.7,61.5L543.8,54.0L541.9,50.5L543.6,46.6L549.7,48.3L544.6,41.9L551.5,39.1L549.8,34.7L559.7,36.5L545.4,29.3L551.5,28.4L547.8,24.8L549.6,23.0L556.1,28.0L556.7,24.8L554.6,22.1L558.8,18.5L579.7,27.3L572.4,37.1L561.8,36.8L562.8,37.5L560.9,39.3L570.1,40.1L558.0,46.3L573.9,42.8L562.3,53.9L563.3,56.9L578.8,55.9L579.8,52.6L576.2,50.8L581.6,43.3L579.0,40.6L589.7,31.8L600.4,40.3L596.2,43.6L596.9,44.7L618.9,43.5L616.7,45.0L622.0,47.1L614.1,51.1L628.8,50.2L627.9,52.4L636.9,56.4L639.2,64.8L611.9,77.4L584.3,72.2L580.3,74.2L606.1,82.8L598.7,88.2L614.8,90.3L607.0,94.1L608.6,90.4L601.3,100.1L616.0,93.5L611.7,97.0L612.9,103.3L612.1,97.6L618.9,93.4L617.2,88.8L618.5,87.4L622.9,89.3L624.1,97.8L621.0,99.2L624.9,98.3L624.3,90.9L634.0,93.1ZM520.5,19.4L516.9,24.9L524.7,22.1L508.9,29.3L504.9,25.8L508.6,23.8L501.4,22.7L513.2,21.3L508.2,16.9L511.7,16.0L520.5,19.4ZM475.1,47.4L466.6,52.6L463.1,42.2L467.6,40.9L466.8,42.3L475.1,47.4ZM463.5,53.7L451.8,65.7L443.9,58.0L458.6,49.6L456.7,46.6L461.6,46.4L460.8,51.8L463.5,53.7ZM459.2,38.5L443.5,52.4L426.6,54.5L432.0,47.4L422.9,45.2L436.9,40.9L441.7,46.9L442.8,43.2L440.7,39.8L448.2,43.8L451.2,39.7L448.7,37.1L449.6,35.7L460.3,37.2L457.0,37.4L459.2,38.5ZM447.3,62.5L448.5,67.0L432.7,62.1L447.3,62.5Z"
+  }]
+};
+const DEFAULT_PARTIES = [{
+  id: 1,
+  name: "Labour Party",
+  short: "Ap",
+  color: "#D6241F",
+  pct: 28.02
+}, {
+  id: 2,
+  name: "Progress Party",
+  short: "FrP",
+  color: "#0B2E5C",
+  pct: 23.85
+}, {
+  id: 3,
+  name: "Conservative Party",
+  short: "H",
+  color: "#4FA1D9",
+  pct: 14.65
+}, {
+  id: 4,
+  name: "Socialist Left Party",
+  short: "SV",
+  color: "#C0175C",
+  pct: 5.63
+}, {
+  id: 5,
+  name: "Centre Party",
+  short: "Sp",
+  color: "#2C7A3D",
+  pct: 5.59
+}, {
+  id: 6,
+  name: "Red Party",
+  short: "R",
+  color: "#8C1A1A",
+  pct: 5.32
+}, {
+  id: 7,
+  name: "Green Party",
+  short: "MDG",
+  color: "#5EA226",
+  pct: 4.74
+}, {
+  id: 8,
+  name: "Christian Democratic Party",
+  short: "KrF",
+  color: "#F2A900",
+  pct: 4.20
+}, {
+  id: 9,
+  name: "Liberal Party",
+  short: "V",
+  color: "#00A19A",
+  pct: 3.69
+}];
+
+// Modified Sainte-Laguë: same as Sainte-Laguë but the first divisor is 1.4
+// instead of 1, making it slightly harder for a party's very first seat.
+function modifiedSainteLague(weights, seats) {
+  // weights: [{ id, weight }], seats: number of seats to allocate
+  const seatsWon = {};
+  const parties = weights.filter(w => w.weight > 0);
+  for (const p of parties) seatsWon[p.id] = 0;
+  for (let s = 0; s < seats; s++) {
+    let bestId = null;
+    let bestQuotient = -1;
+    for (const p of parties) {
+      const n = seatsWon[p.id];
+      const divisor = n === 0 ? 1.4 : 2 * n + 1;
+      const quotient = p.weight / divisor;
+      if (quotient > bestQuotient) {
+        bestQuotient = quotient;
+        bestId = p.id;
+      }
+    }
+    if (bestId == null) break;
+    seatsWon[bestId] += 1;
+  }
+  return seatsWon;
+}
+function TOTAL_SEATS_CHECK() {
+  return CONSTITUENCIES.reduce((a, c) => a + c.totalSeats, 0);
+}
+function NorwayStortingProjector() {
+  const {
+    useState,
+    useMemo
+  } = React;
+  const [parties, setParties] = useState(DEFAULT_PARTIES);
+  const [nextId, setNextId] = useState(10);
+  const [coalition, setCoalition] = useState(new Set());
+  const [mapClick, setMapClick] = useState(null); // { name, x, y }
+
+  const totalPct = useMemo(() => parties.reduce((sum, p) => sum + (parseFloat(p.pct) || 0), 0), [parties]);
+  const updateParty = (id, field, value) => {
+    setParties(prev => prev.map(p => p.id === id ? {
+      ...p,
+      [field]: value
+    } : p));
+  };
+  const removeParty = id => {
+    setParties(prev => prev.filter(p => p.id !== id));
+    setCoalition(prev => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
+  };
+  const addParty = () => {
+    const palette = ["#D6241F", "#0B2E5C", "#4FA1D9", "#C0175C", "#2C7A3D", "#8C1A1A", "#5EA226", "#F2A900", "#00A19A", "#7A5C8E"];
+    setParties(prev => [...prev, {
+      id: nextId,
+      name: "New Party",
+      short: "NP",
+      color: palette[prev.length % palette.length],
+      pct: 0
+    }]);
+    setNextId(id => id + 1);
+  };
+  const resetDefaults = () => {
+    setParties(DEFAULT_PARTIES);
+    setNextId(10);
+  };
+  const clearAll = () => setParties(parties.map(p => ({
+    ...p,
+    pct: 0
+  })));
+
+  // ── Core projection ──────────────────────────────────────────────
+  const projection = useMemo(() => {
+    const byId = Object.fromEntries(parties.map(p => [p.id, p]));
+
+    // Direct (constituency) seats: each constituency's own real 2025 result
+    // is used as a baseline. The gap between your live inputs and the real
+    // national result for each party (a uniform national swing) is applied
+    // on top of that baseline, then renormalized — so a constituency that
+    // already leans toward a party keeps leaning that way, proportionally.
+    const getConstituencyPct = (constituencyName, partyId) => {
+      const idx = CONSTITUENCY_PARTY_ORDER.indexOf(partyId);
+      if (idx === -1) return null; // party not in the original 9 — no local baseline
+      const row = CONSTITUENCY_PCT[constituencyName];
+      return row ? row[idx] : null;
+    };
+    const constituencyResults = CONSTITUENCIES.map(c => {
+      const raw = {};
+      let rawSum = 0;
+      for (const p of parties) {
+        const inputPct = parseFloat(p.pct) || 0;
+        const nationalBaseline = NATIONAL_ACTUAL_PCT[p.id];
+        const localBaseline = getConstituencyPct(c.name, p.id);
+        const swing = nationalBaseline != null ? inputPct - nationalBaseline : inputPct;
+        const base = localBaseline != null ? localBaseline : nationalBaseline != null ? nationalBaseline : 0;
+        const projected = Math.max(0, base + swing);
+        raw[p.id] = projected;
+        rawSum += projected;
+      }
+      const weights = parties.map(p => ({
+        id: p.id,
+        weight: rawSum > 0 ? raw[p.id] / rawSum * 100 : 0
+      }));
+      const direct = modifiedSainteLague(weights, c.totalSeats - 1);
+      return {
+        ...c,
+        directSeats: direct,
+        projectedPct: weights.reduce((acc, w) => ({
+          ...acc,
+          [w.id]: w.weight
+        }), {})
+      };
+    });
+    const directTotals = {};
+    for (const p of parties) directTotals[p.id] = 0;
+    for (const c of constituencyResults) {
+      for (const [id, n] of Object.entries(c.directSeats)) {
+        directTotals[id] = (directTotals[id] || 0) + n;
+      }
+    }
+
+    // National target: allocate all 169 seats among parties clearing the
+    // 4% threshold, using modified Sainte-Laguë on national vote share.
+    const qualifying = parties.filter(p => (parseFloat(p.pct) || 0) >= THRESHOLD_PCT);
+    const nationalWeights = qualifying.map(p => ({
+      id: p.id,
+      weight: parseFloat(p.pct) || 0
+    }));
+    const targetSeats = modifiedSainteLague(nationalWeights, TOTAL_SEATS);
+    const owed = {};
+    for (const p of qualifying) {
+      owed[p.id] = Math.max(0, (targetSeats[p.id] || 0) - (directTotals[p.id] || 0));
+    }
+
+    // Levelling seats: repeatedly find the (party, constituency) pair with
+    // the highest next Sainte-Laguë quotient, using population-weighted
+    // projected vote shares as a proxy for real vote counts, among parties
+    // still owed a seat and constituencies that haven't given theirs out yet.
+    const constituencyVotes = constituencyResults.map(c => {
+      const votes = {};
+      for (const p of parties) votes[p.id] = c.population * ((c.projectedPct[p.id] || 0) / 100);
+      return votes;
+    });
+    const levellingWinner = new Array(constituencyResults.length).fill(null);
+    const availableIdx = constituencyResults.map((_, i) => i);
+    const wonInConstituency = constituencyResults.map(c => ({
+      ...c.directSeats
+    }));
+    let remainingOwed = {
+      ...owed
+    };
+    for (let round = 0; round < availableIdx.length; round++) {
+      let bestQuotient = -1,
+        bestPartyId = null,
+        bestCIdx = -1;
+      for (const p of qualifying) {
+        if (!remainingOwed[p.id]) continue;
+        for (const cIdx of availableIdx) {
+          if (levellingWinner[cIdx] != null) continue;
+          const wonHere = wonInConstituency[cIdx][p.id] || 0;
+          const divisor = wonHere === 0 ? 1.4 : 2 * wonHere + 1;
+          const quotient = constituencyVotes[cIdx][p.id] / divisor;
+          if (quotient > bestQuotient) {
+            bestQuotient = quotient;
+            bestPartyId = p.id;
+            bestCIdx = cIdx;
+          }
+        }
+      }
+      if (bestPartyId == null) break;
+      levellingWinner[bestCIdx] = bestPartyId;
+      remainingOwed[bestPartyId] -= 1;
+    }
+    const finalTotals = {
+      ...directTotals
+    };
+    levellingWinner.forEach(id => {
+      if (id != null) finalTotals[id] = (finalTotals[id] || 0) + 1;
+    });
+    const results = parties.map(p => ({
+      ...p,
+      directSeats: directTotals[p.id] || 0,
+      levellingSeats: levellingWinner.filter(id => id === p.id).length,
+      totalSeats: finalTotals[p.id] || 0,
+      qualifies: (parseFloat(p.pct) || 0) >= THRESHOLD_PCT
+    })).sort((a, b) => b.totalSeats - a.totalSeats);
+    return {
+      results,
+      constituencyResults: constituencyResults.map((c, i) => ({
+        ...c,
+        levellingWinnerId: levellingWinner[i]
+      }))
+    };
+  }, [parties]);
+  const seatsAssigned = projection.results.reduce((s, p) => s + p.totalSeats, 0);
+  const leader = projection.results[0];
+  const toggleCoalitionMember = id => {
+    setCoalition(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);else next.add(id);
+      return next;
+    });
+  };
+  const clearCoalition = () => setCoalition(new Set());
+  const coalitionSeats = projection.results.reduce((sum, p) => sum + (coalition.has(p.id) ? p.totalSeats : 0), 0);
+  const coalitionPct = parties.reduce((sum, p) => sum + (coalition.has(p.id) ? parseFloat(p.pct) || 0 : 0), 0);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Georgia', 'Iowan Old Style', serif",
+      background: "#F5F4EF",
+      minHeight: "100%",
+      padding: "32px 20px",
+      color: "#1C2430"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      maxWidth: 860,
+      margin: "0 auto"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 28,
+      borderBottom: "3px solid #1C2430",
+      paddingBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 11,
+      letterSpacing: "0.15em",
+      textTransform: "uppercase",
+      color: "#D6241F",
+      fontWeight: 700,
+      marginBottom: 6
+    }
+  }, "Storting Seat Projection"), /*#__PURE__*/React.createElement("h1", {
+    style: {
+      margin: 0,
+      fontSize: 30,
+      fontWeight: 400,
+      lineHeight: 1.15
+    }
+  }, "Norway Election Calculator"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 13,
+      color: "#5A6270",
+      marginTop: 8
+    }
+  }, "19 constituencies · 150 direct + 19 levelling seats · Modified Sainte-Laguë · 4% threshold")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 12.5,
+      marginBottom: 18,
+      padding: "10px 14px",
+      background: "#EFF1E9",
+      border: "1px solid #C9D0BC",
+      borderRadius: 4,
+      color: "#3C4A33",
+      lineHeight: 1.5
+    }
+  }, "Each constituency starts from its ", /*#__PURE__*/React.createElement("strong", null, "real 2025 result"), ", and any change you make to the vote-share inputs above is applied as a uniform swing on top of that local baseline — so regional strongholds (Sp in the interior, FrP on the west coast, MDG in Oslo) stay realistic rather than flattening into the national average. Constituency population is used as a proxy for vote count in the levelling-seat comparisons, and the published constituency figures are rounded to one decimal, so results can differ very slightly from the official outcome even with no changes to the inputs."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 13,
+      marginBottom: 18,
+      padding: "10px 14px",
+      background: Math.abs(totalPct - 100) > 0.05 ? "#FBEAE8" : "#EAF3EC",
+      border: `1px solid ${Math.abs(totalPct - 100) > 0.05 ? "#D9938C" : "#A8CDB4"}`,
+      borderRadius: 4,
+      color: Math.abs(totalPct - 100) > 0.05 ? "#8A3A32" : "#2E5C3E"
+    }
+  }, "Total vote share: ", /*#__PURE__*/React.createElement("strong", null, totalPct.toFixed(1), "%"), Math.abs(totalPct - 100) > 0.05 ? "  — doesn't need to equal 100%, but results are most meaningful when it does." : "  — good, this sums to 100%."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    }
+  }, parties.map(p => {
+    const result = projection.results.find(r => r.id === p.id);
+    return /*#__PURE__*/React.createElement("div", {
+      key: p.id,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10,
+        background: "#FFFFFF",
+        border: "1px solid #E1DED4",
+        borderRadius: 6,
+        padding: "10px 12px"
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "color",
+      value: p.color,
+      onChange: e => updateParty(p.id, "color", e.target.value),
+      style: {
+        width: 30,
+        height: 30,
+        border: "none",
+        borderRadius: 4,
+        padding: 0,
+        cursor: "pointer",
+        flexShrink: 0
+      }
+    }), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      value: p.short,
+      onChange: e => updateParty(p.id, "short", e.target.value),
+      style: {
+        width: 44,
+        flexShrink: 0,
+        border: "1px solid #E1DED4",
+        borderRadius: 4,
+        padding: "5px 6px",
+        fontFamily: "'Helvetica Neue', Arial, sans-serif",
+        fontSize: 13,
+        textAlign: "center",
+        color: "#5A6270"
+      }
+    }), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      value: p.name,
+      onChange: e => updateParty(p.id, "name", e.target.value),
+      style: {
+        flex: "1 1 160px",
+        minWidth: 0,
+        border: "none",
+        borderBottom: "1px solid transparent",
+        fontFamily: "'Helvetica Neue', Arial, sans-serif",
+        fontSize: 15,
+        background: "transparent",
+        outline: "none",
+        color: "#1C2430"
+      },
+      onFocus: e => e.target.style.borderBottom = "1px solid #D6241F",
+      onBlur: e => e.target.style.borderBottom = "1px solid transparent"
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 4,
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "number",
+      min: "0",
+      max: "100",
+      step: "0.1",
+      value: p.pct,
+      onChange: e => updateParty(p.id, "pct", e.target.value),
+      style: {
+        width: 64,
+        padding: "6px 8px",
+        border: "1px solid #D8D3C8",
+        borderRadius: 4,
+        fontFamily: "'Helvetica Neue', Arial, sans-serif",
+        fontSize: 14,
+        textAlign: "right"
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "'Helvetica Neue', Arial, sans-serif",
+        fontSize: 13,
+        color: "#8A8378"
+      }
+    }, "%")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flexShrink: 0,
+        minWidth: 70,
+        textAlign: "center",
+        fontFamily: "'Helvetica Neue', Arial, sans-serif"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 20,
+        fontWeight: 700,
+        color: result?.totalSeats > 0 ? p.color : "#C9C3B6"
+      }
+    }, result?.totalSeats || 0), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        fontWeight: 400,
+        letterSpacing: "0.06em",
+        color: "#8A8378",
+        textTransform: "uppercase"
+      }
+    }, result?.qualifies ? `${result.directSeats}d + ${result.levellingSeats}l` : "no lvl.")), /*#__PURE__*/React.createElement("button", {
+      onClick: () => removeParty(p.id),
+      "aria-label": `Remove ${p.name}`,
+      style: {
+        flexShrink: 0,
+        width: 26,
+        height: 26,
+        border: "1px solid #E1DED4",
+        borderRadius: 4,
+        background: "#FAFAF7",
+        color: "#8A8378",
+        cursor: "pointer",
+        fontSize: 14,
+        lineHeight: 1
+      }
+    }, "×"));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      marginTop: 14,
+      marginBottom: 30,
+      fontFamily: "'Helvetica Neue', Arial, sans-serif"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: addParty,
+    style: btnStyle("#1C2430", "#FFFFFF", "#1C2430")
+  }, "+ Add party"), /*#__PURE__*/React.createElement("button", {
+    onClick: clearAll,
+    style: btnStyle("#E1DED4", "#1C2430", "#FAFAF7")
+  }, "Clear values"), /*#__PURE__*/React.createElement("button", {
+    onClick: resetDefaults,
+    style: btnStyle("#E1DED4", "#1C2430", "#FAFAF7")
+  }, "Reset to 2025 result")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 10,
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      color: "#8A8378"
+    }
+  }, "Storting composition — ", seatsAssigned, " of ", TOTAL_SEATS, " seats"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      width: "100%",
+      height: 40,
+      borderRadius: 6,
+      overflow: "hidden",
+      border: "1px solid #E1DED4"
+    }
+  }, projection.results.map(p => p.totalSeats > 0 && /*#__PURE__*/React.createElement("div", {
+    key: p.id,
+    title: `${p.short}: ${p.totalSeats} seats`,
+    style: {
+      width: `${p.totalSeats / TOTAL_SEATS * 100}%`,
+      background: p.color
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      top: -3,
+      bottom: -3,
+      left: `${MAJORITY / TOTAL_SEATS * 100}%`,
+      width: 2,
+      background: "#1C2430"
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 13,
+      color: "#5A6270",
+      marginBottom: 28
+    }
+  }, "A governing majority requires ", /*#__PURE__*/React.createElement("strong", null, MAJORITY), " seats.", leader && leader.totalSeats > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, " Largest party: ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: leader.color
+    }
+  }, leader.name), " with ", leader.totalSeats, " seats.")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 28
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      color: "#8A8378",
+      marginBottom: 10
+    }
+  }, "Coalition builder"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 8,
+      marginBottom: 14
+    }
+  }, projection.results.map(p => {
+    const inCoalition = coalition.has(p.id);
+    return /*#__PURE__*/React.createElement("button", {
+      key: p.id,
+      onClick: () => toggleCoalitionMember(p.id),
+      disabled: p.totalSeats === 0,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "7px 12px",
+        borderRadius: 20,
+        border: `1.5px solid ${inCoalition ? p.color : "#E1DED4"}`,
+        background: inCoalition ? p.color : "#FFFFFF",
+        color: inCoalition ? "#FFFFFF" : p.totalSeats === 0 ? "#C9C3B6" : "#1C2430",
+        fontFamily: "'Helvetica Neue', Arial, sans-serif",
+        fontSize: 13,
+        cursor: p.totalSeats === 0 ? "not-allowed" : "pointer",
+        opacity: p.totalSeats === 0 ? 0.6 : 1
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        width: 8,
+        height: 8,
+        borderRadius: "50%",
+        background: inCoalition ? "#FFFFFF" : p.color,
+        flexShrink: 0
+      }
+    }), p.short, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: 700
+      }
+    }, p.totalSeats));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: "14px 16px",
+      borderRadius: 6,
+      border: `1.5px solid ${coalitionSeats >= MAJORITY ? "#A8CDB4" : "#E1DED4"}`,
+      background: coalitionSeats >= MAJORITY ? "#EAF3EC" : "#FAFAF7"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "baseline",
+      fontFamily: "'Helvetica Neue', Arial, sans-serif"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 26,
+      fontWeight: 700,
+      color: coalitionSeats >= MAJORITY ? "#2E5C3E" : "#1C2430"
+    }
+  }, coalitionSeats), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 14,
+      color: "#5A6270"
+    }
+  }, " / ", TOTAL_SEATS, " seats"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      color: "#8A8378",
+      marginLeft: 10
+    }
+  }, "(", coalitionPct.toFixed(1), "% of vote)")), coalition.size > 0 && /*#__PURE__*/React.createElement("button", {
+    onClick: clearCoalition,
+    style: {
+      fontSize: 12,
+      color: "#8A8378",
+      background: "none",
+      border: "none",
+      cursor: "pointer",
+      textDecoration: "underline"
+    }
+  }, "clear")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 13,
+      marginTop: 4,
+      color: coalitionSeats >= MAJORITY ? "#2E5C3E" : "#5A6270",
+      fontWeight: coalitionSeats >= MAJORITY ? 600 : 400
+    }
+  }, coalition.size === 0 ? "Tap parties above to build a coalition." : coalitionSeats >= MAJORITY ? `Majority reached — ${coalitionSeats - MAJORITY} seat${coalitionSeats - MAJORITY === 1 ? "" : "s"} to spare.` : `${MAJORITY - coalitionSeats} more seat${MAJORITY - coalitionSeats === 1 ? "" : "s"} needed for a majority.`), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      marginTop: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      width: "100%",
+      height: 10,
+      borderRadius: 4,
+      overflow: "hidden",
+      background: "#E8E4DA"
+    }
+  }, projection.results.map(p => coalition.has(p.id) && p.totalSeats > 0 && /*#__PURE__*/React.createElement("div", {
+    key: p.id,
+    style: {
+      width: `${p.totalSeats / TOTAL_SEATS * 100}%`,
+      background: p.color
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      top: -3,
+      bottom: -3,
+      left: `${MAJORITY / TOTAL_SEATS * 100}%`,
+      width: 2,
+      background: "#1C2430"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      top: 12,
+      left: `${MAJORITY / TOTAL_SEATS * 100}%`,
+      transform: "translateX(-50%)",
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 10,
+      color: "#5A6270",
+      whiteSpace: "nowrap"
+    }
+  }, MAJORITY, " needed")))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 28
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 4,
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 12,
+      letterSpacing: "0.08em",
+      textTransform: "uppercase",
+      color: "#8A8378"
+    }
+  }, "By constituency — click for details"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 12.5,
+      color: "#5A6270",
+      marginBottom: 10,
+      lineHeight: 1.5
+    }
+  }, "Shaded by each constituency's leading party. Boundaries are the 19 pre-2018 counties, sourced from Eurostat's NUTS3 geometries (this is the same regional division Storting constituencies still use, even though the counties themselves were later merged and renamed)."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      border: "1px solid #E1DED4",
+      borderRadius: 6,
+      background: "#EAF2F5",
+      padding: 8
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    viewBox: NORWAY_MAP.viewBox,
+    style: {
+      width: "100%",
+      maxHeight: 720,
+      height: "auto",
+      display: "block",
+      margin: "0 auto"
+    },
+    onClick: e => {
+      if (e.target.tagName !== "path") setMapClick(null);
+    }
+  }, NORWAY_MAP.features.map(feat => {
+    const c = projection.constituencyResults.find(cr => cr.name === feat.name);
+    const sortedDirect = c ? Object.entries(c.directSeats).filter(([, n]) => n > 0).map(([id, n]) => ({
+      party: parties.find(p => p.id === Number(id)),
+      n
+    })).sort((a, b) => b.n - a.n) : [];
+    const leader = sortedDirect[0]?.party || null;
+    const isSelected = mapClick?.name === feat.name;
+    return /*#__PURE__*/React.createElement("path", {
+      key: feat.name,
+      d: feat.d,
+      fill: leader ? leader.color : "#FFFFFF",
+      fillOpacity: leader ? 0.85 : 1,
+      stroke: isSelected ? "#1C2430" : "#B7C4CB",
+      strokeWidth: isSelected ? 1.8 : 0.8,
+      style: {
+        cursor: "pointer",
+        transition: "fill 0.15s ease"
+      },
+      onClick: e => {
+        e.stopPropagation();
+        const svgRect = e.currentTarget.ownerSVGElement.parentElement.getBoundingClientRect();
+        setMapClick({
+          name: feat.name,
+          x: e.clientX - svgRect.left,
+          y: e.clientY - svgRect.top
+        });
+      }
+    }, /*#__PURE__*/React.createElement("title", null, feat.name, leader ? ` — leading: ${leader.name}` : "", c ? ` (${c.totalSeats} seats)` : ""));
+  })), mapClick && (() => {
+    const c = projection.constituencyResults.find(cr => cr.name === mapClick.name);
+    if (!c) return null;
+    const levellingPartyId = c.levellingWinnerId;
+    const fullBreakdown = parties.map(party => ({
+      party,
+      pct: c.projectedPct[party.id] || 0,
+      seats: (c.directSeats[party.id] || 0) + (levellingPartyId === party.id ? 1 : 0),
+      levelling: levellingPartyId === party.id
+    })).filter(row => row.pct > 0.05 || row.seats > 0).sort((a, b) => b.pct - a.pct);
+    // Norway's map viewBox is 655x760 — clamp tooltip position within it.
+    const [vbW, vbH] = [655, 760];
+    const left = Math.min(Math.max(mapClick.x, 100), vbW - 100);
+    const top = Math.min(Math.max(mapClick.y, 10), vbH - 180);
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        left: `${left / vbW * 100}%`,
+        top: `${top / vbH * 100}%`,
+        transform: "translate(-50%, 12px)",
+        background: "#FFFFFF",
+        border: "1px solid #D8D3C8",
+        borderRadius: 8,
+        boxShadow: "0 6px 18px rgba(28,36,48,0.18)",
+        padding: "12px 14px",
+        minWidth: 230,
+        maxWidth: 270,
+        zIndex: 10,
+        fontFamily: "'Helvetica Neue', Arial, sans-serif"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        marginBottom: 6
+      }
+    }, /*#__PURE__*/React.createElement("strong", {
+      style: {
+        fontSize: 14,
+        color: "#1C2430"
+      }
+    }, c.name), /*#__PURE__*/React.createElement("button", {
+      onClick: () => setMapClick(null),
+      style: {
+        border: "none",
+        background: "none",
+        color: "#8A8378",
+        cursor: "pointer",
+        fontSize: 14,
+        lineHeight: 1,
+        padding: 0,
+        marginLeft: 8
+      },
+      "aria-label": "Close"
+    }, "×")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "#8A8378",
+        marginBottom: 8
+      }
+    }, c.totalSeats - 1, " direct seats + 1 levelling seat"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 4
+      }
+    }, fullBreakdown.map(({
+      party,
+      pct,
+      seats,
+      levelling
+    }) => /*#__PURE__*/React.createElement("div", {
+      key: party.id,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+        fontSize: 12.5
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        width: 8,
+        height: 8,
+        borderRadius: 2,
+        background: party.color,
+        flexShrink: 0,
+        opacity: seats > 0 ? 1 : 0.4
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        flex: 1,
+        color: seats > 0 ? "#1C2430" : "#8A8378"
+      }
+    }, party.short), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "#5A6270",
+        minWidth: 40,
+        textAlign: "right"
+      }
+    }, pct.toFixed(1), "%"), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: seats > 0 ? "#1C2430" : "#C9C3B6",
+        minWidth: 46,
+        textAlign: "right"
+      }
+    }, seats > 0 ? `${seats} seat${seats === 1 ? "" : "s"}` : "—", levelling && /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "#8A8378"
+      }
+    }, " *"))))), levellingPartyId != null ? /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 6,
+        paddingTop: 6,
+        borderTop: "1px dashed #E1DED4",
+        color: "#8A8378",
+        fontSize: 11
+      }
+    }, "* levelling seat") : /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 6,
+        paddingTop: 6,
+        borderTop: "1px dashed #E1DED4",
+        color: "#8A8378",
+        fontSize: 11
+      }
+    }, "No qualifying party owed a levelling seat here."));
+  })()), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: "6px 14px",
+      marginTop: 12
+    }
+  }, parties.map(p => /*#__PURE__*/React.createElement("div", {
+    key: p.id,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 12,
+      color: "#5A6270"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 10,
+      height: 10,
+      borderRadius: 2,
+      background: p.color,
+      display: "inline-block"
+    }
+  }), p.short)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 12,
+      color: "#8A8378",
+      borderTop: "1px solid #E1DED4",
+      paddingTop: 14,
+      lineHeight: 1.6
+    }
+  }, "169 Storting seats: 150 are direct constituency seats (19 constituencies, 4 to 20 seats each), allocated by the modified Sainte-Laguë method — divisors 1.4, 3, 5, 7… instead of the usual 1, 3, 5, 7…, making a party's very first seat slightly harder to win. The remaining 19 levelling seats (one per constituency) go to parties that cleared 4% of the national vote but ended up under-represented by their direct seats alone, correcting the overall result toward national proportionality.")));
+}
+function btnStyle(border, color, bg) {
+  return {
+    padding: "8px 14px",
+    fontSize: 13,
+    borderRadius: 5,
+    border: `1px solid ${border}`,
+    background: bg,
+    color: color,
+    cursor: "pointer",
+    fontFamily: "'Helvetica Neue', Arial, sans-serif"
+  };
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(NorwayStortingProjector));
+</script>
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
