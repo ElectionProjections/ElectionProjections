@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Australia Election Projection</title>
+    <title>Negeri Sembilan Election Projection</title>
     <style>
         /* Basic reset and font styling */
         body {
@@ -811,6 +811,16 @@ function project(){
     // table, so its seats always sum to 100. Everywhere else it is absent.
     const claimed=INPUT_PARTIES.reduce((a,p)=>a+proj[p.id],0);
     proj.OTHERS=contests.OTHERS?Math.max(0,100-claimed):0;
+
+    // Proportionally rescale so every seat sums to exactly 100 -- handles
+    // both directions (inputs summing to more than 100 pushing seats over,
+    // or a bloc's uncontested carve leaving seats under). Scaling by a single
+    // positive constant preserves each party's relative ranking within the
+    // seat, so it can't change who wins or flip any margin comparison.
+    const total=PARTIES.reduce((a,p)=>a+proj[p.id],0);
+    if(total>0 && Math.abs(total-100)>0.001){
+      PARTIES.forEach(p=>{proj[p.id]=proj[p.id]/total*100;});
+    }
 
     const ranked=PARTIES.map(p=>[p.id,proj[p.id]]).sort((a,b)=>b[1]-a[1]);
     const coalW=ranked[0][0];
