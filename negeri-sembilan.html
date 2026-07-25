@@ -229,14 +229,14 @@ details summary:hover{color:#1a1a18;}
    BLOCS — 2026 structure
    PH        : Pakatan Harapan (unchanged)
    BNPN      : Barisan Nasional + Perikatan Nasional, minus IPR
-   IPR       : Ikatan Prihatin Rakyat — components BERSATU, URIMAI
+   IPR       : BERSATU+ — components BERSATU, URIMAI
    BP        : Progressive Bloc (PSM / ASLI)
    OTHERS    : residual (BERJASA/IND, N10, N30, N33)
    ============================================================ */
 const PARTIES=[
   {id:'PH',     label:'Pakatan Harapan',        color:'#e84c4c'},
   {id:'BNPN',   label:'BN + PN',                color:'#1a5ea8'},
-  {id:'IPR',    label:'Ikatan Prihatin Rakyat',  color:'#2a8c2a'},
+  {id:'IPR',    label:'BERSATU+',  color:'#2a8c2a'},
   {id:'BP',     label:'Progressive Bloc',       color:'#e67e22'},
   // Derived: no input of its own, no swing. Takes whatever vote the contesting
   // blocs leave on the table in the seats it stands in (N10, N30, N33).
@@ -250,7 +250,7 @@ const ALL_SEATS=Array.from({length:36},(_,i)=>'N'+String(i+1).padStart(2,'0'));
 // --- Contest sets (2026) ---
 // BN+PN stands everywhere; Progressive Bloc only in N07 and N22.
 const BNPN_CONTEST   = new Set(ALL_SEATS);
-// IPR (Ikatan Prihatin Rakyat) stands wherever either component party does:
+// IPR (BERSATU+) stands wherever either component party does:
 // BERSATU in 22 seats, URIMAI in N23 and N24.
 const IPR_CONTEST= new Set(['N02','N03','N04','N05','N06','N07','N09','N10','N12','N13',
                                 'N14','N15','N16','N17','N20','N22','N23','N24','N25','N28',
@@ -878,7 +878,7 @@ function project(){
     'Methodology: uniform swing from a 2023 Negeri Sembilan baseline. The 2023 baseline is built in three steps. (1) Each seat\'s unity (PH–BN pact) vote is split asymmetrically between PH and BN depending on who won the seat: PH takes 77% in PH-won seats, BN takes 62% in BN-won seats, and PN-won seats follow whichever unity partner contested (77/23 in N20 and N25; 62/38 in N05, N31 and N34). This split is pre-computed into the PH and BN columns of the seat data rather than applied at runtime, and yields pre-merge statewide shares of PH 38.74%, BN 22.86%, PN 38.40%. (2) BN and PN votes are merged into a single BN+PN bloc, reflecting their 2026 joint list. (3) IPR is carved back out of that merged bloc at '+(CARVE_DEFAULT*100).toFixed(0)+'% of the BN+PN baseline in most seats, and '+(CARVE_HELD*100).toFixed(0)+'% in the two seats it holds (N20 Labu, N34 Gemas), with BN+PN reduced accordingly. IPR contests 24 of 36 seats, per the candidate list — BERSATU in 22, URIMAI in N23 and N24; the carve is still applied in all 36 seats so the statewide baselines are unaffected, but in the 12 seats it is not standing its carved baseline vote is treated as never cast — those seats go to whichever contesting bloc leads, and their shares will not sum to 100. Others (BERJASA/IND) has no baseline of its own; it contests N10 Nilai, N30 Lukut, and N33 Sri Tanjung, where it is a pure residual taking whatever the contesting blocs leave unclaimed, so those three seats alone always sum to 100. Statewide baselines are vote-weighted totals derived from the seat-level carve, so they move automatically if the carve fractions change: PH '+GN.PH.toFixed(2)+'%, BN+PN '+GN.BNPN.toFixed(2)+'%, IPR '+GN.IPR.toFixed(2)+'%, Progressive Bloc '+GN.BP.toFixed(2)+'%. Swing is applied per seat as input minus statewide baseline, with a taper scalar below '+(TAPER_THRESHOLD*100).toFixed(0)+'% of a bloc\'s baseline share and the tapered-away vote reallocated proportionally. Majority: 19 of 36 seats.';
 
   document.getElementById('assumpNote').innerHTML=
-    '<strong>Assumptions worth checking:</strong> IPR (Ikatan Prihatin Rakyat) contests 24 of 36 seats, per the candidate list — BERSATU stands in 22, URIMAI stands in N23 and N24 as IPR\'s remaining two components. Its statewide baseline (18.61%) reflects the pre-split carve across all seats, not what it can actually poll — its realistic ceiling is bounded by the seats it stands in, and any input beyond what those seats can hold is deliberately wasted rather than redistributed. The Progressive Bloc (PSM, ASLI) contests only N07 and N22; its 2023 MUDA vote in N12 Temiang is dropped rather than redistributed, since it is not standing there again, which is why its baseline derives to 0.00%. Others (BERJASA/IND) contests N10, N30, and N33 and has no input or baseline of its own — it is a pure residual, so at very low overall inputs (e.g. all parties at 0) it can win those seats by default, and any gap between your inputs summing to 100% shows up as OTHERS vote there too. BERSAMA has been removed — it does not contest in 2026. Each of these is a one-line change near the top of the script.';
+    '<strong>Assumptions worth checking:</strong> IPR (BERSATU+) contests 24 of 36 seats, per the candidate list — BERSATU stands in 22, URIMAI stands in N23 and N24 as IPR\'s remaining two components. Its statewide baseline (18.61%) reflects the pre-split carve across all seats, not what it can actually poll — its realistic ceiling is bounded by the seats it stands in, and any input beyond what those seats can hold is deliberately wasted rather than redistributed. The Progressive Bloc (PSM, ASLI) contests only N07 and N22; its 2023 MUDA vote in N12 Temiang is dropped rather than redistributed, since it is not standing there again, which is why its baseline derives to 0.00%. Others (BERJASA/IND) contests N10, N30, and N33 and has no input or baseline of its own — it is a pure residual, so at very low overall inputs (e.g. all parties at 0) it can win those seats by default, and any gap between your inputs summing to 100% shows up as OTHERS vote there too. BERSAMA has been removed — it does not contest in 2026. Each of these is a one-line change near the top of the script.';
 }
 
 function updateCoalition(){
@@ -917,7 +917,6 @@ function updateCoalition(){
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
