@@ -1011,6 +1011,18 @@ function project(){
     if(tTot>0&&tOut>0){PARTIES.forEach(p=>{proj[p.id]=tap[p.id]+tOut*(tap[p.id]/tTot);});}
     else{PARTIES.forEach(p=>{proj[p.id]=tap[p.id];});}
     proj['OTHERS']=ov/tot*100;
+
+    // Proportionally rescale so every seat sums to exactly 100 -- handles
+    // inputs summing to more than/less than 100, and the zero-floor on
+    // negative swings leaving some seats short. Scaling by a single positive
+    // constant preserves each party's relative ranking within the seat, so
+    // it can't change who wins or flip a margin comparison.
+    const projTotal=PARTIES.reduce((a,p)=>a+proj[p.id],0)+proj['OTHERS'];
+    if(projTotal>0 && Math.abs(projTotal-100)>0.001){
+      PARTIES.forEach(p=>{proj[p.id]=proj[p.id]/projTotal*100;});
+      proj['OTHERS']=proj['OTHERS']/projTotal*100;
+    }
+
     const winner=Object.entries(proj).sort((a,b)=>b[1]-a[1])[0][0];
     ps[winner]++;
     det.push({id,name,state,g15w:g15wMode(s),projW:winner,proj,base,tot});
@@ -1767,7 +1779,6 @@ function runMonteCarlo(){
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
