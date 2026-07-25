@@ -198,7 +198,7 @@ details summary:hover{color:#1a1a18;}
   <button class="run-btn" id="modeUnityBtn" onclick="setMode('unity')">BN + PN merged, BERSATU detached</button>
 </div>
 <div class="majority-line" id="modeNote" style="display:none;">
-  <strong>Unity-collapse scenario:</strong> BN and PN vote totals are merged into one bloc in every seat, then BERSATU is carved back out as IPR (Ikatan Prihatin Rakyat) — 66% of the merged total in the 32 seats it actually won in GE15, 27% in the remaining seats PN contested. IPR stands wherever PN did nationally (its full GE15 footprint). Both carve fractions are the tuned values from the Negeri Sembilan model and are easy to retune if you have a better estimate. Baselines shown on each input are derived from this split, not the real GE15 result — there is no historical "BN+PN merged" or standalone national BERSATU result to check them against.
+  <strong>Unity-collapse scenario:</strong> BN and PN vote totals are merged into one bloc in every seat, then BERSATU is carved back out as IPR (BERSATU+) — 66% of the merged total in the 32 seats it actually won in GE15, 27% in the remaining seats PN contested. IPR stands wherever PN did nationally (its full GE15 footprint). Both carve fractions are the tuned values from the Negeri Sembilan model and are easy to retune if you have a better estimate. Baselines shown on each input are derived from this split, not the real GE15 result — there is no historical "BN+PN merged" or standalone national BERSATU result to check them against.
 </div>
 <div class="section">
   <div class="inputs-grid" id="inputsGrid"></div>
@@ -788,7 +788,7 @@ const GS_UNITY={PH:0,BNPN:0,IPR:0,GPS:0,GRS:0,WARISAN:0,BP:0,BERSAMA:0,OTHERS:0}
 const PARTIES_UNITY=[
   {id:'PH',label:'Pakatan Harapan',color:'#e84c4c',ge15:GN_UNITY.PH},
   {id:'BNPN',label:'BN + PN (minus BERSATU)',color:'#1a5ea8',ge15:GN_UNITY.BNPN},
-  {id:'IPR',label:'Ikatan Prihatin Rakyat (BERSATU)',color:'#2a8c2a',ge15:GN_UNITY.IPR},
+  {id:'IPR',label:'BERSATU+',color:'#2a8c2a',ge15:GN_UNITY.IPR},
   {id:'GPS',label:'GPS',color:'#f5a623',ge15:GN_UNITY.GPS},
   {id:'GRS',label:'GRS',color:'#7b3fa0',ge15:GN_UNITY.GRS},
   {id:'WARISAN',label:'WARISAN',color:'#16a085',ge15:GN_UNITY.WARISAN},
@@ -796,7 +796,7 @@ const PARTIES_UNITY=[
   {id:'BERSAMA',label:'BERSAMA',color:'#8e44ad',ge15:0},
 ];
 
-const COALITION_LABELS_UNITY={PH:'Pakatan Harapan',BNPN:'BN + PN',IPR:'Ikatan Prihatin Rakyat',
+const COALITION_LABELS_UNITY={PH:'Pakatan Harapan',BNPN:'BN + PN',IPR:'BERSATU+',
   GPS:'GPS',GRS:'GRS',WARISAN:'WARISAN',BP:'Bloc Progresif',BERSAMA:'BERSAMA',OTHERS:'Others'};
 const COALITION_COLORS_UNITY={PH:'#e84c4c',BNPN:'#1a5ea8',IPR:'#2a8c2a',GPS:'#f5a623',
   GRS:'#7b3fa0',WARISAN:'#16a085',BP:'#e67e22',BERSAMA:'#8e44ad',OTHERS:'#888780'};
@@ -1779,6 +1779,7 @@ function runMonteCarlo(){
 </script>
 </body>
 </html>
+        
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
