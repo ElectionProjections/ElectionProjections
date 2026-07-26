@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Australia Election Projection</title>
+    <title>Selangor Election Projection</title>
     <style>
         /* Basic reset and font styling */
         body {
@@ -134,11 +134,25 @@ details summary:hover{color:#1a1a18;}
 .seats-table tr:last-child td{border-bottom:none;}
 .flip-tag{font-size:10px;padding:1px 5px;border-radius:3px;background:#faeeda;color:#854f0b;margin-left:3px;}
 .minor-cell{color:#888780;font-size:10px;}
+.reset-btn{font-size:12px;font-weight:500;color:#1a1a18;background:#fff;border:0.5px solid #b4b2a9;border-radius:8px;padding:5px 14px;cursor:pointer;white-space:nowrap;transition:background 0.15s,color 0.15s,border-color 0.15s;}
+.reset-btn:hover{border-color:#8f8d84;}
+.map-tooltip{position:absolute;z-index:20;background:#fff;border:0.5px solid #b4b2a9;border-radius:10px;padding:10px 12px;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:11px;min-width:170px;max-width:220px;pointer-events:none;}
+.map-tooltip .mt-title{font-size:12px;font-weight:600;color:#1a1a18;margin-bottom:6px;}
+.map-tooltip .mt-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;color:#5f5e5a;}
+.map-tooltip .mt-row .mt-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;}
+.map-tooltip .mt-seats{color:#b4b2a9;font-size:10px;margin-left:4px;}
 .note{font-size:11px;color:#888780;margin-top:1.5rem;padding-top:1rem;border-top:0.5px solid #ddddd5;line-height:1.6;}
 </style>
 </head>
 <body>
 <h1>Selangor DUN seat projector — 2026 election (2023 baseline)</h1>
+<div class="section" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+  <button class="reset-btn" id="modeStdBtn" onclick="setMode('standard')" style="background:#1a1a18;color:#fff;border-color:#1a1a18;">Standard (PH vs BN vs PN)</button>
+  <button class="reset-btn" id="modeUnityBtn" onclick="setMode('unity')">BN+PN merged, BERSATU detached</button>
+</div>
+<div class="majority-line" id="modeNote" style="display:none;">
+  <strong>Unity-collapse scenario:</strong> unlike the other state models, BN is already governing WITH PH here (they ran as a unity pact in 2023) — so this scenario isn't two historically-opposed blocs teaming up, it's BN leaving that pact to join PN instead. BN and PN's votes are merged into one bloc in every seat, then BERSATU is carved back out as BERSATU+ — 74% of the merged total in the 12 seats it actually won in 2023, 33% everywhere else. BERSATU+ stands in all 56 seats, matching PN's full 2023 footprint. There's no real "BN+PN merged" or standalone BERSATU 2023 result to check these baselines against, so retune the carve if you have a better estimate.
+</div>
 <div class="section">
   <div class="inputs-grid" id="inputsGrid"></div>
   <div class="total-warn" id="totalWarn"></div>
@@ -173,34 +187,61 @@ details summary:hover{color:#1a1a18;}
   <div class="grid-legend" id="gridLegend"></div>
 </div>
 <hr class="divider">
-<details>
-  <summary>Seat-by-seat breakdown ▾</summary>
-  <div style="margin-top:8px;overflow-x:auto;">
-    <table class="seats-table">
-      <thead id="seatsHead"></thead>
-      <tbody id="seatsBody"></tbody>
-    </table>
+<div class="section">
+  <h3>Constituency map</h3>
+  <p style="font-size:11px;color:#888780;margin-bottom:0.5rem;">Each seat shaded by its projected winner. Real boundaries from Malaysia's Department of Statistics. Hover for a quick read, click for the full breakdown. Scroll or use the buttons to zoom, drag to pan.</p>
+  <div style="display:flex;gap:8px;margin-bottom:0.75rem;">
+    <button class="reset-btn" id="constMapModeAllianceBtn" onclick="setMapColorMode('alliance')" style="background:#1a1a18;color:#fff;border-color:#1a1a18;margin-bottom:0;">By alliance</button>
+    <button class="reset-btn" id="constMapModePartyBtn" onclick="setMapColorMode('party')" style="margin-bottom:0;">By winning party</button>
   </div>
-</details>
+  <div style="max-width:560px;margin:0 auto;position:relative;">
+    <div id="constMapViewport" style="position:relative;overflow:hidden;aspect-ratio:700/620;border:0.5px solid #ddddd5;border-radius:8px;cursor:grab;background:#fafaf8;">
+      <div id="constMapWrap" style="transform-origin:0 0;position:absolute;top:0;left:0;width:100%;height:100%;"></div>
+    </div>
+    <div id="constMapTooltip" class="map-tooltip" style="display:none;"></div>
+    <div style="position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:4px;">
+      <button id="constMapZoomIn" class="reset-btn" style="width:26px;height:26px;padding:0;font-size:15px;line-height:1;margin-bottom:0;">+</button>
+      <button id="constMapZoomOut" class="reset-btn" style="width:26px;height:26px;padding:0;font-size:15px;line-height:1;margin-bottom:0;">−</button>
+      <button id="constMapZoomReset" class="reset-btn" style="width:26px;height:26px;padding:0;font-size:9px;line-height:1;margin-bottom:0;" title="Reset view">RST</button>
+    </div>
+  </div>
+  <div class="grid-legend" id="constMapLegend" style="margin-top:8px;justify-content:center;"></div>
+</div>
 <p class="note" id="methodNote"></p>
 <script>
-const PARTIES=[
-  {id:'PH', label:'Pakatan Harapan',   color:'#e84c4c',ge:51.23},
-  {id:'BN', label:'Barisan Nasional',  color:'#1a5ea8',ge:9.70},
-  {id:'PN', label:'Perikatan Nasional',color:'#2a8c2a',ge:38.22},
-  {id:'BP', label:'MUDA-PSM',          color:'#e67e22',ge:1.27},
+const PARTIES_STD=[
+  {id:'PH', label:'Pakatan Harapan',   color:'#e84c4c',ge:51.10},
+  {id:'BN', label:'Barisan Nasional',  color:'#1a5ea8',ge:9.44},
+  {id:'PN', label:'Perikatan Nasional',color:'#2a8c2a',ge:37.80},
+  {id:'BP', label:'BP',          color:'#e67e22',ge:1.27},
   {id:'BERSAMA',label:'BERSAMA',       color:'#8e44ad',ge:0.00},
 ];
 
 const MINOR_COLORS={OTH:'#888780',IND:'#888780',PRM:'#888780'};
+const COMP_COLORS={
+  UMNO:'#1a5ea8',MCA:'#3498db',MIC:'#5dade2',
+  PKR:'#c0392b',DAP:'#e84c4c',AMANAH:'#e8a84c',
+  PAS:'#2a8c2a',BERSATU:'#27ae60',GERAKAN:'#16a34a',
+  MUDA:'#e67e22',PSM:'#ca6f1e',BERSAMA:'#8e44ad',
+  OTH:'#888780',IND:'#888780',PRM:'#6d5b8a',
+};
 
 // All parties contest all seats
 const PN_CONTEST=new Set(['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20','N21','N22','N23','N24','N25','N26','N27','N28','N29','N30','N31','N32','N33','N34','N35','N36','N37','N38','N39','N40','N41','N42','N43','N44','N45','N46','N47','N48','N49','N50','N51','N52','N53','N54','N55','N56']);
 const BP_CONTEST=new Set(['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20','N21','N22','N23','N24','N25','N26','N27','N28','N29','N30','N31','N32','N33','N34','N35','N36','N37','N38','N39','N40','N41','N42','N43','N44','N45','N46','N47','N48','N49','N50','N51','N52','N53','N54','N55','N56']);
 const BERSAMA_CONTEST=new Set(['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20','N21','N22','N23','N24','N25','N26','N27','N28','N29','N30','N31','N32','N33','N34','N35','N36','N37','N38','N39','N40','N41','N42','N43','N44','N45','N46','N47','N48','N49','N50','N51','N52','N53','N54','N55','N56']);
 
-const GS={PH:32,BN:2,PN:22,BP:0,BERSAMA:0,OTHERS:0};
-const GN={PH:51.23,BN:9.70,PN:38.22,BP:1.27,BERSAMA:0};
+const GS_STD={PH:32,BN:2,PN:22,BP:0,BERSAMA:0,OTHERS:0};
+const GN_STD={PH:51.10,BN:9.44,PN:37.80,BP:1.27,BERSAMA:0};
+
+// MODE toggles between the standard scenario and the BN+PN unity-collapse
+// unity-collapse scenario -- same pattern as NS/Malaysia/Malacca, but note
+// the direction here is different: BN is already governing WITH PH at
+// baseline (they ran as a unity pact in 2023), so this models BN leaving
+// that pact to join PN instead, not two historically-opposed blocs teaming
+// up. PARTIES/GN/GS always point at whichever set is active.
+let MODE='standard';
+let PARTIES=PARTIES_STD, GN=GN_STD, GS=GS_STD;
 
 const W23={
   'N01':'BN','N02':'PN','N03':'PN','N04':'PH','N05':'PN','N06':'PH',
@@ -222,7 +263,7 @@ const SEAT_CANDIDATES={
   'N03':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
   'N04':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
   'N05':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
-  'N06':{PH:'DAP', BN:'MCA', PN:'GERAKAN'},
+  'N06':{PH:'DAP', BN:'MCA', PN:'GERAKAN',BP:'MUDA'},
   'N07':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
   'N08':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
   'N09':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
@@ -231,75 +272,75 @@ const SEAT_CANDIDATES={
   'N12':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
   'N13':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
   'N14':{PH:'PKR', BN:'MCA', PN:'BERSATU'},
-  'N15':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
+  'N15':{PH:'AMANAH',BN:'UMNO',PN:'PAS',BP:'MUDA'},
   'N16':{PH:'PKR', BN:'MIC', PN:'PAS'},
   'N17':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
   'N18':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
-  'N19':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N19':{PH:'PKR', BN:'UMNO',PN:'BERSATU',BP:'MUDA'},
   'N20':{PH:'PKR', BN:'UMNO',PN:'PAS'},
-  'N21':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
+  'N21':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU',BP:'MUDA'},
   'N22':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
-  'N23':{PH:'DAP', BN:'UMNO',PN:'BERSATU'},
+  'N23':{PH:'DAP', BN:'UMNO',PN:'BERSATU',BP:'MUDA'},
   'N24':{PH:'PKR', BN:'UMNO',PN:'PAS'},
-  'N25':{PH:'PKR', BN:'MCA', PN:'BERSATU'},
+  'N25':{PH:'PKR', BN:'MCA', PN:'BERSATU',BP:'PSM'},
   'N26':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
   'N27':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
   'N28':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
-  'N29':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
+  'N29':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU',BP:'MUDA'},
   'N30':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
-  'N31':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
-  'N32':{PH:'PKR', BN:'UMNO',PN:'PAS'},
+  'N31':{PH:'DAP', BN:'MCA', PN:'BERSATU',BP:'MUDA'},
+  'N32':{PH:'PKR', BN:'UMNO',PN:'PAS',BP:'MUDA'},
   'N33':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
-  'N34':{PH:'DAP', BN:'MIC', PN:'GERAKAN'},
+  'N34':{PH:'DAP', BN:'MIC', PN:'GERAKAN',BP:'MUDA'},
   'N35':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
-  'N36':{PH:'DAP', BN:'MCA', PN:'GERAKAN'},
+  'N36':{PH:'DAP', BN:'MCA', PN:'GERAKAN',BP:'MUDA'},
   'N37':{PH:'PKR', BN:'MIC', PN:'GERAKAN'},
   'N38':{PH:'PKR', BN:'UMNO',PN:'PAS'},
-  'N39':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
-  'N40':{PH:'PKR', BN:'UMNO',PN:'PAS'},
-  'N41':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
-  'N42':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
+  'N39':{PH:'PKR', BN:'UMNO',PN:'BERSATU',BP:'PSM'},
+  'N40':{PH:'PKR', BN:'UMNO',PN:'PAS',BP:'MUDA'},
+  'N41':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU',BP:'MUDA'},
+  'N42':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU',BP:'PSM'},
   'N43':{PH:'PKR', BN:'UMNO',PN:'PAS'},
   'N44':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
   'N45':{PH:'DAP', BN:'MCA', PN:'GERAKAN'},
   'N46':{PH:'PKR', BN:'UMNO',PN:'PAS'},
   'N47':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
-  'N48':{PH:'PKR', BN:'MIC', PN:'GERAKAN'},
-  'N49':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N48':{PH:'PKR', BN:'MIC', PN:'GERAKAN',BP:'MUDA'},
+  'N49':{PH:'PKR', BN:'UMNO',PN:'BERSATU',BP:'MUDA'},
   'N50':{PH:'DAP', BN:'UMNO',PN:'GERAKAN'},
   'N51':{PH:'AMANAH',BN:'UMNO',PN:'PAS'},
   'N52':{PH:'DAP', BN:'MCA', PN:'GERAKAN'},
   'N53':{PH:'AMANAH',BN:'UMNO',PN:'BERSATU'},
   'N54':{PH:'PKR', BN:'UMNO',PN:'PAS'},
-  'N55':{PH:'PKR', BN:'UMNO',PN:'BERSATU'},
+  'N55':{PH:'PKR', BN:'UMNO',PN:'BERSATU',BP:'PSM'},
   'N56':{PH:'DAP', BN:'MCA', PN:'BERSATU'},
 };
 
 const SEATS=[
-  ['N01','Sungai Air Tawar',3150,4726,7031,0,14907,{}],
+  ['N01','Sungai Air Tawar',3308,4568,7031,0,14907,{}],
   ['N02','Sabak',8487,738,13440,0,22665,{}],
-  ['N03','Sungai Panjang',5388,8081,17044,0,30513,{}],
+  ['N03','Sungai Panjang',5657,7812,17044,0,30513,{}],
   ['N04','Sekinchan',9424,820,6227,0,16471,{}],
   ['N05','Hulu Bernam',9255,805,10729,0,20789,{}],
   ['N06','Kuala Kubu Baharu',14285,1242,11408,0,27345,{OTH:410}],
-  ['N07','Batang Kali',11735,17602,32314,0,61651,{}],
-  ['N08','Sungai Burong',3449,5173,15463,0,24085,{}],
+  ['N07','Batang Kali',12322,17015,32314,0,61651,{}],
+  ['N08','Sungai Burong',3621,5001,15463,0,24085,{}],
   ['N09','Permatang',10240,890,12858,0,23988,{}],
   ['N10','Bukit Melawati',12702,1105,14684,0,28491,{}],
   ['N11','Ijok',10304,896,12112,0,23667,{OTH:355}],
-  ['N12','Jeram',4539,6809,16746,0,28094,{}],
-  ['N13','Kuang',5622,8432,18928,0,33484,{OTH:502}],
+  ['N12','Jeram',4766,6582,16746,0,28094,{}],
+  ['N13','Kuang',5903,8151,18928,0,33484,{OTH:502}],
   ['N14','Rawang',36063,3136,13541,0,52740,{}],
   ['N15','Taman Templer',20534,1786,21853,0,44845,{OTH:672}],
   ['N16','Sungai Tua',18078,1572,14465,0,34634,{OTH:519}],
-  ['N17','Gombak Setia',12150,18224,30431,0,61730,{OTH:925}],
+  ['N17','Gombak Setia',12757,17617,30431,0,61730,{OTH:925}],
   ['N18','Hulu Kelang',22096,1921,25633,0,49650,{}],
   ['N19','Bukit Antarabangsa',28690,2495,14905,0,46791,{OTH:701}],
   ['N20','Lembah Jaya',24212,2105,19640,0,45957,{}],
   ['N21','Pandan Indah',25962,2258,17629,0,46547,{OTH:698}],
   ['N22','Teratai',39140,3403,10610,0,53153,{}],
-  ['N23','Dusun Tua',11178,16767,24932,0,53682,{OTH:805}],
-  ['N24','Semenyih',14341,21511,37114,0,72966,{}],
+  ['N23','Dusun Tua',11737,16208,24932,0,53682,{OTH:805}],
+  ['N24','Semenyih',15058,20794,37114,0,72966,{}],
   ['N25','Kajang',51158,4449,21213,0,77989,{OTH:1169}],
   ['N26','Sungai Ramal',29940,2604,40311,0,72855,{}],
   ['N27','Balakong',50777,4415,17361,0,72553,{}],
@@ -319,20 +360,124 @@ const SEATS=[
   ['N41','Batu Tiga',27256,2370,26245,0,56721,{OTH:850}],
   ['N42','Meru',24909,2166,23653,0,51500,{OTH:772}],
   ['N43','Sementa',20511,1784,32333,0,54628,{}],
-  ['N44','Selat Klang',6758,10138,25221,0,42758,{OTH:641}],
+  ['N44','Selat Klang',7096,9800,25221,0,42758,{OTH:641}],
   ['N45','Bandar Baru Klang',49395,4295,8019,0,61709,{}],
   ['N46','Pelabuhan Klang',20005,1740,16515,0,38842,{OTH:582}],
   ['N47','Pandamaran',43108,3749,6560,0,54230,{OTH:813}],
   ['N48','Sentosa',50976,4433,9060,0,65450,{OTH:981}],
   ['N49','Sungai Kandis',26718,2323,29208,0,59136,{OTH:887}],
   ['N50','Kota Kemuning',37899,3296,16908,0,58987,{OTH:884}],
-  ['N51','Sijangkang',7654,11482,30443,0,49579,{}],
+  ['N51','Sijangkang',8037,11099,30443,0,49579,{}],
   ['N52','Banting',25487,2216,5602,0,33812,{OTH:507}],
   ['N53','Morib',13899,1209,18950,0,34058,{}],
   ['N54','Tanjong Sepat',12759,1110,11345,0,25214,{}],
-  ['N55','Dengkil',13575,20362,34318,0,69294,{OTH:1039}],
+  ['N55','Dengkil',14254,19683,34318,0,69294,{OTH:1039}],
   ['N56','Sungai Pelek',16429,1429,16401,0,34780,{OTH:521}],
 ];
+
+// ── Unity-collapse mode: BN leaves its PH pact to join PN instead ──────────
+// BN+PN merged, BERSATU detached as IPR ("BERSATU+"). Held seats = the 12
+// seats BERSATU actually won in 2023 (out of PN's 22 total wins; the other
+// 10 went to PAS). Carve fractions are the same tuned NS/Malaysia/Malacca
+// values (74% held / 33% default).
+const IPR_HELD=new Set(['N07','N09','N10','N12','N13','N17','N18','N33','N44','N49','N53','N55']);
+const CARVE_HELD=0.74, CARVE_DEFAULT=0.33;
+const FOLDED_MINORS_G=new Set(['OTH','IND','PRM']);
+
+const SEAT_BASE_UNITY={};
+const GN_UNITY={PH:0,BNPN:0,IPR:0,BP:0,BERSAMA:0};
+const GS_UNITY={PH:0,BNPN:0,IPR:0,BP:0,BERSAMA:0,OTHERS:0};
+(function deriveUnityBaseline(){
+  const sum={PH:0,BNPN:0,IPR:0,BP:0};
+  let grand=0;
+  SEATS.forEach(s=>{
+    const[id,name,ph,bn,pn,bp,tot2,minorVotes]=s;
+    if(!tot2)return;
+    let basePH=ph/tot2*100, baseBN=bn/tot2*100, basePN=pn/tot2*100, baseBP=bp/tot2*100;
+    let absentTotal=0;
+    Object.entries(minorVotes||{}).forEach(([k,v])=>{if(FOLDED_MINORS_G.has(k))absentTotal+=v/tot2*100;});
+    if(absentTotal>0){
+      const contestBase=basePH+baseBN+basePN+baseBP;
+      if(contestBase>0){
+        basePH+=absentTotal*(basePH/contestBase);
+        baseBN+=absentTotal*(baseBN/contestBase);
+        basePN+=absentTotal*(basePN/contestBase);
+        baseBP+=absentTotal*(baseBP/contestBase);
+      }
+    }
+    // Merge BN+PN, then carve IPR back out of the merged pool.
+    const merged=baseBN+basePN;
+    const f=IPR_HELD.has(id)?CARVE_HELD:CARVE_DEFAULT;
+    const vIPR=merged*f, vBNPN=merged-vIPR;
+    SEAT_BASE_UNITY[id]={PH:basePH,BNPN:vBNPN,IPR:vIPR,BP:baseBP,BERSAMA:0};
+    sum.PH+=basePH*tot2/100; sum.BNPN+=vBNPN*tot2/100; sum.IPR+=vIPR*tot2/100; sum.BP+=baseBP*tot2/100;
+    grand+=tot2;
+  });
+  ['PH','BNPN','IPR','BP'].forEach(k=>{GN_UNITY[k]=grand>0?sum[k]/grand*100:0;});
+  GN_UNITY.BERSAMA=0;
+  // BP's per-seat baseline is always 0 (the bp column in SEATS has no real
+  // 2023 data -- same situation as the Malacca model), so the derivation
+  // above always computes GN_UNITY.BP=0. But MUDA+PSM's real 2023 statewide
+  // result (1.27%) is a historical fact independent of which BN/PN/PH
+  // alignment scenario is being modeled -- Standard mode already reflects it
+  // via GN_STD.BP being set directly rather than derived. Setting it here
+  // too isn't enough on its own though: those 1.27 points are real votes
+  // that came from somewhere in 2023, so they need to be carved out of
+  // PH/BNPN/IPR proportionally, not just added on top -- otherwise the four
+  // baselines sum to 101.27% instead of 100%.
+  const preBP=GN_UNITY.PH+GN_UNITY.BNPN+GN_UNITY.IPR;
+  const scale=preBP>0?(100-1.27)/preBP:1;
+  GN_UNITY.PH*=scale; GN_UNITY.BNPN*=scale; GN_UNITY.IPR*=scale;
+  GN_UNITY.BP=1.27;
+
+  SEATS.forEach(s=>{
+    const id=s[0];
+    const w=W23[id];
+    let bloc=w;
+    if(w==='BN')bloc='BNPN';
+    else if(w==='PN'){
+      const comp=(SEAT_CANDIDATES[id]||{}).PN;
+      bloc=(comp==='BERSATU')?'IPR':'BNPN';
+    }
+    GS_UNITY[bloc]=(GS_UNITY[bloc]||0)+1;
+  });
+})();
+
+const PARTIES_UNITY=[
+  {id:'PH', label:'Pakatan Harapan',   color:'#e84c4c',ge:GN_UNITY.PH},
+  {id:'BNPN', label:'BN + PN',         color:'#1a5ea8',ge:GN_UNITY.BNPN},
+  {id:'IPR', label:'BERSATU+',         color:'#27ae60',ge:GN_UNITY.IPR},
+  {id:'BP', label:'BP',          color:'#e67e22',ge:GN_UNITY.BP},
+  {id:'BERSAMA',label:'BERSAMA',       color:'#8e44ad',ge:0.00},
+];
+
+// Maps a component's ORIGINAL standard-mode coalition (BN/PN) onto whichever
+// bloc it belongs to under the active mode. Identity in standard mode.
+function mapCoal(origCoal,party){
+  if(MODE!=='unity')return origCoal;
+  if(origCoal==='BN')return 'BNPN';
+  if(origCoal==='PN')return party==='BERSATU'?'IPR':'BNPN';
+  return origCoal;
+}
+
+// Real 2026 component for a coalition in a seat, in the active mode. BP only
+// has real 2023 candidate data in the 18 seats it actually contested (14
+// MUDA, 4 PSM, sourced from NST's full 2023 candidate list) -- elsewhere it's
+// assumed to contest as part of the model's forward-looking "BP stands
+// everywhere" premise, so falls back to MUDA (its larger real component).
+function resolveComponentParty(coal,id){
+  const cands=SEAT_CANDIDATES[id]||{};
+  if(coal==='BP')return cands.BP||'MUDA';
+  if(coal==='PH'||coal==='BERSAMA')return cands[coal]||coal;
+  if(MODE==='standard'){
+    if(coal==='BN'||coal==='PN')return cands[coal]||coal;
+    return coal;
+  }
+  // unity mode
+  if(coal==='IPR')return 'BERSATU';
+  if(coal==='BNPN')return (cands.PN&&cands.PN!=='BERSATU')?cands.PN:(cands.BN||'BN');
+  return coal;
+}
 
 let curDetails=[];
 let inputEls={};
@@ -346,8 +491,9 @@ function taper(id,v){
   return Math.max(0,v/t);
 }
 
-window.addEventListener('DOMContentLoaded',()=>{
-  const ig=document.getElementById('inputsGrid');
+function buildInputsAndChecks(){
+  const ig=document.getElementById('inputsGrid');ig.innerHTML='';
+  inputEls={};
   PARTIES.forEach(p=>{
     const c=document.createElement('div');c.className='input-card';
     const el=document.createElement('input');
@@ -374,34 +520,219 @@ window.addEventListener('DOMContentLoaded',()=>{
   oc.innerHTML=`<label><span class="pdot" style="background:#888780"></span>Minor parties <span style="color:#888780;font-size:11px;">(redistributed)</span></label><div style="font-size:12px;color:#888780;padding-top:4px;">2023 MUDA+PSM+PRM+IND votes redistributed proportionally before swing.</div>`;
   ig.appendChild(oc);
 
-  const cc=document.getElementById('coalitionChecks');
+  const cc=document.getElementById('coalitionChecks');cc.innerHTML='';
   PARTIES.forEach(p=>{
     const lbl=document.createElement('label');
     lbl.innerHTML=`<input type="checkbox" id="chk_${p.id}"><span class="pdot" style="background:${p.color}"></span>${p.label}`;
     lbl.querySelector('input').addEventListener('change',updateCoalition);
     cc.appendChild(lbl);
   });
+}
+
+function setMode(mode){
+  if(mode===MODE)return;
+  MODE=mode;
+  PARTIES=(mode==='unity')?PARTIES_UNITY:PARTIES_STD;
+  GN=(mode==='unity')?GN_UNITY:GN_STD;
+  GS=(mode==='unity')?GS_UNITY:GS_STD;
+  const stdBtn=document.getElementById('modeStdBtn'),unityBtn=document.getElementById('modeUnityBtn');
+  const active='background:#1a1a18;color:#fff;border-color:#1a1a18;';
+  stdBtn.style.cssText=(mode==='standard')?active:'';
+  unityBtn.style.cssText=(mode==='unity')?active:'';
+  document.getElementById('modeNote').style.display=(mode==='unity')?'block':'none';
+  buildInputsAndChecks();
+  project();
+}
+
+// ── Constituency map ──────────────────────────────────────────────────
+// Real DUN boundaries from Malaysia's Department of Statistics
+// (github.com/dosm-malaysia/data-open), same source and method as the NS,
+// Malaysia national, and Malacca models.
+const SEL_MAP_PATHS={N01:"M81.30,6.90 L78.43,14.21 L78.91,17.52 L80.31,18.81 L91.48,19.99 L97.05,21.61 L101.94,25.14 L102.85,29.23 L100.32,32.17 L93.51,34.69 L90.90,36.68 L90.34,41.94 L94.73,46.85 L92.63,54.24 L87.79,58.23 L84.01,63.56 L78.83,67.27 L78.34,69.51 L69.37,77.21 L64.69,71.28 L64.36,69.75 L57.37,64.04 L56.78,62.29 L52.54,58.47 L50.28,57.84 L37.71,50.35 L38.91,49.54 L35.72,49.46 L31.88,47.55 L24.16,45.43 L15.41,45.02 L9.62,45.65 L6.60,44.53 L3.14,41.64 L0.00,33.56 L3.17,16.85 L5.73,11.57 L7.25,11.36 L6.82,9.17 L16.70,10.36 L36.10,7.03 L47.77,7.58 L57.47,5.68 L69.10,1.56 L76.87,0.00 L80.22,0.38 L81.73,1.51 L82.23,4.16 L81.30,6.90 Z",N02:"M133.50,34.38 L134.15,37.00 L130.98,40.91 L132.97,42.43 L137.11,41.08 L141.13,40.86 L149.38,36.03 L151.62,36.58 L151.97,38.88 L148.80,41.67 L148.04,43.77 L150.64,49.30 L149.95,55.02 L151.19,56.81 L153.79,55.67 L155.43,51.14 L162.62,49.21 L166.80,43.86 L169.08,42.52 L170.38,42.61 L171.17,44.41 L168.27,49.92 L176.55,56.83 L176.38,58.58 L175.55,59.04 L173.81,58.42 L171.10,55.44 L160.67,53.58 L160.06,54.64 L163.59,60.24 L159.58,65.31 L159.69,67.55 L161.65,68.46 L151.09,67.97 L142.74,76.05 L145.36,77.95 L136.03,85.84 L132.63,90.94 L123.84,99.87 L105.98,88.48 L100.34,93.04 L97.59,90.98 L93.88,93.93 L89.50,92.06 L83.51,91.08 L73.59,87.82 L69.37,77.21 L78.34,69.51 L78.83,67.27 L84.01,63.56 L87.79,58.23 L92.63,54.24 L94.73,46.85 L99.27,48.78 L105.51,47.57 L107.04,37.37 L111.68,33.48 L119.24,34.52 L123.70,32.45 L129.25,31.11 L131.46,31.87 L133.50,34.38 Z",N03:"M199.97,58.41 L202.44,59.46 L202.82,60.40 L196.36,64.45 L196.61,65.57 L208.21,68.56 L208.58,67.57 L206.30,62.34 L207.39,60.95 L208.83,60.72 L209.71,61.41 L210.29,65.02 L213.92,70.19 L215.08,61.71 L214.20,59.16 L215.33,58.52 L218.83,66.55 L218.45,69.06 L230.78,67.31 L226.94,69.33 L221.49,75.14 L218.32,72.74 L218.33,75.17 L221.09,77.62 L230.62,71.66 L232.03,71.86 L231.18,72.77 L232.08,73.42 L234.64,74.15 L233.75,70.39 L234.56,68.92 L236.81,69.35 L235.51,70.76 L236.00,72.37 L237.16,71.47 L238.18,73.25 L239.80,73.18 L240.52,75.58 L242.26,75.76 L242.13,74.93 L243.59,74.46 L244.47,75.25 L244.53,75.77 L243.42,75.56 L243.56,76.90 L244.58,77.13 L243.71,78.70 L249.39,75.96 L253.30,75.79 L258.16,74.43 L260.22,72.60 L265.95,73.67 L263.84,78.33 L263.76,81.15 L262.92,81.54 L264.95,85.21 L263.30,90.40 L264.19,90.89 L263.93,91.88 L266.45,92.94 L265.87,93.61 L267.62,95.42 L268.94,96.05 L270.82,95.20 L272.23,96.73 L274.65,97.57 L276.13,97.04 L279.08,97.94 L279.97,96.66 L284.52,97.83 L284.58,97.19 L285.50,97.38 L285.29,95.18 L293.62,92.88 L297.81,95.78 L301.78,93.28 L303.15,90.95 L302.85,89.70 L305.36,89.87 L309.72,86.88 L311.91,87.70 L315.64,85.88 L316.79,87.67 L318.49,86.94 L320.28,84.69 L321.57,84.78 L324.56,87.21 L325.26,88.41 L324.61,89.47 L325.79,91.24 L325.54,93.03 L323.95,94.54 L323.83,101.10 L321.43,103.35 L324.14,113.24 L326.09,131.07 L301.21,116.55 L243.46,113.36 L215.41,110.79 L173.81,122.46 L185.13,142.67 L157.17,150.18 L151.44,137.70 L147.10,131.59 L143.54,128.98 L137.67,121.49 L133.82,119.63 L131.77,116.53 L128.75,115.26 L126.36,112.43 L123.20,111.31 L105.08,99.61 L104.28,98.30 L93.88,93.93 L97.59,90.98 L100.34,93.04 L105.98,88.48 L123.84,99.87 L132.63,90.94 L136.03,85.84 L145.36,77.95 L142.74,76.05 L151.09,67.97 L162.54,68.53 L164.06,67.61 L166.08,61.76 L170.51,62.11 L174.18,60.45 L175.27,61.03 L175.76,65.64 L176.90,66.54 L179.09,66.42 L180.01,65.40 L179.39,61.41 L182.07,59.48 L187.32,64.61 L189.04,64.73 L190.06,63.40 L189.40,59.65 L195.26,51.44 L196.34,52.61 L197.01,56.77 L199.97,58.41 Z",N04:"M279.71,144.36 L222.00,161.58 L176.25,185.92 L170.66,179.70 L168.42,175.41 L169.53,175.15 L169.44,173.97 L165.45,164.02 L157.17,150.18 L185.13,142.67 L173.81,122.46 L215.41,110.79 L243.46,113.36 L301.21,116.55 L326.09,131.07 L279.71,144.36 Z",N05:"M334.25,31.98 L336.30,33.33 L337.87,32.60 L338.50,33.90 L340.70,32.84 L342.88,36.26 L344.36,36.13 L345.34,37.09 L345.14,38.28 L346.31,38.32 L347.10,39.32 L346.75,41.51 L348.54,42.74 L347.51,44.05 L348.26,44.24 L347.95,45.77 L349.05,46.25 L348.20,46.77 L348.82,47.56 L352.11,46.91 L355.49,48.69 L356.61,50.43 L359.15,50.72 L358.63,51.86 L360.34,52.59 L360.10,53.11 L363.12,53.90 L365.09,52.99 L365.81,54.26 L367.93,53.84 L368.96,57.18 L371.41,57.04 L371.21,57.73 L372.97,56.69 L376.85,57.30 L378.23,56.59 L380.69,57.80 L381.77,57.19 L381.89,59.25 L384.00,60.85 L383.35,61.73 L383.95,63.14 L386.21,63.51 L388.81,66.25 L388.77,67.79 L391.29,70.74 L390.96,72.45 L392.49,73.20 L392.58,74.78 L395.07,75.48 L395.79,74.60 L398.33,74.20 L400.25,75.17 L401.08,74.41 L402.55,76.46 L402.13,78.83 L404.40,81.18 L406.59,81.22 L410.44,83.16 L413.14,82.51 L415.39,83.02 L417.48,85.12 L424.83,88.81 L428.66,92.87 L433.52,91.12 L436.27,91.13 L438.45,92.40 L437.66,91.30 L440.30,90.33 L440.39,88.32 L444.74,84.03 L444.92,81.49 L447.37,81.32 L449.37,80.23 L452.85,80.60 L452.97,78.64 L457.75,76.71 L460.49,72.25 L464.08,72.42 L464.49,70.66 L465.86,69.61 L465.25,65.40 L465.88,63.52 L467.20,62.04 L471.75,59.85 L475.33,56.41 L479.97,47.06 L483.35,46.11 L491.71,46.88 L493.18,47.83 L492.12,51.47 L497.18,53.20 L499.68,54.88 L499.91,56.50 L501.92,57.06 L504.93,61.60 L509.42,65.92 L510.85,73.95 L511.95,74.94 L510.75,79.17 L511.17,82.54 L509.23,86.23 L509.92,92.28 L506.70,92.77 L505.74,95.98 L497.70,99.94 L496.90,103.52 L491.24,105.46 L491.54,108.98 L488.98,112.22 L491.16,113.83 L490.89,115.25 L485.04,117.58 L482.86,121.25 L481.18,121.63 L481.53,123.46 L479.56,122.97 L477.38,123.97 L476.28,123.33 L475.40,123.88 L471.94,129.55 L466.26,131.92 L457.68,139.12 L445.11,146.45 L444.79,147.94 L440.91,147.51 L438.55,143.98 L438.34,140.56 L436.17,140.99 L434.73,140.06 L429.89,143.95 L424.21,131.77 L417.33,127.15 L398.97,142.97 L361.89,156.25 L326.09,131.07 L324.14,113.24 L321.43,103.35 L323.83,101.10 L323.95,94.54 L325.54,93.03 L325.79,91.24 L324.61,89.47 L325.26,88.41 L324.56,87.21 L320.16,84.18 L324.42,79.04 L324.46,76.51 L322.93,75.98 L322.60,73.49 L320.66,71.25 L320.81,69.16 L318.72,64.22 L318.79,59.78 L316.23,58.02 L315.64,58.42 L315.20,57.06 L314.34,57.71 L313.60,56.27 L312.16,55.74 L313.07,52.65 L311.25,49.48 L310.00,49.96 L308.14,49.19 L308.81,47.18 L309.96,47.29 L310.05,46.36 L311.62,45.96 L310.70,44.68 L312.67,44.25 L312.39,42.88 L313.56,42.48 L312.41,40.72 L316.34,39.60 L317.00,38.38 L318.26,38.63 L319.08,36.18 L322.39,36.77 L325.10,35.00 L325.05,36.80 L326.86,36.68 L326.58,35.60 L328.14,35.36 L328.22,34.01 L329.70,33.81 L330.06,32.70 L331.22,33.38 L334.25,31.98 Z",N06:"M512.03,69.28 L520.43,72.25 L523.84,72.15 L525.87,74.02 L527.22,74.19 L528.01,76.72 L532.49,78.87 L535.53,77.12 L538.53,77.06 L541.70,78.22 L543.68,76.42 L545.58,77.74 L550.62,78.43 L554.96,75.86 L556.40,76.74 L558.07,76.30 L561.53,77.50 L560.07,80.07 L561.77,83.64 L565.79,84.77 L566.90,86.49 L569.08,87.27 L570.36,89.46 L572.52,89.59 L573.48,90.75 L574.86,90.52 L575.67,91.29 L578.47,91.23 L578.36,93.96 L580.28,96.03 L578.60,99.18 L581.06,100.56 L584.65,104.95 L587.23,105.34 L588.61,106.70 L588.09,114.50 L590.66,116.79 L595.44,117.48 L597.12,123.25 L603.14,125.16 L602.82,126.91 L606.74,128.94 L606.37,133.24 L604.92,134.33 L604.13,136.84 L602.55,137.77 L601.73,142.50 L603.23,144.27 L600.37,153.15 L601.15,154.84 L598.59,154.58 L597.37,155.91 L595.46,156.38 L593.31,155.86 L591.74,156.87 L589.04,156.44 L584.25,161.90 L583.72,165.35 L579.12,172.20 L576.80,172.74 L573.02,167.99 L564.87,164.41 L561.76,164.51 L559.75,162.73 L557.60,162.09 L554.49,161.79 L545.25,165.93 L541.21,166.15 L533.66,165.39 L530.84,161.94 L532.10,160.33 L527.86,157.53 L524.91,160.12 L522.81,160.65 L523.23,161.82 L522.17,162.22 L513.19,160.42 L513.10,163.37 L507.95,162.57 L509.93,160.80 L507.81,158.70 L498.98,159.60 L495.41,165.30 L494.52,169.99 L496.60,173.68 L499.49,174.11 L498.26,175.44 L496.90,175.26 L498.15,180.20 L500.52,179.12 L503.33,183.50 L500.81,187.02 L500.43,193.07 L511.43,197.21 L516.40,202.22 L510.34,202.57 L510.59,201.90 L509.16,201.56 L509.40,200.53 L507.14,200.15 L505.76,198.72 L504.17,198.72 L503.71,200.01 L501.35,197.64 L500.51,198.08 L499.87,197.36 L499.36,199.27 L501.24,200.89 L500.86,203.03 L503.68,203.08 L504.67,204.33 L505.22,203.87 L506.46,204.49 L510.40,208.32 L509.83,209.29 L511.86,211.06 L508.90,212.89 L508.36,212.49 L506.85,213.80 L502.83,211.12 L502.21,211.67 L498.65,209.31 L498.14,209.81 L498.08,209.18 L496.83,209.27 L497.73,208.66 L497.35,206.92 L495.71,207.71 L495.78,205.58 L493.79,204.08 L493.38,202.57 L490.94,201.16 L491.35,199.43 L490.52,198.64 L491.39,197.70 L493.08,198.25 L492.17,196.96 L493.00,196.28 L491.99,194.67 L490.09,193.87 L479.77,195.06 L475.16,196.63 L474.99,195.92 L474.29,196.12 L473.44,198.64 L472.00,198.58 L472.63,199.46 L466.47,201.42 L463.07,200.07 L461.35,201.60 L460.58,201.54 L460.37,200.41 L459.06,201.35 L459.37,200.16 L458.01,200.12 L457.15,199.04 L454.12,198.76 L454.88,196.97 L451.59,194.03 L448.70,189.31 L443.37,188.20 L443.07,187.14 L441.86,188.08 L438.87,185.44 L436.92,184.79 L435.63,185.87 L432.75,186.03 L429.67,187.73 L429.39,189.87 L428.62,189.79 L428.92,188.86 L427.72,190.04 L425.25,190.60 L424.70,189.70 L426.26,189.04 L425.99,187.97 L427.23,186.56 L427.39,184.49 L426.59,183.92 L427.22,183.12 L424.51,182.85 L424.08,181.99 L399.90,181.81 L399.90,180.73 L391.70,181.10 L361.89,156.25 L398.97,142.97 L417.33,127.15 L424.21,131.77 L429.89,143.95 L434.73,140.06 L436.17,140.99 L438.34,140.56 L438.55,143.98 L440.91,147.51 L444.79,147.94 L445.11,146.45 L457.68,139.12 L466.26,131.92 L471.94,129.55 L475.40,123.88 L476.28,123.33 L477.38,123.97 L479.56,122.97 L481.53,123.46 L481.18,121.63 L482.86,121.25 L485.49,117.18 L490.51,115.73 L491.16,113.83 L488.98,112.22 L491.54,108.98 L491.24,105.46 L496.90,103.52 L497.70,99.94 L505.74,95.98 L506.70,92.77 L509.92,92.28 L509.23,86.23 L511.03,83.09 L510.75,79.17 L511.95,75.39 L510.85,73.95 L510.45,69.41 L512.03,69.28 Z",N07:"M527.86,157.53 L532.10,160.33 L530.84,161.94 L533.66,165.39 L545.25,165.93 L554.49,161.79 L557.60,162.09 L559.75,162.73 L561.76,164.51 L564.87,164.41 L573.02,167.99 L576.80,172.74 L574.82,174.95 L574.89,182.24 L576.38,182.88 L577.55,185.62 L578.00,189.71 L581.00,192.33 L584.29,198.43 L584.43,202.79 L587.56,207.29 L588.31,212.47 L593.01,215.69 L590.43,218.67 L586.59,220.91 L585.76,223.16 L583.71,223.79 L581.91,226.44 L576.00,228.00 L577.07,234.61 L573.57,238.67 L573.38,240.05 L568.84,241.29 L564.90,239.32 L561.43,239.51 L559.16,237.55 L555.31,236.85 L554.67,235.38 L550.69,232.66 L547.98,232.60 L545.64,234.95 L544.71,238.77 L543.32,239.63 L541.32,244.49 L538.69,245.80 L537.55,250.44 L534.58,251.86 L532.99,254.67 L529.28,256.14 L529.06,257.59 L526.65,259.51 L525.51,259.70 L524.81,256.83 L523.40,256.32 L518.70,261.58 L516.09,260.40 L515.24,261.26 L512.27,260.64 L510.88,259.14 L507.48,258.11 L503.13,261.63 L500.89,265.02 L496.90,263.52 L493.80,264.55 L493.36,263.85 L485.92,264.15 L482.71,262.77 L476.37,262.23 L475.01,262.87 L474.89,262.12 L471.51,262.06 L471.69,259.47 L469.71,256.07 L471.61,254.78 L469.61,253.81 L467.41,253.80 L463.71,256.50 L457.73,256.37 L457.73,255.33 L453.89,254.74 L453.40,253.56 L448.95,253.82 L448.60,252.57 L446.08,252.12 L429.57,252.07 L427.19,251.08 L424.31,251.17 L424.28,250.32 L422.82,249.69 L419.68,250.96 L414.72,246.14 L414.55,243.70 L412.83,242.77 L405.46,241.80 L403.88,239.97 L404.57,238.93 L402.94,233.42 L400.32,233.27 L398.75,231.88 L398.07,229.10 L403.29,227.42 L403.35,224.42 L402.07,223.44 L403.14,221.47 L405.12,221.58 L405.57,222.48 L405.69,221.18 L407.22,221.26 L408.65,219.88 L408.21,218.87 L410.33,218.84 L412.42,215.82 L412.72,216.45 L415.87,214.84 L415.51,212.55 L416.79,212.37 L415.71,211.78 L417.45,211.24 L417.13,209.14 L418.60,206.41 L417.78,203.94 L418.28,202.16 L416.15,202.87 L415.20,202.40 L416.50,200.72 L415.84,197.81 L418.60,196.04 L419.36,196.63 L422.87,196.57 L423.88,194.03 L423.00,193.58 L423.34,191.65 L424.79,191.83 L425.90,190.12 L427.72,190.04 L428.92,188.86 L428.62,189.79 L429.39,189.87 L429.67,187.73 L432.75,186.03 L435.63,185.87 L436.43,184.77 L438.87,185.44 L441.86,188.08 L443.07,187.14 L443.37,188.20 L448.70,189.31 L451.59,194.03 L454.88,196.97 L454.12,198.76 L457.15,199.04 L458.01,200.12 L459.37,200.16 L459.06,201.35 L460.37,200.41 L460.58,201.54 L461.35,201.60 L463.07,200.07 L466.47,201.42 L472.63,199.46 L472.00,198.58 L473.44,198.64 L474.29,196.12 L474.99,195.92 L475.16,196.63 L479.77,195.06 L490.09,193.87 L491.99,194.67 L493.00,196.28 L492.17,196.96 L493.08,198.25 L491.39,197.70 L490.52,198.64 L491.35,199.43 L490.94,201.16 L493.38,202.57 L493.79,204.08 L495.78,205.58 L495.71,207.71 L497.35,206.92 L497.73,208.66 L496.83,209.27 L498.08,209.18 L498.14,209.81 L498.65,209.31 L502.21,211.67 L502.83,211.12 L506.85,213.80 L511.86,211.06 L509.83,209.29 L509.98,207.63 L506.46,204.49 L505.22,203.87 L504.67,204.33 L503.68,203.08 L500.86,203.03 L501.24,200.89 L499.36,199.27 L500.20,197.31 L503.71,200.01 L504.17,198.72 L505.76,198.72 L507.14,200.15 L509.40,200.53 L509.16,201.56 L510.59,201.90 L510.34,202.57 L516.40,202.22 L511.43,197.21 L500.43,193.07 L500.81,187.02 L503.33,183.50 L500.52,179.12 L498.15,180.20 L496.90,175.26 L498.26,175.44 L499.49,174.11 L496.60,173.68 L494.74,170.93 L495.29,165.67 L498.98,159.60 L507.81,158.70 L509.93,160.80 L507.95,162.57 L513.10,163.37 L513.19,160.42 L522.17,162.22 L523.23,161.82 L522.81,160.65 L524.91,160.12 L527.86,157.53 Z",N08:"M299.92,138.49 L256.98,192.87 L249.81,188.59 L244.00,195.49 L239.57,201.06 L243.66,203.15 L239.57,208.32 L239.56,213.63 L233.58,213.64 L228.63,218.43 L227.54,218.92 L225.99,218.23 L218.89,224.37 L219.24,226.42 L217.10,229.50 L215.81,229.52 L212.01,225.82 L203.58,213.55 L196.29,207.23 L195.61,204.74 L188.93,202.03 L186.61,198.92 L186.44,197.39 L176.05,186.03 L222.00,161.58 L299.92,138.49 Z",N09:"M390.98,180.50 L391.70,181.10 L399.90,180.73 L399.90,181.81 L424.08,181.99 L424.51,182.85 L427.22,183.12 L426.59,183.92 L427.39,184.49 L427.23,186.56 L425.99,187.97 L426.26,189.04 L424.70,189.70 L425.55,191.06 L424.40,191.96 L423.26,191.79 L423.00,193.58 L423.88,194.03 L423.18,196.28 L419.36,196.63 L418.60,196.04 L415.72,197.97 L416.50,200.72 L415.20,202.40 L416.15,202.87 L418.28,202.16 L417.78,203.94 L418.60,206.41 L417.13,209.14 L417.45,211.24 L415.71,211.78 L416.79,212.37 L415.51,212.55 L415.87,214.84 L412.72,216.45 L412.42,215.82 L410.33,218.84 L408.21,218.87 L408.65,219.88 L407.22,221.26 L405.69,221.18 L405.57,222.48 L405.12,221.58 L403.14,221.47 L402.07,223.44 L403.35,224.42 L403.57,226.86 L402.39,228.14 L397.14,229.43 L396.03,228.39 L394.37,229.11 L394.18,227.87 L391.83,226.82 L392.23,225.89 L389.59,226.88 L385.57,226.23 L385.17,226.84 L382.23,227.08 L380.61,226.53 L379.70,223.42 L377.72,222.93 L370.24,225.36 L368.44,228.58 L368.87,232.09 L368.37,232.54 L367.08,231.90 L366.75,232.77 L367.82,233.64 L366.05,233.55 L365.35,234.86 L361.62,235.10 L359.49,233.88 L359.82,232.65 L357.39,233.85 L358.03,231.92 L354.48,233.37 L352.14,232.49 L351.62,233.92 L348.65,234.43 L346.45,237.20 L344.22,237.56 L343.07,235.52 L343.14,237.89 L341.00,237.74 L341.20,239.34 L339.61,238.53 L340.31,239.87 L339.71,240.60 L338.34,239.31 L337.18,241.16 L335.66,239.92 L336.02,238.87 L335.24,238.93 L335.33,241.68 L333.42,240.70 L332.61,241.48 L334.36,243.07 L333.77,243.98 L332.34,243.81 L331.54,241.60 L330.07,240.97 L329.02,241.96 L329.97,243.30 L329.39,244.14 L326.56,242.56 L324.30,242.59 L320.49,243.89 L319.78,246.33 L316.32,243.72 L314.95,245.76 L313.81,245.80 L313.32,243.61 L314.98,241.72 L314.54,240.75 L310.74,240.87 L307.07,238.78 L305.70,239.72 L305.86,242.37 L304.35,244.33 L302.87,244.35 L301.91,239.70 L301.07,239.16 L298.04,241.27 L298.68,245.10 L295.47,245.54 L294.91,243.85 L296.45,241.66 L295.60,239.86 L293.56,239.36 L289.89,240.62 L288.45,239.38 L289.68,236.76 L293.82,235.73 L294.63,234.25 L292.47,233.31 L288.91,235.47 L284.81,234.77 L283.90,235.94 L286.07,239.45 L282.83,241.76 L280.74,244.80 L278.53,245.24 L274.20,243.07 L272.48,243.38 L270.09,250.69 L274.48,256.30 L274.01,257.65 L271.67,258.54 L269.02,258.15 L265.72,252.23 L261.82,249.23 L258.13,249.56 L255.89,254.19 L254.24,255.36 L247.18,256.23 L247.00,255.60 L246.75,256.31 L246.09,255.57 L239.48,255.24 L230.00,252.19 L227.57,250.22 L222.01,233.57 L219.61,232.19 L220.95,230.75 L219.78,229.58 L217.10,229.50 L219.24,226.42 L218.89,224.37 L225.99,218.23 L227.54,218.92 L228.63,218.43 L233.58,213.64 L239.56,213.63 L239.57,208.32 L243.66,203.15 L239.57,201.06 L244.00,195.49 L249.81,188.59 L256.98,192.87 L299.92,138.49 L326.09,131.07 L361.89,156.25 L390.98,180.50 Z",N10:"M294.34,235.33 L289.68,236.76 L288.45,239.38 L289.89,240.62 L293.56,239.36 L295.60,239.86 L296.45,241.66 L294.91,243.85 L295.47,245.54 L296.78,245.14 L297.62,245.71 L298.68,245.10 L298.04,241.27 L301.07,239.16 L303.21,244.55 L305.40,243.27 L305.70,239.72 L307.07,238.78 L310.74,240.87 L314.54,240.75 L314.98,241.72 L313.32,243.61 L313.81,245.80 L314.95,245.76 L316.32,243.72 L319.78,246.33 L320.49,243.89 L324.30,242.59 L326.56,242.56 L329.39,244.14 L329.97,243.30 L329.02,241.96 L330.07,240.97 L331.54,241.60 L332.34,243.81 L333.77,243.98 L334.36,243.07 L332.83,242.29 L332.67,241.29 L333.42,240.70 L335.33,241.68 L334.69,239.46 L335.69,238.74 L335.66,239.92 L337.18,241.16 L338.51,239.30 L339.41,240.44 L346.06,243.76 L355.57,245.49 L355.51,250.20 L352.43,250.22 L352.51,254.70 L332.57,255.23 L332.52,272.37 L343.58,271.09 L343.69,277.52 L338.27,277.87 L336.25,280.19 L331.97,280.15 L327.04,282.28 L326.29,286.03 L327.82,285.97 L327.50,289.26 L326.15,289.30 L325.28,295.38 L323.46,295.43 L314.92,290.90 L314.65,302.70 L306.82,302.54 L306.69,306.04 L307.81,306.62 L305.55,307.64 L305.47,309.37 L297.61,309.24 L295.63,304.15 L296.77,296.86 L293.35,298.61 L289.06,290.25 L281.17,280.58 L277.30,277.53 L277.12,275.77 L276.14,275.95 L276.40,275.00 L274.98,274.94 L275.06,273.76 L273.56,273.46 L274.07,272.58 L272.81,272.33 L273.28,271.69 L272.55,271.29 L271.84,271.91 L261.38,266.79 L254.70,259.73 L254.70,255.13 L255.89,254.19 L257.13,250.44 L258.81,249.15 L263.60,250.06 L266.68,253.56 L269.02,258.15 L271.67,258.54 L274.01,257.65 L274.31,255.48 L270.09,250.69 L272.48,243.38 L274.20,243.07 L277.57,244.91 L280.16,245.17 L282.83,241.76 L286.07,239.45 L284.13,236.51 L284.19,235.12 L285.34,234.71 L288.91,235.47 L292.99,233.30 L294.63,234.25 L294.34,235.33 Z",N11:"M379.95,224.12 L380.61,226.53 L382.23,227.08 L385.17,226.84 L385.57,226.23 L387.20,226.84 L383.14,228.76 L383.13,248.22 L384.86,248.39 L384.27,259.64 L374.89,273.26 L377.70,273.34 L379.81,275.53 L376.55,275.67 L375.96,278.93 L371.37,276.93 L368.30,278.22 L360.13,287.49 L371.03,294.06 L363.03,302.67 L354.52,297.56 L352.61,299.45 L352.28,300.16 L353.28,300.73 L352.15,301.98 L333.05,290.57 L331.69,292.06 L327.56,289.63 L327.82,285.97 L326.29,286.03 L327.04,282.28 L331.97,280.15 L336.25,280.19 L338.27,277.87 L343.69,277.52 L343.58,271.09 L332.52,272.37 L332.57,255.23 L352.51,254.70 L352.43,250.22 L355.51,250.20 L355.57,245.49 L346.06,243.76 L339.71,240.60 L340.31,239.87 L339.61,238.53 L341.20,239.34 L341.00,237.74 L343.14,237.89 L343.07,235.52 L344.22,237.56 L346.18,237.29 L348.65,234.43 L351.62,233.92 L351.79,232.61 L354.48,233.37 L358.03,231.92 L357.39,233.85 L359.82,232.65 L359.49,233.88 L361.62,235.10 L365.35,234.86 L366.05,233.55 L367.82,233.64 L366.75,232.77 L367.08,231.90 L368.37,232.54 L368.87,232.09 L368.44,228.58 L370.24,225.36 L377.72,222.93 L379.39,223.22 L379.95,224.12 Z",N12:"M380.75,275.55 L394.16,275.65 L394.13,287.25 L412.26,287.33 L412.42,314.07 L409.02,312.42 L405.18,308.90 L404.17,305.66 L398.97,301.16 L394.70,302.87 L390.26,306.55 L380.37,318.06 L380.02,322.40 L377.02,324.22 L375.80,327.25 L356.98,327.48 L356.99,330.33 L338.26,330.36 L338.27,335.62 L322.42,335.65 L322.43,341.92 L313.23,341.62 L310.48,344.26 L305.80,340.24 L305.84,340.90 L300.83,341.51 L299.98,328.15 L300.73,327.08 L299.13,322.62 L299.24,314.22 L298.46,314.10 L297.97,312.07 L298.12,311.19 L298.98,311.16 L297.61,309.24 L305.47,309.37 L305.55,307.64 L307.81,306.62 L306.69,306.04 L306.82,302.54 L314.65,302.70 L314.92,290.90 L323.46,295.43 L325.28,295.38 L326.16,289.29 L327.59,289.26 L331.69,292.06 L333.05,290.57 L352.15,301.98 L353.28,300.73 L352.28,300.16 L352.61,299.45 L354.52,297.56 L363.03,302.67 L371.03,294.06 L360.13,287.49 L368.30,278.22 L371.37,276.93 L375.96,278.93 L376.55,275.67 L380.75,275.55 Z",N13:"M424.56,266.18 L426.32,266.50 L424.03,268.81 L427.94,268.75 L428.70,270.89 L436.25,270.96 L438.57,272.50 L436.58,273.91 L443.28,279.36 L445.06,277.56 L449.66,282.20 L454.60,276.90 L462.48,282.18 L464.71,282.10 L466.41,279.35 L469.43,280.15 L470.70,281.22 L470.84,282.75 L470.11,292.00 L480.58,294.16 L485.69,297.55 L484.38,299.30 L464.91,306.48 L461.34,299.22 L460.19,300.66 L458.33,298.17 L449.78,296.84 L450.54,298.85 L449.15,299.39 L450.10,300.28 L451.25,299.87 L453.26,302.30 L452.72,308.01 L448.53,307.87 L447.89,311.30 L445.42,314.82 L435.38,314.79 L435.26,315.82 L433.48,313.65 L431.42,313.44 L429.58,315.52 L426.63,314.35 L425.38,314.88 L422.43,312.67 L420.18,312.77 L419.47,314.05 L415.84,312.83 L411.98,307.60 L412.26,287.33 L394.13,287.25 L394.15,281.58 L401.29,275.24 L402.91,275.29 L403.69,273.68 L409.75,276.41 L410.90,274.86 L416.08,272.94 L414.21,269.25 L413.96,265.64 L418.13,267.14 L423.95,265.18 L424.56,266.18 Z",N14:"M391.83,226.82 L394.18,227.87 L394.01,229.02 L396.03,228.39 L396.86,229.42 L398.07,229.10 L398.75,231.88 L400.32,233.27 L402.94,233.42 L404.57,238.93 L403.88,239.97 L405.46,241.80 L412.83,242.77 L414.55,243.70 L414.72,246.14 L419.68,250.96 L422.82,249.69 L424.28,250.32 L424.31,251.17 L427.19,251.08 L429.57,252.07 L446.08,252.12 L448.60,252.57 L448.95,253.82 L453.40,253.56 L453.89,254.74 L457.73,255.33 L457.73,256.37 L463.71,256.50 L467.41,253.80 L470.38,254.15 L471.61,254.78 L469.71,256.07 L471.69,259.47 L471.47,263.13 L473.73,262.98 L475.77,268.16 L474.01,270.66 L470.98,272.31 L478.75,274.71 L479.11,277.23 L480.89,277.02 L480.21,276.37 L482.17,275.16 L484.78,277.08 L488.65,276.27 L491.27,277.50 L488.36,278.92 L481.46,277.41 L472.98,280.99 L470.32,280.84 L466.41,279.35 L464.71,282.10 L462.48,282.18 L454.60,276.90 L449.66,282.20 L445.06,277.56 L443.28,279.36 L436.58,273.91 L438.57,272.50 L436.25,270.96 L428.70,270.89 L427.94,268.75 L424.03,268.81 L426.32,266.50 L424.63,266.29 L423.95,265.18 L418.13,267.14 L413.96,265.64 L414.21,269.25 L416.08,272.94 L410.90,274.86 L409.75,276.41 L403.69,273.68 L402.91,275.29 L401.29,275.24 L394.15,281.58 L394.16,275.65 L379.81,275.53 L377.70,273.34 L375.64,273.72 L374.96,273.10 L384.34,259.30 L384.86,248.39 L383.13,248.22 L383.14,228.76 L387.79,226.63 L389.59,226.88 L392.46,225.95 L391.83,226.82 Z",N15:"M513.21,260.81 L515.24,261.26 L516.09,260.40 L519.13,262.06 L516.54,270.39 L518.02,273.61 L516.85,277.40 L518.52,278.94 L519.37,281.46 L517.96,285.19 L516.61,286.83 L515.23,286.75 L517.79,288.40 L524.54,288.72 L525.03,292.84 L520.75,294.73 L521.07,297.21 L522.51,298.22 L522.40,300.03 L520.47,300.84 L518.05,298.65 L516.99,299.46 L517.05,302.56 L513.74,302.50 L513.64,303.50 L511.93,303.80 L511.54,305.78 L509.16,305.69 L509.73,304.85 L508.48,303.90 L507.34,304.32 L507.54,303.12 L505.97,303.73 L504.07,303.27 L504.23,301.70 L499.34,300.96 L497.76,299.66 L484.38,299.30 L485.69,297.55 L480.58,294.16 L470.11,292.00 L470.32,280.84 L472.98,280.99 L481.46,277.41 L488.36,278.92 L491.27,277.50 L488.65,276.27 L484.78,277.08 L482.17,275.16 L480.21,276.37 L480.89,277.02 L479.11,277.23 L478.75,274.71 L470.98,272.31 L474.01,270.66 L475.77,268.16 L473.73,262.98 L471.47,263.13 L471.51,262.06 L474.89,262.12 L475.01,262.87 L476.37,262.23 L482.71,262.77 L485.92,264.15 L493.36,263.85 L493.80,264.55 L496.90,263.52 L500.89,265.02 L503.13,261.63 L507.48,258.11 L510.88,259.14 L511.61,260.39 L513.21,260.81 Z",N16:"M549.80,232.63 L554.40,235.16 L555.31,236.85 L559.16,237.55 L561.32,239.54 L558.14,244.08 L541.43,276.56 L542.02,282.90 L538.99,285.34 L539.04,292.33 L535.89,292.51 L535.87,294.21 L532.31,294.18 L532.99,298.99 L530.14,298.70 L529.82,300.66 L531.57,301.96 L531.20,304.94 L532.01,305.08 L530.79,308.68 L532.54,308.66 L532.54,309.77 L521.10,310.22 L521.25,307.71 L516.58,301.96 L516.99,299.46 L518.05,298.65 L518.45,299.34 L519.37,299.15 L520.47,300.84 L522.40,300.03 L522.51,298.22 L521.07,297.21 L520.75,294.73 L525.03,292.84 L524.54,288.72 L517.79,288.40 L515.23,286.75 L516.61,286.83 L517.96,285.19 L519.37,281.46 L518.52,278.94 L516.85,277.40 L518.02,273.61 L516.54,270.39 L518.70,261.58 L523.40,256.32 L524.81,256.83 L525.51,259.70 L526.65,259.51 L529.06,257.59 L529.28,256.14 L532.99,254.67 L534.58,251.86 L537.55,250.44 L538.69,245.80 L541.32,244.49 L543.32,239.63 L544.71,238.77 L545.64,234.95 L546.99,234.35 L547.73,232.70 L549.80,232.63 Z",N17:"M564.90,239.32 L568.84,241.29 L573.38,240.05 L582.77,246.35 L586.06,247.13 L587.06,251.08 L586.13,253.55 L587.15,256.31 L590.58,258.03 L596.89,258.92 L598.42,263.95 L601.72,265.50 L601.82,267.95 L606.59,272.95 L611.67,276.72 L609.61,279.46 L605.66,280.77 L601.80,283.19 L596.82,283.41 L593.91,280.32 L589.78,283.04 L587.84,281.28 L586.29,281.51 L583.06,286.13 L581.66,293.10 L579.61,297.17 L577.89,297.84 L571.84,303.58 L568.86,302.96 L567.05,303.97 L566.14,305.79 L559.35,305.08 L561.38,307.30 L560.70,307.26 L561.11,308.12 L556.61,308.20 L555.58,307.35 L552.39,309.94 L551.76,309.45 L551.73,310.44 L548.48,313.32 L548.47,314.80 L546.79,314.83 L546.39,316.53 L547.81,316.17 L546.33,317.42 L543.37,315.74 L542.55,316.32 L538.92,315.65 L538.35,312.24 L535.47,312.25 L535.60,309.87 L532.54,309.77 L532.54,308.66 L530.79,308.68 L532.01,305.08 L531.20,304.94 L531.57,301.96 L529.82,300.66 L530.14,298.70 L532.99,298.99 L532.31,294.18 L535.87,294.21 L535.89,292.51 L539.04,292.33 L538.99,285.34 L542.02,282.90 L541.43,276.56 L558.14,244.08 L561.19,239.43 L564.90,239.32 Z",N18:"M613.09,278.32 L620.79,281.63 L626.84,281.99 L629.14,284.67 L630.02,287.01 L629.30,287.97 L627.51,289.00 L624.49,288.64 L622.09,292.53 L616.19,295.68 L616.66,298.27 L615.77,298.62 L615.98,299.72 L607.68,309.59 L605.49,309.16 L604.17,309.80 L601.37,312.77 L599.73,313.12 L597.24,315.52 L594.64,316.25 L591.50,319.43 L591.79,316.17 L590.99,314.82 L586.36,314.71 L585.86,316.62 L581.72,318.39 L579.84,320.16 L578.81,323.87 L580.41,323.75 L577.90,325.84 L578.85,326.31 L578.77,327.35 L576.94,326.73 L577.68,325.93 L574.98,325.73 L573.92,331.55 L571.54,334.52 L570.58,337.41 L568.05,338.73 L564.62,338.90 L563.11,340.00 L568.82,341.40 L567.99,342.68 L566.54,341.87 L561.45,341.87 L561.15,340.66 L558.60,340.80 L558.44,337.22 L557.34,336.66 L556.16,337.27 L556.20,336.23 L557.72,335.15 L557.13,334.29 L567.60,335.38 L570.81,333.19 L571.80,331.10 L570.93,330.95 L571.27,330.37 L572.34,330.77 L572.89,329.25 L571.41,325.01 L569.81,323.38 L568.06,323.43 L567.82,322.37 L565.97,322.24 L565.12,319.01 L561.96,316.26 L560.33,315.94 L561.15,315.16 L561.13,312.72 L563.76,309.98 L559.35,305.08 L566.14,305.79 L567.05,303.97 L568.86,302.96 L571.84,303.58 L577.89,297.84 L579.61,297.17 L581.66,293.10 L583.06,286.13 L586.67,281.27 L587.84,281.28 L589.78,283.04 L593.91,280.32 L596.82,283.41 L601.80,283.19 L605.66,280.77 L609.61,279.46 L611.67,276.72 L613.09,278.32 Z",N19:"M587.83,314.86 L590.99,314.82 L591.79,316.17 L591.50,319.43 L589.51,321.29 L589.00,326.92 L583.15,326.31 L583.57,328.11 L582.49,328.11 L582.13,327.32 L581.11,329.84 L581.90,333.22 L575.59,336.92 L574.36,340.09 L574.48,342.04 L578.11,341.07 L580.04,342.95 L581.34,342.65 L579.16,345.50 L578.21,345.47 L577.93,348.31 L576.09,350.43 L577.70,350.77 L578.70,352.03 L581.57,351.08 L579.98,353.57 L577.37,355.08 L574.68,356.18 L572.01,355.73 L572.06,354.10 L569.54,351.96 L572.72,346.54 L566.59,343.73 L568.82,341.40 L563.11,340.00 L564.62,338.90 L568.05,338.73 L570.58,337.41 L571.54,334.52 L573.92,331.55 L575.08,325.58 L577.68,325.93 L576.94,326.73 L578.77,327.35 L578.18,325.10 L580.41,323.75 L578.81,323.87 L579.84,320.16 L583.36,317.26 L585.86,316.62 L586.36,314.71 L587.83,314.86 Z",N20:"M602.41,326.47 L599.26,331.10 L600.29,333.55 L599.49,334.10 L604.70,344.04 L602.55,349.01 L592.59,357.92 L589.94,357.68 L590.26,356.83 L586.23,356.98 L582.67,356.16 L582.77,357.58 L584.33,358.14 L582.74,359.13 L583.42,360.26 L582.62,361.27 L577.91,361.79 L577.66,360.32 L579.51,357.54 L577.34,354.83 L579.98,353.57 L581.57,350.96 L578.70,352.03 L577.70,350.77 L576.59,351.03 L576.09,350.42 L577.93,348.31 L578.21,345.47 L579.16,345.50 L581.34,342.65 L580.04,342.95 L578.11,341.07 L574.48,342.04 L575.59,336.92 L581.90,333.22 L581.11,329.84 L582.13,327.32 L582.49,328.11 L583.57,328.11 L583.15,326.31 L589.00,326.92 L589.51,321.29 L594.64,316.25 L597.24,315.52 L604.17,309.80 L605.95,309.21 L607.68,309.59 L607.95,311.34 L604.55,315.82 L605.95,320.37 L602.41,326.47 Z",N21:"M571.13,345.92 L572.72,346.54 L569.54,352.05 L572.06,354.10 L572.01,355.73 L575.24,356.67 L567.90,357.90 L568.14,359.82 L569.43,359.79 L569.42,360.93 L569.03,362.69 L567.49,363.08 L569.96,364.42 L570.96,366.23 L569.22,367.11 L568.35,365.83 L564.86,365.33 L565.73,363.60 L564.53,360.90 L565.61,360.12 L564.03,359.77 L561.89,360.51 L558.44,354.65 L561.97,351.07 L561.28,349.95 L562.41,348.48 L561.90,347.28 L565.59,347.92 L565.74,345.91 L567.69,344.15 L571.13,345.92 Z",N22:"M578.70,356.84 L579.46,357.91 L577.66,360.32 L577.91,361.79 L582.62,361.27 L583.42,360.26 L582.74,359.13 L584.33,358.14 L582.77,357.58 L582.67,356.16 L586.23,356.98 L590.26,356.83 L589.94,357.68 L592.59,357.92 L588.18,362.36 L586.78,364.35 L587.44,364.67 L565.69,380.01 L566.75,380.83 L565.90,381.18 L564.41,379.43 L564.57,378.42 L568.22,375.55 L569.05,373.19 L567.88,371.19 L569.70,369.71 L568.60,368.22 L565.53,367.06 L566.19,366.51 L564.96,366.92 L564.27,366.27 L563.88,367.18 L562.20,367.08 L560.31,365.31 L559.97,363.35 L561.09,362.80 L561.89,360.51 L564.03,359.77 L565.61,360.12 L564.53,360.90 L565.73,363.60 L564.86,365.33 L567.19,365.48 L569.22,367.11 L570.42,366.94 L570.96,366.23 L569.96,364.42 L567.49,363.08 L569.03,362.69 L569.42,360.93 L569.43,359.79 L568.14,359.82 L567.90,357.90 L575.24,356.67 L574.74,356.11 L577.26,354.96 L578.70,356.84 Z",N23:"M634.28,288.87 L635.59,289.63 L639.61,289.78 L643.04,288.83 L644.55,290.89 L649.20,294.23 L652.19,294.51 L654.18,291.92 L658.11,291.48 L662.70,293.06 L663.97,295.34 L666.27,294.57 L673.23,294.51 L675.01,295.77 L675.16,297.32 L676.83,297.48 L678.90,299.23 L676.53,301.90 L677.94,303.86 L682.50,306.71 L686.35,312.83 L687.53,316.55 L686.92,318.65 L688.27,320.29 L685.37,321.26 L686.69,327.58 L682.28,331.12 L684.84,332.65 L686.63,339.63 L688.91,343.21 L691.39,343.70 L693.42,346.88 L692.67,349.66 L697.84,352.70 L696.50,353.53 L695.23,356.14 L695.61,360.60 L692.49,364.19 L689.81,363.04 L645.92,362.36 L641.86,366.71 L637.46,366.94 L638.14,369.09 L636.81,369.97 L633.98,369.30 L626.37,372.53 L622.34,380.13 L620.48,373.53 L621.69,372.41 L619.73,371.10 L620.64,368.11 L619.81,366.84 L612.96,365.21 L607.87,367.49 L604.76,367.37 L605.43,367.80 L602.75,370.19 L603.30,371.00 L602.31,371.01 L602.71,372.48 L599.91,372.62 L598.97,371.97 L590.79,379.20 L590.11,380.53 L590.99,381.15 L589.21,381.15 L587.33,383.33 L588.67,387.75 L588.33,388.65 L586.47,389.25 L586.59,390.74 L585.27,391.37 L586.00,392.71 L585.14,393.61 L585.50,395.11 L582.96,395.95 L581.83,394.14 L580.43,394.13 L580.23,391.38 L572.01,390.76 L570.89,387.91 L568.86,387.96 L569.78,386.84 L567.49,386.81 L567.25,383.30 L566.14,383.30 L566.27,382.09 L564.98,380.60 L566.43,381.10 L565.69,380.01 L587.44,364.67 L586.78,364.35 L591.07,359.11 L602.55,349.01 L604.70,344.04 L599.49,334.10 L600.29,333.55 L599.26,331.10 L605.95,320.37 L604.51,316.00 L607.03,313.29 L607.68,309.59 L615.98,299.72 L615.77,298.62 L616.66,298.27 L616.19,295.68 L622.09,292.53 L624.35,288.73 L627.88,288.93 L630.02,287.01 L634.28,288.87 Z",N24:"M666.55,362.62 L689.81,363.04 L692.49,364.19 L687.61,365.95 L687.44,369.32 L688.63,371.25 L690.69,372.44 L693.14,380.73 L695.65,383.09 L695.09,387.48 L693.68,390.15 L698.53,392.57 L696.64,394.94 L698.75,398.33 L700.00,406.05 L698.99,407.93 L696.72,407.51 L695.26,408.45 L691.24,407.77 L686.02,412.30 L683.07,412.27 L681.95,413.00 L682.74,415.62 L684.09,416.54 L683.74,418.18 L681.76,421.06 L678.04,420.75 L676.89,421.44 L675.90,430.41 L672.49,432.86 L672.20,435.22 L646.99,484.75 L591.49,483.27 L588.58,479.60 L578.63,474.74 L577.76,469.28 L582.88,470.10 L587.77,473.86 L586.77,471.99 L590.93,471.75 L593.40,470.33 L598.20,469.57 L598.12,461.29 L595.53,461.31 L594.11,453.57 L603.48,453.66 L602.79,451.97 L609.80,450.13 L611.17,448.34 L610.45,447.43 L610.56,442.43 L612.15,443.63 L615.51,443.64 L615.82,439.12 L616.73,438.65 L616.73,437.28 L618.52,436.11 L617.77,434.34 L618.86,434.83 L619.41,433.35 L617.66,431.50 L622.74,426.31 L625.43,421.98 L621.82,420.19 L621.79,417.49 L619.96,417.67 L619.87,415.29 L613.88,416.16 L612.77,414.73 L609.62,415.10 L611.46,416.44 L605.69,421.33 L602.50,418.90 L600.13,419.46 L598.62,415.50 L594.75,414.25 L604.24,407.79 L608.37,406.01 L609.92,404.92 L609.25,404.50 L612.59,403.22 L614.35,403.35 L615.59,402.34 L616.31,402.70 L618.54,401.41 L624.61,394.19 L617.08,392.68 L620.97,382.18 L626.37,372.53 L633.98,369.30 L636.81,369.97 L638.14,369.09 L637.46,366.94 L641.86,366.71 L645.92,362.36 L666.55,362.62 Z",N25:"M614.05,365.58 L619.81,366.84 L620.64,368.11 L619.73,371.10 L621.69,372.41 L620.48,373.53 L622.34,380.13 L617.08,392.68 L624.61,394.19 L618.54,401.41 L616.31,402.70 L615.59,402.34 L614.35,403.35 L612.59,403.22 L609.25,404.50 L609.92,404.92 L608.37,406.01 L604.24,407.79 L594.75,414.25 L598.62,415.50 L600.13,419.46 L602.50,418.90 L605.69,421.33 L611.46,416.44 L609.62,415.10 L612.77,414.73 L613.88,416.16 L619.87,415.29 L619.96,417.67 L621.79,417.49 L621.82,420.19 L625.43,421.98 L622.74,426.31 L617.66,431.50 L619.41,433.35 L618.86,434.83 L613.61,430.89 L609.76,429.86 L606.42,432.03 L600.87,430.53 L591.78,431.33 L592.10,436.72 L588.80,436.72 L590.14,435.42 L588.79,433.19 L577.78,432.99 L577.74,432.01 L576.80,432.01 L577.88,428.80 L578.93,429.08 L578.47,430.12 L581.96,431.08 L582.21,430.08 L583.81,430.32 L583.90,428.73 L585.62,428.40 L585.03,426.61 L586.15,426.38 L586.93,431.71 L588.52,431.95 L588.21,430.77 L590.14,428.52 L589.14,426.40 L590.67,424.67 L590.22,421.77 L587.46,419.20 L582.10,408.08 L579.37,405.04 L582.96,397.89 L582.96,395.95 L585.50,395.11 L585.14,393.61 L586.00,392.71 L585.27,391.37 L586.59,390.74 L586.47,389.25 L588.33,388.65 L588.69,387.60 L587.17,383.59 L589.21,381.15 L590.99,381.15 L590.11,380.53 L590.79,379.20 L598.97,371.97 L599.91,372.62 L602.71,372.48 L602.31,371.01 L603.30,371.00 L602.75,370.19 L605.43,367.80 L604.76,367.37 L607.87,367.49 L610.80,365.66 L614.05,365.58 Z",N26:"M568.61,408.47 L572.06,410.16 L572.04,411.40 L573.53,412.79 L575.73,412.54 L579.27,414.07 L580.19,413.70 L580.24,414.28 L581.23,413.38 L581.94,417.44 L581.33,418.76 L583.19,419.22 L582.72,419.96 L583.80,420.24 L583.67,421.34 L582.76,421.06 L583.14,422.41 L580.20,422.17 L580.10,424.43 L578.59,425.33 L579.52,426.16 L576.80,430.90 L577.78,432.99 L588.79,433.19 L590.14,435.42 L588.80,436.72 L592.10,436.72 L591.78,431.33 L600.87,430.53 L606.42,432.03 L609.76,429.86 L615.62,432.25 L618.52,436.11 L616.73,437.28 L616.73,438.65 L615.82,439.12 L615.51,443.64 L612.15,443.63 L610.56,442.43 L610.45,447.43 L611.17,448.34 L609.80,450.13 L602.79,451.97 L603.48,453.66 L594.11,453.57 L595.53,461.31 L598.12,461.29 L598.20,469.57 L593.40,470.33 L590.93,471.75 L586.77,471.99 L587.77,473.86 L582.88,470.10 L577.61,469.27 L576.91,465.27 L571.69,460.71 L571.52,453.88 L569.16,448.41 L568.19,442.70 L563.59,435.85 L562.88,428.73 L558.66,422.35 L553.36,418.59 L551.32,415.99 L552.82,415.51 L554.22,417.55 L557.38,418.47 L562.30,422.39 L565.82,423.81 L566.21,418.35 L565.09,417.29 L567.78,415.78 L567.64,414.47 L565.50,412.87 L565.51,411.47 L567.20,410.68 L567.04,409.14 L566.11,409.50 L566.91,407.37 L568.78,407.81 L568.61,408.47 Z",N27:"M569.45,387.96 L570.89,387.91 L572.01,390.76 L580.23,391.38 L580.43,394.13 L581.83,394.14 L583.07,396.18 L579.40,405.78 L581.71,407.40 L587.46,419.20 L590.22,421.77 L590.67,424.67 L589.14,426.40 L590.14,428.52 L588.21,430.77 L588.52,431.95 L586.93,431.71 L586.15,426.38 L585.03,426.61 L585.62,428.40 L583.90,428.73 L583.81,430.32 L582.21,430.08 L581.96,431.08 L578.47,430.12 L578.93,429.08 L577.88,428.80 L579.52,426.16 L578.46,425.85 L580.10,424.43 L580.20,422.17 L583.14,422.41 L582.76,421.06 L583.70,421.29 L583.76,420.18 L582.72,419.96 L583.25,419.28 L581.33,418.76 L581.94,417.44 L581.23,413.38 L580.24,414.28 L580.19,413.70 L579.27,414.07 L575.73,412.54 L573.53,412.79 L572.04,411.40 L572.06,410.16 L570.90,410.16 L570.62,409.19 L568.60,408.51 L568.78,407.81 L566.91,407.37 L566.11,409.50 L567.04,409.14 L567.20,410.68 L565.51,411.47 L565.50,412.87 L567.64,414.47 L567.78,415.78 L565.09,417.29 L566.21,418.35 L565.82,423.81 L562.30,422.39 L557.38,418.47 L554.22,417.55 L552.82,415.51 L557.94,415.31 L557.67,414.77 L556.08,415.05 L556.17,413.47 L551.84,412.67 L554.47,408.49 L556.71,408.68 L560.58,407.33 L560.47,402.10 L555.82,401.96 L555.75,393.60 L567.26,393.64 L567.38,386.81 L569.78,386.84 L568.84,387.92 L569.45,387.96 Z",N28:"M546.45,394.35 L546.78,396.56 L547.52,396.17 L547.03,397.68 L549.22,397.37 L550.12,400.70 L551.34,400.42 L551.99,401.39 L551.92,402.63 L550.77,402.64 L550.86,403.96 L554.75,401.97 L555.83,403.13 L555.83,401.96 L560.47,402.10 L560.38,407.77 L554.47,408.49 L551.84,412.67 L556.17,413.47 L556.08,415.05 L557.67,414.77 L557.94,415.31 L553.47,415.15 L551.32,415.99 L546.61,409.73 L543.23,407.19 L542.28,408.05 L543.18,408.21 L543.46,409.50 L541.54,409.47 L541.49,410.55 L539.86,410.50 L539.34,411.22 L539.18,415.30 L526.10,421.95 L525.98,407.11 L530.36,404.30 L528.09,398.69 L529.42,398.26 L531.90,399.23 L533.05,398.28 L536.84,398.35 L536.63,396.80 L541.17,396.44 L541.23,398.00 L542.26,397.92 L543.90,394.25 L546.45,394.35 Z",N29:"M476.74,402.71 L475.31,410.24 L476.61,410.24 L474.75,413.85 L477.75,414.22 L477.02,416.31 L478.83,416.30 L478.84,417.45 L477.59,417.44 L477.59,418.05 L488.56,417.95 L488.42,420.36 L490.15,421.58 L491.88,419.52 L496.67,420.13 L495.88,409.77 L494.34,404.77 L495.00,404.47 L517.84,411.20 L519.92,412.15 L522.33,415.14 L526.02,415.11 L526.10,421.95 L539.18,415.30 L539.34,411.22 L539.86,410.50 L541.49,410.55 L541.54,409.47 L543.46,409.50 L543.18,408.21 L542.28,408.05 L543.23,407.19 L546.61,409.73 L550.12,414.36 L547.77,416.54 L548.50,416.57 L548.98,421.89 L548.47,425.31 L545.56,426.68 L545.96,427.90 L529.40,429.18 L467.64,429.78 L463.28,431.29 L462.41,429.88 L464.15,429.91 L464.88,429.14 L468.20,419.77 L466.72,419.33 L467.02,416.62 L468.70,416.10 L467.79,412.49 L470.58,407.30 L470.65,403.88 L473.55,403.59 L473.57,401.09 L477.69,401.08 L476.74,402.71 Z",N30:"M499.09,386.26 L504.86,385.98 L507.85,386.61 L508.26,387.73 L506.46,389.78 L507.07,391.15 L506.12,392.53 L508.60,391.53 L509.17,392.38 L512.91,391.64 L512.89,396.22 L509.18,395.57 L507.98,397.92 L518.52,398.23 L518.38,400.56 L524.63,400.07 L528.09,398.69 L530.36,404.30 L525.98,407.11 L526.02,415.11 L522.33,415.14 L519.92,412.15 L517.84,411.20 L495.00,404.47 L494.34,404.77 L495.88,409.77 L496.67,420.13 L491.88,419.52 L490.15,421.58 L488.42,420.36 L488.56,417.95 L477.59,418.05 L477.59,417.44 L478.84,417.45 L478.83,416.30 L477.02,416.31 L477.75,414.22 L474.75,413.85 L476.61,410.24 L475.31,410.24 L477.15,401.60 L481.68,397.84 L483.37,393.64 L488.02,391.63 L489.55,385.43 L491.80,384.70 L499.09,386.26 Z",N31:"M476.89,380.01 L480.50,380.02 L478.57,382.77 L475.84,383.31 L476.18,384.81 L485.54,383.84 L487.71,383.95 L487.71,385.26 L489.55,385.26 L488.35,390.69 L487.06,392.25 L483.37,393.64 L481.68,397.84 L477.71,401.08 L473.57,401.09 L473.55,403.59 L470.65,403.88 L470.58,407.30 L468.86,409.90 L466.09,409.30 L464.93,406.33 L461.92,405.49 L460.22,401.15 L456.07,395.55 L458.46,393.87 L458.56,390.63 L460.53,389.67 L460.92,380.59 L465.63,380.38 L469.04,379.06 L476.89,380.01 Z",N32:"M437.61,358.67 L445.26,358.73 L450.25,364.45 L452.21,370.40 L457.76,363.79 L458.09,358.70 L474.73,358.71 L472.29,367.35 L474.69,367.33 L474.83,368.66 L481.86,368.28 L483.29,368.82 L481.43,371.53 L481.39,376.00 L486.32,375.99 L486.34,377.80 L489.16,378.16 L489.18,379.39 L493.59,379.07 L493.27,385.45 L491.80,384.70 L487.71,385.26 L487.71,383.95 L485.54,383.84 L476.18,384.81 L475.84,383.31 L478.57,382.77 L480.50,380.02 L469.65,379.07 L465.63,380.38 L460.62,380.59 L451.23,383.69 L449.76,379.50 L450.04,374.96 L447.01,375.27 L444.84,370.70 L437.46,367.06 L432.67,359.26 L432.70,358.64 L437.61,358.67 Z",N33:"M501.06,370.62 L499.28,371.51 L498.24,373.65 L505.51,375.17 L507.66,376.13 L509.04,377.93 L506.74,378.32 L502.41,377.61 L502.36,380.09 L509.03,380.42 L509.94,382.19 L511.27,382.16 L504.28,386.24 L493.36,385.47 L493.59,379.07 L491.73,379.14 L489.94,377.01 L490.04,372.72 L492.92,372.72 L492.40,373.60 L493.32,374.22 L495.64,373.63 L495.71,370.54 L495.00,370.05 L500.72,369.54 L501.06,370.62 Z",N34:"M499.48,356.83 L505.90,358.88 L503.04,362.67 L506.84,363.52 L508.57,366.99 L512.76,365.62 L511.89,367.21 L512.72,367.32 L513.55,371.94 L512.59,376.42 L513.49,376.32 L515.51,378.43 L513.04,379.13 L513.68,380.37 L511.70,382.11 L509.94,382.19 L509.03,380.42 L502.36,380.09 L502.41,377.61 L506.74,378.32 L509.04,377.93 L507.66,376.13 L505.51,375.17 L498.24,373.65 L499.28,371.51 L501.06,370.62 L500.72,369.54 L495.00,370.05 L495.71,370.54 L495.64,373.63 L493.32,374.22 L492.40,373.60 L492.74,369.74 L494.76,368.94 L495.60,366.56 L493.08,365.67 L493.56,364.15 L492.50,363.17 L494.11,356.92 L498.11,356.86 L498.63,356.21 L499.48,356.83 Z",N35:"M492.61,356.74 L494.11,356.92 L492.50,363.17 L493.56,364.15 L493.08,365.67 L495.60,366.56 L494.76,368.94 L492.74,369.74 L492.92,372.72 L490.04,372.72 L489.94,377.01 L491.73,379.14 L489.18,379.39 L489.16,378.16 L486.34,377.80 L486.32,375.99 L481.39,376.00 L481.48,371.34 L484.22,366.72 L480.94,365.63 L484.89,365.38 L490.80,359.68 L492.61,356.74 Z",N36:"M486.25,346.31 L487.99,347.84 L488.72,350.02 L490.97,351.55 L493.14,351.80 L495.00,353.95 L494.92,357.06 L492.35,356.60 L490.80,359.68 L484.89,365.38 L480.94,365.63 L484.22,366.72 L483.29,368.82 L481.86,368.28 L474.83,368.66 L474.69,367.33 L472.29,367.35 L474.73,358.71 L475.29,347.96 L477.23,347.68 L479.04,345.84 L480.48,346.51 L480.48,345.26 L486.35,345.19 L486.25,346.31 Z",N37:"M484.38,299.30 L497.76,299.66 L499.34,300.96 L504.23,301.70 L504.07,303.27 L505.97,303.73 L507.54,303.12 L507.34,304.32 L508.48,303.90 L509.73,304.85 L509.05,305.49 L509.58,306.58 L505.24,306.69 L504.94,307.80 L501.43,308.20 L500.20,309.69 L499.13,309.72 L500.83,313.07 L499.10,315.87 L497.60,315.20 L497.25,317.09 L496.06,317.60 L492.24,323.75 L488.39,325.22 L489.00,333.76 L487.30,338.04 L486.35,345.19 L480.48,345.26 L480.48,346.51 L479.04,345.84 L477.23,347.68 L475.29,347.96 L476.03,344.45 L475.52,338.45 L477.99,334.11 L475.44,331.68 L467.15,328.31 L466.73,321.04 L462.98,319.84 L461.13,318.22 L465.84,316.84 L465.41,315.42 L468.41,314.72 L470.97,314.76 L471.58,315.47 L476.64,313.79 L479.55,309.03 L473.11,309.31 L464.91,306.48 L484.38,299.30 Z",N38:"M451.90,297.41 L458.33,298.17 L460.19,300.66 L461.34,299.22 L464.91,306.48 L473.11,309.31 L479.55,309.03 L477.93,312.72 L475.23,314.34 L471.58,315.47 L470.97,314.76 L468.41,314.72 L465.41,315.42 L465.84,316.84 L461.13,318.22 L459.42,316.75 L454.41,323.31 L454.51,326.60 L451.27,326.56 L448.94,327.44 L448.78,328.96 L444.00,329.76 L443.46,330.20 L444.25,331.16 L442.30,331.14 L442.31,332.93 L434.48,332.73 L434.47,331.02 L426.12,332.72 L425.56,334.96 L416.41,334.81 L416.38,332.03 L414.23,332.05 L411.39,330.65 L410.20,327.53 L409.32,327.32 L407.14,326.92 L402.88,327.78 L397.74,326.76 L375.80,327.25 L377.02,324.22 L380.02,322.40 L380.56,317.83 L392.04,304.75 L397.20,301.71 L398.97,301.16 L404.17,305.66 L405.18,308.90 L409.02,312.42 L412.42,314.07 L412.35,308.58 L415.63,312.71 L416.75,312.63 L418.18,314.07 L419.47,314.05 L420.18,312.77 L422.09,312.62 L425.38,314.88 L426.63,314.35 L429.58,315.52 L430.80,313.74 L433.02,313.43 L435.26,315.82 L435.38,314.79 L445.42,314.82 L447.89,311.30 L448.53,307.87 L452.72,308.01 L453.26,302.30 L451.25,299.87 L450.10,300.28 L449.15,299.39 L450.54,298.85 L449.78,296.84 L451.90,297.41 Z",N39:"M459.43,316.75 L462.98,319.84 L466.73,321.04 L467.15,328.31 L475.44,331.68 L477.59,333.36 L478.04,335.12 L475.40,339.11 L476.03,344.45 L474.37,358.71 L458.09,358.70 L457.76,363.79 L452.21,370.40 L450.25,364.45 L445.26,358.73 L432.70,358.64 L431.95,348.39 L430.65,345.59 L431.74,344.14 L434.44,344.28 L434.45,343.30 L432.61,343.55 L432.74,342.39 L434.46,342.47 L434.48,332.73 L441.93,333.06 L442.80,332.59 L442.30,331.14 L444.24,331.17 L443.46,330.20 L444.00,329.76 L448.78,328.96 L448.94,327.44 L451.27,326.56 L454.51,326.60 L454.41,323.31 L459.43,316.75 Z",N40:"M434.47,334.44 L434.46,342.47 L432.74,342.39 L432.61,343.55 L434.45,343.30 L434.44,344.28 L431.74,344.14 L430.65,345.59 L431.95,348.39 L432.67,359.26 L437.46,367.06 L444.84,370.70 L447.01,375.27 L450.04,374.96 L449.76,379.50 L451.30,383.91 L447.50,386.06 L445.64,388.51 L442.83,390.27 L421.29,395.28 L411.30,394.82 L411.47,389.49 L401.63,391.84 L400.19,388.96 L390.25,387.39 L387.52,384.48 L386.36,384.74 L382.88,375.31 L381.70,367.01 L383.46,366.93 L383.39,365.97 L388.58,365.22 L388.37,362.36 L389.74,362.44 L389.73,355.33 L399.31,355.26 L400.27,346.61 L399.15,343.84 L400.86,342.72 L400.88,340.04 L402.87,337.72 L416.36,338.28 L416.41,334.81 L425.56,334.96 L426.12,332.72 L434.47,331.02 L434.47,334.44 Z",N41:"M456.67,395.08 L456.07,395.55 L460.50,401.70 L446.38,399.69 L445.51,401.37 L444.17,397.66 L441.68,398.49 L438.69,401.52 L433.55,401.29 L433.61,402.54 L432.22,403.27 L431.80,406.32 L430.53,402.63 L428.36,405.90 L426.17,404.58 L423.18,399.18 L421.23,400.89 L414.53,400.52 L415.07,397.39 L412.18,398.39 L406.89,396.90 L405.01,397.44 L402.82,396.65 L401.22,397.47 L400.92,395.02 L398.35,397.15 L396.85,397.38 L395.83,401.15 L394.56,401.96 L390.43,401.11 L388.42,398.45 L388.83,397.69 L395.06,397.12 L397.24,394.29 L401.44,393.75 L402.14,392.92 L401.63,391.84 L410.39,389.54 L411.51,389.58 L411.30,394.82 L419.18,395.26 L423.49,394.97 L441.51,390.59 L445.64,388.51 L447.50,386.06 L451.23,383.69 L460.92,380.59 L460.53,389.67 L458.56,390.63 L458.59,393.61 L456.67,395.08 Z",N42:"M398.56,326.85 L402.88,327.78 L407.14,326.92 L410.20,327.53 L411.39,330.65 L414.23,332.05 L416.38,332.03 L416.36,338.28 L402.87,337.72 L400.88,340.04 L400.86,342.72 L399.15,343.84 L400.27,346.61 L399.31,355.26 L389.73,355.33 L389.74,362.44 L388.37,362.36 L388.58,365.22 L383.39,365.97 L383.46,366.93 L381.75,367.50 L370.48,366.21 L370.51,375.28 L352.99,375.28 L352.16,376.57 L343.89,373.79 L343.46,374.79 L337.12,372.83 L335.57,366.61 L336.77,366.08 L337.61,360.56 L341.60,357.03 L342.00,355.71 L341.93,353.93 L337.09,352.61 L339.15,347.60 L347.44,349.99 L343.78,352.83 L343.84,354.25 L358.53,354.31 L358.53,345.71 L362.11,345.71 L362.20,344.31 L365.80,344.32 L365.80,344.85 L375.29,344.83 L375.51,346.14 L377.16,346.14 L376.66,343.18 L378.28,343.00 L376.49,327.25 L398.56,326.85 Z",N43:"M369.59,344.84 L362.20,344.31 L362.11,345.71 L358.53,345.71 L358.53,354.31 L343.84,354.25 L343.78,352.83 L347.44,349.99 L339.15,347.60 L337.09,352.61 L341.90,353.91 L342.08,354.55 L341.60,357.03 L337.61,360.56 L336.77,366.08 L335.57,366.61 L337.12,372.83 L343.46,374.79 L343.89,373.79 L349.33,375.22 L359.86,380.00 L362.86,379.15 L362.89,380.65 L364.05,380.69 L364.05,381.61 L367.15,381.65 L367.16,382.30 L378.46,382.53 L379.77,386.20 L376.88,387.71 L382.37,390.78 L381.51,392.00 L376.38,389.67 L376.47,391.01 L378.23,392.20 L374.84,394.88 L370.01,393.28 L365.66,397.15 L361.80,398.10 L358.26,400.36 L353.02,399.74 L351.42,402.72 L350.33,402.52 L347.22,398.56 L340.61,398.29 L339.73,397.14 L334.63,396.80 L332.18,395.01 L332.79,390.69 L331.62,390.69 L330.14,386.21 L331.71,385.74 L331.75,384.83 L329.13,384.17 L330.13,382.58 L328.35,383.28 L325.45,379.98 L326.06,379.23 L313.98,369.06 L312.65,366.60 L308.18,365.48 L303.55,357.17 L303.63,354.97 L302.68,354.10 L303.87,353.08 L301.99,350.47 L300.83,341.51 L305.84,340.90 L305.80,340.24 L310.48,344.26 L313.23,341.62 L322.43,341.92 L322.42,335.65 L338.27,335.62 L338.26,330.36 L356.99,330.33 L356.98,327.48 L376.49,327.25 L378.28,343.00 L376.66,343.18 L377.16,346.14 L375.51,346.14 L375.29,344.83 L369.59,344.84 Z",N44:"M271.96,454.04 L271.19,455.21 L271.97,460.33 L269.63,464.38 L266.97,465.94 L256.77,467.53 L256.53,458.12 L259.98,457.67 L262.85,456.12 L265.74,454.23 L270.46,449.47 L271.84,449.79 L271.96,454.04 Z M262.86,455.75 L258.96,457.66 L257.32,457.78 L256.32,457.01 L256.74,455.45 L255.18,453.54 L256.67,448.63 L256.66,444.95 L257.93,442.71 L260.81,440.66 L269.46,436.58 L271.40,443.30 L271.51,448.58 L262.86,455.75 Z M278.80,441.70 L283.13,435.96 L285.60,434.96 L283.69,438.92 L278.80,441.70 Z M292.21,445.64 L291.46,445.68 L291.89,446.07 L281.04,460.12 L277.85,462.04 L274.21,461.62 L274.15,447.39 L275.07,444.90 L283.27,439.57 L289.81,436.71 L293.33,433.02 L297.63,432.16 L298.86,432.81 L292.21,445.64 Z M299.62,431.45 L293.84,432.28 L289.24,436.72 L284.19,438.67 L285.86,435.28 L290.62,431.77 L298.02,429.46 L299.89,430.69 L299.62,431.45 Z M301.23,429.61 L299.42,428.84 L302.72,427.35 L303.98,427.71 L304.06,428.59 L301.23,429.61 Z M309.18,425.46 L305.13,427.61 L304.12,427.18 L309.82,424.67 L309.18,425.46 Z M249.77,419.72 L250.41,419.76 L249.77,419.72 Z M269.31,412.25 L272.98,412.23 L273.58,413.19 L273.49,418.66 L272.39,420.43 L265.32,423.99 L259.02,429.67 L255.80,430.87 L256.34,431.33 L254.79,433.99 L252.41,436.24 L249.11,436.96 L247.29,436.36 L246.17,434.60 L248.50,428.19 L249.88,427.47 L251.85,428.16 L250.25,427.34 L250.78,427.02 L249.03,426.79 L249.74,422.87 L251.21,422.47 L253.48,423.58 L254.47,422.98 L250.86,420.69 L251.04,417.79 L257.15,415.26 L257.73,415.97 L257.88,415.06 L265.77,412.28 L269.31,412.25 Z M278.13,413.94 L276.15,415.29 L276.58,411.78 L276.36,414.00 L276.97,410.83 L278.58,409.30 L279.23,412.23 L278.13,413.94 Z M372.47,396.34 L371.15,404.00 L365.60,408.11 L367.99,408.37 L368.34,409.05 L363.02,413.78 L360.56,411.93 L353.29,417.34 L354.57,419.40 L352.75,419.98 L352.29,419.38 L351.11,419.94 L351.76,420.81 L349.21,421.02 L351.44,423.45 L349.38,423.51 L348.51,426.61 L346.36,424.94 L342.63,426.28 L334.43,422.78 L335.24,419.94 L332.33,415.07 L331.72,412.24 L331.19,399.57 L332.18,395.01 L334.63,396.80 L339.73,397.14 L340.61,398.29 L347.22,398.56 L349.30,401.74 L351.42,402.72 L353.02,399.74 L358.78,400.22 L361.80,398.10 L366.61,396.62 L370.01,393.28 L371.12,393.34 L371.03,396.32 L372.47,396.34 Z M272.08,391.38 L277.46,392.01 L278.05,392.52 L276.92,392.55 L279.74,393.33 L282.93,396.46 L284.30,400.03 L281.16,404.45 L279.23,405.06 L271.64,410.76 L267.91,411.57 L264.62,411.30 L252.15,416.25 L247.73,416.21 L247.15,414.37 L248.44,410.46 L256.52,398.73 L263.19,393.91 L272.08,391.38 Z M309.95,386.70 L316.50,387.97 L319.02,390.53 L319.28,394.90 L317.49,401.07 L317.43,405.33 L319.42,411.51 L318.20,411.97 L319.76,414.93 L320.13,420.05 L317.90,420.48 L316.30,422.29 L290.63,431.38 L286.62,434.27 L283.47,435.46 L277.41,441.97 L275.50,441.73 L275.94,442.52 L274.68,442.77 L273.54,438.98 L274.18,439.11 L273.66,437.86 L274.62,437.65 L273.61,437.54 L274.39,430.46 L284.90,416.06 L294.49,396.11 L299.48,389.46 L304.03,387.43 L309.95,386.70 Z",N45:"M382.86,375.20 L386.36,384.74 L387.52,384.48 L391.20,387.83 L400.19,388.96 L402.14,392.92 L399.41,394.42 L397.24,394.29 L396.09,396.63 L393.70,397.58 L386.01,398.32 L382.32,396.80 L378.86,398.12 L371.15,404.00 L372.84,396.59 L371.03,396.32 L371.12,393.34 L373.71,394.94 L375.46,394.49 L378.23,392.20 L376.47,391.01 L376.38,389.67 L381.51,392.00 L382.28,391.20 L376.88,387.71 L379.77,386.20 L378.46,382.53 L367.16,382.30 L367.15,381.65 L364.05,381.61 L364.05,380.69 L362.89,380.65 L362.86,379.15 L359.86,380.00 L352.16,376.57 L352.99,375.28 L370.51,375.28 L370.64,366.16 L381.75,367.50 L382.86,375.20 Z",N46:"M371.95,414.93 L371.95,416.90 L373.59,416.89 L374.11,417.86 L373.78,418.88 L371.97,419.48 L372.10,421.20 L373.36,421.21 L373.28,424.29 L370.77,424.27 L370.84,428.02 L388.13,427.90 L394.58,434.19 L398.58,443.37 L387.96,443.41 L382.71,444.36 L369.66,444.28 L371.85,442.48 L378.84,439.88 L380.34,437.86 L379.28,436.20 L373.58,432.58 L369.03,430.93 L365.81,430.94 L362.54,433.35 L358.74,442.74 L350.96,447.73 L349.39,449.64 L348.33,459.61 L346.19,463.47 L343.87,465.58 L340.45,466.63 L335.32,464.65 L329.78,459.93 L327.15,454.63 L320.78,456.04 L318.64,458.09 L319.72,460.37 L325.69,465.70 L326.62,468.79 L324.79,470.77 L320.37,470.65 L313.33,464.31 L308.53,462.56 L305.43,463.98 L297.21,472.00 L287.20,477.35 L285.97,476.09 L282.00,476.10 L277.31,474.09 L278.58,470.02 L283.57,465.33 L284.87,466.05 L285.31,465.56 L288.76,460.27 L290.59,455.49 L302.08,439.71 L305.71,435.42 L311.94,430.77 L316.55,429.00 L316.62,428.15 L320.11,425.68 L329.31,421.96 L334.43,422.78 L342.63,426.28 L345.31,424.98 L347.33,425.08 L348.51,426.61 L349.38,423.51 L351.44,423.45 L349.21,421.02 L351.76,420.81 L351.11,419.94 L354.57,419.40 L355.84,421.47 L357.74,420.75 L359.59,422.93 L367.99,420.12 L368.74,418.90 L367.06,416.76 L369.15,416.00 L369.16,414.94 L371.95,414.93 Z",N47:"M384.83,397.96 L388.31,398.37 L389.52,400.17 L387.96,400.21 L386.56,405.83 L383.00,405.62 L383.34,407.43 L382.21,407.54 L380.62,413.58 L375.82,412.86 L375.97,414.91 L369.16,414.94 L369.15,416.00 L367.06,416.76 L368.77,419.59 L365.11,421.50 L359.59,422.93 L357.74,420.75 L355.84,421.47 L353.29,417.34 L360.56,411.93 L363.02,413.78 L368.34,409.05 L367.99,408.37 L365.60,408.11 L378.86,398.12 L382.32,396.80 L384.83,397.96 Z",N48:"M404.08,406.24 L404.86,407.84 L406.75,406.84 L407.59,408.05 L408.83,407.50 L409.70,408.71 L408.38,409.06 L409.74,411.07 L416.06,412.67 L415.74,413.85 L414.79,413.89 L415.77,414.79 L415.08,418.38 L410.27,418.72 L411.41,419.06 L409.00,424.35 L409.73,424.60 L409.07,426.05 L392.61,421.16 L392.74,419.92 L382.73,419.80 L385.14,424.67 L388.13,427.90 L370.84,428.02 L370.77,424.27 L373.28,424.29 L373.36,421.21 L372.10,421.20 L371.97,419.48 L373.78,418.88 L374.11,417.86 L373.59,416.89 L371.95,416.90 L371.95,414.93 L375.97,414.91 L375.82,412.86 L380.62,413.58 L380.69,414.21 L390.28,414.86 L391.92,409.65 L393.12,409.96 L393.47,408.86 L398.70,408.50 L401.19,407.54 L401.10,406.82 L404.08,406.24 Z",N49:"M401.05,397.12 L406.89,396.90 L411.73,398.39 L415.07,397.39 L414.18,399.97 L415.72,400.70 L421.67,400.81 L423.18,399.18 L426.01,404.41 L428.10,405.86 L429.80,402.82 L430.86,402.80 L431.77,408.38 L429.92,408.56 L429.92,409.74 L431.31,409.83 L430.91,410.99 L433.66,412.46 L423.88,416.60 L423.85,425.57 L424.94,425.56 L419.35,427.02 L421.18,430.08 L440.07,430.25 L442.11,433.20 L451.45,429.42 L454.92,431.49 L459.18,431.69 L453.49,434.48 L454.53,437.35 L447.05,440.51 L446.84,437.20 L431.46,444.38 L398.93,444.28 L394.58,434.19 L386.12,426.01 L382.57,419.89 L392.74,419.92 L392.61,421.16 L409.07,426.05 L409.73,424.60 L409.00,424.35 L411.41,419.06 L410.27,418.72 L415.08,418.38 L415.77,414.79 L414.79,413.89 L415.74,413.85 L416.06,412.67 L409.74,411.07 L408.38,409.06 L409.70,408.71 L408.83,407.50 L407.59,408.05 L406.75,406.84 L404.86,407.84 L403.98,405.89 L401.10,406.82 L401.19,407.54 L399.84,408.16 L393.47,408.86 L393.12,409.96 L391.92,409.65 L390.28,414.86 L380.69,414.21 L380.62,413.58 L382.21,407.54 L383.34,407.43 L383.00,405.62 L386.56,405.83 L387.96,400.21 L394.56,401.96 L395.83,401.15 L395.79,399.16 L397.30,397.01 L398.35,397.15 L400.92,395.02 L401.05,397.12 Z",N50:"M445.51,401.37 L446.38,399.69 L460.50,401.70 L461.92,405.49 L464.93,406.33 L466.09,409.30 L468.89,409.92 L467.68,413.23 L468.70,416.10 L467.02,416.62 L466.72,419.33 L468.20,419.77 L464.88,429.14 L459.18,431.69 L456.91,431.75 L452.89,430.68 L451.45,429.42 L442.11,433.20 L440.07,430.25 L421.18,430.08 L419.35,427.02 L424.94,425.56 L423.85,425.57 L423.88,416.60 L433.66,412.46 L430.91,410.99 L431.31,409.83 L429.92,409.74 L429.92,408.56 L431.77,408.38 L432.22,403.27 L433.61,402.54 L433.35,401.50 L438.69,401.52 L441.68,398.49 L444.17,397.66 L445.51,401.37 Z",N51:"M463.96,432.42 L503.00,492.45 L497.92,495.07 L495.34,490.79 L471.23,490.85 L471.23,488.76 L464.86,488.56 L464.26,491.00 L455.94,483.55 L452.43,485.96 L450.59,485.30 L448.97,485.89 L447.32,485.54 L447.41,484.24 L439.99,484.38 L440.88,483.67 L438.53,481.29 L426.71,488.94 L423.75,485.87 L422.81,486.45 L419.79,483.37 L424.78,480.13 L428.11,483.22 L432.98,480.11 L426.42,473.77 L425.51,473.64 L422.14,475.80 L422.06,463.61 L411.08,471.76 L408.18,474.83 L405.60,474.47 L401.58,478.65 L400.52,477.58 L401.09,473.76 L399.81,473.35 L387.67,477.77 L386.86,481.02 L382.97,485.50 L380.62,484.36 L377.64,485.21 L373.73,484.98 L371.18,486.07 L370.06,488.40 L369.95,493.44 L365.13,494.34 L364.86,497.43 L363.40,498.88 L363.30,500.99 L364.82,503.83 L363.39,512.76 L361.30,514.39 L348.22,513.35 L333.34,510.92 L328.28,507.88 L325.67,508.20 L323.47,507.14 L323.91,506.59 L310.97,502.06 L304.67,500.84 L300.25,501.12 L294.23,498.81 L288.59,499.17 L287.11,493.45 L289.50,493.14 L287.99,488.93 L288.35,487.27 L286.12,482.72 L286.08,480.68 L288.38,478.53 L287.20,477.35 L297.21,472.00 L305.43,463.98 L308.53,462.56 L313.33,464.31 L320.37,470.65 L324.79,470.77 L326.62,468.79 L325.69,465.70 L319.72,460.37 L318.64,458.09 L319.37,456.88 L322.70,455.42 L327.15,454.63 L327.55,456.67 L331.38,461.78 L336.58,465.45 L340.45,466.63 L343.87,465.58 L346.19,463.47 L348.33,459.61 L349.39,449.64 L350.96,447.73 L358.74,442.74 L362.54,433.35 L365.03,431.20 L367.64,430.76 L371.18,431.59 L379.89,436.76 L380.29,438.38 L379.37,439.55 L371.85,442.48 L369.66,444.28 L373.47,444.41 L398.53,443.39 L398.93,444.28 L431.46,444.38 L446.84,437.20 L447.05,440.51 L454.53,437.35 L453.49,434.48 L462.41,429.88 L463.96,432.42 Z",N52:"M404.98,495.36 L409.18,495.36 L409.19,497.91 L413.05,496.59 L417.54,493.27 L426.36,491.61 L420.09,489.16 L408.48,488.91 L406.54,489.72 L405.69,488.88 L406.18,485.52 L401.22,484.24 L405.73,478.89 L409.70,476.54 L408.18,474.83 L409.25,473.40 L422.06,463.61 L422.14,475.80 L425.51,473.64 L426.42,473.77 L432.98,480.11 L428.11,483.22 L424.78,480.13 L419.79,483.37 L422.81,486.45 L423.75,485.87 L426.71,488.94 L438.53,481.29 L440.88,483.67 L439.99,484.38 L447.41,484.24 L447.32,485.54 L448.97,485.89 L450.59,485.30 L452.43,485.96 L455.94,483.55 L464.26,491.00 L454.13,498.02 L452.40,498.03 L453.88,502.16 L461.05,502.09 L464.13,503.15 L462.01,505.08 L462.94,505.31 L462.84,507.61 L463.64,508.52 L466.01,508.79 L468.15,507.92 L467.56,510.68 L470.13,513.58 L469.29,516.77 L442.22,515.30 L442.18,516.88 L438.10,516.81 L438.10,518.22 L428.83,518.13 L426.17,516.04 L424.63,516.07 L424.67,518.55 L420.87,517.51 L421.05,516.62 L420.21,516.39 L419.79,517.15 L418.08,516.69 L417.13,513.76 L415.89,514.06 L415.55,515.25 L413.50,514.66 L415.55,510.77 L412.36,511.36 L408.12,510.03 L408.57,511.36 L407.25,513.74 L410.87,514.99 L410.47,515.77 L402.23,512.98 L401.82,513.75 L400.41,513.30 L400.33,507.28 L404.98,508.72 L404.98,495.36 Z",N53:"M400.60,478.31 L401.58,478.65 L406.20,474.23 L409.86,475.98 L405.73,478.89 L401.19,483.73 L406.18,485.52 L405.69,488.88 L406.54,489.72 L408.48,488.91 L420.09,489.16 L426.36,491.61 L417.54,493.27 L413.05,496.59 L409.19,497.91 L409.18,495.36 L404.98,495.36 L404.98,508.72 L400.33,507.28 L400.41,513.30 L401.82,513.75 L402.23,512.98 L410.47,515.77 L410.87,514.99 L407.25,513.74 L408.57,511.36 L408.12,510.03 L412.36,511.36 L415.55,510.77 L413.50,514.66 L415.55,515.25 L415.89,514.06 L417.13,513.76 L418.08,516.69 L419.79,517.15 L420.21,516.39 L421.12,516.64 L418.82,519.49 L435.90,527.24 L438.22,527.26 L438.30,536.28 L430.99,536.34 L422.59,549.01 L416.36,545.80 L413.77,548.89 L405.15,544.83 L407.44,541.63 L394.16,534.94 L386.17,547.31 L384.79,544.73 L383.76,544.42 L380.23,536.74 L379.75,537.67 L378.68,536.44 L379.52,536.41 L379.44,536.06 L377.81,535.58 L373.78,530.92 L373.41,528.86 L371.79,528.86 L369.29,526.62 L369.25,525.45 L368.21,525.97 L366.45,525.41 L363.12,522.82 L363.58,522.13 L362.26,522.16 L360.40,516.18 L358.66,514.40 L362.24,514.07 L363.39,512.76 L364.82,503.83 L363.30,500.99 L363.40,498.88 L364.86,497.43 L365.13,494.34 L369.95,493.44 L370.06,488.40 L371.18,486.07 L373.73,484.98 L377.64,485.21 L380.62,484.36 L382.97,485.50 L386.86,481.02 L387.67,477.77 L399.81,473.35 L401.09,473.76 L400.60,478.31 Z",N54:"M466.41,516.73 L467.34,531.84 L474.40,531.72 L474.59,551.81 L496.99,551.58 L496.95,552.90 L521.31,564.10 L521.63,569.15 L519.78,569.16 L519.87,578.31 L524.31,578.19 L524.40,580.04 L527.12,580.02 L531.26,588.07 L529.83,590.00 L531.42,591.39 L529.96,592.15 L529.49,593.60 L530.42,597.65 L529.49,599.17 L530.26,600.68 L526.30,601.83 L529.65,603.59 L527.70,606.22 L528.67,608.99 L529.56,609.06 L526.18,612.55 L514.29,605.30 L500.81,601.77 L484.67,600.09 L471.68,595.24 L471.65,593.10 L465.30,589.15 L464.88,589.71 L455.94,586.53 L452.52,586.44 L450.22,585.40 L449.02,585.81 L434.93,580.86 L431.41,578.91 L421.11,576.52 L416.93,574.91 L416.14,573.79 L410.72,572.89 L402.90,569.15 L402.08,567.59 L399.23,566.66 L394.39,562.04 L393.59,559.01 L385.99,547.67 L394.16,534.94 L407.44,541.63 L405.15,544.83 L413.77,548.89 L416.36,545.80 L422.59,549.01 L430.99,536.34 L438.30,536.28 L438.22,527.26 L435.90,527.24 L418.82,519.49 L420.86,517.51 L424.67,518.55 L424.63,516.07 L426.17,516.04 L428.83,518.13 L438.10,518.22 L438.10,516.81 L442.18,516.88 L442.22,515.30 L466.41,516.73 Z",N55:"M551.32,415.99 L553.36,418.59 L558.66,422.35 L562.46,427.82 L563.59,435.85 L568.19,442.70 L569.16,448.41 L571.52,453.88 L571.69,460.71 L577.49,466.34 L577.17,468.68 L578.63,474.74 L588.58,479.60 L591.42,483.14 L568.28,482.63 L557.49,483.52 L557.76,482.36 L556.05,482.07 L555.81,483.69 L558.27,487.03 L558.12,488.59 L560.31,490.44 L553.29,491.56 L548.97,493.45 L547.43,507.31 L545.87,507.64 L545.69,508.98 L547.48,508.96 L545.88,511.40 L546.12,513.96 L532.05,514.16 L529.04,510.46 L527.06,509.69 L497.09,537.74 L496.88,551.58 L474.59,551.81 L474.40,531.72 L467.34,531.84 L466.41,516.73 L469.29,516.77 L470.13,513.68 L467.56,510.68 L468.15,507.92 L466.01,508.79 L463.64,508.52 L462.94,505.31 L462.01,505.08 L464.13,503.15 L461.05,502.09 L453.89,502.18 L452.40,498.03 L454.13,498.02 L464.26,491.00 L464.86,488.56 L471.23,488.76 L471.23,490.85 L495.34,490.79 L497.92,495.07 L503.00,492.45 L463.28,431.29 L467.64,429.78 L526.12,429.36 L545.96,427.90 L545.56,426.68 L548.47,425.31 L548.97,423.58 L548.50,416.57 L547.77,416.54 L550.12,414.36 L551.32,415.99 Z M533.63,432.80 L533.37,433.46 L530.59,433.69 L528.31,435.06 L527.04,433.69 L521.34,433.83 L517.96,435.02 L515.04,437.52 L515.89,440.36 L520.60,442.69 L522.26,444.37 L521.70,446.01 L516.22,446.81 L517.65,448.37 L519.59,448.39 L518.76,453.36 L517.79,453.40 L520.79,457.32 L520.63,459.97 L520.44,460.84 L518.84,461.10 L518.99,463.38 L515.67,464.23 L515.17,466.31 L512.92,468.70 L515.51,473.85 L514.91,475.31 L516.86,478.32 L520.05,476.37 L522.09,479.95 L522.58,477.54 L524.40,478.48 L525.75,478.01 L525.71,477.26 L528.21,477.19 L528.47,475.75 L529.53,475.81 L530.36,472.39 L535.89,471.28 L535.88,469.17 L538.05,468.59 L538.38,465.83 L535.85,465.30 L535.84,463.79 L537.82,463.87 L537.79,462.05 L541.79,462.10 L541.97,454.23 L557.12,454.27 L557.06,442.66 L556.19,441.73 L546.64,441.69 L546.65,437.44 L544.23,438.63 L542.70,438.46 L542.70,437.71 L539.43,437.73 L539.42,436.02 L537.25,435.33 L537.45,433.68 L539.29,432.00 L535.86,431.39 L533.63,432.80 Z",N56:"M557.51,483.50 L568.26,482.66 L574.83,563.19 L573.66,565.40 L572.31,565.26 L570.16,566.97 L570.49,568.93 L569.25,569.24 L568.41,570.81 L569.17,572.39 L568.49,573.96 L565.51,573.76 L561.70,577.05 L561.28,578.62 L562.08,580.29 L564.59,581.61 L565.81,586.99 L556.46,590.78 L552.22,595.88 L555.29,600.19 L555.29,604.82 L553.77,605.22 L551.32,603.41 L548.66,603.75 L543.79,605.85 L539.33,609.19 L539.38,611.41 L545.16,615.13 L544.05,620.00 L534.69,617.79 L532.72,617.61 L530.39,618.68 L524.91,614.27 L529.56,609.06 L528.67,608.99 L527.70,606.22 L529.65,603.59 L526.30,601.83 L530.26,600.68 L529.49,599.17 L530.42,597.65 L529.49,593.60 L529.96,592.15 L531.42,591.39 L529.83,590.00 L531.26,588.07 L527.12,580.02 L524.40,580.04 L524.31,578.19 L519.87,578.31 L519.78,569.16 L521.63,569.15 L521.31,564.10 L496.95,552.90 L497.09,537.74 L527.06,509.69 L529.04,510.46 L532.05,514.16 L546.12,513.96 L545.88,511.40 L547.48,508.96 L545.69,508.98 L545.87,507.64 L547.43,507.31 L548.97,493.45 L553.29,491.56 L560.31,490.44 L558.12,488.59 L558.27,487.03 L555.81,483.69 L556.05,482.07 L557.76,482.36 L557.51,483.50 Z"};
+const SEL_MAP_VIEWBOX="0 0 700 620";
+let constMapClickBound=false;
+let mapColorMode='alliance'; // 'alliance' | 'party'
+let constMapZoom={scale:1,tx:0,ty:0};
+let constMapDragging=false, constMapDragStart=null, constMapDragMoved=false;
+
+function applyConstMapTransform(){
+  const wrap=document.getElementById('constMapWrap');
+  wrap.style.transform=`translate(${constMapZoom.tx}px,${constMapZoom.ty}px) scale(${constMapZoom.scale})`;
+}
+function clampConstMapPan(){
+  const rect=document.getElementById('constMapViewport').getBoundingClientRect();
+  const minTx=rect.width-rect.width*constMapZoom.scale, minTy=rect.height-rect.height*constMapZoom.scale;
+  constMapZoom.tx=Math.min(0,Math.max(minTx,constMapZoom.tx));
+  constMapZoom.ty=Math.min(0,Math.max(minTy,constMapZoom.ty));
+}
+function constMapZoomAt(factor, clientX, clientY){
+  const rect=document.getElementById('constMapViewport').getBoundingClientRect();
+  const cx=clientX-rect.left, cy=clientY-rect.top;
+  const newScale=Math.min(10, Math.max(1, constMapZoom.scale*factor));
+  const actualFactor=newScale/constMapZoom.scale;
+  constMapZoom.tx=cx-(cx-constMapZoom.tx)*actualFactor;
+  constMapZoom.ty=cy-(cy-constMapZoom.ty)*actualFactor;
+  constMapZoom.scale=newScale;
+  clampConstMapPan();
+  applyConstMapTransform();
+}
+function resetConstMapZoom(){
+  constMapZoom={scale:1,tx:0,ty:0};
+  applyConstMapTransform();
+}
+
+function setMapColorMode(mode){
+  if(mode===mapColorMode)return;
+  mapColorMode=mode;
+  const allianceBtn=document.getElementById('constMapModeAllianceBtn'),partyBtn=document.getElementById('constMapModePartyBtn');
+  const active='background:#1a1a18;color:#fff;border-color:#1a1a18;margin-bottom:0;';
+  allianceBtn.style.cssText=(mode==='alliance')?active:'margin-bottom:0;';
+  partyBtn.style.cssText=(mode==='party')?active:'margin-bottom:0;';
+  renderConstituencyMap();
+}
+
+function showConstSeatTooltip(id, evt){
+  const d=curDetails.find(x=>x.id===id);
+  const tip=document.getElementById('constMapTooltip');
+  if(!d){tip.style.display='none';return;}
+  const ranked=Object.entries(d.proj).filter(([,v])=>v>0.05).sort((a,b)=>b[1]-a[1]);
+  let html=`<div class="mt-title">${d.name} <span class="mt-seats">${id}</span></div>`;
+  ranked.forEach(([coal,v])=>{
+    const party=PARTIES.find(p=>p.id===coal);
+    if(mapColorMode==='party'){
+      const comp=resolveComponentParty(coal,id);
+      html+=`<div class="mt-row"><span><span class="mt-dot" style="background:${COMP_COLORS[comp]||'#ccc'};"></span>${comp}</span><span style="font-weight:600;color:#1a1a18;">${v.toFixed(1)}%</span></div>`;
+    } else {
+      html+=`<div class="mt-row"><span><span class="mt-dot" style="background:${party?party.color:'#ccc'};"></span>${party?party.label:coal}</span><span style="font-weight:600;color:#1a1a18;">${v.toFixed(1)}%</span></div>`;
+    }
+  });
+  tip.innerHTML=html;
+  tip.style.display='block';
+  const wrapRect=document.getElementById('constMapViewport').getBoundingClientRect();
+  let x=evt.clientX-wrapRect.left+10;
+  let y=evt.clientY-wrapRect.top+10;
+  if(x+220>wrapRect.width)x=evt.clientX-wrapRect.left-230;
+  tip.style.left=Math.max(4,x)+'px';
+  tip.style.top=Math.max(4,y)+'px';
+}
+
+function renderConstituencyMap(){
+  const wrap=document.getElementById('constMapWrap');
+  let svg=`<svg viewBox="${SEL_MAP_VIEWBOX}" style="width:100%;height:auto;">`;
+  Object.entries(SEL_MAP_PATHS).forEach(([id,d])=>{
+    const det=curDetails.find(x=>x.id===id);
+    let color='#ccc', title=id;
+    if(det){
+      const party=PARTIES.find(p=>p.id===det.coalW);
+      if(mapColorMode==='party'){
+        const comp=resolveComponentParty(det.coalW,id);
+        color=COMP_COLORS[comp]||'#ccc';
+        title=`${det.name} (${id}): ${comp} (${det.proj[det.coalW].toFixed(1)}%) — click for full breakdown`;
+      } else {
+        color=party?party.color:'#ccc';
+        title=`${det.name} (${id}): ${party?party.label:det.coalW} (${det.proj[det.coalW].toFixed(1)}%) — click for full breakdown`;
+      }
+    }
+    svg+=`<path data-seat="${id}" d="${d}" fill="${color}" stroke="#fff" stroke-width="0.7" fill-opacity="0.9" style="cursor:pointer;"><title>${title}</title></path>`;
+  });
+  svg+='</svg>';
+  wrap.innerHTML=svg;
+  applyConstMapTransform();
+
+  if(!constMapClickBound){
+    wrap.addEventListener('click',(evt)=>{
+      if(constMapDragMoved){constMapDragMoved=false;return;}
+      const path=evt.target.closest && evt.target.closest('path[data-seat]');
+      if(!path){document.getElementById('constMapTooltip').style.display='none';return;}
+      showConstSeatTooltip(path.getAttribute('data-seat'), evt);
+    });
+    document.addEventListener('click',(evt)=>{
+      const tip=document.getElementById('constMapTooltip');
+      const inMap=evt.target.closest && (evt.target.closest('#constMapWrap')||evt.target.closest('#constMapTooltip'));
+      if(!inMap)tip.style.display='none';
+    });
+    const viewport=document.getElementById('constMapViewport');
+    viewport.addEventListener('wheel',(evt)=>{
+      evt.preventDefault();
+      const factor=evt.deltaY<0?1.2:1/1.2;
+      constMapZoomAt(factor, evt.clientX, evt.clientY);
+    },{passive:false});
+    viewport.addEventListener('mousedown',(evt)=>{
+      constMapDragging=true; constMapDragMoved=false;
+      constMapDragStart={x:evt.clientX,y:evt.clientY,tx:constMapZoom.tx,ty:constMapZoom.ty};
+      viewport.style.cursor='grabbing';
+    });
+    document.addEventListener('mousemove',(evt)=>{
+      if(!constMapDragging)return;
+      const dx=evt.clientX-constMapDragStart.x, dy=evt.clientY-constMapDragStart.y;
+      if(Math.abs(dx)>3||Math.abs(dy)>3)constMapDragMoved=true;
+      constMapZoom.tx=constMapDragStart.tx+dx;
+      constMapZoom.ty=constMapDragStart.ty+dy;
+      clampConstMapPan();
+      applyConstMapTransform();
+    });
+    document.addEventListener('mouseup',()=>{
+      if(constMapDragging){constMapDragging=false; viewport.style.cursor='grab';}
+    });
+    document.getElementById('constMapZoomIn').addEventListener('click',()=>{
+      const r=viewport.getBoundingClientRect();
+      constMapZoomAt(1.4, r.left+r.width/2, r.top+r.height/2);
+    });
+    document.getElementById('constMapZoomOut').addEventListener('click',()=>{
+      const r=viewport.getBoundingClientRect();
+      constMapZoomAt(1/1.4, r.left+r.width/2, r.top+r.height/2);
+    });
+    document.getElementById('constMapZoomReset').addEventListener('click',resetConstMapZoom);
+    constMapClickBound=true;
+  }
+
+  const legend=document.getElementById('constMapLegend');
+  if(mapColorMode==='party'){
+    const usedParties=[...new Set(curDetails.map(d=>resolveComponentParty(d.coalW,d.id)))];
+    legend.innerHTML=usedParties.map(comp=>
+      `<span><span class="swatch" style="background:${COMP_COLORS[comp]||'#ccc'};"></span>${comp}</span>`
+    ).join('');
+  } else {
+    const usedCoals=[...new Set(curDetails.map(d=>d.coalW))];
+    legend.innerHTML=usedCoals.map(cid=>{
+      const p=PARTIES.find(x=>x.id===cid);
+      return `<span><span class="swatch" style="background:${p?p.color:'#ccc'};"></span>${p?p.label:cid}</span>`;
+    }).join('');
+  }
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  buildInputsAndChecks();
   project();
 });
 
 function renderComponentBreakdown(){
   const div=document.getElementById('componentBreakdown');div.innerHTML='';
   const partyMap={};
-  Object.entries(W23).forEach(([sid,coal])=>{
-    const comp=(SEAT_CANDIDATES[sid]||{})[coal]||coal;
+  // Historical fact: the real 2023 winning party at this seat, mapped onto
+  // the active mode's bloc. Uses the seat's own real winning component
+  // (origComp) directly -- NOT the forward-looking "who's BNPN's merged
+  // nominee" rule, which only makes sense for a single combined 2026 ticket
+  // and would misattribute real 2023 wins to whatever the other coalition's
+  // 2026 candidate happens to be there.
+  Object.entries(W23).forEach(([sid,origCoal])=>{
+    const origComp=(SEAT_CANDIDATES[sid]||{})[origCoal]||origCoal;
+    const coal=mapCoal(origCoal,origComp);
+    const comp=origComp;
     if(!partyMap[coal])partyMap[coal]={};
     if(!partyMap[coal][comp])partyMap[coal][comp]={base:0,now:0};
     partyMap[coal][comp].base++;
   });
+  // Projected
   curDetails.forEach(d=>{
     const coal=d.coalW;
-    const cands=SEAT_CANDIDATES[d.id]||{};
-    const comp=cands[coal]||coal;
+    const comp=resolveComponentParty(coal,d.id);
     if(!partyMap[coal])partyMap[coal]={};
     if(!partyMap[coal][comp])partyMap[coal][comp]={base:0,now:0};
     partyMap[coal][comp].now++;
   });
-  ['PH','BN','PN','BP','BERSAMA'].forEach(cid=>{
+  const order=(MODE==='unity')?['PH','BNPN','IPR','BP','BERSAMA']:['PH','BN','PN','BP','BERSAMA'];
+  order.forEach(cid=>{
     const party=PARTIES.find(p=>p.id===cid);if(!party)return;
     const cdata=partyMap[cid];if(!cdata)return;
     const totalNow=Object.values(cdata).reduce((a,b)=>a+b.now,0);
@@ -422,44 +753,38 @@ function renderComponentBreakdown(){
 }
 
 function renderVoteShareBreakdown(){
+  // Split by seat-count ratio (each coalition's input % divided among its
+  // components by how many seats each one contests), not baseline-vote
+  // weighting. Decouples this panel entirely from the swing model, so it
+  // always sums to exactly the input regardless of taper or clamping --
+  // same fix applied to the NS, Malaysia, and Malacca models.
   const div=document.getElementById('voteShareBreakdown');div.innerHTML='';
   const ns={};PARTIES.forEach(p=>{ns[p.id]=parseFloat(inputEls[p.id].value)||0;});
-  const coalVoteCol={PH:2,BN:3,PN:4,BP:5};
-  const compVotes={};
-  SEATS.forEach(s=>{
-    const sid=s[0];
-    const cands=SEAT_CANDIDATES[sid]||{};
-    Object.entries(cands).forEach(([cid,comp])=>{
-      const colIdx=coalVoteCol[cid];
-      const votes=colIdx!=null?(s[colIdx]||0):0;
-      if(votes<=0)return;
-      if(!compVotes[cid])compVotes[cid]={};
-      compVotes[cid][comp]=(compVotes[cid][comp]||0)+votes;
-    });
-  });
-  const coalOrder=['PH','BN','PN','BP','BERSAMA'];
+  const coalOrder=(MODE==='unity')?['PH','BNPN','IPR','BP','BERSAMA']:['PH','BN','PN','BP','BERSAMA'];
   const container=document.createElement('div');
   container.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;';
   coalOrder.forEach(cid=>{
     const party=PARTIES.find(p=>p.id===cid);if(!party)return;
     const coalPct=ns[cid]||0;if(!coalPct)return;
-    const cdata=compVotes[cid];
-    let compWeights={};
-    if(!cdata||Object.keys(cdata).length===0){
-      curDetails.forEach(d=>{
-        const comp=(SEAT_CANDIDATES[d.id]||{})[cid];
-        if(!comp)return;
-        compWeights[comp]=(compWeights[comp]||0)+(d.tot2||0);
-      });
-    } else { compWeights=cdata; }
-    if(!Object.keys(compWeights).length)return;
-    const totalW=Object.values(compWeights).reduce((a,b)=>a+b,0);
+    // BP and BERSAMA have no real per-seat 2023 baseline (both are new
+    // entrants, modeled as growing from zero via swing everywhere) -- the
+    // usual base>0 "contested" check would always be empty for them, so use
+    // their explicit contest sets instead.
+    const contested=(cid==='BP')?curDetails.filter(d=>BP_CONTEST.has(d.id))
+      :(cid==='BERSAMA')?curDetails.filter(d=>BERSAMA_CONTEST.has(d.id))
+      :curDetails.filter(d=>(d.base[cid]||0)>0);
+    if(contested.length===0)return;
+    const counts={};
+    contested.forEach(d=>{
+      const comp=resolveComponentParty(cid,d.id);
+      counts[comp]=(counts[comp]||0)+1;
+    });
     const card=document.createElement('div');
     card.style.cssText='background:#fff;border:0.5px solid #ddddd5;border-radius:10px;padding:0.75rem 1rem;';
     let rows='';
-    Object.entries(compWeights).sort((a,b)=>b[1]-a[1]).forEach(([comp,w])=>{
-      const compPct=(coalPct*(w/totalW)).toFixed(1);
-      rows+=`<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:2px 0;"><span style="color:#5f5e5a;">${comp}</span><span style="font-weight:500;">${compPct}%</span></div>`;
+    Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([comp,n])=>{
+      const compPct=coalPct*n/contested.length;
+      rows+=`<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:2px 0;"><span style="color:#5f5e5a;">${comp} <span style="color:#b4b2a9;font-size:10px;">${n}</span></span><span style="font-weight:500;">${compPct.toFixed(1)}%</span></div>`;
     });
     card.innerHTML=`<div style="display:flex;align-items:center;gap:5px;margin-bottom:6px;"><span style="width:9px;height:9px;border-radius:50%;background:${party.color};display:inline-block;flex-shrink:0;"></span><span style="font-size:12px;font-weight:500;">${party.label}</span><span style="margin-left:auto;font-size:13px;font-weight:500;">${coalPct.toFixed(1)}%</span></div>${rows}`;
     container.appendChild(card);
@@ -470,7 +795,13 @@ function renderVoteShareBreakdown(){
 function renderTable(){
   const thead=document.getElementById('seatsHead');thead.innerHTML='';
   const tbody=document.getElementById('seatsBody');tbody.innerHTML='';
-  const cols=[
+  const cols=(MODE==='unity')?[
+    {key:'id',label:'Seat'},{key:'name',label:'Name'},
+    {key:'w23',label:'2023'},{key:'projW',label:'Proj.'},
+    {key:'ph',label:'PH%'},{key:'bnpn',label:'BN+PN%'},
+    {key:'ipr',label:'IPR%'},{key:'bp',label:'MUDA%'},
+    {key:'bersama',label:'BERSAMA%'},{key:'minors',label:'Others'},
+  ]:[
     {key:'id',label:'Seat'},{key:'name',label:'Name'},
     {key:'w23',label:'2023'},{key:'projW',label:'Proj.'},
     {key:'ph',label:'PH%'},{key:'bn',label:'BN%'},
@@ -491,28 +822,39 @@ function renderTable(){
   thead.appendChild(tr);
   const sorted=[...curDetails].sort((a,b)=>{
     let av=a[sortCol],bv=b[sortCol];
-    if(typeof av==='string')return sortDir*av.localeCompare(bv);
+    if(av==null)av='';if(bv==null)bv='';
+    if(typeof av==='string')return sortDir*String(av).localeCompare(String(bv));
     return sortDir*(av-bv);
   });
   sorted.forEach(d=>{
     const tr=document.createElement('tr');
-    const isFlip=d.projW!==d.w23;
+    const w23Comp0=(SEAT_CANDIDATES[d.id]||{})[d.w23]||d.w23;
+    const w23Mapped=mapCoal(d.w23,w23Comp0);
+    const isFlip=d.coalW!==w23Mapped;
     const winParty=PARTIES.find(p=>p.id===d.coalW);
     const winColor=winParty?winParty.color:'#888780';
-    const w23Party=PARTIES.find(p=>p.id===d.w23);
+    const w23Party=PARTIES.find(p=>p.id===w23Mapped);
     const w23Color=w23Party?w23Party.color:'#888780';
-    const cands=SEAT_CANDIDATES[d.id]||{};
-    const projComp=cands[d.coalW]||d.coalW;
-    const w23Comp=cands[d.w23]||d.w23;
-    [
-      {v:d.id},{v:d.name},
-      {v:`<span style="color:${w23Color};font-weight:500;">${d.w23}</span> <span style="color:#888780;font-size:10px;">(${w23Comp})</span>`},
-      {v:`<span style="color:${winColor};font-weight:500;">${d.coalW}</span> <span style="color:#888780;font-size:10px;">(${projComp})</span>${isFlip?'<span class="flip-tag">flip</span>':''}`},
+    const projComp=resolveComponentParty(d.coalW,d.id);
+    const w23Comp=(MODE==='unity')?resolveComponentParty(w23Mapped,d.id):w23Comp0;
+    const cells=(MODE==='unity')?[
+      {v:d.proj.PH!=null?d.proj.PH.toFixed(1):'—'},
+      {v:d.proj.BNPN!=null?d.proj.BNPN.toFixed(1):'—'},
+      {v:d.proj.IPR!=null?d.proj.IPR.toFixed(1):'—'},
+      {v:d.proj.BP!=null&&d.proj.BP>0?d.proj.BP.toFixed(1):'—'},
+      {v:d.proj.BERSAMA!=null&&d.proj.BERSAMA>0?d.proj.BERSAMA.toFixed(1):'—'},
+    ]:[
       {v:d.proj.PH!=null?d.proj.PH.toFixed(1):'—'},
       {v:d.proj.BN!=null?d.proj.BN.toFixed(1):'—'},
       {v:d.proj.PN!=null?d.proj.PN.toFixed(1):'—'},
       {v:d.proj.BP!=null&&d.proj.BP>0?d.proj.BP.toFixed(1):'—'},
       {v:d.proj.BERSAMA!=null&&d.proj.BERSAMA>0?d.proj.BERSAMA.toFixed(1):'—'},
+    ];
+    [
+      {v:d.id},{v:d.name},
+      {v:`<span style="color:${w23Color};font-weight:500;">${w23Mapped}</span> <span style="color:#888780;font-size:10px;">(${w23Comp})</span>`},
+      {v:`<span style="color:${winColor};font-weight:500;">${d.coalW}</span> <span style="color:#888780;font-size:10px;">(${projComp})</span>${isFlip?'<span class="flip-tag">flip</span>':''}`},
+      ...cells,
     ].forEach(cell=>{
       const td=document.createElement('td');td.innerHTML=cell.v;tr.appendChild(td);
     });
@@ -544,22 +886,24 @@ function project(){
     const[id,name,ph,bn,pn,bp,tot2,minorVotes]=s;
     if(!tot2)return;
 
-    let basePH=ph/tot2*100,baseBN=bn/tot2*100,basePN=pn/tot2*100,baseBP=bp/tot2*100;
-
-    // Redistribute absent minors proportionally
-    let absentTotal=0;
-    Object.entries(minorVotes||{}).forEach(([k,v])=>{if(FOLDED_MINORS.has(k))absentTotal+=v/tot2*100;});
-    if(absentTotal>0){
-      const contestBase=basePH+baseBN+basePN+baseBP;
-      if(contestBase>0){
-        basePH+=absentTotal*(basePH/contestBase);
-        baseBN+=absentTotal*(baseBN/contestBase);
-        basePN+=absentTotal*(basePN/contestBase);
-        baseBP+=absentTotal*(baseBP/contestBase);
+    let base;
+    if(MODE==='unity'){
+      base=SEAT_BASE_UNITY[id];
+    } else {
+      let basePH=ph/tot2*100,baseBN=bn/tot2*100,basePN=pn/tot2*100,baseBP=bp/tot2*100;
+      let absentTotal=0;
+      Object.entries(minorVotes||{}).forEach(([k,v])=>{if(FOLDED_MINORS.has(k))absentTotal+=v/tot2*100;});
+      if(absentTotal>0){
+        const contestBase=basePH+baseBN+basePN+baseBP;
+        if(contestBase>0){
+          basePH+=absentTotal*(basePH/contestBase);
+          baseBN+=absentTotal*(baseBN/contestBase);
+          basePN+=absentTotal*(basePN/contestBase);
+          baseBP+=absentTotal*(baseBP/contestBase);
+        }
       }
+      base={PH:basePH,BN:baseBN,PN:basePN,BP:baseBP,BERSAMA:0};
     }
-
-    const base={PH:basePH,BN:baseBN,PN:basePN,BP:baseBP,BERSAMA:0};
     const minorPct={};
     Object.entries(minorVotes||{}).forEach(([k,v])=>{if(!FOLDED_MINORS.has(k)){minorPct[k]=v/tot2*100;}});
 
@@ -574,6 +918,17 @@ function project(){
       PARTIES.forEach(p=>{proj[p.id]=tap[p.id];});
     }
 
+    // Proportionally rescale so every seat sums to exactly 100 -- handles
+    // inputs summing to more than/less than 100, and the zero-floor on
+    // negative swings leaving some seats short. Scaling by a single positive
+    // constant preserves each party's relative ranking within the seat, so
+    // it can't change who wins or flip a margin comparison. Same fix applied
+    // to the NS, Malaysia, and Malacca models.
+    const projTotal=PARTIES.reduce((a,p)=>a+proj[p.id],0);
+    if(projTotal>0 && Math.abs(projTotal-100)>0.001){
+      PARTIES.forEach(p=>{proj[p.id]=proj[p.id]/projTotal*100;});
+    }
+
     const allCands={...proj};
     Object.entries(minorPct).forEach(([k,v])=>{allCands[k]=v;});
     const winner=Object.entries(allCands).sort((a,b)=>b[1]-a[1])[0][0];
@@ -585,6 +940,7 @@ function project(){
       projW:winner,coalW,
       proj,base,
       ph:proj.PH,bn:proj.BN,pn:proj.PN,bp:proj.BP,bersama:proj.BERSAMA,
+      bnpn:proj.BNPN,ipr:proj.IPR,
       minors:minorPct,
       tot2,
     });
@@ -619,16 +975,22 @@ function project(){
     PARTIES.filter(p=>tally[p.id]>0).map(p=>`<span><span style="width:10px;height:10px;border-radius:50%;background:${p.color};display:inline-block;"></span>${p.label}: ${tally[p.id]}</span>`).join('');
 
   const maj=29;
-  const phbn=(tally.PH||0)+(tally.BN||0);
-  document.getElementById('majorityLine').textContent=`Majority: 29 of 56 seats. PH+BN combined: ${phbn} seats${phbn>=maj?' ✓ majority':''}`;
+  if(MODE==='unity'){
+    const phSeats=tally.PH||0;
+    document.getElementById('majorityLine').textContent=`Majority: 29 of 56 seats. PH alone: ${phSeats} seats${phSeats>=maj?' ✓ majority':''} (BN has left the pact for BN+PN in this scenario).`;
+  } else {
+    const phbn=(tally.PH||0)+(tally.BN||0);
+    document.getElementById('majorityLine').textContent=`Majority: 29 of 56 seats. PH+BN combined: ${phbn} seats${phbn>=maj?' ✓ majority':''}`;
+  }
 
-  renderTable();
   renderComponentBreakdown();
   renderVoteShareBreakdown();
+  renderConstituencyMap();
   updateCoalition();
 
   document.getElementById('methodNote').textContent=
-    'Methodology: Universal national swing (UNS) from 2023 Selangor state election results. 2023 baseline derived by splitting each seat\'s unity (PH-BN pact) vote asymmetrically: in PH-won seats (and PN-won seats where PH was the unity candidate), PH receives 92% and BN 8% of the unity vote in PH-contested seats; in BN-contested seats, BN receives 60% and PH 40%. Seat-level unity and PN vote counts are derived from official 2023 EC majority and turnout data published by ElectionData.MY. This produces statewide baselines of approximately PH 51.2%, BN 9.7%, PN 38.2%. Note: seat-level vote counts are estimates derived from registered voter data and statewide proportions, as official EC seat-level totals were not available; two seats (N36 Bandar Utama, N52 Banting) use confirmed reported figures. BP (MUDA+PSM) and BERSAMA are assumed to contest all 56 seats. 2023 minor party votes (MUDA, PSM, PRM, Independents) redistributed proportionally before swing is applied. Taper scalar applied below 50% of each party\'s baseline share. Majority: 29 of 56 seats.';
+    'Methodology: Universal national swing (UNS) from 2023 Selangor state election results. 2023 baseline derived by splitting each seat\'s unity (PH-BN pact) vote asymmetrically: in PH-won seats (and PN-won seats where PH was the unity candidate), PH receives 92% and BN 8% of the unity vote in PH-contested seats; in BN-contested seats, BN receives 58% and PH 42%. Seat-level unity and PN vote counts are derived from official 2023 EC majority and turnout data published by ElectionData.MY. Statewide PH/BN baselines are anchored to the real, EC-certified PH+BN combined total (60.54%), with the seat-level split above used only to determine the internal PH:BN ratio; PN is anchored directly to its own real total (37.80%). This produces statewide baselines of approximately PH 51.1%, BN 9.4%, PN 37.8%. Note: seat-level vote counts are estimates derived from registered voter data and statewide proportions, as official EC seat-level totals were not available; two seats (N36 Bandar Utama, N52 Banting) use confirmed reported figures. Standard mode projects PH, BN, and PN as three independent competitors going forward -- the 2023 pact is used only to reconstruct the historical baseline, not modeled as continuing. BP (MUDA+PSM) and BERSAMA are assumed to contest all 56 seats. 2023 minor party votes (MUDA, PSM, PRM, Independents) redistributed proportionally before swing is applied. Taper scalar applied below 50% of each party\'s baseline share. Every seat\'s projected shares are proportionally rescaled to sum to exactly 100%. Majority: 29 of 56 seats.'
+    + (MODE==='unity' ? ' Unity-collapse scenario: models BN leaving its governing pact with PH to join PN instead. BN+PN merged, BERSATU carved back out as BERSATU+ (74% in the 12 seats it actually won in 2023, 33% elsewhere), standing in all 56 seats.' : '');
 }
 
 function updateCoalition(){
