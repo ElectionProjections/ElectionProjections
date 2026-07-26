@@ -165,7 +165,7 @@ details summary:hover{color:#1a1a18;}
   <button class="reset-btn" id="modeUnityBtn" onclick="setMode('unity')">BN + PN merged, BERSATU detached</button>
 </div>
 <div class="majority-line" id="modeNote" style="display:none;">
-  <strong>Unity-collapse scenario:</strong> BN and PN's 2021 votes are merged into one bloc in every seat, then BERSATU is carved back out as IPR (BERSATU+) — 66% of the merged total in N11 (the one seat BERSATU actually won in 2021), 27% everywhere else. IPR stands in all 28 seats, matching PN's full 2021 footprint. Both carve fractions are the same tuned values used in the Negeri Sembilan and Malaysia national models. There's no real "BN+PN merged" or standalone BERSATU 2021 result to check these baselines against, so retune the carve if you have a better estimate.
+  <strong>Unity-collapse scenario:</strong> BN and PN's 2021 votes are merged into one bloc in every seat, then BERSATU is carved back out as BERSATU+ — 60% of the merged total in N11 (the one seat BERSATU actually won in 2021), 20% everywhere else. BERSATU+ stands in all 28 seats, matching PN's full 2021 footprint. There's no real "BN+PN merged" or standalone BERSATU 2021 result to check these baselines against, so retune the carve if you have a better estimate.
 </div>
 <div class="section">
   <div class="inputs-grid" id="inputsGrid"></div>
@@ -174,27 +174,6 @@ details summary:hover{color:#1a1a18;}
   <div class="parl-bar" id="parlBar"></div>
   <div class="bar-legend" id="barLegend"></div>
   <div class="majority-line" id="majorityLine"></div>
-</div>
-<hr class="divider">
-<div class="section">
-  <h3>Constituency map</h3>
-  <p style="font-size:11px;color:#888780;margin-bottom:0.5rem;">Each seat shaded by its projected winner. Real boundaries from Malaysia's Department of Statistics. Hover for a quick read, click for the full breakdown. Scroll or use the buttons to zoom, drag to pan.</p>
-  <div style="display:flex;gap:8px;margin-bottom:0.75rem;">
-    <button class="reset-btn" id="constMapModeAllianceBtn" onclick="setMapColorMode('alliance')" style="background:#1a1a18;color:#fff;border-color:#1a1a18;margin-bottom:0;">By alliance</button>
-    <button class="reset-btn" id="constMapModePartyBtn" onclick="setMapColorMode('party')" style="margin-bottom:0;">By winning party</button>
-  </div>
-  <div style="max-width:500px;margin:0 auto;position:relative;">
-    <div id="constMapViewport" style="position:relative;overflow:hidden;aspect-ratio:600/500;border:0.5px solid #ddddd5;border-radius:8px;cursor:grab;background:#fafaf8;">
-      <div id="constMapWrap" style="transform-origin:0 0;position:absolute;top:0;left:0;width:100%;height:100%;"></div>
-    </div>
-    <div id="constMapTooltip" class="map-tooltip" style="display:none;"></div>
-    <div style="position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:4px;">
-      <button id="constMapZoomIn" class="reset-btn" style="width:26px;height:26px;padding:0;font-size:15px;line-height:1;margin-bottom:0;">+</button>
-      <button id="constMapZoomOut" class="reset-btn" style="width:26px;height:26px;padding:0;font-size:15px;line-height:1;margin-bottom:0;">−</button>
-      <button id="constMapZoomReset" class="reset-btn" style="width:26px;height:26px;padding:0;font-size:9px;line-height:1;margin-bottom:0;" title="Reset view">RST</button>
-    </div>
-  </div>
-  <div class="grid-legend" id="constMapLegend" style="margin-top:8px;justify-content:center;"></div>
 </div>
 <hr class="divider">
 <div class="section">
@@ -222,15 +201,26 @@ details summary:hover{color:#1a1a18;}
   <div class="grid-legend" id="gridLegend"></div>
 </div>
 <hr class="divider">
-<details>
-  <summary>Seat-by-seat breakdown ▾</summary>
-  <div style="margin-top:8px;overflow-x:auto;">
-    <table class="seats-table">
-      <thead id="seatsHead"></thead>
-      <tbody id="seatsBody"></tbody>
-    </table>
+<div class="section">
+  <h3>Constituency map</h3>
+  <p style="font-size:11px;color:#888780;margin-bottom:0.5rem;">Each seat shaded by its projected winner. Real boundaries from Malaysia's Department of Statistics. Hover for a quick read, click for the full breakdown. Scroll or use the buttons to zoom, drag to pan.</p>
+  <div style="display:flex;gap:8px;margin-bottom:0.75rem;">
+    <button class="reset-btn" id="constMapModeAllianceBtn" onclick="setMapColorMode('alliance')" style="background:#1a1a18;color:#fff;border-color:#1a1a18;margin-bottom:0;">By alliance</button>
+    <button class="reset-btn" id="constMapModePartyBtn" onclick="setMapColorMode('party')" style="margin-bottom:0;">By winning party</button>
   </div>
-</details>
+  <div style="max-width:500px;margin:0 auto;position:relative;">
+    <div id="constMapViewport" style="position:relative;overflow:hidden;aspect-ratio:600/500;border:0.5px solid #ddddd5;border-radius:8px;cursor:grab;background:#fafaf8;">
+      <div id="constMapWrap" style="transform-origin:0 0;position:absolute;top:0;left:0;width:100%;height:100%;"></div>
+    </div>
+    <div id="constMapTooltip" class="map-tooltip" style="display:none;"></div>
+    <div style="position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:4px;">
+      <button id="constMapZoomIn" class="reset-btn" style="width:26px;height:26px;padding:0;font-size:15px;line-height:1;margin-bottom:0;">+</button>
+      <button id="constMapZoomOut" class="reset-btn" style="width:26px;height:26px;padding:0;font-size:15px;line-height:1;margin-bottom:0;">−</button>
+      <button id="constMapZoomReset" class="reset-btn" style="width:26px;height:26px;padding:0;font-size:9px;line-height:1;margin-bottom:0;" title="Reset view">RST</button>
+    </div>
+  </div>
+  <div class="grid-legend" id="constMapLegend" style="margin-top:8px;justify-content:center;"></div>
+</div>
 <p class="note" id="methodNote"></p>
 <script>
 const PARTIES_STD=[
@@ -260,7 +250,7 @@ const GS_STD={BN:21,PH:5,PN:2,BP:0,BERSAMA:0,OTHERS:0};
 const GN_STD={BN:38.39,PH:35.84,PN:24.31,BP:0,BERSAMA:0};
 
 // MODE toggles between the standard GE (separate BN/PH/PN) and the "unity
-// collapse" scenario (BN+PN merged, BERSATU detached as IPR) -- same pattern
+// collapse" scenario (BN+PN merged, BERSATU detached as BERSATU+) -- same pattern
 // as the Malaysia national model. PARTIES/GN/GS always point at whichever
 // set is active; everything downstream reads through them.
 let MODE='standard';
@@ -340,14 +330,14 @@ const SEATS=[
   ['N28','Sungai Rambai',  3801, 1356, 2664,   0,  7905,{OTH:84}],
 ];
 
-// ── Unity-collapse mode: BN+PN merged, BERSATU detached as IPR ─────────────
+// ── Unity-collapse mode: BN+PN merged, BERSATU detached as BERSATU+ ─────────────
 // Held seat = the one seat BERSATU actually won in 2021 (N11). PN's other
 // 2021 win, N24, went to WAWASAN, not BERSATU, so it isn't a held seat here.
-// Carve fractions are the tuned NS/Malaysia values (66% held / 27% default),
+// Carve fractions: 60% held / 20% default.
 // reused as a sensible starting point -- easy to retune if a better estimate
 // turns up.
 const IPR_HELD=new Set(['N11']);
-const CARVE_HELD=0.66, CARVE_DEFAULT=0.27;
+const CARVE_HELD=0.60, CARVE_DEFAULT=0.20;
 const FOLDED_MINORS_G=new Set(['OTH','IND']);
 
 const SEAT_BASE_UNITY={};
@@ -371,7 +361,7 @@ const GS_UNITY={PH:0,BNPN:0,IPR:0,BP:0,BERSAMA:0,OTHERS:0};
         baseBP+=absentTotal*(baseBP/contestBase);
       }
     }
-    // Merge BN+PN, then carve IPR back out of the merged pool.
+    // Merge BN+PN, then carve BERSATU+ back out of the merged pool.
     const merged=baseBN+basePN;
     const f=IPR_HELD.has(id)?CARVE_HELD:CARVE_DEFAULT;
     const vIPR=merged*f, vBNPN=merged-vIPR;
@@ -381,6 +371,20 @@ const GS_UNITY={PH:0,BNPN:0,IPR:0,BP:0,BERSAMA:0,OTHERS:0};
   });
   ['PH','BNPN','IPR','BP'].forEach(k=>{GN_UNITY[k]=grand>0?sum[k]/grand*100:0;});
   GN_UNITY.BERSAMA=0;
+  // The per-seat bases above are POST-redistribution (minor/independent votes
+  // spread proportionally across the contesting blocs), so summing them gives
+  // figures ~1.5% higher than the real raw 2021 result. GN_STD holds the real
+  // raw shares, so anchor to those: PH is untouched by the BN+PN merge and so
+  // must be identical in both modes, and the merged pool's real total is
+  // GN_STD.BN+GN_STD.PN, with the carve setting only the internal split.
+  const derivedMerged=GN_UNITY.BNPN+GN_UNITY.IPR;
+  const realMerged=GN_STD.BN+GN_STD.PN;
+  if(derivedMerged>0){
+    const s=realMerged/derivedMerged;
+    GN_UNITY.BNPN*=s; GN_UNITY.IPR*=s;
+  }
+  GN_UNITY.PH=GN_STD.PH;
+  GN_UNITY.BP=GN_STD.BP;
 
   SEATS.forEach(s=>{
     const id=s[0];
@@ -745,7 +749,7 @@ function renderTable(){
     {key:'id',label:'Seat'},{key:'name',label:'Name'},
     {key:'w21',label:'2021'},{key:'projW',label:'Proj.'},
     {key:'bnpn',label:'BN+PN%'},{key:'ph',label:'PH%'},
-    {key:'ipr',label:'IPR%'},{key:'bp',label:'MUDA%'},
+    {key:'ipr',label:'BERSATU+%'},{key:'bp',label:'MUDA%'},
     {key:'bersama',label:'BERSAMA%'},{key:'minors',label:'Others'},
   ]:[
     {key:'id',label:'Seat'},{key:'name',label:'Name'},
@@ -928,15 +932,14 @@ function project(){
   const maj=15;
   document.getElementById('majorityLine').textContent=`Majority: 15 of 28 seats.`;
 
-  renderTable();
   renderComponentBreakdown();
   renderVoteShareBreakdown();
   renderConstituencyMap();
   updateCoalition();
 
   document.getElementById('methodNote').textContent=
-    'Methodology: Universal national swing (UNS) from 2021 Malacca state election results. All three main coalitions (BN, PH, PN) contested independently in 2021, so seat-level vote counts are used directly as baselines. 2021 statewide shares: BN 38.4%, PH 35.8%, PN 24.3%. Independents and minor party votes redistributed proportionally among the three main coalitions before swing is applied. Taper scalar applied below 50% of each party\'s 2021 share. BP (MUDA-PSM) and BERSAMA are assumed to contest all 28 seats with no 2021 baseline. PN contests all seats — no PN non-contest redistribution applied. Every seat\'s projected shares are proportionally rescaled to sum to exactly 100%. Majority: 15 of 28 seats.'
-    + (MODE==='unity' ? ' Unity-collapse mode: BN+PN merged, BERSATU carved back out as IPR (66% in N11, 27% elsewhere), standing in all 28 seats.' : '');
+    'Methodology: Universal national swing (UNS) from 2021 Malacca state election results. All three main coalitions (BN, PH, PN) contested independently in 2021, so seat-level vote counts are used directly as baselines. 2021 statewide shares: BN 38.4%, PH 35.8%, PN 24.3% (real raw results, before the model redistributes the 1.5% minor/independent vote). Independents and minor party votes redistributed proportionally among the three main coalitions before swing is applied. Taper scalar applied below 50% of each party\'s 2021 share. BP (MUDA-PSM) and BERSAMA are assumed to contest all 28 seats with no 2021 baseline. PN contests all seats — no PN non-contest redistribution applied. Every seat\'s projected shares are proportionally rescaled to sum to exactly 100%. Majority: 15 of 28 seats.'
+    + (MODE==='unity' ? ' Unity-collapse mode: BN+PN merged, BERSATU carved back out as BERSATU+ (60% in N11, 20% elsewhere), standing in all 28 seats.' : '');
 }
 
 function updateCoalition(){
