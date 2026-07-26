@@ -198,13 +198,13 @@ details summary:hover{color:#1a1a18;}
   <button class="run-btn" id="modeUnityBtn" onclick="setMode('unity')">BN + PN merged, BERSATU detached</button>
 </div>
 <div class="majority-line" id="modeNote" style="display:none;">
-  <strong>Unity-collapse scenario:</strong> BN and PN vote totals are merged into one bloc in every seat, then BERSATU is carved back out as IPR (BERSATU+) — 66% of the merged total in the 32 seats it actually won in GE15, 27% in the remaining seats PN contested. IPR stands wherever PN did nationally (its full GE15 footprint). Both carve fractions are the tuned values from the Negeri Sembilan model and are easy to retune if you have a better estimate. Baselines shown on each input are derived from this split, not the real GE15 result — there is no historical "BN+PN merged" or standalone national BERSATU result to check them against.
+  <strong>Unity-collapse scenario:</strong> BN and PN vote totals are merged into one bloc in every seat, then BERSATU is carved back out as BERSATU+ — 66% of the merged total in the 32 seats it actually won in GE15, 27% in the remaining seats PN contested. BERSATU+ stands wherever PN did nationally (its full GE15 footprint). Both carve fractions are the tuned values from the Negeri Sembilan model and are easy to retune if you have a better estimate. Baselines shown on each input are derived from this split, not the real GE15 result — there is no historical "BN+PN merged" or standalone national BERSATU result to check them against.
 </div>
 <div class="section">
   <div class="inputs-grid" id="inputsGrid"></div>
   <div class="total-warn" id="totalWarn"></div>
   <div class="results-grid" id="resultsGrid"></div>
-  <div class="parl-bar" id="parlBar"></div>
+  <div id="hemicycle" style="max-width:560px;margin:0.5rem auto 0;"></div>
   <div class="bar-legend" id="barLegend"></div>
   <div class="majority-line" id="majorityLine"></div>
 </div>
@@ -231,7 +231,10 @@ details summary:hover{color:#1a1a18;}
     <span class="coalition-label" id="coalLabel">seats — select parties above</span>
     <span class="coalition-status status-none" id="coalStatus">–</span>
   </div>
-  <div class="parl-grid" id="parlGrid"></div>
+  <div id="coalBarWrap" style="margin-top:0.75rem;">
+    <div id="coalBar" style="position:relative;display:flex;height:26px;border-radius:6px;overflow:hidden;background:#eeece5;"></div>
+    <div id="coalBarMarker" style="position:relative;height:14px;"></div>
+  </div>
   <div class="grid-legend" id="gridLegend"></div>
 </div>
 <hr class="divider">
@@ -337,7 +340,7 @@ const PARTIES_STD=[
 const GS_STD={PH:80,BN:30,PN:74,GPS:23,GRS:8,BP:1,WARISAN:3,BERSAMA:0,OTHERS:3};
 const GN_STD={PH:37.95,BN:22.24,PN:30.04,GPS:4.26,GRS:1.25,BP:0.50,WARISAN:1.93,BERSAMA:0,OTHERS:OG};
 // MODE toggles between the standard GE15 coalition set and the "unity collapse"
-// scenario (BN+PN merged, BERSATU detached as IPR). PARTIES/GN/GS always point
+// scenario (BN+PN merged, BERSATU detached as BERSATU+). PARTIES/GN/GS always point
 // at whichever set is active; everything downstream reads through them.
 let MODE='standard';
 let PARTIES=PARTIES_STD, GN=GN_STD, GS=GS_STD;
@@ -747,9 +750,9 @@ function ge15w(s){return GE15W[s[0]]||'OTHERS';}
   if(phParty)phParty.ge15=derived;
 })();
 
-// ── Unity-collapse mode: BN+PN merged, BERSATU detached as IPR ─────────────
+// ── Unity-collapse mode: BN+PN merged, BERSATU detached as BERSATU+ ─────────────
 // Held seats = seats PN actually won in GE15 where the winning candidate was
-// BERSATU (32 of them). IPR contests the full PN footprint nationally (every
+// BERSATU (32 of them). BERSATU+ contests the full PN footprint nationally (every
 // seat where PN fielded any candidate), per the chosen scope.
 const IPR_HELD_NAT=new Set(Object.keys(GE15W).filter(id=>GE15W[id]==='PN'&&SEAT_COMPONENT[id]&&SEAT_COMPONENT[id].p==='BERSATU'));
 const CARVE_HELD_NAT=0.60, CARVE_DEFAULT_NAT=0.20;
@@ -1037,8 +1040,7 @@ function project(){
     c.innerHTML=`<div class="pname"><span class="pdot" style="background:${p.color}"></span>${p.id}</div><div class="seats">${nw}</div><div class="chg ${d>0?'pos':d<0?'neg':'neu'}">${d>0?'+':''}${d}</div>`;
     rg.appendChild(c);
   });
-  const bar=document.getElementById('parlBar');bar.innerHTML='';
-  ad.forEach(p=>{if(!(ps[p.id]||0))return;const seg=document.createElement('div');seg.style.cssText=`width:${((ps[p.id]||0)/222*100).toFixed(2)}%;background:${p.color};height:100%;`;seg.title=`${p.id}:${ps[p.id]||0}`;bar.appendChild(seg);});
+  renderHemicycle(ad.filter(p=>(ps[p.id]||0)>0).map(p=>({color:p.color,count:ps[p.id]})));
   const leg=document.getElementById('barLegend');leg.innerHTML='';
   ad.forEach(p=>{if(!(ps[p.id]||0))return;const sp=document.createElement('span');sp.innerHTML=`<span style="width:9px;height:9px;border-radius:2px;background:${p.color};display:inline-block;"></span>${p.id}:${ps[p.id]||0}`;leg.appendChild(sp);});
   document.getElementById('majorityLine').textContent=`Majority: 112. ${Object.values(ps).reduce((a,b)=>a+b,0)} seats projected.`;
@@ -1061,13 +1063,80 @@ function updateCoalition(){
   else if(cT>=112){se.textContent='majority ✓';se.className='coalition-status status-maj';}
   else{se.textContent=`${112-cT} short`;se.className='coalition-status status-short';}
   const ad=[...PARTIES,{id:'OTHERS',color:OC}];
-  const cs=[],os=[];
-  ad.forEach(p=>{const n=curSeats[p.id]||0;const a=inC.has(p.id)?cs:os;for(let i=0;i<n;i++)a.push({color:p.color,inCoal:inC.has(p.id),party:p.id});});
-  const pg=document.getElementById('parlGrid');pg.innerHTML='';
-  [...cs,...os].forEach(g=>{const sq=document.createElement('div');sq.className='sq';sq.style.background=g.color;sq.style.opacity=inC.size===0?'1':(g.inCoal?'1':'0.25');sq.title=g.party;pg.appendChild(sq);});
+  // Assembling bar: selected coalitions stack up from the left at full colour,
+  // everyone else fades out to the right, with a marker at the majority line.
+  const bar=document.getElementById('coalBar');bar.innerHTML='';
+  const seatsOf=p=>curSeats[p.id]||0;
+  const totalSeats=ad.reduce((a,p)=>a+seatsOf(p),0)||1;
+  const ordered=[...ad.filter(p=>inC.has(p.id)),...ad.filter(p=>!inC.has(p.id))];
+  ordered.forEach(p=>{
+    const n=seatsOf(p);
+    if(!n)return;
+    const seg=document.createElement('div');
+    seg.style.cssText=`width:${n/totalSeats*100}%;background:${p.color};opacity:${inC.size===0?1:(inC.has(p.id)?1:0.22)};display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600;`;
+    seg.title=`${p.label||p.id}: ${n}`;
+    if(n/totalSeats>0.05)seg.textContent=n;
+    bar.appendChild(seg);
+  });
+  const mk=document.getElementById('coalBarMarker');
+  const majPct=112/totalSeats*100;
+  mk.innerHTML=`<div style="position:absolute;left:${majPct}%;top:-26px;height:26px;border-left:2px dashed #1a1a18;"></div>`
+    +`<div style="position:absolute;left:${majPct}%;transform:translateX(-50%);font-size:9px;color:#5f5e5a;white-space:nowrap;padding-top:1px;">majority (112)</div>`;
   const gl=document.getElementById('gridLegend');gl.innerHTML='';
   ad.forEach(p=>{if(!(curSeats[p.id]||0))return;const sp=document.createElement('span');sp.innerHTML=`<span class="swatch" style="background:${p.color}"></span>${p.id}`;gl.appendChild(sp);});
 }
+// ── Parliament hemicycle ────────────────────────────────────────────────
+// Lays every seat out as a dot in concentric arcs, ordered left-to-right so
+// blocs sit contiguously the way they would in a real chamber. Row count and
+// dot size scale to the assembly size, so this works unchanged for a 28-seat
+// state assembly or a larger one.
+function renderHemicycle(entries){
+  const wrap=document.getElementById('hemicycle');
+  const total=entries.reduce((a,e)=>a+e.count,0);
+  if(!total){wrap.innerHTML='';return;}
+  const rIn=0.48,rOut=1.0;
+  // Pick the row count from actual packing density rather than a guess: work
+  // out the even spacing that would fit `total` dots across the semi-annulus,
+  // then use however many rows that spacing implies. This keeps the gaps
+  // between rows and the gaps along each arc roughly equal, instead of
+  // leaving wide horizontal gaps on the sparse inner rows.
+  const idealGap=Math.sqrt(Math.PI/2*(rOut*rOut-rIn*rIn)/total);
+  const rows=Math.max(2,Math.min(8,Math.floor((rOut-rIn)/idealGap)+1));
+  const radii=[];
+  for(let i=0;i<rows;i++)radii.push(rows===1?rOut:rIn+(rOut-rIn)*i/(rows-1));
+  const wsum=radii.reduce((a,b)=>a+b,0);
+  const counts=radii.map(r=>Math.floor(total*r/wsum));
+  let assigned=counts.reduce((a,b)=>a+b,0),i=rows-1;
+  while(assigned<total){counts[i]++;assigned++;i=(i-1+rows)%rows;}
+  const pos=[];
+  for(let r=0;r<rows;r++){
+    const n=counts[r],rad=radii[r];
+    for(let j=0;j<n;j++){
+      const t=n===1?0.5:j/(n-1);
+      const ang=Math.PI*(1-t);
+      pos.push({ang,x:rad*Math.cos(ang),y:-rad*Math.sin(ang)});
+    }
+  }
+  pos.sort((a,b)=>b.ang-a.ang);
+  // dot radius: small enough not to collide either between rows or along an arc
+  const rowGap=rows>1?(rOut-rIn)/(rows-1):0.4;
+  let dotR=rowGap*0.45;
+  for(let r=0;r<rows;r++){
+    if(counts[r]>1)dotR=Math.min(dotR,(Math.PI*radii[r]/(counts[r]-1))*0.45);
+  }
+  const flat=[];
+  entries.forEach(e=>{for(let k=0;k<e.count;k++)flat.push(e.color);});
+  // viewBox has to allow for the dot radius at every extreme, or the outermost
+  // dots get clipped once dotR grows.
+  const pad=dotR*1.08, ext=rOut+pad;
+  let svg=`<svg viewBox="${-ext} ${-ext} ${ext*2} ${ext+pad}" style="width:100%;height:auto;">`;
+  pos.forEach((p,idx)=>{
+    svg+=`<circle cx="${p.x.toFixed(4)}" cy="${p.y.toFixed(4)}" r="${dotR.toFixed(4)}" fill="${flat[idx]||'#ccc'}"/>`;
+  });
+  svg+='</svg>';
+  wrap.innerHTML=svg;
+}
+
 // ── State plurality map ──────────────────────────────────────────────────
 // Real Malaysia state boundaries (simplified to ~3,500 points from ~16,300),
 // sourced from nullifye/malaysia.geojson (github.com/nullifye/malaysia.geojson),
