@@ -95,7 +95,8 @@
 <title>Negeri Sembilan DUN Seat Projector</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;padding:1.5rem;max-width:960px;margin:0 auto;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;margin:0;}
+.page-container{max-width:960px;margin:0 auto;padding:1.5rem;}
 h1{font-size:18px;font-weight:500;margin-bottom:1.5rem;}
 .section{margin-bottom:1.5rem;}
 .inputs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px;margin-bottom:1rem;}
@@ -162,6 +163,7 @@ details summary:hover{color:#1a1a18;}
 </style>
 </head>
 <body>
+<div class="page-container">
 <h1>Negeri Sembilan DUN seat projector — 2026 election (2023 baseline)</h1>
 <div class="section">
   <div class="inputs-grid" id="inputsGrid"></div>
@@ -969,6 +971,7 @@ function updateCoalition(){
   });
 }
 </script>
+</div>
 </body>
 </html>
         <!-- ============================================================= -->
