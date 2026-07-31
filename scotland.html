@@ -87,7 +87,7 @@
         <!-- START PASTING HERE -->
         <!-- ============================================================= -->
         
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
@@ -1300,16 +1300,17 @@ function ConstituencyMap({ constResults }) {
       /* @__PURE__ */ React.createElement("g", { transform: `translate(${view.x},${view.y}) scale(${view.zoom})` }, CONST_BOUNDARIES.map((b) => {
         const r = resultByName[b.n];
         const meta = partyMeta(mergeKey(r ? r.winner : "Oth"));
+        const isSelected = selected && selected.name === b.n;
         return /* @__PURE__ */ React.createElement(
           "path",
           {
             key: b.n,
             d: pathFor(b.rings),
             fill: meta.color,
-            fillOpacity: "0.78",
+            fillOpacity: isSelected ? "0.95" : "0.78",
             fillRule: "evenodd",
-            stroke: "#0F1219",
-            strokeWidth: 0.5 / view.zoom,
+            stroke: isSelected ? "#FFFFFF" : "#0F1219",
+            strokeWidth: (isSelected ? 2.2 : 0.5) / view.zoom,
             onClick: (e) => handleSeatClick(e, b.n)
           },
           /* @__PURE__ */ React.createElement("title", null, b.n, " \u2014 ", meta.name)
@@ -1496,16 +1497,17 @@ function RegionMap({ regionResults }) {
       /* @__PURE__ */ React.createElement("g", { transform: `translate(${view.x},${view.y}) scale(${view.zoom})` }, REGION_BOUNDARIES.map((b) => {
         const r = resultByName[b.n];
         const meta = partyMeta(mergeKey(r ? leadingParty(r) : "Oth"));
+        const isSelected = selected && selected.name === b.n;
         return /* @__PURE__ */ React.createElement(
           "path",
           {
             key: b.n,
             d: pathFor(b.rings),
             fill: meta.color,
-            fillOpacity: "0.72",
+            fillOpacity: isSelected ? "0.92" : "0.72",
             fillRule: "evenodd",
-            stroke: "#0F1219",
-            strokeWidth: 0.8 / view.zoom,
+            stroke: isSelected ? "#FFFFFF" : "#0F1219",
+            strokeWidth: (isSelected ? 2.6 : 0.8) / view.zoom,
             onClick: (e) => handleSeatClick(e, b.n)
           },
           /* @__PURE__ */ React.createElement("title", null, b.n, " \u2014 ", meta.name, " leads the list vote")
