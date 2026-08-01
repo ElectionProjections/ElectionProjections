@@ -207,7 +207,7 @@
 
   .constituency-map-wrap{display:grid; grid-template-columns:1fr auto; gap:20px; align-items:start;}
   @media (max-width:700px){ .constituency-map-wrap{grid-template-columns:1fr;} }
-  .map-svg-frame{position:relative;}
+  .map-svg-frame{position:relative; max-width:380px;}
   #constituencyMap{width:100%; height:auto; cursor:grab;}
   #constituencyMap:active{cursor:grabbing;}
   .map-zoom-controls{position:absolute; top:8px; right:8px; display:flex; flex-direction:column; gap:4px;}
@@ -1075,7 +1075,6 @@ update();
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
