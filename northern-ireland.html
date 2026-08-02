@@ -205,9 +205,7 @@
   }
   .council-stat-line{font-size:12.5px; color:#8b8474; margin-top:10px; font-family:'JetBrains Mono',monospace;}
 
-  .constituency-map-wrap{display:grid; grid-template-columns:1fr auto; gap:20px; align-items:start;}
-  @media (max-width:700px){ .constituency-map-wrap{grid-template-columns:1fr;} }
-  .map-svg-frame{position:relative; max-width:380px;}
+  .map-svg-frame{position:relative; width:100%; max-width:480px; margin:0 auto;}
   #constituencyMap{width:100%; height:auto; cursor:grab;}
   #constituencyMap:active{cursor:grabbing;}
   .map-zoom-controls{position:absolute; top:8px; right:8px; display:flex; flex-direction:column; gap:4px;}
@@ -218,10 +216,6 @@
   .map-zoom-controls button:hover{background:var(--paper-deep);}
   .constituency-path{stroke:#fff; stroke-width:1; cursor:pointer; transition:opacity .15s ease;}
   .constituency-path:hover{opacity:0.8;}
-  .map-legend{font-size:12.5px; min-width:150px;}
-  .map-legend h4{font-family:'Fraunces',serif; font-size:14px; font-weight:600; margin:0 0 12px;}
-  .map-legend-item{display:flex; align-items:center; gap:8px; margin-bottom:7px; white-space:nowrap;}
-  .map-swatch{width:11px; height:11px; border-radius:3px; flex-shrink:0; display:inline-block;}
 
   .ctr-tooltip{
     position:fixed; pointer-events:none;
@@ -341,16 +335,13 @@
       <div class="sub">Real boundaries, all 18 constituencies &mdash; coloured by the party with the most projected first-preference votes</div>
     </div>
     <div class="body">
-      <div class="constituency-map-wrap">
-        <div class="map-svg-frame">
-          <svg id="constituencyMap" viewBox="0 0 520 650" xmlns="http://www.w3.org/2000/svg"></svg>
-          <div class="map-zoom-controls">
-            <button id="mapZoomIn" title="Zoom in">+</button>
-            <button id="mapZoomOut" title="Zoom out">&minus;</button>
-            <button id="mapZoomReset" title="Reset view">&#8634;</button>
-          </div>
+      <div class="map-svg-frame">
+        <svg id="constituencyMap" viewBox="0 0 520 650" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="map-zoom-controls">
+          <button id="mapZoomIn" title="Zoom in">+</button>
+          <button id="mapZoomOut" title="Zoom out">&minus;</button>
+          <button id="mapZoomReset" title="Reset view">&#8634;</button>
         </div>
-        <div class="map-legend" id="constituencyMapLegend"></div>
       </div>
       <div id="constituencyTooltip" class="ctr-tooltip"></div>
       <p class="table-footnote">Colour shows the party with the most projected first-preference votes in each constituency, which is not always the party that wins the most seats there under STV. Click a constituency for its full first-preference breakdown and a stage-by-stage table showing how the STV count plays out there under the projected sliders above &mdash; not a separate calculation from the national projection.</p>
@@ -989,7 +980,6 @@ function initConstituencyMap(){
 
 function updateConstituencyMap(){
   if(!lastProjection || !constituencyFeatures) return;
-  const seenParties = new Set();
 
   d3.selectAll('.constituency-path').attr('fill', function(d){
     const name = pcName(d);
@@ -998,18 +988,8 @@ function updateConstituencyMap(){
     const top = Object.entries(data.voteShare)
       .sort((a,b) => b[1]-a[1])[0];
     const winner = top ? top[0] : null;
-    if(winner) seenParties.add(winner);
     return winner ? (partyColor(winner) || '#ccc') : '#ccc';
   });
-
-  const legendEl = document.getElementById('constituencyMapLegend');
-  if(legendEl){
-    const orderedParties = MAJOR_PARTIES.filter(p => seenParties.has(p));
-    const minorSeen = Array.from(seenParties).filter(p => !MAJOR_PARTIES.includes(p));
-    legendEl.innerHTML = '<h4>Plurality winner by constituency</h4>' + orderedParties.concat(minorSeen).map(p =>
-      `<div class="map-legend-item"><span class="map-swatch" style="background:${partyColor(p)}"></span>${PARTY_NAMES[p]||p}</div>`
-    ).join('');
-  }
 }
 
 function hideConstituencyTooltip(){
