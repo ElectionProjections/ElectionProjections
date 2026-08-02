@@ -92,6 +92,7 @@
         <!-- ============================================================= -->
         <!-- START PASTING HERE -->
         <!-- ============================================================= -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,8 +101,7 @@
 <title>Malaysia Seat Projector</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;margin:0;}
-.page-container{max-width:960px;margin:0 auto;padding:1.5rem;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;padding:1.5rem;max-width:960px;margin:0 auto;}
 h1{font-size:18px;font-weight:500;margin-bottom:1.5rem;}
 .section{margin-bottom:1.5rem;}
 .inputs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px;margin-bottom:1rem;}
@@ -193,7 +193,6 @@ details summary:hover{color:#1a1a18;}
 </style>
 </head>
 <body>
-<div class="page-container">
 <h1>Malaysia parliament seat projector — GE15 baseline</h1>
 <div class="section" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
   <button class="run-btn" id="modeStdBtn" onclick="setMode('standard')" style="background:#1a1a18;color:#fff;border-color:#1a1a18;">Standard (GE15 coalitions)</button>
@@ -922,7 +921,7 @@ function buildInputsAndChecks(){
   coalChecks={};
   PARTIES.forEach(p=>{
     const l=document.createElement('label');
-    l.innerHTML=`<input type="checkbox"><span class="pdot" style="background:${p.color}"></span>${p.id}`;
+    l.innerHTML=`<input type="checkbox"><span class="pdot" style="background:${p.color}"></span>${p.label}`;
     cc.appendChild(l);
     coalChecks[p.id]=l.querySelector('input');
     coalChecks[p.id].addEventListener('change',updateCoalition);
@@ -1039,12 +1038,12 @@ function project(){
     const old=GS[p.id]||0,nw=ps[p.id]||0,d=nw-old;
     if(nw===0&&old===0)return;
     const c=document.createElement('div');c.className='result-card';
-    c.innerHTML=`<div class="pname"><span class="pdot" style="background:${p.color}"></span>${p.id}</div><div class="seats">${nw}</div><div class="chg ${d>0?'pos':d<0?'neg':'neu'}">${d>0?'+':''}${d}</div>`;
+    c.innerHTML=`<div class="pname"><span class="pdot" style="background:${p.color}"></span>${p.label}</div><div class="seats">${nw}</div><div class="chg ${d>0?'pos':d<0?'neg':'neu'}">${d>0?'+':''}${d}</div>`;
     rg.appendChild(c);
   });
   renderHemicycle(ad.filter(p=>(ps[p.id]||0)>0).map(p=>({color:p.color,count:ps[p.id]})));
   const leg=document.getElementById('barLegend');leg.innerHTML='';
-  ad.forEach(p=>{if(!(ps[p.id]||0))return;const sp=document.createElement('span');sp.innerHTML=`<span style="width:9px;height:9px;border-radius:2px;background:${p.color};display:inline-block;"></span>${p.id}:${ps[p.id]||0}`;leg.appendChild(sp);});
+  ad.forEach(p=>{if(!(ps[p.id]||0))return;const sp=document.createElement('span');sp.innerHTML=`<span style="width:9px;height:9px;border-radius:2px;background:${p.color};display:inline-block;"></span>${p.label}:${ps[p.id]||0}`;leg.appendChild(sp);});
   document.getElementById('majorityLine').textContent=`Majority: 112. ${Object.values(ps).reduce((a,b)=>a+b,0)} seats projected.`;
   curActiveCols=PARTIES.filter(p=>det.some(d=>d.base[p.id]>0||d.proj[p.id]>0.5));
   renderTable();
@@ -1085,7 +1084,7 @@ function updateCoalition(){
   mk.innerHTML=`<div style="position:absolute;left:${majPct}%;top:-26px;height:26px;border-left:2px dashed #1a1a18;"></div>`
     +`<div style="position:absolute;left:${majPct}%;transform:translateX(-50%);font-size:9px;color:#5f5e5a;white-space:nowrap;padding-top:1px;">majority (112)</div>`;
   const gl=document.getElementById('gridLegend');gl.innerHTML='';
-  ad.forEach(p=>{if(!(curSeats[p.id]||0))return;const sp=document.createElement('span');sp.innerHTML=`<span class="swatch" style="background:${p.color}"></span>${p.id}`;gl.appendChild(sp);});
+  ad.forEach(p=>{if(!(curSeats[p.id]||0))return;const sp=document.createElement('span');sp.innerHTML=`<span class="swatch" style="background:${p.color}"></span>${p.label||p.id}`;gl.appendChild(sp);});
 }
 // ── Parliament hemicycle ────────────────────────────────────────────────
 // Lays every seat out as a dot in concentric arcs, ordered left-to-right so
@@ -1825,8 +1824,7 @@ function runMonteCarlo(){
       tr.innerHTML=`
         <td><span style="display:inline-flex;align-items:center;gap:5px;">
           <span style="width:9px;height:9px;border-radius:50%;background:${p.color};display:inline-block;flex-shrink:0;"></span>
-          <span style="font-weight:500;">${p.id}</span>
-          <span style="font-size:11px;color:#888780;">${p.label||''}</span>
+          <span style="font-weight:500;">${p.label||p.id}</span>
         </span></td>
         <td class="r" style="font-weight:500;">${mean.toFixed(1)}</td>
         <td class="r" style="color:#888780;">${mn}</td>
@@ -1848,7 +1846,6 @@ function runMonteCarlo(){
   },20);
 }
 </script>
-</div>
 </body>
 </html>
         
