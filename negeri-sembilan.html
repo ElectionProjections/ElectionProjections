@@ -243,7 +243,7 @@ const PARTIES=[
   {id:'BP',     label:'Progressive Bloc',       color:'#e67e22'},
   // Derived: no input of its own, no swing. Takes whatever vote the contesting
   // blocs leave on the table in the seats it stands in (N10, N30, N33).
-  {id:'OTHERS', label:'Others',                 color:'#7a4fa3', derived:true},
+  {id:'OTHERS', label:'Others (BERJASA/IND)',    color:'#7a4fa3', derived:true},
 ];
 // Blocs that take a statewide input and go through the swing pipeline.
 const INPUT_PARTIES=PARTIES.filter(p=>!p.derived);
@@ -259,7 +259,7 @@ const IPR_CONTEST= new Set(['N02','N03','N04','N05','N06','N07','N09','N10','N12
                                 'N14','N15','N16','N17','N20','N22','N23','N24','N25','N28',
                                 'N31','N32','N33','N34']);
 const BP_CONTEST     = new Set(['N07','N22']);
-// BERJASA/independents stand in N10 Nilai, N30 Lukut, and N33 Sri Tanjung, as a pure residual.
+// BERJASA/independents stand in N10 Nilai, N30 Lukut, and N33 Sri Tanjung, at their real 2026 baseline vote share.
 const OTHERS_CONTEST = new Set(['N10','N30','N33']);
 
 // --- Taper ---
@@ -270,6 +270,17 @@ const TAPER_THRESHOLD = 0.25;
 /* ============================================================
    2026 CANDIDATES  {bloc: {p: party, c: candidate}}
    ============================================================ */
+// Real minor-candidate breakdown for the three OTHERS seats -- shares are
+// proportional to actual 2026 votes. N10 and N33 each have two genuinely
+// different candidates contributing to the residual; SEAT_CANDIDATES.OTHERS
+// only holds the single dominant one (needed for map colour/winner display),
+// so this is what lets the tooltip and breakdowns show both.
+const OTHERS_BREAKDOWN={
+  'N10':[{p:'BERJASA',c:'Zamani Ibrahim',share:5844/6011},{p:'IND',c:'Omar Mohd Isa',share:167/6011}],
+  'N30':[{p:'IND',c:'Teo Seng Lee',share:1}],
+  'N33':[{p:'IND',c:'A. Saravanan',share:73/602},{p:'IND',c:'Islah Wahyudi Zainudin',share:529/602}],
+};
+
 const SEAT_CANDIDATES={
   'N01':{PH:{p:'DAP',c:'Anthony Loke Siew Fook'}, BNPN:{p:'MCA',c:'Siow Kong Choon'}},
   'N02':{PH:{p:'PKR',c:'Mohd Umry Abdul Khois'}, BNPN:{p:'UMNO',c:'Jalaluddin Alias'}, IPR:{p:'BERSATU',c:'Mohd Faizal Fadli Mohd Idrus'}},
@@ -280,7 +291,7 @@ const SEAT_CANDIDATES={
   'N07':{PH:{p:'PKR',c:'Manivannan Gowindasamy'}, BNPN:{p:'UMNO',c:'Mohd Zaidy Abdul Kadir'}, IPR:{p:'BERSATU',c:'Sri Sanjeevan Ramakrishnan'}, BP:{p:'ASLI',c:'Dayana Dal'}},
   'N08':{PH:{p:'DAP',c:'Teo Kok Seong'}, BNPN:{p:'MCA',c:'Chong Fui Ming'}},
   'N09':{PH:{p:'AMANAH',c:'Zarinna Abu Zarin'}, BNPN:{p:'UMNO',c:'Mohd Asna Amin'}, IPR:{p:'BERSATU',c:'Zool Amali Hussein'}},
-  'N10':{PH:{p:'DAP',c:'Arul Kumar Jambunathan'}, BNPN:{p:'MCA',c:'Lai Chien Kong'}, IPR:{p:'BERSATU',c:'V Saravan Kumar Veerasamy'}, OTHERS:{p:'BERJASA/IND',c:'Zamani Ibrahim & Omar Mohd Isa'}},
+  'N10':{PH:{p:'DAP',c:'Arul Kumar Jambunathan'}, BNPN:{p:'MCA',c:'Lai Chien Kong'}, IPR:{p:'BERSATU',c:'V Saravan Kumar Veerasamy'}, OTHERS:{p:'BERJASA',c:'Zamani Ibrahim'}},
   'N11':{PH:{p:'DAP',c:'Chew Seh Yong'}, BNPN:{p:'PAS',c:'Kumar S Paramasivam'}},
   'N12':{PH:{p:'DAP',c:'Ho Weng Wah'}, BNPN:{p:'MCA',c:'Leaw Kok Chan'}, IPR:{p:'BERSATU',c:'Fazly Hamid'}},
   'N13':{PH:{p:'PKR',c:'Nor Azman Mohamad'}, BNPN:{p:'WAWASAN',c:'Razali Abu Samah'}, IPR:{p:'BERSATU',c:'Tun Faisal Ismail Aziz'}},
@@ -509,24 +520,44 @@ const COMP_COLORS={
   UMNO:'#1a5ea8',MCA:'#3498db',MIC:'#5dade2',WAWASAN:'#5499c7',GERAKAN:'#7fb3d3',MIPP:'#85c1e9',PAS:'#2874a6',
   BERSATU:'#27ae60',URIMAI:'#17a589',
   ASLI:'#e67e22',PSM:'#ca6f1e',
-  IND:'#888780','BERJASA/IND':'#8e44ad',
+  IND:'#888780',BERJASA:'#8e44ad',
 };
 
 function showSeatTooltip(id, evt){
   const d=curDetails.find(x=>x.id===id);
   const tip=document.getElementById('mapTooltip');
   if(!d){tip.style.display='none';return;}
-  const ranked=PARTIES.map(p=>[p, d.proj[p.id]||0]).filter(([,v])=>v>0.05).sort((a,b)=>b[1]-a[1]);
-  let html=`<div class="mt-title">${d.name} <span class="mt-seats">${id}</span></div>`;
-  ranked.forEach(([p,v])=>{
-    const cand=((SEAT_CANDIDATES[id]||{})[p.id]||{}).c;
-    const candTag=cand?` <span class="mt-seats">(${cand})</span>`:'';
-    if(mapColorMode==='party'){
-      const partyCode=((SEAT_CANDIDATES[id]||{})[p.id]||{}).p||p.id;
-      html+=`<div class="mt-row"><span><span class="mt-dot" style="background:${COMP_COLORS[partyCode]||'#ccc'};"></span>${partyCode}${candTag}</span><span style="font-weight:600;color:#1a1a18;">${v.toFixed(1)}%</span></div>`;
-    } else {
-      html+=`<div class="mt-row"><span><span class="mt-dot" style="background:${p.color};"></span>${p.label}${candTag}</span><span style="font-weight:600;color:#1a1a18;">${v.toFixed(1)}%</span></div>`;
+
+  // Build every individual row first (expanding OTHERS into its real
+  // breakdown where one exists), THEN sort by value -- sorting the outer
+  // PARTIES list and expanding afterward left sub-rows stuck at their
+  // parent bloc's position instead of their own.
+  const rows=[];
+  PARTIES.forEach(p=>{
+    const v=d.proj[p.id]||0;
+    if(v<=0.05)return;
+    if(p.id==='OTHERS'&&OTHERS_BREAKDOWN[id]){
+      OTHERS_BREAKDOWN[id].forEach(({p:party,c:cand,share})=>{
+        const rowV=v*share;
+        if(rowV<=0.05)return;
+        rows.push({color:COMP_COLORS[party]||'#ccc',label:party,cand,value:rowV});
+      });
+      return;
     }
+    const cand=((SEAT_CANDIDATES[id]||{})[p.id]||{}).c;
+    const partyCode=((SEAT_CANDIDATES[id]||{})[p.id]||{}).p||p.id;
+    if(mapColorMode==='party'||p.id==='OTHERS'){
+      rows.push({color:COMP_COLORS[partyCode]||'#ccc',label:partyCode,cand,value:v});
+    } else {
+      rows.push({color:p.color,label:p.label,cand,value:v});
+    }
+  });
+  rows.sort((a,b)=>b.value-a.value);
+
+  let html=`<div class="mt-title">${d.name} <span class="mt-seats">${id}</span></div>`;
+  rows.forEach(r=>{
+    const candTag=r.cand?` <span class="mt-seats">(${r.cand})</span>`:'';
+    html+=`<div class="mt-row"><span><span class="mt-dot" style="background:${r.color};"></span>${r.label}${candTag}</span><span style="font-weight:600;color:#1a1a18;">${r.value.toFixed(1)}%</span></div>`;
   });
   tip.innerHTML=html;
   tip.style.display='block';
@@ -558,8 +589,13 @@ function renderConstMap(){
         }).filter(x=>x.pct>0.05).sort((a,b)=>b.pct-a.pct);
         title=`${det.name} (${id})\n`+byParty.map(x=>`${x.party}: ${x.pct.toFixed(1)}%`).join('\n');
       } else {
-        color=alliance?alliance.color:'#ccc';
-        title=`${det.name} (${id}): ${alliance.label} (${det.proj[det.coalW].toFixed(1)}%) — click for full breakdown`;
+        if(det.coalW==='OTHERS'){
+          color=COMP_COLORS[winParty]||'#ccc';
+          title=`${det.name} (${id}): ${winParty} (${det.proj.OTHERS.toFixed(1)}%) — click for full breakdown`;
+        } else {
+          color=alliance?alliance.color:'#ccc';
+          title=`${det.name} (${id}): ${alliance.label} (${det.proj[det.coalW].toFixed(1)}%) — click for full breakdown`;
+        }
       }
     }
     svg+=`<path data-seat="${id}" d="${d}" fill="${color}" stroke="#fff" stroke-width="0.8" fill-opacity="0.85" style="cursor:pointer;"><title>${title}</title></path>`;
@@ -591,11 +627,19 @@ function renderConstMap(){
       `<span><span class="swatch" style="background:${COMP_COLORS[party]||'#ccc'};"></span>${party}</span>`
     ).join('');
   } else {
-    const usedAlliances=[...new Set(curDetails.map(d=>d.coalW))];
-    legend.innerHTML=usedAlliances.map(pid=>{
+    const usedAlliances=[...new Set(curDetails.map(d=>d.coalW))].filter(c=>c!=='OTHERS');
+    const usedOthersParties=[...new Set(curDetails.filter(d=>d.coalW==='OTHERS').map(d=>{
+      const cand=(SEAT_CANDIDATES[d.id]||{}).OTHERS||{};
+      return cand.p||'OTHERS';
+    }))];
+    let html=usedAlliances.map(pid=>{
       const p=PARTIES.find(x=>x.id===pid);
       return `<span><span class="swatch" style="background:${p.color};"></span>${p.label}</span>`;
     }).join('');
+    html+=usedOthersParties.map(party=>
+      `<span><span class="swatch" style="background:${COMP_COLORS[party]||'#ccc'};"></span>${party}</span>`
+    ).join('');
+    legend.innerHTML=html;
   }
 }
 
@@ -679,7 +723,13 @@ function renderVoteShareBreakdown(){
       if(!ent)return;
       const v=d.proj[cid]/100*(SEAT_VOTES[d.id].total||0);
       if(v<=0)return;
-      compVotes[ent.p]=(compVotes[ent.p]||0)+v;
+      if(cid==='OTHERS'&&OTHERS_BREAKDOWN[d.id]){
+        OTHERS_BREAKDOWN[d.id].forEach(({p:party,share})=>{
+          compVotes[party]=(compVotes[party]||0)+v*share;
+        });
+      } else {
+        compVotes[ent.p]=(compVotes[ent.p]||0)+v;
+      }
       coalVotes+=v;
     });
     if(coalVotes<=0)return;
@@ -692,11 +742,12 @@ function renderVoteShareBreakdown(){
     let rows='';
     Object.entries(compVotes).sort((a,b)=>b[1]-a[1]).forEach(([comp,v])=>{
       const seatsContested=curDetails.filter(d=>{
+        if(cid==='OTHERS'&&OTHERS_BREAKDOWN[d.id])return OTHERS_BREAKDOWN[d.id].some(x=>x.p===comp);
         const e=(SEAT_CANDIDATES[d.id]||{})[cid];return e&&e.p===comp;}).length;
       rows+=`<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:2px 0;"><span style="color:#5f5e5a;">${comp} <span style="color:#b4b2a9;font-size:10px;">${seatsContested}</span></span><span style="font-weight:500;">${(v/grand*100).toFixed(1)}%</span></div>`;
     });
     const driftNote=party.derived
-      ? `<div style="font-size:10px;color:#888780;padding-top:5px;margin-top:4px;border-top:0.5px solid #f1efe8;">Residual — no input. Takes whatever the contesting blocs leave in N10, N30, and N33.</div>`
+      ? `<div style="font-size:10px;color:#888780;padding-top:5px;margin-top:4px;border-top:0.5px solid #f1efe8;">Real 2026 baseline, no input — held fixed while everything else swings. Shares fairly in any vote a non-contesting party leaves on the table; separately picks up whatever a contesting party loses to its own local collapse.</div>`
       : Math.abs(drift)>=0.1
       ? `<div style="font-size:10px;color:#888780;padding-top:5px;margin-top:4px;border-top:0.5px solid #f1efe8;">Input ${ns[cid].toFixed(1)}% — projections imply ${coalPct.toFixed(1)}% (${drift>0?'+':''}${drift.toFixed(1)})</div>`
       : '';
@@ -825,23 +876,39 @@ function project(){
     const contests={PH:true,BNPN:BNPN_CONTEST.has(id),IPR:IPR_CONTEST.has(id),
                     BP:BP_CONTEST.has(id),OTHERS:OTHERS_CONTEST.has(id)};
 
-    // Apply swing, then taper, then reallocate the tapered-away vote proportionally.
-    const raw={};INPUT_PARTIES.forEach(p=>{raw[p.id]=contests[p.id]?Math.max(0,base[p.id]+sw[p.id]):0;});
+    // Two different kinds of "unclaimed" vote, treated differently:
+    //  - A party that doesn't contest this seat at all never had a real
+    //    local base to begin with, so its full swung value is a phantom --
+    //    shared fairly across every real remaining competitor, OTHERS
+    //    included, same as a non-contesting party is already handled in
+    //    every other seat via the final rescale-to-100 step.
+    //  - A party that DOES contest but whose local base is weak enough that
+    //    the swing pushes it below zero is a real (if locally severe) local
+    //    collapse -- that clamped-away vote flows specifically to OTHERS,
+    //    same as before this seat-level split was introduced.
+    const wouldBe={};INPUT_PARTIES.forEach(p=>{wouldBe[p.id]=base[p.id]+sw[p.id];});
+    let nonContestPool=0;
+    INPUT_PARTIES.forEach(p=>{if(!contests[p.id])nonContestPool+=Math.max(0,wouldBe[p.id]);});
+    let clampBonus=0;
+    INPUT_PARTIES.forEach(p=>{if(contests[p.id]&&wouldBe[p.id]<0)clampBonus+=-wouldBe[p.id];});
+
+    const raw={};INPUT_PARTIES.forEach(p=>{raw[p.id]=contests[p.id]?Math.max(0,wouldBe[p.id]):0;});
     const tap={};INPUT_PARTIES.forEach(p=>{tap[p.id]=raw[p.id]*sc[p.id];});
-    const tOut=INPUT_PARTIES.reduce((a,p)=>a+(raw[p.id]-tap[p.id]),0);
-    const tTot=INPUT_PARTIES.reduce((a,p)=>a+tap[p.id],0);
+    const tOut=INPUT_PARTIES.reduce((a,p)=>a+(raw[p.id]-tap[p.id]),0); // taper-induced only
+    raw.OTHERS=contests.OTHERS?(base.OTHERS+clampBonus):0;
+    tap.OTHERS=raw.OTHERS;
+    const tTot=INPUT_PARTIES.reduce((a,p)=>a+tap[p.id],0)+tap.OTHERS;
     const proj={};
-    if(tTot>0&&tOut>0){
-      INPUT_PARTIES.forEach(p=>{proj[p.id]=tap[p.id]+tOut*(tap[p.id]/tTot);});
+    const reallocPool=tOut+nonContestPool;
+    if(tTot>0&&reallocPool>0){
+      INPUT_PARTIES.forEach(p=>{proj[p.id]=tap[p.id]+reallocPool*(tap[p.id]/tTot);});
+      proj.OTHERS=tap.OTHERS+reallocPool*(tap.OTHERS/tTot);
     } else {
       INPUT_PARTIES.forEach(p=>{proj[p.id]=tap[p.id];});
+      proj.OTHERS=tap.OTHERS;
     }
     INPUT_PARTIES.forEach(p=>{if(!contests[p.id])proj[p.id]=0;});
-
-    // Pure residual: OTHERS takes whatever the contesting blocs leave on the
-    // table, so its seats always sum to 100. Everywhere else it is absent.
-    const claimed=INPUT_PARTIES.reduce((a,p)=>a+proj[p.id],0);
-    proj.OTHERS=contests.OTHERS?Math.max(0,100-claimed):0;
+    if(!contests.OTHERS)proj.OTHERS=0;
 
     // Proportionally rescale so every seat sums to exactly 100 -- handles
     // both directions (inputs summing to more than 100 pushing seats over,
@@ -872,20 +939,39 @@ function project(){
   const tally={};PARTIES.forEach(p=>{tally[p.id]=0;});
   det.forEach(d=>{tally[d.coalW]++;});
 
-  const rg=document.getElementById('resultsGrid');rg.innerHTML='';
+  // Display entries: same as PARTIES, but OTHERS is split into whichever
+  // specific real parties actually won its seats (e.g. BERJASA, IND), each
+  // with its own colour, rather than one generic "Others" bucket. Baseline
+  // for a split entry is always 0, since OTHERS never wins at zero swing.
+  const otherCounts={};
+  det.filter(d=>d.coalW==='OTHERS').forEach(d=>{
+    const party=((SEAT_CANDIDATES[d.id]||{}).OTHERS||{}).p||'OTHERS';
+    otherCounts[party]=(otherCounts[party]||0)+1;
+  });
+  const displayEntries=[];
   PARTIES.forEach(p=>{
-    const n=tally[p.id]||0;
-    const delta=n-(GS[p.id]||0);
+    if(p.id!=='OTHERS'){
+      displayEntries.push({id:p.id,label:p.label,color:p.color,count:tally[p.id]||0,base:GS[p.id]||0});
+      return;
+    }
+    Object.entries(otherCounts).forEach(([party,n])=>{
+      displayEntries.push({id:party,label:party,color:COMP_COLORS[party]||'#ccc',count:n,base:0});
+    });
+  });
+
+  const rg=document.getElementById('resultsGrid');rg.innerHTML='';
+  displayEntries.forEach(e=>{
+    const delta=e.count-e.base;
     const chgStr=delta>0?`+${delta}`:delta<0?`${delta}`:'—';
     const chgCls=delta>0?'pos':delta<0?'neg':'neu';
     const card=document.createElement('div');card.className='result-card';
-    card.innerHTML=`<div class="pname"><span class="pdot" style="background:${p.color}"></span>${p.label}</div><div class="seats">${n}</div><div class="chg ${chgCls}">${chgStr} vs 2026</div>`;
+    card.innerHTML=`<div class="pname"><span class="pdot" style="background:${e.color}"></span>${e.label}</div><div class="seats">${e.count}</div><div class="chg ${chgCls}">${chgStr} vs 2026</div>`;
     rg.appendChild(card);
   });
 
-  renderHemicycle(PARTIES.filter(p=>(tally[p.id]||0)>0).map(p=>({color:p.color,count:tally[p.id]})));
+  renderHemicycle(displayEntries.filter(e=>e.count>0).map(e=>({color:e.color,count:e.count})));
   document.getElementById('barLegend').innerHTML=
-    PARTIES.filter(p=>tally[p.id]>0).map(p=>`<span><span style="width:10px;height:10px;border-radius:50%;background:${p.color};display:inline-block;"></span>${p.label}: ${tally[p.id]}</span>`).join('');
+    displayEntries.filter(e=>e.count>0).map(e=>`<span><span style="width:10px;height:10px;border-radius:50%;background:${e.color};display:inline-block;"></span>${e.label}: ${e.count}</span>`).join('');
 
   const maj=19;
   const largest=PARTIES.slice().sort((a,b)=>tally[b.id]-tally[a.id])[0];
@@ -899,10 +985,10 @@ function project(){
   updateCoalition();
 
   document.getElementById('methodNote').textContent=
-    'Methodology: uniform swing from the real 2026 Negeri Sembilan state election result. BN and PN did not contest against each other (informal seat-sharing pact), so the BN+PN column is a real, direct combined vote total -- not an estimate or a split of some other figure. BERSATU contested separately from PN, standing alone in the seats it chose to fight, so its column is likewise real and direct. No carve-out, merge, or disaggregation of any kind was needed to build this baseline -- every number comes straight from the official Election Commission result (published by BERNAMA), cross-checked against an independently supplied results set; both agreed on all 36 winners and on vote counts for 26 of 36 seats, with the few discrepancies resolved in favour of the official EC figures. Statewide baselines: PH '+GN.PH.toFixed(2)+'%, BN+PN '+GN.BNPN.toFixed(2)+'%, BERSATU+ '+GN.IPR.toFixed(2)+'%, Progressive Bloc '+GN.BP.toFixed(2)+'%. BERSATU+ contests 24 of 36 seats; the Progressive Bloc (PSM, ASLI) contests only N07 and N22, matching where it actually stood. Others (BERJASA/IND) has no baseline or input of its own; it is a pure residual in N10 Nilai, N30 Lukut, and N33 Sri Tanjung -- the only three seats with a meaningful independent vote in the real result -- so those three seats always sum to 100. Swing is applied per seat as input minus statewide baseline, with a taper scalar below '+(TAPER_THRESHOLD*100).toFixed(0)+'% of a bloc\'s baseline share and the tapered-away vote reallocated proportionally. Every seat\'s projected shares are then proportionally rescaled to sum to exactly 100%. Majority: 19 of 36 seats.';
+    'Methodology: uniform swing from the real 2026 Negeri Sembilan state election result. BN and PN did not contest against each other (informal seat-sharing pact), so the BN+PN column is a real, direct combined vote total -- not an estimate or a split of some other figure. BERSATU contested separately from PN, standing alone in the seats it chose to fight, so its column is likewise real and direct. No carve-out, merge, or disaggregation of any kind was needed to build this baseline -- every number comes straight from the official Election Commission result (published by BERNAMA), cross-checked against an independently supplied results set; both agreed on all 36 winners and on vote counts for 26 of 36 seats, with the few discrepancies resolved in favour of the official EC figures. Statewide baselines: PH '+GN.PH.toFixed(2)+'%, BN+PN '+GN.BNPN.toFixed(2)+'%, BERSATU+ '+GN.IPR.toFixed(2)+'%, Progressive Bloc '+GN.BP.toFixed(2)+'%. BERSATU+ contests 24 of 36 seats; the Progressive Bloc (PSM, ASLI) contests only N07 and N22, matching where it actually stood. Others (BERJASA/IND) has no input of its own, so it never swings, but it holds its real 2026 baseline vote share in N10 Nilai, N30 Lukut, and N33 Sri Tanjung -- the only three seats with a meaningful independent vote in the real result -- and picks up two different kinds of unclaimed vote there: a fair proportional share of whatever a non-contesting party leaves on the table, plus, separately, whatever a contesting party loses specifically to a local collapse (its swung share going below zero and clamping at 0). Swing is applied per seat as input minus statewide baseline, with a taper scalar below '+(TAPER_THRESHOLD*100).toFixed(0)+'% of a bloc\'s baseline share and the tapered-away vote reallocated proportionally. Every seat\'s projected shares are then proportionally rescaled to sum to exactly 100%. Majority: 19 of 36 seats.';
 
   document.getElementById('assumpNote').innerHTML=
-    '<strong>Assumptions worth checking:</strong> BERSATU+ contests 24 of 36 seats — matching where it actually stood in 2026, no carve or estimate involved. Its statewide baseline ('+GN.IPR.toFixed(2)+'%) is its real 2026 vote share, so unlike a carved figure it already reflects a realistic ceiling; inputting a much higher share will still only ever win it seats it is actually contesting in. The Progressive Bloc (PSM, ASLI) contests only N07 and N22, matching where it actually stood. Others (BERJASA/IND) contests N10, N30, and N33 — the only three seats with a meaningful independent vote in the real result — and has no input or baseline of its own; it is a pure residual there, so at very low overall inputs (e.g. all parties at 0) it can win those seats by default, and any gap between your inputs summing to 100% shows up as OTHERS vote there too. BERSAMA has been removed — it did not contest in 2026.';
+    '<strong>Assumptions worth checking:</strong> BERSATU+ contests 24 of 36 seats — matching where it actually stood in 2026, no carve or estimate involved. Its statewide baseline ('+GN.IPR.toFixed(2)+'%) is its real 2026 vote share, so unlike a carved figure it already reflects a realistic ceiling; inputting a much higher share will still only ever win it seats it is actually contesting in. The Progressive Bloc (PSM, ASLI) contests only N07 and N22, matching where it actually stood. Others (BERJASA/IND) contests N10, N30, and N33 — the only three seats with a meaningful independent vote in the real result — and has no input of its own, so it holds its real 2026 baseline there rather than swinging. Unclaimed vote in those three seats is split two ways: a party that does not contest the seat at all (typically BERSATU+ or the Progressive Bloc there) has its full swung share treated as phantom and shared fairly across every real remaining competitor, Others included; a party that DOES contest but whose local base is weak enough for the swing to push it below zero has that clamped-away vote go specifically to Others, since that reflects a genuine (if locally severe) collapse rather than a vote for a party that was never on the ballot. BERSAMA has been removed — it did not contest in 2026.';
 }
 
 function updateCoalition(){
@@ -918,18 +1004,34 @@ function updateCoalition(){
 
   // Assembling bar: selected coalitions stack up from the left at full colour,
   // everyone else fades out to the right, with a marker at the majority line.
+  // OTHERS is split into whichever specific real parties won its seats, same
+  // as everywhere else -- selection (fade in/out) still follows the parent
+  // "Others" checkbox, since individual independents can't be picked apart
+  // for coalition-building purposes.
   const bar=document.getElementById('coalBar');bar.innerHTML='';
   const gl=document.getElementById('gridLegend');gl.innerHTML='';
   const inCoal=new Set(selected);
   const seatsOf=p=>curDetails.filter(d=>d.coalW===p.id).length;
-  const totalSeats=PARTIES.reduce((a,p)=>a+seatsOf(p),0)||1;
-  const ordered=[...PARTIES.filter(p=>inCoal.has(p.id)),...PARTIES.filter(p=>!inCoal.has(p.id))];
-  ordered.forEach(p=>{
-    const n=seatsOf(p);
+  const otherCounts={};
+  curDetails.filter(d=>d.coalW==='OTHERS').forEach(d=>{
+    const party=((SEAT_CANDIDATES[d.id]||{}).OTHERS||{}).p||'OTHERS';
+    otherCounts[party]=(otherCounts[party]||0)+1;
+  });
+  const barEntries=[];
+  PARTIES.forEach(p=>{
+    if(p.id!=='OTHERS'){barEntries.push({id:p.id,label:p.label,color:p.color,count:seatsOf(p),selKey:p.id});return;}
+    Object.entries(otherCounts).forEach(([party,n])=>{
+      barEntries.push({id:party,label:party,color:COMP_COLORS[party]||'#ccc',count:n,selKey:'OTHERS'});
+    });
+  });
+  const totalSeats=barEntries.reduce((a,e)=>a+e.count,0)||1;
+  const ordered=[...barEntries.filter(e=>inCoal.has(e.selKey)),...barEntries.filter(e=>!inCoal.has(e.selKey))];
+  ordered.forEach(e=>{
+    const n=e.count;
     if(!n)return;
     const seg=document.createElement('div');
-    seg.style.cssText=`width:${n/totalSeats*100}%;background:${p.color};opacity:${inCoal.size===0?1:(inCoal.has(p.id)?1:0.22)};display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600;`;
-    seg.title=`${p.label}: ${n}`;
+    seg.style.cssText=`width:${n/totalSeats*100}%;background:${e.color};opacity:${inCoal.size===0?1:(inCoal.has(e.selKey)?1:0.22)};display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600;`;
+    seg.title=`${e.label}: ${n}`;
     if(n/totalSeats>0.07)seg.textContent=n;
     bar.appendChild(seg);
   });
@@ -937,10 +1039,10 @@ function updateCoalition(){
   const majPct=maj/totalSeats*100;
   mk.innerHTML=`<div style="position:absolute;left:${majPct}%;top:-26px;height:26px;border-left:2px dashed #1a1a18;"></div>`
     +`<div style="position:absolute;left:${majPct}%;transform:translateX(-50%);font-size:9px;color:#5f5e5a;white-space:nowrap;padding-top:1px;">majority (${maj})</div>`;
-  PARTIES.forEach(p=>{
-    if(!curDetails.some(d=>d.coalW===p.id))return;
+  barEntries.forEach(e=>{
+    if(!e.count)return;
     const sp=document.createElement('span');
-    sp.innerHTML=`<span class="swatch" style="background:${p.color};"></span>${p.label}`;
+    sp.innerHTML=`<span class="swatch" style="background:${e.color};"></span>${e.label}`;
     gl.appendChild(sp);
   });
 }
