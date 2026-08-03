@@ -537,27 +537,25 @@ function showSeatTooltip(id, evt){
     const v=d.proj[p.id]||0;
     if(v<=0.05)return;
     if(p.id==='OTHERS'&&OTHERS_BREAKDOWN[id]){
-      OTHERS_BREAKDOWN[id].forEach(({p:party,c:cand,share})=>{
+      OTHERS_BREAKDOWN[id].forEach(({p:party,share})=>{
         const rowV=v*share;
         if(rowV<=0.05)return;
-        rows.push({color:COMP_COLORS[party]||'#ccc',label:party,cand,value:rowV});
+        rows.push({color:COMP_COLORS[party]||'#ccc',label:party,value:rowV});
       });
       return;
     }
-    const cand=((SEAT_CANDIDATES[id]||{})[p.id]||{}).c;
     const partyCode=((SEAT_CANDIDATES[id]||{})[p.id]||{}).p||p.id;
     if(mapColorMode==='party'||p.id==='OTHERS'){
-      rows.push({color:COMP_COLORS[partyCode]||'#ccc',label:partyCode,cand,value:v});
+      rows.push({color:COMP_COLORS[partyCode]||'#ccc',label:partyCode,value:v});
     } else {
-      rows.push({color:p.color,label:p.label,cand,value:v});
+      rows.push({color:p.color,label:p.label,value:v});
     }
   });
   rows.sort((a,b)=>b.value-a.value);
 
   let html=`<div class="mt-title">${d.name} <span class="mt-seats">${id}</span></div>`;
   rows.forEach(r=>{
-    const candTag=r.cand?` <span class="mt-seats">(${r.cand})</span>`:'';
-    html+=`<div class="mt-row"><span><span class="mt-dot" style="background:${r.color};"></span>${r.label}${candTag}</span><span style="font-weight:600;color:#1a1a18;">${r.value.toFixed(1)}%</span></div>`;
+    html+=`<div class="mt-row"><span><span class="mt-dot" style="background:${r.color};"></span>${r.label}</span><span style="font-weight:600;color:#1a1a18;">${r.value.toFixed(1)}%</span></div>`;
   });
   tip.innerHTML=html;
   tip.style.display='block';
@@ -800,7 +798,6 @@ function renderTable(){
     {key:'name',label:'Name'},
     {key:'bloc26',label:'2026'},
     {key:'projW',label:'Proj.'},
-    {key:'cand',label:'Projected winner'},
     {key:'ph',label:'PH%'},
     {key:'bnpn',label:'BN+PN%'},
     {key:'bersatu',label:'BERSATU+%'},
@@ -837,13 +834,11 @@ function renderTable(){
     const b26Color=b26Party?b26Party.color:'#888780';
     const ent=(SEAT_CANDIDATES[d.id]||{})[d.coalW];
     const projComp=ent?ent.p:d.coalW;
-    const projCand=ent&&ent.c?ent.c:'TBA';
     [
       {v:d.id},
       {v:d.name},
       {v:`<span style="color:${b26Color};font-weight:500;">${d.bloc26}</span> <span class="cand-name">(${comp26(d.id)})</span>`},
       {v:`<span style="color:${winColor};font-weight:500;">${d.coalW}</span> <span class="cand-name">(${projComp})</span>${isFlip?'<span class="flip-tag">flip</span>':''}`},
-      {v:`<span class="cand-name">${projCand}</span>`},
       {v:d.proj.PH.toFixed(1)},
       {v:d.proj.BNPN.toFixed(1)},
       {v:IPR_CONTEST.has(d.id)?d.proj.IPR.toFixed(1):'—'},
@@ -928,7 +923,6 @@ function project(){
       id,name,
       bloc26:W26[id],
       coalW,projW:coalW,
-      cand:((SEAT_CANDIDATES[id]||{})[coalW]||{}).c||'TBA',
       proj,base,marg,
       ph:proj.PH,bnpn:proj.BNPN,bersatu:proj.IPR,bp:proj.BP,others:proj.OTHERS,
     });
