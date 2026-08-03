@@ -95,8 +95,7 @@
 <title>Negeri Sembilan DUN Seat Projector</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;margin:0;}
-.page-container{max-width:960px;margin:0 auto;padding:1.5rem;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;padding:1.5rem;max-width:960px;margin:0 auto;}
 h1{font-size:18px;font-weight:500;margin-bottom:1.5rem;}
 .section{margin-bottom:1.5rem;}
 .inputs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px;margin-bottom:1rem;}
@@ -163,8 +162,7 @@ details summary:hover{color:#1a1a18;}
 </style>
 </head>
 <body>
-<div class="page-container">
-<h1>Negeri Sembilan DUN seat projector — 2026 election (2023 baseline)</h1>
+<h1>Negeri Sembilan DUN seat projector — next election (2026 baseline)</h1>
 <div class="section">
   <div class="inputs-grid" id="inputsGrid"></div>
   <div class="total-warn" id="totalWarn"></div>
@@ -264,35 +262,10 @@ const BP_CONTEST     = new Set(['N07','N22']);
 // BERJASA/independents stand in N10 Nilai, N30 Lukut, and N33 Sri Tanjung, as a pure residual.
 const OTHERS_CONTEST = new Set(['N10','N30','N33']);
 
-// --- BERSATU+ carve-out from the merged BN+PN baseline ---
-// 66% in the two seats BERSATU+ holds; 27% everywhere else.
-const IPR_HELD   = new Set(['N20','N34']);
-const CARVE_HELD     = 0.66;
-const CARVE_DEFAULT  = 0.27;
-
 // --- Taper ---
 // A bloc's vote is dampened once it falls below this fraction of its
 // statewide baseline. Lower = the taper bites later.
 const TAPER_THRESHOLD = 0.25;
-
-// 2023 winners per seat (original coalition labels, after unity-vote split)
-const W23={
-  'N01':'PH','N02':'BN','N03':'BN','N04':'PH','N05':'PN','N06':'BN',
-  'N07':'BN','N08':'PH','N09':'BN','N10':'PH','N11':'PH','N12':'PH',
-  'N13':'PH','N14':'PH','N15':'BN','N16':'BN','N17':'BN','N18':'PH',
-  'N19':'BN','N20':'PN','N21':'PH','N22':'PH','N23':'PH','N24':'PH',
-  'N25':'PN','N26':'BN','N27':'BN','N28':'BN','N29':'PH','N30':'PH',
-  'N31':'PN','N32':'BN','N33':'PH','N34':'PN','N35':'BN','N36':'PH',
-};
-
-// Map a 2023 winner onto the 2026 bloc structure.
-// BN wins and PAS-held PN wins fold into BN+PN; IPR's two seats go to IPR.
-function bloc23(id){
-  const w=W23[id];
-  if(w==='PH')return 'PH';
-  if(IPR_HELD.has(id))return 'IPR';
-  return 'BNPN';
-}
 
 /* ============================================================
    2026 CANDIDATES  {bloc: {p: party, c: candidate}}
@@ -320,8 +293,8 @@ const SEAT_CANDIDATES={
   'N20':{PH:{p:'PKR',c:'Ahmad Faez Abdul Razak'}, BNPN:{p:'UMNO',c:'Siti Nur Umaira Hasim'}, IPR:{p:'BERSATU',c:'Mohamad Hanifah Abu Baker'}},
   'N21':{PH:{p:'DAP',c:'Nicole Tan Lee Koon'}, BNPN:{p:'GERAKAN',c:'Lee Boon Shian'}},
   'N22':{PH:{p:'DAP',c:'Desmond Siau Meow Kong'}, BNPN:{p:'MCA',c:'Yap Siok Moy'}, IPR:{p:'BERSATU',c:'Tang Jay Son'}, BP:{p:'PSM',c:'Tinagaran Subramaniam'}},
-  'N23':{PH:{p:'DAP',c:'Lee Kai Yet'}, BNPN:{p:'WAWASAN',c:'Erik Michael'}, IPR:{p:'URIMAI',c:'Sarawanan Nagayah'}},
-  'N24':{PH:{p:'DAP',c:'Mugunthan Subramanian'}, BNPN:{p:'MIC',c:'Thinalan T Rajagopalu'}, IPR:{p:'URIMAI',c:'Mahendran Ramasamy'}},
+  'N23':{PH:{p:'DAP',c:'Lee Kai Yet'}, BNPN:{p:'WAWASAN',c:'Erik Michael'}, IPR:{p:'BERSATU',c:'Sarawanan Nagayah'}},
+  'N24':{PH:{p:'DAP',c:'Mugunthan Subramanian'}, BNPN:{p:'MIC',c:'Thinalan T Rajagopalu'}, IPR:{p:'BERSATU',c:'Mahendran Ramasamy'}},
   'N25':{PH:{p:'AMANAH',c:'Ahmad Shahir Ahmad Shah'}, BNPN:{p:'PAS',c:'Kamarol Ridzuan Mohd Zain'}, IPR:{p:'BERSATU',c:'Mohd Nazree Mohd Yunus'}},
   'N26':{PH:{p:'PKR',c:'Danish Nazran Murad'}, BNPN:{p:'UMNO',c:'Zaifulbahri Idris'}},
   'N27':{PH:{p:'PKR',c:'Azizul Hakim Mahdi'}, BNPN:{p:'UMNO',c:'Mohamad Hasan'}},
@@ -336,122 +309,123 @@ const SEAT_CANDIDATES={
   'N36':{PH:{p:'DAP',c:'Veerapan Superamaniam'}, BNPN:{p:'MCA',c:'Koh Kim Swee'}},
 };
 
-// 2023 component party that won each seat (for the "vs 2023" component deltas)
-const COMP23={
-  'N01':'DAP','N02':'UMNO','N03':'UMNO','N04':'AMANAH','N05':'PAS','N06':'UMNO',
-  'N07':'UMNO','N08':'DAP','N09':'UMNO','N10':'DAP','N11':'DAP','N12':'DAP',
-  'N13':'PKR','N14':'PKR','N15':'UMNO','N16':'UMNO','N17':'UMNO','N18':'PKR',
-  'N19':'UMNO','N20':'BERSATU','N21':'DAP','N22':'DAP','N23':'DAP','N24':'DAP',
-  'N25':'PAS','N26':'UMNO','N27':'UMNO','N28':'UMNO','N29':'PKR','N30':'DAP',
-  'N31':'PAS','N32':'UMNO','N33':'PKR','N34':'BERSATU','N35':'UMNO','N36':'DAP',
-};
+// The specific component party that actually won each seat in 2026, derived
+// directly from the real winning bloc (W26) and the candidate list -- no
+// separate lookup table needed since SEAT_CANDIDATES already has this.
+function comp26(id){
+  const w=W26[id];
+  const entry=(SEAT_CANDIDATES[id]||{})[w];
+  return entry?entry.p:w;
+}
 
 /* ============================================================
-   2023 SEAT VOTES
-   [id, name, ph, bn, pn, bp, tot, {minorCandidateCounts}]
+   2026 SEAT VOTES (real, official Election Commission results)
+   [id, name, ph, bnpn, bersatu, bp, tot, {minorVoteCounts}]
 
-   STEP 1 (disaggregation) IS ALREADY BAKED INTO THESE COLUMNS.
-   The 2023 unity (PH-BN pact) vote was split before it reached this
-   array; the code below does not perform the split. Verified ratios,
-   exact to 2dp across all 36 seats:
-     PH-won seats           PH 77 / BN 23
-     BN-won seats           PH 38 / BN 62
-     PN-won, PH contested   PH 77 / BN 23   (N20, N25)
-     PN-won, BN contested   PH 38 / BN 62   (N05, N31, N34)
-   Pre-merge statewide: PH 38.74%, BN 22.86%, PN 38.40%.
-   To change the split you must regenerate these columns.
-
-   NOTE: the IND entries are candidate *counts*, not vote totals.
+   BN and PN did not contest against each other in 2026 (informal
+   seat-sharing pact), so bnpn is a real, direct combined total, not an
+   estimate. BERSATU contested separately from PN, so bersatu is also a
+   real, direct total -- no carve-out or disaggregation of any kind was
+   needed to build this baseline.
+   Source: Election Commission of Malaysia official results, published by
+   BERNAMA (prn.bernama.com/n9/keputusan/official), cross-checked against
+   independent user-supplied results; both agreed on all 36 winners and on
+   vote counts for 26 of 36 seats (3 minor discrepancies resolved in favor
+   of the official EC source).
+   Statewide (raw): PH 40.16%, BN+PN 56.00%, BERSATU 2.62%, BP 0.09%.
    ============================================================ */
 const SEATS=[
-  ['N01','Chennah',        4539, 1356, 3695,   0, 9590, {}],
-  ['N02','Pertang',        2143, 3496, 2849,   0, 8489, {}],
-  ['N03','Sungai Lui',     2640, 4308, 6413,   0,13361, {}],
-  ['N04','Klawang',        3684, 1101, 4208,   0, 8993, {IND:1}],
-  ['N05','Serting',        3605, 5882,10330,   0,19817, {}],
-  ['N06','Palong',         3021, 4929, 7386,   0,15337, {}],
-  ['N07','Jeram Padang',   2078, 3390, 4775,   0,10243, {}],
-  ['N08','Bahau',          9198, 2748, 3538,   0,15485, {}],
-  ['N09','Lenggeng',       3900, 6364, 9579,   0,19844, {IND:2}],
-  ['N10','Nilai',         15314, 4574, 8999,   0,28888, {IND:2}],
-  ['N11','Lobak',         11060, 3303,  859,   0,15222, {}],
-  ['N12','Temiang',        4648, 1389, 2969, 640, 9006, {}],
-  ['N13','Sikamat',        9990, 2984,10312,   0,23287, {IND:2}],
-  ['N14','Ampangan',       5857, 1749, 7277,   0,14884, {IND:1}],
-  ['N15','Juasseh',        1731, 2825, 4478,   0, 9035, {}],
-  ['N16','Seri Menanti',   1411, 2303, 3344,   0, 7059, {}],
-  ['N17','Senaling',       1417, 2313, 3068,   0, 6799, {}],
-  ['N18','Pilah',          4800, 1434, 5155,   0,11390, {}],
-  ['N19','Johol',          1988, 3243, 3114,   0, 8346, {}],
-  ['N20','Labu',           7728, 2309,11677,   0,21714, {}],
-  ['N21','Bukit Kepayang',19342, 5778, 5436,   0,30557, {IND:2}],
-  ['N22','Rahang',         7606, 2272, 3446,   0,13324, {}],
-  ['N23','Mambau',        13190, 3940, 2190,   0,19321, {IND:2}],
-  ['N24','Seremban Jaya', 13165, 3933, 4395,   0,21493, {}],
-  ['N25','Paroi',         14490, 4328,24357,   0,43176, {IND:2}],
-  ['N26','Chembong',       4286, 6994, 6945,   0,18226, {}],
-  ['N27','Rantau',         6451,10525, 6696,   0,23673, {}],
-  ['N28','Kota',           2235, 3646, 5746,   0,11627, {}],
-  ['N29','Chuah',          6297, 1881, 1880,   0,10058, {}],
-  ['N30','Lukut',         10552, 3152, 3569,   0,17273, {}],
-  ['N31','Bagan Pinang',   2854, 4656,10936,   0,18446, {}],
-  ['N32','Linggi',         3024, 4933, 6496,   0,14453, {}],
-  ['N33','Sri Tanjung',    6351, 1897, 4252,   0,12501, {}],
-  ['N34','Gemas',          3246, 5295,11661,   0,20202, {}],
-  ['N35','Gemencheh',      3388, 5527, 6481,   0,15396, {}],
-  ['N36','Repah',          8868, 2649, 5567,   0,17084, {}],
+  ['N01','Chennah', 5038, 5726, 0, 0, 10764, {}],
+  ['N02','Pertang', 2593, 6312, 367, 0, 9272, {}],
+  ['N03','Sungai Lui', 2807, 11273, 317, 0, 14397, {}],
+  ['N04','Klawang', 3993, 5310, 549, 0, 9852, {}],
+  ['N05','Serting', 4493, 16608, 736, 0, 21837, {}],
+  ['N06','Palong', 1495, 15197, 590, 0, 17282, {}],
+  ['N07','Jeram Padang', 2372, 6854, 2191, 179, 11596, {}],
+  ['N08','Bahau', 9995, 6688, 0, 0, 16683, {}],
+  ['N09','Lenggeng', 5966, 15960, 349, 0, 22275, {}],
+  ['N10','Nilai', 15797, 9860, 718, 0, 32386, {BERJASA:5844,BEBAS:167}],
+  ['N11','Lobak', 13064, 2011, 0, 0, 15075, {}],
+  ['N12','Temiang', 5249, 3366, 514, 0, 9129, {}],
+  ['N13','Sikamat', 10639, 15052, 548, 0, 26239, {}],
+  ['N14','Ampangan', 5965, 9934, 267, 0, 16166, {}],
+  ['N15','Juasseh', 2816, 6907, 506, 0, 10229, {}],
+  ['N16','Seri Menanti', 1535, 5858, 363, 0, 7756, {}],
+  ['N17','Senaling', 1877, 5034, 432, 0, 7343, {}],
+  ['N18','Pilah', 6100, 6830, 0, 0, 12930, {}],
+  ['N19','Johol', 2280, 6663, 0, 0, 8943, {}],
+  ['N20','Labu', 8930, 14209, 1985, 0, 25124, {}],
+  ['N21','Bukit Kepayang', 24096, 8889, 0, 0, 32985, {}],
+  ['N22','Rahang', 7896, 4921, 160, 400, 13377, {}],
+  ['N23','Mambau', 15758, 3655, 786, 0, 20199, {}],
+  ['N24','Seremban Jaya', 14171, 8470, 327, 0, 22968, {}],
+  ['N25','Paroi', 15045, 32004, 2205, 0, 49254, {}],
+  ['N26','Chembong', 3397, 17160, 0, 0, 20557, {}],
+  ['N27','Rantau', 7032, 19050, 0, 0, 26082, {}],
+  ['N28','Kota', 2484, 10177, 290, 0, 12951, {}],
+  ['N29','Chuah', 6621, 4092, 0, 0, 10713, {}],
+  ['N30','Lukut', 11905, 6188, 0, 0, 18661, {BEBAS:568}],
+  ['N31','Bagan Pinang', 4466, 14603, 536, 0, 19605, {}],
+  ['N32','Linggi', 6163, 9139, 391, 0, 15693, {}],
+  ['N33','Sri Tanjung', 6702, 5367, 618, 0, 13289, {BEBAS:602}],
+  ['N34','Gemas', 3529, 16153, 1012, 0, 20694, {}],
+  ['N35','Gemencheh', 4782, 12175, 0, 0, 16957, {}],
+  ['N36','Repah', 9335, 9779, 0, 0, 19114, {}],
 ];
 
 /* ============================================================
-   BASELINE DERIVATION
-   1. Split unity vote  -> already baked into the ph / bn columns.
-   2. Merge BN + PN.
-   3. Carve BERSATU+ out of BN+PN (66% in held seats, 27% elsewhere).
-   Statewide baselines are then vote-weighted sums across all 36 seats,
-   so they always stay consistent with the seat-level carve.
+   BASELINE DERIVATION (2026)
+   BN and PN did not contest each other, so bnpn is already a real, direct
+   combined total. BERSATU contested separately, so its column is also real
+   and direct. No carve-out, merge, or disaggregation of any kind -- every
+   number below comes straight from the official seat-level result.
    ============================================================ */
 const SEAT_BASE={};   // id -> {PH, BNPN, IPR, BP} as % of seat total
 const SEAT_VOTES={};  // id -> {PH, BNPN, IPR, BP, total} raw votes
 const GN={};          // statewide baseline vote share per bloc
-const GS={};          // 2023 baseline seats per bloc
+const GS={};          // 2026 baseline seats per bloc
+
+const W26={};          // real 2026 winning bloc per seat
 
 (function deriveBaselines(){
   const sum={PH:0,BNPN:0,IPR:0,BP:0};
   let grand=0;
 
   SEATS.forEach(s=>{
-    const [id,,ph,bn,pn,bp]=s;
+    const [id,,ph,bnpn,bersatu,bp,tot]=s;
 
     let vPH=ph;
-    let vBNPN=bn+pn;
-    // Progressive Block's 2023 votes only count where it stands again in 2026.
+    let vBNPN=BNPN_CONTEST.has(id)?bnpn:0;
+    let vIPR=IPR_CONTEST.has(id)?bersatu:0;
     let vBP=BP_CONTEST.has(id)?bp:0;
 
-    // Carve BERSATU+ out of the merged BN+PN baseline in ALL seats, regardless
-    // of the contest set, so the statewide baselines (and therefore the swings)
-    // are unchanged. In the 12 seats BERSATU+ does not contest, its carved
-    // baseline vote is never cast — wasted by design, per the model's owner.
-    const f=IPR_HELD.has(id)?CARVE_HELD:CARVE_DEFAULT;
-    const vIPR=vBNPN*f;
-    vBNPN=vBNPN-vIPR;
-    if(!BNPN_CONTEST.has(id))vBNPN=0;
-
-    // OTHERS (BERJASA) has no 2023 vote — it is purely residual, so its
-    // baseline is 0 and it never enters the swing pipeline.
-    const total=vPH+vBNPN+vIPR+vBP;
-    SEAT_VOTES[id]={PH:vPH,BNPN:vBNPN,IPR:vIPR,BP:vBP,OTHERS:0,total};
+    // The denominator is the seat's REAL total valid vote (tracked blocs +
+    // minor parties/independents), not just the sum of the four tracked
+    // blocs -- vote share is always a fraction of all votes cast, and using
+    // a smaller denominator silently inflates every real percentage. This
+    // only differs from the four-bloc sum in N10, N30, and N33, the three
+    // seats with a genuine minor-party vote in 2026.
+    const total=tot;
+    SEAT_VOTES[id]={PH:vPH,BNPN:vBNPN,IPR:vIPR,BP:vBP,OTHERS:total-(vPH+vBNPN+vIPR+vBP),total};
     SEAT_BASE[id]=total>0
-      ? {PH:vPH/total*100, BNPN:vBNPN/total*100, IPR:vIPR/total*100, BP:vBP/total*100, OTHERS:0}
+      ? {PH:vPH/total*100, BNPN:vBNPN/total*100, IPR:vIPR/total*100, BP:vBP/total*100,
+         OTHERS:Math.max(0,100-(vPH+vBNPN+vIPR+vBP)/total*100)}
       : {PH:0,BNPN:0,IPR:0,BP:0,OTHERS:0};
 
     sum.PH+=vPH; sum.BNPN+=vBNPN; sum.IPR+=vIPR; sum.BP+=vBP;
     grand+=total;
+
+    // Real 2026 winner, directly from the vote columns (whichever of the
+    // four tracked blocs actually topped the poll in this seat).
+    const entries=[['PH',vPH],['BNPN',vBNPN],['IPR',vIPR],['BP',vBP]];
+    entries.sort((a,b)=>b[1]-a[1]);
+    W26[id]=entries[0][1]>0?entries[0][0]:'OTHERS';
   });
 
   PARTIES.forEach(p=>{GN[p.id]=grand>0?(sum[p.id]||0)/grand*100:0;});
 
   PARTIES.forEach(p=>{GS[p.id]=0;});
-  ALL_SEATS.forEach(id=>{GS[bloc23(id)]++;});
+  ALL_SEATS.forEach(id=>{GS[W26[id]]=(GS[W26[id]]||0)+1;});
 })();
 
 let curDetails=[];
@@ -663,7 +637,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   });
 
   const oc=document.createElement('div');oc.className='input-card';
-  oc.innerHTML=`<label><span class="pdot" style="background:#888780"></span>Minor parties</label><div class="baseline-note">No unaligned minor parties in the 2026 candidate list. The 2023 IND entries are candidate counts, not votes, so nothing is redistributed.</div>`;
+  oc.innerHTML=`<label><span class="pdot" style="background:#888780"></span>Minor parties</label><div class="baseline-note">BERJASA and independents polled real votes in three seats (N10, N30, N33) in 2026 -- modelled as the Others residual there, not redistributed elsewhere.</div>`;
   ig.appendChild(oc);
 
   const cc=document.getElementById('coalitionChecks');
@@ -687,7 +661,7 @@ function renderVoteShareBreakdown(){
   const div=document.getElementById('voteShareBreakdown');div.innerHTML='';
   const ns={};INPUT_PARTIES.forEach(p=>{ns[p.id]=parseFloat(inputEls[p.id].value)||0;});
 
-  // Total votes cast statewide (2023 turnout used as the 2026 weighting).
+  // Total votes cast statewide, from the real 2026 result.
   let grand=0;
   SEATS.forEach(s=>{grand+=SEAT_VOTES[s[0]].total;});
 
@@ -722,7 +696,7 @@ function renderVoteShareBreakdown(){
       rows+=`<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:2px 0;"><span style="color:#5f5e5a;">${comp} <span style="color:#b4b2a9;font-size:10px;">${seatsContested}</span></span><span style="font-weight:500;">${(v/grand*100).toFixed(1)}%</span></div>`;
     });
     const driftNote=party.derived
-      ? `<div style="font-size:10px;color:#888780;padding-top:5px;margin-top:4px;border-top:0.5px solid #f1efe8;">Residual — no input. Takes whatever the contesting blocs leave in N10.</div>`
+      ? `<div style="font-size:10px;color:#888780;padding-top:5px;margin-top:4px;border-top:0.5px solid #f1efe8;">Residual — no input. Takes whatever the contesting blocs leave in N10, N30, and N33.</div>`
       : Math.abs(drift)>=0.1
       ? `<div style="font-size:10px;color:#888780;padding-top:5px;margin-top:4px;border-top:0.5px solid #f1efe8;">Input ${ns[cid].toFixed(1)}% — projections imply ${coalPct.toFixed(1)}% (${drift>0?'+':''}${drift.toFixed(1)})</div>`
       : '';
@@ -740,8 +714,8 @@ function renderComponentBreakdown(){
     if(!partyMap[coal][comp])partyMap[coal][comp]={base:0,now:0};
     return partyMap[coal][comp];
   };
-  // 2023 baseline, mapped onto the 2026 bloc structure
-  ALL_SEATS.forEach(sid=>{touch(bloc23(sid),COMP23[sid]).base++;});
+  // 2026 baseline
+  ALL_SEATS.forEach(sid=>{touch(W26[sid],comp26(sid)).base++;});
   // Projection
   curDetails.forEach(d=>{
     const ent=(SEAT_CANDIDATES[d.id]||{})[d.coalW];
@@ -773,7 +747,7 @@ function renderTable(){
   const cols=[
     {key:'id',label:'Seat'},
     {key:'name',label:'Name'},
-    {key:'bloc23',label:'2023'},
+    {key:'bloc26',label:'2026'},
     {key:'projW',label:'Proj.'},
     {key:'cand',label:'Projected winner'},
     {key:'ph',label:'PH%'},
@@ -805,18 +779,18 @@ function renderTable(){
 
   sorted.forEach(d=>{
     const row=document.createElement('tr');
-    const isFlip=d.coalW!==d.bloc23;
+    const isFlip=d.coalW!==d.bloc26;
     const winParty=PARTIES.find(p=>p.id===d.coalW);
     const winColor=winParty?winParty.color:'#888780';
-    const b23Party=PARTIES.find(p=>p.id===d.bloc23);
-    const b23Color=b23Party?b23Party.color:'#888780';
+    const b26Party=PARTIES.find(p=>p.id===d.bloc26);
+    const b26Color=b26Party?b26Party.color:'#888780';
     const ent=(SEAT_CANDIDATES[d.id]||{})[d.coalW];
     const projComp=ent?ent.p:d.coalW;
     const projCand=ent&&ent.c?ent.c:'TBA';
     [
       {v:d.id},
       {v:d.name},
-      {v:`<span style="color:${b23Color};font-weight:500;">${d.bloc23}</span> <span class="cand-name">(${COMP23[d.id]})</span>`},
+      {v:`<span style="color:${b26Color};font-weight:500;">${d.bloc26}</span> <span class="cand-name">(${comp26(d.id)})</span>`},
       {v:`<span style="color:${winColor};font-weight:500;">${d.coalW}</span> <span class="cand-name">(${projComp})</span>${isFlip?'<span class="flip-tag">flip</span>':''}`},
       {v:`<span class="cand-name">${projCand}</span>`},
       {v:d.proj.PH.toFixed(1)},
@@ -885,7 +859,7 @@ function project(){
 
     det.push({
       id,name,
-      bloc23:bloc23(id),
+      bloc26:W26[id],
       coalW,projW:coalW,
       cand:((SEAT_CANDIDATES[id]||{})[coalW]||{}).c||'TBA',
       proj,base,marg,
@@ -905,7 +879,7 @@ function project(){
     const chgStr=delta>0?`+${delta}`:delta<0?`${delta}`:'—';
     const chgCls=delta>0?'pos':delta<0?'neg':'neu';
     const card=document.createElement('div');card.className='result-card';
-    card.innerHTML=`<div class="pname"><span class="pdot" style="background:${p.color}"></span>${p.label}</div><div class="seats">${n}</div><div class="chg ${chgCls}">${chgStr} vs 2023</div>`;
+    card.innerHTML=`<div class="pname"><span class="pdot" style="background:${p.color}"></span>${p.label}</div><div class="seats">${n}</div><div class="chg ${chgCls}">${chgStr} vs 2026</div>`;
     rg.appendChild(card);
   });
 
@@ -925,10 +899,10 @@ function project(){
   updateCoalition();
 
   document.getElementById('methodNote').textContent=
-    'Methodology: uniform swing from a 2023 Negeri Sembilan baseline. The 2023 baseline is built in three steps. (1) Each seat\'s unity (PH–BN pact) vote is split asymmetrically between PH and BN depending on who won the seat: PH takes 77% in PH-won seats, BN takes 62% in BN-won seats, and PN-won seats follow whichever unity partner contested (77/23 in N20 and N25; 62/38 in N05, N31 and N34). This split is pre-computed into the PH and BN columns of the seat data rather than applied at runtime, and yields pre-merge statewide shares of PH 38.74%, BN 22.86%, PN 38.40%. (2) BN and PN votes are merged into a single BN+PN bloc, reflecting their 2026 joint list. (3) IPR is carved back out of that merged bloc at '+(CARVE_DEFAULT*100).toFixed(0)+'% of the BN+PN baseline in most seats, and '+(CARVE_HELD*100).toFixed(0)+'% in the two seats it holds (N20 Labu, N34 Gemas), with BN+PN reduced accordingly. IPR contests 24 of 36 seats, per the candidate list — BERSATU in 22, URIMAI in N23 and N24; the carve is still applied in all 36 seats so the statewide baselines are unaffected, but in the 12 seats it is not standing its carved baseline vote is treated as never cast — those seats go to whichever contesting bloc leads, and their shares will not sum to 100. Others (BERJASA/IND) has no baseline of its own; it contests N10 Nilai, N30 Lukut, and N33 Sri Tanjung, where it is a pure residual taking whatever the contesting blocs leave unclaimed, so those three seats alone always sum to 100. Statewide baselines are vote-weighted totals derived from the seat-level carve, so they move automatically if the carve fractions change: PH '+GN.PH.toFixed(2)+'%, BN+PN '+GN.BNPN.toFixed(2)+'%, IPR '+GN.IPR.toFixed(2)+'%, Progressive Bloc '+GN.BP.toFixed(2)+'%. Swing is applied per seat as input minus statewide baseline, with a taper scalar below '+(TAPER_THRESHOLD*100).toFixed(0)+'% of a bloc\'s baseline share and the tapered-away vote reallocated proportionally. Majority: 19 of 36 seats.';
+    'Methodology: uniform swing from the real 2026 Negeri Sembilan state election result. BN and PN did not contest against each other (informal seat-sharing pact), so the BN+PN column is a real, direct combined vote total -- not an estimate or a split of some other figure. BERSATU contested separately from PN, standing alone in the seats it chose to fight, so its column is likewise real and direct. No carve-out, merge, or disaggregation of any kind was needed to build this baseline -- every number comes straight from the official Election Commission result (published by BERNAMA), cross-checked against an independently supplied results set; both agreed on all 36 winners and on vote counts for 26 of 36 seats, with the few discrepancies resolved in favour of the official EC figures. Statewide baselines: PH '+GN.PH.toFixed(2)+'%, BN+PN '+GN.BNPN.toFixed(2)+'%, BERSATU+ '+GN.IPR.toFixed(2)+'%, Progressive Bloc '+GN.BP.toFixed(2)+'%. BERSATU+ contests 24 of 36 seats; the Progressive Bloc (PSM, ASLI) contests only N07 and N22, matching where it actually stood. Others (BERJASA/IND) has no baseline or input of its own; it is a pure residual in N10 Nilai, N30 Lukut, and N33 Sri Tanjung -- the only three seats with a meaningful independent vote in the real result -- so those three seats always sum to 100. Swing is applied per seat as input minus statewide baseline, with a taper scalar below '+(TAPER_THRESHOLD*100).toFixed(0)+'% of a bloc\'s baseline share and the tapered-away vote reallocated proportionally. Every seat\'s projected shares are then proportionally rescaled to sum to exactly 100%. Majority: 19 of 36 seats.';
 
   document.getElementById('assumpNote').innerHTML=
-    '<strong>Assumptions worth checking:</strong> BERSATU+ contests 24 of 36 seats, per the candidate list — BERSATU stands in 22, URIMAI stands in N23 and N24 as BERSATU+\'s remaining two components. Its statewide baseline (18.61%) reflects the pre-split carve across all seats, not what it can actually poll — its realistic ceiling is bounded by the seats it stands in, and any input beyond what those seats can hold is deliberately wasted rather than redistributed. The Progressive Bloc (PSM, ASLI) contests only N07 and N22; its 2023 MUDA vote in N12 Temiang is dropped rather than redistributed, since it is not standing there again, which is why its baseline derives to 0.00%. Others (BERJASA/IND) contests N10, N30, and N33 and has no input or baseline of its own — it is a pure residual, so at very low overall inputs (e.g. all parties at 0) it can win those seats by default, and any gap between your inputs summing to 100% shows up as OTHERS vote there too. BERSAMA has been removed — it does not contest in 2026. Each of these is a one-line change near the top of the script.';
+    '<strong>Assumptions worth checking:</strong> BERSATU+ contests 24 of 36 seats — matching where it actually stood in 2026, no carve or estimate involved. Its statewide baseline ('+GN.IPR.toFixed(2)+'%) is its real 2026 vote share, so unlike a carved figure it already reflects a realistic ceiling; inputting a much higher share will still only ever win it seats it is actually contesting in. The Progressive Bloc (PSM, ASLI) contests only N07 and N22, matching where it actually stood. Others (BERJASA/IND) contests N10, N30, and N33 — the only three seats with a meaningful independent vote in the real result — and has no input or baseline of its own; it is a pure residual there, so at very low overall inputs (e.g. all parties at 0) it can win those seats by default, and any gap between your inputs summing to 100% shows up as OTHERS vote there too. BERSAMA has been removed — it did not contest in 2026.';
 }
 
 function updateCoalition(){
@@ -971,9 +945,9 @@ function updateCoalition(){
   });
 }
 </script>
-</div>
 </body>
 </html>
+        
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
