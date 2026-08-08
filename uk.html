@@ -560,28 +560,57 @@ function partyCanContest(p, seat) {
   const home = NATION_RESTRICTED[p];
   return !home || seat.r === home;
 }
+function computeTaper(x, baseline) {
+  const T = 0.2 * baseline;
+  if (baseline <= 0 || x >= T) return { factor: 1, clipped: x };
+  const clipped = T;
+  const factor = T > 0 ? Math.max(0, x) / T : 0;
+  return { factor, clipped };
+}
 function projectSeatsCombined(nationalShares, regionShares, nationEnabled) {
-  const nationalSwing = effectiveNationalSwing(nationalShares, regionShares, nationEnabled);
+  const mainTaperFactor = {};
+  const clippedNationalShares = { ...nationalShares };
+  for (const p of SWING_PARTIES) {
+    const { factor, clipped } = computeTaper(nationalShares[p], BASELINE_SHARES[p]);
+    mainTaperFactor[p] = factor;
+    clippedNationalShares[p] = clipped;
+  }
+  const regionTaperFactor = {};
+  const clippedRegionShares = {};
+  for (const key of REGION_KEYS) {
+    regionTaperFactor[key] = {};
+    clippedRegionShares[key] = { ...regionShares[key] };
+    for (const p of REGIONS[key].parties) {
+      const { factor, clipped } = computeTaper(regionShares[key][p], REGION_BASELINE[key][p]);
+      regionTaperFactor[key][p] = factor;
+      clippedRegionShares[key][p] = clipped;
+    }
+  }
+  const nationalSwing = effectiveNationalSwing(clippedNationalShares, clippedRegionShares, nationEnabled);
   const results = [];
   const tally = {};
   for (const seat of SEAT_DATA) {
     let winner;
     let swing = nationalSwing;
     let parties = SWING_PARTIES;
+    let taperFactor = mainTaperFactor;
     let fixed = false;
     if (seat.r === "Scotland" && nationEnabled.Scotland) {
       swing = {};
       parties = REGIONS.Scotland.parties;
-      for (const p of parties) swing[p] = regionShares.Scotland[p] - REGION_BASELINE.Scotland[p];
+      taperFactor = regionTaperFactor.Scotland;
+      for (const p of parties) swing[p] = clippedRegionShares.Scotland[p] - REGION_BASELINE.Scotland[p];
     } else if (seat.r === "Wales" && nationEnabled.Wales) {
       swing = {};
       parties = REGIONS.Wales.parties;
-      for (const p of parties) swing[p] = regionShares.Wales[p] - REGION_BASELINE.Wales[p];
+      taperFactor = regionTaperFactor.Wales;
+      for (const p of parties) swing[p] = clippedRegionShares.Wales[p] - REGION_BASELINE.Wales[p];
     } else if (seat.r === "Northern Ireland") {
       if (nationEnabled.NI) {
         swing = {};
         parties = REGIONS.NI.parties;
-        for (const p of parties) swing[p] = regionShares.NI[p] - REGION_BASELINE.NI[p];
+        taperFactor = regionTaperFactor.NI;
+        for (const p of parties) swing[p] = clippedRegionShares.NI[p] - REGION_BASELINE.NI[p];
       } else {
         fixed = true;
       }
@@ -592,6 +621,7 @@ function projectSeatsCombined(nationalShares, regionShares, nationEnabled) {
     } else {
       const total = Object.values(seat.v).reduce((a, b) => a + b, 0);
       const otherSwing = swing.Oth !== void 0 ? swing.Oth : 0;
+      const otherFactor = taperFactor.Oth !== void 0 ? taperFactor.Oth : 1;
       const adjByParty = {};
       let best = null, bestV = -1;
       const candidateParties = new Set(parties.filter((p) => partyCanContest(p, seat)));
@@ -600,7 +630,9 @@ function projectSeatsCombined(nationalShares, regionShares, nationEnabled) {
       for (const p of candidateParties) {
         const baseShare = (seat.v[p] || 0) / total * 100;
         const s = swing[p] !== void 0 ? swing[p] : 0;
-        const v = Math.max(0.05, baseShare + s);
+        const factor = taperFactor[p] !== void 0 ? taperFactor[p] : 1;
+        const raw = baseShare + s;
+        const v = factor < 1 ? Math.max(0, raw * factor) : Math.max(0.05, raw);
         adjByParty[p] = (adjByParty[p] || 0) + v;
         if (v > bestV) {
           bestV = v;
@@ -610,7 +642,8 @@ function projectSeatsCombined(nationalShares, regionShares, nationEnabled) {
       for (const [p, v] of seat.om || []) {
         if (candidateParties.has(p)) continue;
         const baseShare = v / total * 100;
-        const adj = Math.max(0.05, baseShare + otherSwing);
+        const raw = baseShare + otherSwing;
+        const adj = otherFactor < 1 ? Math.max(0, raw * otherFactor) : Math.max(0.05, raw);
         adjByParty[p] = (adjByParty[p] || 0) + adj;
         if (adj > bestV) {
           bestV = adj;
