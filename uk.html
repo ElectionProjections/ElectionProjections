@@ -684,7 +684,7 @@ const HEMICYCLE_ORDER = [
   "RUK",
   "REB"
 ];
-function layoutHemicycle(n, rows = 12, rMin = 46, rMax = 260) {
+function layoutHemicycle(n, rows = 15, rMin = 76, rMax = 250) {
   let lo = 1, hi = 60;
   let rowCounts = [];
   for (let iter = 0; iter < 45; iter++) {
@@ -818,6 +818,7 @@ function SeatProjector() {
   const leader = orderedTally[0];
   const second = orderedTally[1];
   const leaderSeats = leader.seats;
+  const barMaxSeats = Math.ceil(leaderSeats / 50) * 50;
   const majorityDiff = leaderSeats - MAJORITY;
   const workingMajority = 2 * leaderSeats - TOTAL_SEATS;
   function lockedInUKPanel(p) {
@@ -1385,7 +1386,7 @@ function SeatProjector() {
       {
         className: "bar-fill",
         style: {
-          width: `${row.seats / TOTAL_SEATS * 100}%`,
+          width: `${Math.min(100, row.seats / barMaxSeats * 100)}%`,
           background: meta.color
         }
       }
@@ -1441,7 +1442,7 @@ function SeatProjector() {
   )))), /* @__PURE__ */ React.createElement("div", { className: "panel map-panel" }, /* @__PURE__ */ React.createElement("h2", null, "Seats by constituency"), /* @__PURE__ */ React.createElement("div", { className: "map-wrap" }, /* @__PURE__ */ React.createElement(ConstituencyMap, { results }))), /* @__PURE__ */ React.createElement("footer", { className: "note" }, "The UK panel's swing applies to every seat in Great Britain by default; Northern Ireland is held fixed at its actual 2024 result, since Great Britain's parties barely contest it. Switching on Scotland, Wales, or Northern Ireland below replaces the UK figure with that nation's own \u2014 calculated from, and applied only to, seats in that nation \u2014 which matters since national polls track Scotland, Wales and Northern Ireland separately but never break out England on its own. Because the UK figure is itself a blend of all three nations, switching one on backs its contribution out of the UK figure first, so what's left over \u2014 applied to England, and to any nation not switched on \u2014 reflects that nation's implied swing rather than double-counting the part already covered separately. Northern Ireland uses its own party list (DUP, Sinn F\xE9in, SDLP, UUP, Alliance, TUV) rather than Great Britain's.", " ", "Uniform national swing applies the change in each party's vote share equally to every constituency in scope, then re-checks the winner \u2014 a standard, simple projection method, but one that doesn't capture local campaign effects, tactical voting, or incumbency, so treat results as indicative rather than predictive. Source: House of Commons Library, general election 2024 results.")));
 }
 function Hemicycle({ colors }) {
-  const dotR = 5;
+  const dotR = 4.8;
   const sideMargin = dotR + 6;
   const bottomMargin = dotR + 6;
   const labelSpace = 24;
@@ -1612,6 +1613,15 @@ function ConstituencyMap({ results }) {
       return "M" + pts.join("L") + "Z";
     }).join(" ");
   }
+  const orderedBoundaries = useMemo(() => {
+    if (!selected) return BOUNDARIES;
+    const idx = BOUNDARIES.findIndex((b) => b.n === selected.name);
+    if (idx === -1) return BOUNDARIES;
+    const arr = BOUNDARIES.slice();
+    const [sel] = arr.splice(idx, 1);
+    arr.push(sel);
+    return arr;
+  }, [selected]);
   const selSeat = selected ? seatByName[selected.name] : null;
   const selRows = useMemo(() => {
     if (!selSeat) return [];
@@ -1659,9 +1669,10 @@ function ConstituencyMap({ results }) {
         onClick: () => setSelected(null),
         style: { cursor: "pointer" }
       },
-      /* @__PURE__ */ React.createElement("g", { transform: `translate(${view.x},${view.y}) scale(${view.zoom})` }, BOUNDARIES.map((b) => {
+      /* @__PURE__ */ React.createElement("g", { transform: `translate(${view.x},${view.y}) scale(${view.zoom})` }, orderedBoundaries.map((b) => {
         const winner = winnerByName[b.n];
         const meta = partyMeta(winner || "Oth");
+        const isSelected = !!selected && selected.name === b.n;
         return /* @__PURE__ */ React.createElement(
           "path",
           {
@@ -1669,8 +1680,9 @@ function ConstituencyMap({ results }) {
             d: pathFor(b.r),
             fill: meta.color,
             fillRule: "evenodd",
-            stroke: "#0F1219",
-            strokeWidth: 0.4 / view.zoom,
+            stroke: isSelected ? "#FFFFFF" : "#0F1219",
+            strokeWidth: (isSelected ? 2.2 : 0.4) / view.zoom,
+            style: isSelected ? { filter: "drop-shadow(0 0 3px rgba(255,255,255,0.85))" } : void 0,
             onClick: (e) => handleSeatClick(e, b.n)
           },
           /* @__PURE__ */ React.createElement("title", null, b.n, " \u2014 ", meta.name)
