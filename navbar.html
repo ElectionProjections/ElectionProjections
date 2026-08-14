@@ -54,7 +54,7 @@
         width: 100% !important;
         max-width: 100% !important;
         margin: 0 !important;
-        padding: 12px 15px !important;
+        padding: 18px 15px 12px 15px !important; /* Increased top padding to 18px to push content down */
         box-sizing: border-box !important;
         text-align: left !important;
         background-color: #24292f !important;
@@ -75,17 +75,17 @@
         margin-right: 30px !important;
         white-space: nowrap !important;
         line-height: 1.5 !important;
-        padding: 4px 0 !important;
+        padding: 0 !important; /* Keeps logo top edge aligned with top row */
     }
 
     .nav-links {
         display: flex !important;
         flex-wrap: wrap !important;
-        align-items: center !important; /* Forces items on wrapped rows to align centered on their row line */
+        align-items: center !important; 
         list-style: none !important;
         margin: 0 !important;
         padding: 0 !important;
-        gap: 10px 20px !important; /* 10px vertical gap between wrapped rows, 20px horizontal gap */
+        gap: 10px 20px !important; 
         flex-direction: row !important;
         text-align: left !important;
     }
@@ -100,8 +100,8 @@
 
     .nav-links li a {
         display: inline-block !important;
-        line-height: 1.5 !important; /* Establishes consistent vertical height across all link tags */
-        padding: 4px 0 !important;
+        line-height: 1.5 !important; 
+        padding: 0 !important;
     }
 
     .dropdown {
