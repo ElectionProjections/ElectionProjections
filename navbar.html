@@ -1,10 +1,52 @@
-<style>
-    /* 1. Ensure body margin doesn't shift top alignment */
-    body {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
+<div id="nav-shield">
+    <a href="index.html" class="nav-logo">Election Projections</a>
+    <ul class="nav-links">
+        <li><a href="about.html">About</a></li>
+        <li><a href="australia.html">Australia</a></li>
+        <li><a href="bangladesh.html">Bangladesh</a></li>
+        <li><a href="botswana.html">Botswana</a></li>
+        <li><a href="canada.html">Canada</a></li>
+        <li><a href="faroe.html">Faroe</a></li>
+        <li><a href="germany.html">Germany</a></li>
+        <li><a href="greece.html">Greece</a></li>
+        <li><a href="india.html">India</a></li>
+        <li><a href="ireland.html">Ireland</a></li>
+        <li><a href="italy.html">Italy</a></li>
+        
+        <!-- MALAYSIA DROPDOWN MENU -->
+        <li class="dropdown">
+            <a href="malaysia.html" class="dropbtn">Malaysia <span class="arrow">▼</span></a>
+            <div class="dropdown-content">
+                <a href="johor.html">Johor</a>
+                <a href="malacca.html">Malacca</a>
+                <a href="negeri-sembilan.html">Negeri Sembilan</a>
+                <a href="sarawak.html">Sarawak</a>             
+                <a href="selangor.html">Selangor</a>
+            </div>
+        </li>
+        <li><a href="new-zealand.html">New Zealand</a></li>
+        <li><a href="norway.html">Norway</a></li>
+        <li><a href="pakistan.html">Pakistan</a></li>
+        <li><a href="poland.html">Poland</a></li>
+        <li><a href="singapore.html">Singapore</a></li>
+        <li><a href="south-africa.html">South Africa</a></li>
+        <li><a href="turkey.html">Turkey</a></li>
 
+        <!-- UK DROPDOWN MENU -->
+        <li class="dropdown">
+            <a href="uk.html" class="dropbtn">UK <span class="arrow">▼</span></a>
+            <div class="dropdown-content">
+                <a href="northern-ireland.html">Northern Ireland</a>
+                <a href="scotland.html">Scotland</a>
+                <a href="scottish-councils.html">Scottish Councils</a>
+                <a href="wales.html">Wales</a>
+            </div>
+        </li>
+        <li><a href="usa.html">USA</a></li>
+    </ul>
+</div>
+
+<style>
     #nav-shield {
         display: flex !important;
         align-items: flex-start !important;
@@ -12,15 +54,18 @@
         width: 100% !important;
         max-width: 100% !important;
         margin: 0 !important;
-        padding-top: 24px !important; /* Force generous space above the first row */
-        padding-bottom: 16px !important;
-        padding-left: 20px !important;
-        padding-right: 20px !important;
+        padding: 18px 15px 12px 15px !important; /* Increased top padding to 18px to push content down */
         box-sizing: border-box !important;
         text-align: left !important;
         background-color: #24292f !important;
     }
 
+    .navbar {
+        overflow: visible !important; 
+        display: flex !important;
+        align-items: center !important;
+    }
+    
     .nav-logo {
         color: white !important;
         font-weight: bold !important;
@@ -29,8 +74,8 @@
         text-align: left !important;
         margin-right: 30px !important;
         white-space: nowrap !important;
-        line-height: 1 !important;
-        margin-top: 2px !important; /* Fine-tune logo to line up with first row text */
+        line-height: 1.5 !important;
+        padding: 0 !important; /* Keeps logo top edge aligned with top row */
     }
 
     .nav-links {
@@ -40,7 +85,7 @@
         list-style: none !important;
         margin: 0 !important;
         padding: 0 !important;
-        gap: 12px 20px !important; /* 12px vertical gap between wrapped rows */
+        gap: 10px 20px !important; 
         flex-direction: row !important;
         text-align: left !important;
     }
@@ -49,16 +94,14 @@
         text-align: left !important;
         margin: 0 !important;
         padding: 0 !important;
-        display: inline-flex !important;
+        display: flex !important;
         align-items: center !important;
     }
 
     .nav-links li a {
         display: inline-block !important;
-        color: #adbac7 !important;
-        text-decoration: none !important;
-        line-height: 1.2 !important; 
-        padding: 4px 0 !important; /* Gives each link vertical breathing room */
+        line-height: 1.5 !important; 
+        padding: 0 !important;
     }
 
     .dropdown {
@@ -87,6 +130,7 @@
         margin-top: 4px !important; 
     }
 
+    /* Invisible hover-bridge preventing the menu from snapping shut */
     .dropdown-content::before {
         content: "" !important;
         position: absolute !important;
