@@ -216,6 +216,11 @@
   .coalition-bar-majority-tick::after{content:'289';position:absolute;top:29px;left:0;transform:translateX(-50%);font-family:var(--mono);font-size:9px;color:var(--muted);}
 
   .map-panel{margin-top:20px;}
+  .map-mode-row{display:flex;align-items:center;gap:8px;margin:10px 0 4px 0;font-size:12.5px;flex-wrap:wrap;}
+  .map-mode-row label{color:var(--muted);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+  .map-mode-row select{font-family:var(--sans);font-size:12.5px;padding:3px 6px;border:1px solid var(--rule);border-radius:2px;background:var(--paper);color:var(--ink);}
+  .map-legend{display:flex;align-items:center;gap:6px;margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--muted);}
+  .map-legend .swatch-strip{width:90px;height:9px;border-radius:1px;border:1px solid var(--rule);}
   .map-layout{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;}
   .map-mainland-wrap{flex:4 1 620px;min-width:380px;}
   .map-svg{display:block;width:100%;height:auto;}
@@ -325,6 +330,11 @@
     <div class="headline">
       <h2>Constituency map</h2>
       <span class="majority-note" id="mapHint">Click a constituency for details</span>
+    </div>
+    <div class="map-mode-row">
+      <label for="mapColorMode">Color by</label>
+      <select id="mapColorMode"></select>
+      <span class="map-legend" id="mapLegend"></span>
     </div>
     <div class="map-layout">
       <div class="map-mainland-wrap" style="position:relative;">
@@ -557,6 +567,7 @@ document.getElementById('nfpBreakdownToggle').addEventListener('change', (e) => 
   }
   renderSliders();
   updateTotalRow();
+  populateMapColorModeSelect();
   runProjection();
 });
 
@@ -963,6 +974,67 @@ function seatColor(s){
   return COLORS[s.winner];
 }
 
+// ---- Party-strength color mode: shade every constituency by one party's local vote
+// share instead of just coloring the winner, so you can see a party's real strength even
+// in seats it doesn't win ----
+let mapColorMode = 'winner';
+const resolvedColorCache = {};
+function resolveColor(colorStr){
+  if (resolvedColorCache[colorStr]) return resolvedColorCache[colorStr];
+  let out = colorStr;
+  const m = /^var\((--[\w-]+)\)$/.exec(colorStr);
+  if (m) out = getComputedStyle(document.documentElement).getPropertyValue(m[1]).trim();
+  resolvedColorCache[colorStr] = out;
+  return out;
+}
+function hexToRgb(hex){
+  hex = hex.replace('#','');
+  if (hex.length === 3) hex = hex.split('').map(c=>c+c).join('');
+  const num = parseInt(hex,16);
+  return [(num>>16)&255, (num>>8)&255, num&255];
+}
+function strengthColor(baseColorStr, frac){
+  frac = Math.max(0, Math.min(1, frac));
+  const [r,g,b] = hexToRgb(resolveColor(baseColorStr));
+  const bg = 247; // near-white baseline to blend from, matching the page's paper tone
+  const mix = (c) => Math.round(bg + (c-bg)*frac);
+  return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
+}
+
+function mapModeEntities(){
+  // every entity a person could plausibly want a strength view for: main blocs (with NFP
+  // replaced by its sub-parties when that breakdown is active), but not individual "Other"
+  // candidates — there's no one coherent national quantity to shade for a purely local party
+  const list = [];
+  BLOCS.forEach(b => {
+    if (b === 'NFP' && breakdownEnabled){ SUBPARTIES.forEach(sp => list.push({key: sp, label: sp, color: SUBPARTY_COLORS[sp]})); return; }
+    list.push({key: b, label: SHORT[b], color: COLORS[b]});
+  });
+  return list;
+}
+
+function populateMapColorModeSelect(){
+  const sel = document.getElementById('mapColorMode');
+  const prev = mapColorMode;
+  sel.innerHTML = '';
+  const winnerOpt = document.createElement('option');
+  winnerOpt.value = 'winner'; winnerOpt.textContent = 'Winner (projected)';
+  sel.appendChild(winnerOpt);
+  mapModeEntities().forEach(ent => {
+    const opt = document.createElement('option');
+    opt.value = ent.key; opt.textContent = ent.label + ' — vote share';
+    sel.appendChild(opt);
+  });
+  // keep the previous selection if it still exists in the rebuilt list, else fall back
+  const stillValid = [...sel.options].some(o => o.value === prev);
+  mapColorMode = stillValid ? prev : 'winner';
+  sel.value = mapColorMode;
+}
+document.getElementById('mapColorMode').addEventListener('change', (e) => {
+  mapColorMode = e.target.value;
+  if (lastResult) updateMapColors(lastResult);
+});
+
 function makeProjection(bbox, w, h, margin){
   const [minX,minY,maxX,maxY] = bbox;
   const midLat = (minY+maxY)/2;
@@ -1153,11 +1225,38 @@ function wireSeatEvents(path, key){
 
 function updateMapColors(result){
   lastSeatResultsByKey = {};
-  result.seatResults.forEach(s => {
-    lastSeatResultsByKey[s.key] = s;
-    const el = seatPathEls[s.key];
-    if (el) el.setAttribute('fill', seatColor(s));
-  });
+  result.seatResults.forEach(s => { lastSeatResultsByKey[s.key] = s; });
+
+  const legend = document.getElementById('mapLegend');
+  if (mapColorMode === 'winner'){
+    result.seatResults.forEach(s => {
+      const el = seatPathEls[s.key];
+      if (el) el.setAttribute('fill', seatColor(s));
+    });
+    legend.innerHTML = '';
+  } else {
+    const ent = mapModeEntities().find(e => e.key === mapColorMode);
+    if (ent){
+      // scale the shading to the strongest seat this party actually has, not a flat 0-100%,
+      // so the map stays visually differentiated even for smaller parties
+      let maxShare = 0;
+      result.seatResults.forEach(s => {
+        const votes = s.newVotesT1[ent.key] || 0;
+        const share = s.exprimes ? votes/s.exprimes : 0;
+        if (share > maxShare) maxShare = share;
+      });
+      maxShare = Math.max(maxShare, 0.01);
+      result.seatResults.forEach(s => {
+        const el = seatPathEls[s.key];
+        if (!el) return;
+        const votes = s.newVotesT1[ent.key] || 0;
+        const share = s.exprimes ? votes/s.exprimes : 0;
+        el.setAttribute('fill', strengthColor(ent.color, share/maxShare));
+      });
+      legend.innerHTML = `<span>0%</span><span class="swatch-strip" style="background:linear-gradient(to right, ${strengthColor(ent.color,0)}, ${resolveColor(ent.color)})"></span><span>${(maxShare*100).toFixed(0)}%+</span>`;
+    }
+  }
+
   const activeKey = pinnedSeatKey;
   if (activeKey && lastSeatResultsByKey[activeKey] && seatPathEls[activeKey]){
     document.getElementById('mapTooltip').innerHTML = buildTooltipHTML(lastSeatResultsByKey[activeKey]);
@@ -1327,6 +1426,7 @@ function renderResults(result){
 
 // init
 initMap();
+populateMapColorModeSelect();
 renderSliders();
 updateTotalRow();
 runProjection();
