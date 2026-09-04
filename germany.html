@@ -106,9 +106,9 @@
   .eyebrow{font-family:"Fira Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 6px}
   h1{font-family:"Fira Sans Condensed",sans-serif;font-weight:700;font-size:clamp(32px,5vw,48px);line-height:1.05;letter-spacing:-.01em;margin:0}
   .sub{color:var(--ink-soft);font-size:15px;max-width:64ch;margin:10px 0 0}
-  .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:40px;margin-top:32px;align-items:start}
-  @media (max-width:860px){.grid{grid-template-columns:1fr;gap:32px}}
+  .grid{display:grid;grid-template-columns:1fr;gap:32px;margin-top:32px;align-items:start}
   .panel-label{font-family:"Fira Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);border-bottom:1px solid var(--rule);padding-bottom:8px;margin:0 0 4px;display:flex;justify-content:space-between;align-items:baseline}
+  .panel-label>span:first-child{font-family:"Fira Sans Condensed",sans-serif;font-size:17px;font-weight:700;letter-spacing:0;text-transform:none;color:var(--ink)}
   .ballot{border-left:1px solid var(--rule);border-right:1px solid var(--rule)}
   .prow{display:grid;grid-template-columns:14px minmax(0,1fr) 88px 76px;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--rule)}
   .prow:first-child{border-top:1px solid var(--rule)}
@@ -133,6 +133,7 @@
   .readout b{font-family:"Fira Sans Condensed",sans-serif;font-size:40px;font-weight:700;line-height:1}
   .readout em{font-style:normal;font-family:"Fira Mono",monospace;font-size:12px;color:var(--ink-faint);letter-spacing:.06em}
   svg{display:block;width:100%;height:auto}
+  #arc{max-width:680px;margin:0 auto}
   circle.seat{transition:fill 160ms ease,opacity 160ms ease}
   @media (prefers-reduced-motion:reduce){circle.seat{transition:none}}
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px}
@@ -148,13 +149,20 @@
   .coalnote b{color:var(--ink)}
   select{font-family:"Fira Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--card);border:1px solid var(--rule-strong);border-radius:3px;padding:4px 8px;color:var(--ink);cursor:pointer}
   table.bd{width:100%;border-collapse:collapse;font-size:14px;table-layout:fixed}
-  table.bd th{font-family:"Fira Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);font-weight:400;text-align:right;padding:8px 6px;border-bottom:1px solid var(--rule)}
+  table.bd th{font-family:"Fira Mono",monospace;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);font-weight:400;text-align:right;padding:8px 5px;border-bottom:1px solid var(--rule);line-height:1.35;overflow-wrap:break-word;word-break:break-word;vertical-align:bottom}
   table.bd th:first-child{text-align:left}
-  table.bd td{padding:8px 6px;text-align:right;font-family:"Fira Mono",monospace;border-bottom:1px solid var(--rule)}
-  table.bd td:first-child{text-align:left;font-family:"Fira Sans",sans-serif;font-weight:500;display:flex;align-items:center;gap:8px}
+  table.bd td{padding:8px 5px;text-align:right;font-family:"Fira Mono",monospace;border-bottom:1px solid var(--rule)}
+  table.bd td:first-child{text-align:left;font-family:"Fira Sans",sans-serif;font-weight:500}
+  table.bd td:first-child .pcell{display:flex;align-items:center;gap:8px}
   table.bd td i{width:9px;height:9px;border-radius:2px;display:block;flex:none}
   table.bd td b{font-weight:500}
   table.bd tr.sum td{border-bottom:none;color:var(--ink-soft)}
+  table.bd tr.noseat td{color:var(--ink-faint)}
+  table.bd tr.noseat td:first-child{font-weight:400}
+  table.bd th:last-child,table.bd td:last-child{border-left:1px solid var(--rule);background:rgba(22,22,21,.035)}
+  table.bd th:last-child{color:var(--ink);font-weight:500}
+  table.bd td:last-child b{font-size:15.5px;color:var(--ink)}
+  table.bd tr.sum td:last-child{background:rgba(22,22,21,.06)}
   .clausebox{margin-top:18px;border:1px solid var(--rule);border-radius:3px;background:var(--card);padding:12px 14px}
   .clausebox p{margin:0;font-size:13px;color:var(--ink-soft);font-family:"Fira Mono",monospace}
   .clausebox p b{color:var(--ink)}
@@ -164,17 +172,16 @@
   footer{margin-top:44px;border-top:1px solid var(--rule);padding-top:18px;font-size:13px;color:var(--ink-soft);max-width:78ch}
   footer h2{font-family:"Fira Sans Condensed",sans-serif;font-size:15px;font-weight:700;margin:0 0 6px}
   footer p{margin:0 0 10px}
-  #mapwrap{max-width:290px;margin:10px auto 0}
+  #mapwrap{max-width:480px;margin:10px auto 0}
   #map path{stroke:var(--paper);stroke-width:.9;cursor:pointer;transition:opacity 140ms ease}
   #map path:hover{opacity:.72}
-  #map path.sel{stroke:var(--ink);stroke-width:1.8}
   #map:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .maptabs{display:flex;gap:0;margin:0 0 2px}
   .maptabs button{flex:1;font-family:"Fira Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:none;border:1px solid var(--rule-strong);border-right:none;padding:6px 4px;color:var(--ink-soft);cursor:pointer}
   .maptabs button:last-child{border-right:1px solid var(--rule-strong)}
   .maptabs button[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
   .maptabs button:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
-  #wkmapwrap{max-width:100%;margin:10px auto 0}
+  #wkmapwrap{max-width:440px;margin:10px auto 0}
   #wkmapwrap{position:relative}
   #wkmap{touch-action:none;cursor:grab}
   #wkmap:active{cursor:grabbing}
@@ -187,9 +194,12 @@
   #wktip{position:fixed;z-index:60;pointer-events:none;display:none;background:var(--card);border:1px solid var(--ink);border-radius:4px;padding:9px 11px;max-width:230px;box-shadow:0 5px 18px rgba(0,0,0,.14);font-family:"Fira Sans",sans-serif}
   #wktip h4{margin:0 0 6px;font-family:"Fira Sans Condensed",sans-serif;font-size:14px;font-weight:700;display:flex;justify-content:space-between;gap:10px}
   #wktip h4 span{font-family:"Fira Mono",monospace;font-size:11px;color:var(--ink-faint);font-weight:400}
-  #wktip .r{display:flex;align-items:center;gap:7px;font-family:"Fira Mono",monospace;font-size:11px;line-height:1.7;color:var(--ink-soft)}
-  #wktip .r i{width:8px;height:8px;border-radius:2px;flex:none}
-  #wktip .r b{margin-left:auto;font-weight:500;color:var(--ink)}
+  #wktip .rh{display:grid;column-gap:7px;font-family:"Fira Mono",monospace;font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);padding-bottom:4px;margin-bottom:3px;border-bottom:1px solid var(--rule)}
+  #wktip .rh span{text-align:right}
+  #wktip .rh span:first-child,#wktip .rh span:nth-child(2){text-align:left}
+  #wktip .r{display:grid;column-gap:7px;align-items:center;font-family:"Fira Mono",monospace;font-size:11px;line-height:1.7;color:var(--ink-soft)}
+  #wktip .r i{width:8px;height:8px;border-radius:2px;flex:none;align-self:center}
+  #wktip .r b{font-weight:500;color:var(--ink);text-align:right}
   #wktip .r.win{color:var(--ink);font-weight:500}
   #wktip .tf{margin-top:6px;padding-top:5px;border-top:1px solid var(--rule);font-family:"Fira Mono",monospace;font-size:10px;color:var(--ink-faint)}
   #wktip .tf .uf{color:var(--flag)}
@@ -207,25 +217,16 @@
     <p class="eyebrow">Zweitstimmen &rarr; 630 Sitze &middot; Sainte-Laguë &middot; UNS über 299 Wahlkreise</p>
     <h1>Bundestag seat projector</h1>
   </header>
-  <p class="sub">Enter a second-vote share for each party. Seats follow the system in force from 2025: every constituency is swung uniformly off the February 2025 result, seats are shared among each party's 16 Land lists, and second-vote coverage decides who actually sits.</p>
+  <p class="sub">Enter a second-vote share for each party. Seats follow the system in force from 2025: every constituency is swung uniformly off the February 2025 result, seats are shared among each party's 16 state lists, and second-vote coverage decides who actually sits.</p>
 
   <div class="grid">
     <section>
-      <p class="panel-label"><span>Second votes</span><span>Constituencies</span></p>
+      <p class="panel-label"><span>Vote Input</span><span>Constituencies</span></p>
       <div class="ballot" id="rows"></div>
       <div class="tally" id="tally">
         <span id="tally-text">Total 0.00%</span>
         <button class="ghost" id="reset" type="button">Reset to 2025</button>
       </div>
-
-      <p class="panel-label" style="margin-top:28px">
-        <span>Breakdown</span>
-        <select id="area" aria-label="Select area"></select>
-      </p>
-      <table class="bd">
-        <thead><tr><th>Party</th><th>Vote %</th><th>Seats</th><th>Direct</th><th>List</th></tr></thead>
-        <tbody id="bd"></tbody>
-      </table>
 
       <div class="clausebox">
         <p id="clause-line">Threshold: <b>—</b></p>
@@ -234,21 +235,29 @@
     </section>
 
     <section>
-      <p class="panel-label"><span>Chamber</span></p>
-      <div class="readout"><b id="seated">0</b><em id="seated-note">of 630 seats</em></div>
+      <p class="panel-label"><span>Bundestag Projection</span></p>
       <svg id="arc" viewBox="0 0 680 340" role="img" aria-labelledby="arc-t">
         <title id="arc-t">Hemicycle showing projected seat distribution</title>
       </svg>
 
-      <p class="panel-label" style="margin-top:14px"><span>Coalition</span></p>
+      <table class="bd">
+        <colgroup>
+          <col style="width:25%"><col style="width:16%"><col style="width:16%">
+          <col style="width:16%"><col style="width:14%"><col style="width:13%">
+        </colgroup>
+        <thead><tr><th>Party</th><th>Direct vote %</th><th>Direct seats</th><th>List vote %</th><th>List seats</th><th>Total seats</th></tr></thead>
+        <tbody id="bd"></tbody>
+      </table>
+
+      <p class="panel-label" style="margin-top:26px"><span>Coalition Builder</span></p>
       <div class="chips" id="chips"></div>
       <div class="bar"><div class="fill" id="fill"></div><div class="maj" title="Majority"></div></div>
       <p class="coalnote" id="coalnote">Select parties to test a majority.</p>
 
-      <p class="panel-label" style="margin-top:26px"><span id="map-title">Winning party by constituency</span></p>
+      <p class="panel-label" style="margin-top:26px"><span>Projection Maps</span><span id="map-title">Winning party by constituency</span></p>
       <div class="maptabs" role="group" aria-label="Map granularity">
         <button type="button" id="tab-wk" aria-pressed="true">299 constituencies</button>
-        <button type="button" id="tab-land" aria-pressed="false">16 Länder</button>
+        <button type="button" id="tab-land" aria-pressed="false">16 States</button>
       </div>
       <label class="hatchtoggle"><input type="checkbox" id="showUnfilled">Show unfilled seats</label>
       <div id="wkmapwrap">
@@ -256,21 +265,14 @@
         <svg id="wkmap" viewBox="0 0 560 760" role="img" aria-label="Map of Germany's 299 constituencies shaded by the projected first-vote winner"></svg>
       </div>
       <div id="wktip" role="tooltip" aria-hidden="true"></div>
-      <div id="mapwrap" style="display:none;max-width:290px;margin:10px auto 0">
-        <svg id="map" viewBox="0 0 300 400" role="img" aria-label="Map of Germany shaded by the largest party in each Land"></svg>
+      <div id="mapwrap" style="display:none;max-width:480px;margin:10px auto 0">
+        <svg id="map" viewBox="0 0 300 400" role="img" aria-label="Map of Germany shaded by the largest party in each state"></svg>
       </div>
-      <p class="maplab" id="maplab">Click a constituency for detail · scroll to zoom · drag to pan. Use the dropdown or Länder map to filter.</p>
+      <p class="maplab" id="maplab">Click a constituency for detail · scroll to zoom · drag to pan.</p>
     </section>
   </div>
 
-  <footer>
-    <h2>How the projection works</h2>
-    <p>The 2023 reform fixed the Bundestag at 630 seats and abolished overhang and levelling seats, so a party's national total follows its second-vote share. Those seats are divided by the Sainte-Laguë/Schepers method among parties on at least 5%, or holding at least three constituencies, or recognised as a national minority party (the SSW). Each party's seats are then shared among its 16 Land lists by the same method.</p>
-    <p>Constituencies use uniform national swing. A party's move against its 2025 second-vote share is added, in percentage points, to its first-vote share in all 299 constituencies, floored at zero; whoever leads wins. Land second votes are swung the same way.</p>
-    <p>The constituency map shades all 299 Wahlkreise by projected first-vote winner, on the official 2025 boundaries; a hatched seat is one a party wins but can't fill for want of second-vote coverage in that Land. The Länder tab collapses the same data to 16 areas. Clicking either filters the breakdown table. </p>
-    <p><b>Direct</b> counts constituency winners who actually take a seat. A win only converts if the party earned enough second votes in that Land to cover it, so where a party wins more constituencies than its Land contingent, the excess goes unfilled and nobody represents those seats. <b>List</b> is the remainder, filled from the Land list. At zero swing the model returns the official 2025 result exactly: 208 Union, 152 AfD, 120 SPD, 85 Grüne, 64 Linke, 1 SSW, with 23 constituencies unfilled.</p>
-    <p>Two caveats worth keeping in view. Swings are never truly uniform — they run stronger where a party is already strong, and this model understates that. And first votes are swung by second-vote movements, which glosses over the personal vote that carries Linke candidates in Berlin and keeps the CSU ahead of its list share. CDU and CSU take one combined input, since no voter chooses between them: the CSU stands only in Bavaria and the CDU only outside it. The model splits the bloc back apart on that geography and allocates the two as separate parties, which is what the law does.</p>
-  </footer>
+
 </div>
 
 <script>
@@ -299,16 +301,13 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
   const IN_META={union:{n:'CDU/CSU',t:'Union',c:'#4A4A46'}};
   INPUT.forEach(k=>{ if(!IN_META[k]) IN_META[k]=META[k]; });
 
-  const WK=BASE.wk.map(r=>{const o={nr:r[0],name:r[1],land:r[2],s:{}};K.forEach((k,i)=>o.s[k]=r[4+i]/r[3]*100);return o;});
+  const WK=BASE.wk.map(r=>{const o={nr:r[0],name:r[1],land:r[2],valid:r[3],s:{}};K.forEach((k,i)=>o.s[k]=r[4+i]/r[3]*100);return o;});
   const LAND=BASE.laender.map(l=>{const o={id:l[0],name:l[1],valid:l[2],s:{}};K.forEach((k,i)=>o.s[k]=l[3+i]);return o;});
   const TOTV=LAND.reduce((a,l)=>a+l.valid,0);
   const P=INPUT.map(k=>({k,...IN_META[k],v:+BASE.bund[k].toFixed(2),base:BASE.bund[k]}));
   const DEF=P.map(p=>p.v);
   const coal=new Set();
-  let area='DE', mapMode='wk', wkInfo={}, vb={x:0,y:0,w:560,h:760}, zScale=1, showUnfilled=false;
-
-  const sel=document.getElementById('area');
-  sel.innerHTML='<option value="DE">Germany</option>'+LAND.map(l=>'<option value="'+l.id+'">'+l.name+'</option>').join('');
+  let mapMode='wk', wkInfo={}, landInfo={}, vb={x:0,y:0,w:560,h:760}, zScale=1, showUnfilled=false;
 
   const rows=document.getElementById('rows');
   P.forEach((p,i)=>{
@@ -334,13 +333,22 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
   }
 
   function project(){
-    const sw={}; P.forEach(p=>sw[p.k]=p.v-p.base);
+    // Below 20% of a party's 2025 result, taper its swung share smoothly to zero
+    // (rather than the flat percentage-point swing, which can leave residual
+    // share in former strongholds even once the party is set to 0%).
+    const TAPER=0.2;
+    const sw={}, factor={};
+    P.forEach(p=>{
+      const thresh=TAPER*p.base;
+      if(thresh<=0 || p.v>=thresh){ sw[p.k]=p.v-p.base; factor[p.k]=1; }
+      else { sw[p.k]=thresh-p.base; factor[p.k]=p.v/thresh; }
+    });
 
     const landVotes={};
     OUT.forEach(k=>landVotes[k]={});
     LAND.forEach(l=>{
       INPUT.forEach(k=>{
-        const share=Math.max(0,l.s[k]+sw[k]);
+        const share=Math.max(0,l.s[k]+sw[k])*factor[k];
         const votes=share/100*l.valid;
         if(k==='union'){ landVotes[l.id==='BY'?'csu':'cdu'][l.id]=votes; }
         else landVotes[k][l.id]=votes;
@@ -352,17 +360,23 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
 
     const direct={}; OUT.forEach(k=>direct[k]={});
     const wkWin={};
+    const fvVotes={}; OUT.forEach(k=>fvVotes[k]=0);
+    let fvTotal=0;
     for(const c of WK){
       let b=null,bv=-1,sv=-1;
       for(const k of INPUT){
-        const x=Math.max(0,c.s[k]+sw[k]);
+        const x=Math.max(0,c.s[k]+sw[k])*factor[k];
+        const fvKey = k==='union' ? (c.land==='BY'?'csu':'cdu') : k;
+        fvVotes[fvKey]+=x/100*c.valid;
         if(x>bv){ sv=bv; bv=x; b=k; } else if(x>sv){ sv=x; }
       }
+      fvTotal+=c.valid;
       const key = b==='union' ? (c.land==='BY'?'csu':'cdu') : b;
       direct[key][c.land]=(direct[key][c.land]||0)+1;
-      const rk=INPUT.map(k=>({k:k==='union'?(c.land==='BY'?'csu':'cdu'):k, v:Math.max(0,c.s[k]+sw[k])})).filter(o=>o.v>0.05).sort((a,b)=>b.v-a.v);
+      const rk=INPUT.map(k=>({k:k==='union'?(c.land==='BY'?'csu':'cdu'):k, v:Math.max(0,c.s[k]+sw[k])*factor[k]})).filter(o=>o.v>0.05).sort((a,b)=>b.v-a.v);
       wkWin[c.nr]={nr:c.nr, k:key, name:c.name, land:c.land, margin:bv-sv, share:bv, ranked:rk};
     }
+    const fvShare={}; OUT.forEach(k=>fvShare[k]=fvTotal?fvVotes[k]/fvTotal*100:0);
     const wins={}; OUT.forEach(k=>wins[k]=Object.values(direct[k]).reduce((a,b)=>a+b,0));
 
     const qual=OUT.filter(k=>nat[k]>0.0001 && (nat[k]>=5 || k==='ssw' || wins[k]>=3));
@@ -371,7 +385,7 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
     qual.forEach((k,i)=>{
       const w=LAND.map(l=>landVotes[k][l.id]||0);
       const per=sl(w,seats[i]);
-      const e={k,...META[k],share:nat[k],total:seats[i],direct:0,list:0,uncovered:0,byLand:{}};
+      const e={k,...META[k],share:nat[k],fv:fvShare[k]||0,total:seats[i],direct:0,list:0,uncovered:0,byLand:{}};
       LAND.forEach((l,j)=>{
         const s=per[j], d=direct[k][l.id]||0, seated=Math.min(d,s);
         e.byLand[l.id]={seats:s,direct:seated,list:s-seated,uncovered:d-seated,
@@ -380,16 +394,8 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
       });
       R[k]=e;
     });
-    OUT.forEach(k=>{ if(!R[k] && wins[k]) R[k]={k,...META[k],share:nat[k],total:0,direct:0,list:0,uncovered:wins[k],byLand:{}}; });
-    return {R,wins,nat,wkWin};
-  }
-
-  function view(R){
-    return Object.values(R).filter(e=>e.total>0).map(e=>{
-      if(area==='DE') return {...e,s:e.total,d:e.direct,l:e.list,u:e.uncovered};
-      const b=e.byLand[area]||{seats:0,direct:0,list:0,uncovered:0,share:0};
-      return {...e,s:b.seats,d:b.direct,l:b.list,u:b.uncovered,share:b.share};
-    }).filter(e=>e.s>0).sort((a,b)=>b.s-a.s);
+    OUT.forEach(k=>{ if(!R[k] && wins[k]) R[k]={k,...META[k],share:nat[k],fv:fvShare[k]||0,total:0,direct:0,list:0,uncovered:wins[k],byLand:{}}; });
+    return {R,wins,nat,wkWin,fvShare};
   }
 
   function nationalView(R){
@@ -478,6 +484,7 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
   function drawMap(R){
     const svg=document.getElementById('map');
     let out='';
+    landInfo={};
     LAND.forEach(l=>{
       const runners=Object.values(R).filter(e=>e.byLand[l.id] && e.byLand[l.id].seats>0)
         .map(e=>({k:e.k,n:e.n,c:e.c,s:e.byLand[l.id].seats,v:e.byLand[l.id].share}))
@@ -485,18 +492,26 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
       const top=runners[0];
       const tied=top && runners[1] && runners[1].s===top.s;
       const fill=top?top.c:'#D8D8D2';
-      out+='<path d="'+MAP[l.id]+'" fill="'+fill+'" class="'+(area===l.id?'sel':'')+'" data-l="'+l.id+'">'+
-        '<title>'+l.name+(top?' — '+top.n+', '+top.s+' of '+runners.reduce((a,r)=>a+r.s,0)+' seats'+
-        (tied?' (tied on seats, ahead on votes)':''):'')+'</title></path>';
+      landInfo[l.id]={name:l.name,runners,tied,total:runners.reduce((a,r)=>a+r.s,0)};
+      out+='<path d="'+MAP[l.id]+'" fill="'+fill+'" data-l="'+l.id+'"></path>';
     });
     svg.innerHTML=out;
   }
 
+  function landTipHTML(id){
+    const info=landInfo[id]; if(!info) return '';
+    const cols='10px 1fr 42px 34px';
+    const head='<div class="rh" style="grid-template-columns:'+cols+'"><span></span><span>Party</span><span>Vote %</span><span>Seats</span></div>';
+    const rows=info.runners.map((r,i)=>
+      '<div class="r'+(i===0?' win':'')+'" style="grid-template-columns:'+cols+'"><i style="background:'+r.c+'"></i>'+r.n+'<b>'+r.v.toFixed(1)+'%</b><b>'+r.s+'</b></div>').join('');
+    return '<h4>'+info.name+' <span>'+info.total+' seats</span></h4>'+head+rows+
+      (info.tied?'<div class="tf">Tied on seats, split by votes</div>':'');
+  }
+
   function render(){
-    const {R,wins,nat,wkWin}=project();
-    const res=view(R);
+    const {R,wins,nat,wkWin,fvShare}=project();
+    const res=nationalView(R);
     const total=P.reduce((a,p)=>a+p.v,0);
-    const areaName=area==='DE'?'Germany':LAND.find(l=>l.id===area).name;
     const pool=res.reduce((a,p)=>a+p.s,0);
     const unfilled=Object.values(R).reduce((a,e)=>a+e.uncovered,0);
 
@@ -512,18 +527,20 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
       cell.innerHTML='<b>'+winSum+'</b>'+(clause?'clause met':'');
     });
 
-    document.getElementById('seated').textContent=SEATS;
-    document.getElementById('seated-note').textContent='of '+SEATS+' seats · majority '+MAJ;
 
     const tally=document.getElementById('tally');
     document.getElementById('tally-text').textContent='Total '+total.toFixed(2)+'%'+(total>100.05?' — over 100':'');
     tally.classList.toggle('warn',total>100.05);
 
-    document.getElementById('bd').innerHTML=res.map(p=>
-      '<tr><td><i style="background:'+p.c+'"></i>'+p.n+'</td><td>'+p.share.toFixed(2)+'</td><td><b>'+p.s+'</b></td><td>'+p.d+'</td><td>'+p.l+'</td></tr>').join('')+
-      '<tr class="sum"><td>'+areaName+'</td><td></td><td>'+pool+'</td><td>'+res.reduce((a,p)=>a+p.d,0)+'</td><td>'+res.reduce((a,p)=>a+p.l,0)+'</td></tr>';
+    const belowThreshold=OUT.filter(k=>!(R[k]&&R[k].total>0));
+    const missedRows=belowThreshold.map(k=>({c:META[k].c,n:META[k].n,share:nat[k],fv:fvShare[k],s:0,d:0,l:0}))
+      .sort((a,b)=>b.share-a.share);
+    const tableRows=[...res,...missedRows];
+    document.getElementById('bd').innerHTML=tableRows.map(p=>
+      '<tr'+(p.s===0?' class="noseat"':'')+'><td><span class="pcell"><i style="background:'+p.c+'"></i>'+p.n+'</span></td><td>'+p.fv.toFixed(2)+'</td><td>'+p.d+'</td><td>'+p.share.toFixed(2)+'</td><td>'+p.l+'</td><td><b>'+p.s+'</b></td></tr>').join('')+
+      '<tr class="sum"><td>Germany</td><td></td><td>'+res.reduce((a,p)=>a+p.d,0)+'</td><td></td><td>'+res.reduce((a,p)=>a+p.l,0)+'</td><td>'+pool+'</td></tr>';
 
-    const missed=OUT.filter(k=>nat[k]>0.0001 && !(R[k]&&R[k].total>0));
+    const missed=belowThreshold.filter(k=>nat[k]>0.0001);
     const saved=OUT.filter(k=>R[k]&&R[k].total>0 && nat[k]<5 && k!=='ssw' && wins[k]>=3);
     const lost=missed.reduce((a,k)=>a+nat[k],0);
     document.getElementById('clause-line').innerHTML=missed.length
@@ -532,23 +549,19 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
     const flip=document.getElementById('flip');
     const bits=[];
     saved.forEach(k=>bits.push('<b>'+META[k].n+'</b> is on '+nat[k].toFixed(2)+'% but holds '+wins[k]+' constituencies, so the basic-mandate clause admits it at full strength.'));
-    if(unfilled) bits.push('<b>'+unfilled+'</b> constituenc'+(unfilled===1?'y goes':'ies go')+' unfilled for want of second-vote coverage.');
+    if(unfilled) bits.push('<b>'+unfilled+'</b> constituency winner'+(unfilled===1?' misses':'s miss')+' out on a seat — '+(unfilled===1?'its party':'their parties')+' won more districts in that state than '+(unfilled===1?'its second-vote share entitles it':'their second-vote share entitles them')+' to.');
     flip.className='flip'+(saved.length?' flag':'');
     flip.innerHTML=bits.join('<br>');
 
     const lab=document.getElementById('maplab');
-    if(area==='DE') lab.innerHTML = mapMode==='wk'
+    lab.innerHTML = mapMode==='wk'
       ? 'Click a constituency for detail · scroll to zoom · drag to pan.'+(showUnfilled?' Hatched = seat unfilled.':'')
-      : 'Click a Land to filter the breakdown.';
-    else{
-      const top=res[0];
-      lab.innerHTML='<b>'+areaName+'</b> · '+pool+' seats · largest: '+(top?top.n:'—');
-    }
+      : 'Click a state for its vote share and seats.';
 
-    const natRes=nationalView(R);
+    const natRes=res;
     for(const k of [...coal]) if(!natRes.some(p=>p.k===k)) coal.delete(k);
     if(mapMode==='wk') drawWkMap(R,wkWin); else drawMap(R);
-    if(mapMode==='wk' && pinnedNr) refreshTip();
+    if((mapMode==='wk' && pinnedNr) || (mapMode==='land' && pinnedLand)) refreshTip();
     drawArc(natRes);
     drawCoalition(natRes, SEATS);
   }
@@ -562,15 +575,18 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
     if(e.target.classList.contains('sl')) rows.querySelector('.nm[data-i="'+i+'"]').value=v.toFixed(2);
     render();
   });
-  sel.addEventListener('change',e=>{ area=e.target.value; render(); });
-  document.getElementById('map').addEventListener('click',e=>{
-    const p=e.target.closest('path'); if(!p) return;
-    area = (area===p.dataset.l) ? 'DE' : p.dataset.l;
-    sel.value=area; render();
-  });
   const wkmap=document.getElementById('wkmap');
   const tip=document.getElementById('wktip');
-  let pinnedNr=null, tipX=0, tipY=0;
+  let pinnedNr=null, pinnedLand=null, tipX=0, tipY=0;
+  const landMapEl=document.getElementById('map');
+  landMapEl.addEventListener('click',e=>{
+    const p=e.target.closest('path');
+    if(!p || !landInfo[p.dataset.l]){ hideTip(); return; }
+    const id=p.dataset.l;
+    if(pinnedLand===id){ hideTip(); return; }
+    pinnedLand=id; tipX=e.clientX; tipY=e.clientY;
+    tip.innerHTML=landTipHTML(id); tip.style.display='block'; positionTip();
+  });
   function applyVB(){ wkmap.setAttribute('viewBox', vb.x.toFixed(1)+' '+vb.y.toFixed(1)+' '+vb.w.toFixed(1)+' '+vb.h.toFixed(1)); }
   function clampVB(){
     vb.w=560/zScale; vb.h=760/zScale;
@@ -578,11 +594,13 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
     vb.y=Math.max(0,Math.min(760-vb.h, vb.y));
   }
   function tipHTML(w){
+    const cols='10px 1fr 44px';
+    const head='<div class="rh" style="grid-template-columns:'+cols+'"><span></span><span>Party</span><span>Vote %</span></div>';
     const rows=(w.ranked||[]).slice(0,5).map((r,i)=>{
       const m=META[r.k]||{n:r.k,c:'#999'};
-      return '<div class="r'+(i===0?' win':'')+'"><i style="background:'+m.c+'"></i>'+m.n+'<b>'+r.v.toFixed(1)+'%</b></div>';
+      return '<div class="r'+(i===0?' win':'')+'" style="grid-template-columns:'+cols+'"><i style="background:'+m.c+'"></i>'+m.n+'<b>'+r.v.toFixed(1)+'%</b></div>';
     }).join('');
-    return '<h4>'+w.name+' <span>'+w.nr+'</span></h4>'+rows+
+    return '<h4>'+w.name+' <span>'+w.nr+'</span></h4>'+head+rows+
       '<div class="tf">Lead +'+w.margin.toFixed(1)+' pts'+(w.uncov?' · <span class="uf">seat unfilled</span>':'')+'</div>';
   }
   function positionTip(){
@@ -599,8 +617,18 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
   }
   function refreshTip(){
     if(pinnedNr && wkInfo[pinnedNr]){ tip.innerHTML=tipHTML(wkInfo[pinnedNr]); positionTip(); }
+    else if(pinnedLand && landInfo[pinnedLand]){ tip.innerHTML=landTipHTML(pinnedLand); positionTip(); }
   }
-  function hideTip(){ tip.style.display='none'; pinnedNr=null; }
+  function hideTip(){ tip.style.display='none'; pinnedNr=null; pinnedLand=null; }
+
+  // Dismiss the pinned tooltip if the map it belongs to scrolls out of view.
+  if('IntersectionObserver' in window){
+    const mapVisibilityObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{ if(!entry.isIntersecting) hideTip(); });
+    }, {threshold:0});
+    mapVisibilityObserver.observe(document.getElementById('wkmapwrap'));
+    mapVisibilityObserver.observe(document.getElementById('mapwrap'));
+  }
 
   wkmap.addEventListener('wheel', e=>{
     e.preventDefault();
@@ -645,8 +673,9 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
     document.getElementById('tab-land').setAttribute('aria-pressed', m==='land');
     document.getElementById('wkmapwrap').style.display = m==='wk'?'block':'none';
     document.getElementById('mapwrap').style.display = m==='land'?'block':'none';
-    document.getElementById('map-title').textContent = m==='wk'?'Winning party by constituency':'Largest party by Land';
+    document.getElementById('map-title').textContent = m==='wk'?'Winning party by constituency':'Largest party by state';
     document.querySelector('.hatchtoggle').style.display = m==='wk'?'flex':'none';
+    hideTip();
     render();
   }
   document.getElementById('tab-wk').addEventListener('click',()=>setMode('wk'));
@@ -663,7 +692,7 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
       rows.querySelector('.sl[data-i="'+i+'"]').value=Math.min(50,p.v);
       rows.querySelector('.nm[data-i="'+i+'"]').value=p.v.toFixed(2);
     });
-    coal.clear(); area='DE'; sel.value='DE';
+    coal.clear();
     render();
   });
 
@@ -672,6 +701,7 @@ const WKMAP = {"w":560,"h":760,"p":{"298":"M88 540L86 534L82 536L80 532L75 532L7
 </script>
 </body>
 </html>
+        
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
