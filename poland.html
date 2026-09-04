@@ -610,14 +610,6 @@ footer strong{color:var(--ink);}
     <div id="ctt-bars"></div>
   </div>
 
-  <footer>
-    <strong>Method.</strong> This tool uses the actual 2023 results in all 41 Sejm constituencies (source: PKW) and applies <strong>uniform national swing</strong> — each party's vote share moves by the same number of percentage points in every constituency as it does nationally. Real D'Hondt is then run separately within each constituency using its actual seat count (7–20), and the 41 results are summed. Whether a party clears the 5%/8% threshold is decided by its <em>national</em> vote share, exactly as in the real system. With this method the 2023 preset reproduces the actual outcome exactly: PiS 194 / KO 157 / Third Way 65 / Lewica 26 / Konfederacja 18.<br><br>
-    <strong>Rozwój Plus</strong> split from PiS in July 2026 and so has no 2023 result to swing from. It is modelled with a flat national share — the same percentage in all 41 constituencies — which was checked against the alternative of having it inherit PiS's geography and differs by at most four seats in 460 at any plausible vote share. The tool does not know its support comes out of PiS's, so lower the PiS slider by hand when raising it. Kaczyński has ruled out a joint list, but both camps' politicians have been briefing that one is possible by 2027, so the toggle models the two running together. It and the Konfederacja–KKP toggle both assume a formally registered electoral coalition, which carries the 8% threshold — the same basis as the Third Way and Lewica toggles, so all four alliances are treated alike.<br><br>
-    <strong>The German Minority</strong> is a registered national-minority committee and so is exempt from the 5% threshold entirely. It contests Opole (constituency 21) alone, where it took 25,778 votes — 5.37% of the district — in 2023, not quite enough to hold the seat it had held since 1991. Because its support answers to local demography rather than national politics, no swing is applied to it: its Opole share stays pinned at the 2023 level while every other party moves around it. It can therefore gain or lose the seat as the other parties' shares shift, which is how the real contest works there.<br><br>
-    Third Way and Lewica ran as single joint lists in 2023, so Polska 2050/PSL and Lewica/Razem are each split from their joint list's district-level vote using the national ratio between their named sub-affiliates. This assumes each pair had the same internal split in every constituency, which won't be exactly true — it's the most reasonable estimate available without separate historical lists. <strong>KKP</strong> is handled differently: it never stood as its own committee, so rather than invent a share for it, Konfederacja keeps the full 7.16% its joint list actually won and KKP starts from zero, like Rozwój Plus. Raising the KKP slider gives it the same share in every constituency. Uniform swing is also a simplification: real shifts vary by region, so a close result can tip either way in practice.<br><br>
-    The map shows official constituency boundaries, dissolved from Poland's 380 powiats (counties) exactly as defined in the Election Code. A constituency's colour reflects whichever party wins the <em>most seats</em> there, not necessarily the most votes — in a multi-member district these usually match but can occasionally diverge.<br><br>
-    <strong>Sources.</strong> 2023 results by constituency: Polish State Electoral Commission (PKW). Constituency boundaries: Polish Election Code Annex 1, geometry via powiat-level GIS data (Geoportal.gov.pl, public domain).
-  </footer>
 
 </div>
 
@@ -1189,6 +1181,7 @@ applyState(PRESET_2023);
 </script>
 </body>
 </html>
+        
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
