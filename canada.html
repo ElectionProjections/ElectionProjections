@@ -182,6 +182,12 @@ h1{font-size:24px;font-weight:600;margin-bottom:6px}
 .coalition-chip .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .coalition-chip .n{opacity:.75;font-weight:400}
 .coalition-empty{font-size:13px;color:var(--text-muted);margin-bottom:1rem}
+.qc-toggle-row{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.qc-toggle-row .qc-toggle-label{font-size:11px;font-weight:500;color:var(--text-secondary)}
+.switch{position:relative;width:34px;height:20px;border-radius:999px;border:1px solid var(--border-strong);background:var(--surface-1);flex-shrink:0;cursor:pointer;padding:0;transition:background .18s,border-color .18s}
+.switch .knob{position:absolute;top:1px;left:1px;width:16px;height:16px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .18s ease}
+.switch.on{background:var(--success);border-color:var(--success)}
+.switch.on .knob{transform:translateX(14px)}
 .coalition-bar-wrap{position:relative;height:30px;border-radius:6px;overflow:hidden;background:var(--surface-1);border:1px solid var(--border);margin-bottom:.6rem;display:flex}
 .coalition-bar-seg{height:100%;transition:width .35s ease}
 .coalition-majority-marker{position:absolute;top:-1px;bottom:-1px;width:2px;background:var(--text-primary);left:50.15%;z-index:2}
@@ -234,6 +240,26 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
       <button class="reset-btn" onclick="resetToDefaults()">Reset to 2025 results</button>
     </div>
     <div class="error-msg" id="err-msg"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-label" style="display:flex;align-items:center;justify-content:space-between">
+      <span>Quebec vote share (%)</span>
+      <div class="qc-toggle-row" onclick="toggleQcPanel()">
+        <span class="qc-toggle-label">Set separately</span>
+        <button type="button" id="qc-toggle" class="switch" role="switch" aria-checked="false" aria-label="Set Quebec vote share separately" onclick="event.stopPropagation(); toggleQcPanel();"><span class="knob"></span></button>
+      </div>
+    </div>
+    <div id="qc-panel-body" style="display:none">
+      <p class="swing-note" style="margin-bottom:.85rem">Quebec has its own dynamics — the Bloc Québécois only runs candidates there. Set Quebec's numbers below (baseline: 2025 Quebec-only results) and the national inputs above are treated as your Canada-wide target; the rest of Canada is solved for automatically so a Quebec swing shows up as a corresponding change elsewhere.</p>
+      <div class="inputs-grid" id="qc-inputs"></div>
+      <div class="total-row">
+        <span>Quebec total: <span class="total-val" id="qc-total-display">—</span>% <span id="qc-total-note"></span></span>
+        <button class="reset-btn" onclick="resetQcToDefaults()">Reset to 2025 Quebec results</button>
+      </div>
+      <div class="error-msg" id="qc-err-msg"></div>
+      <div class="swing-note" id="roc-implied" style="margin-top:.9rem"></div>
+    </div>
   </div>
 
   <div class="card results" id="results" style="display:none">
@@ -683,43 +709,86 @@ const RIDINGS = [
 const PIDS = ['LPC','CPC','NDP','BQ','GPC','PPC','OTH'];
 const EDITABLE_IDS = ['LPC','CPC','NDP','BQ','GPC','PPC'];
 
-function buildInputs(){
-  const g = document.getElementById('inputs');
+// Quebec-specific baseline, derived by averaging each party's local share
+// across just the QC ridings (unweighted by turnout, consistent with how
+// the province-tooltip stats elsewhere in this file are computed). Used as
+// the "2025 Quebec results" baseline for the optional Quebec panel, and as
+// the regional reference point for the taper/swing math when that panel is
+// enabled. The complementary "rest of Canada" baseline is computed the same
+// way, purely for realistic taper behaviour and for the transparency note
+// shown to the user — it is NOT itself an editable input.
+const QC_RIDING_COUNT = RIDINGS.reduce((n,r)=>n+(r[1]==='QC'?1:0),0);
+const ROC_RIDING_COUNT = RIDINGS.length - QC_RIDING_COUNT;
+const QC_BASE2025 = {};
+const ROC_BASE2025 = {};
+PIDS.forEach((pid,i)=>{
+  let qcSum=0, rocSum=0;
+  RIDINGS.forEach(r=>{
+    if(r[1]==='QC') qcSum += r[2+i]; else rocSum += r[2+i];
+  });
+  QC_BASE2025[pid] = QC_RIDING_COUNT>0 ? qcSum/QC_RIDING_COUNT : 0;
+  ROC_BASE2025[pid] = ROC_RIDING_COUNT>0 ? rocSum/ROC_RIDING_COUNT : 0;
+});
+
+const NATIONAL_CFG = {
+  prefix:'', inputsId:'inputs', totalDisplayId:'total-display',
+  totalNoteId:'total-note', errMsgId:'err-msg',
+  baseline: Object.fromEntries(PARTIES.map(p=>[p.id,p.base2025]))
+};
+const QC_CFG = {
+  prefix:'qc_', inputsId:'qc-inputs', totalDisplayId:'qc-total-display',
+  totalNoteId:'qc-total-note', errMsgId:'qc-err-msg',
+  baseline: QC_BASE2025
+};
+
+function buildInputGroup(cfg){
+  const g = document.getElementById(cfg.inputsId);
   g.innerHTML='';
   PARTIES.forEach(p=>{
     const d=document.createElement('div');
     d.className='input-row';
+    const base = cfg.baseline[p.id];
+    const baseStr = base.toFixed(1);
     if(p.id==='OTH'){
-      d.innerHTML=`<label><span class="party-dot" style="background:${p.color}"></span>${p.name}</label><span></span><input type="number" id="inp_${p.id}" value="${p.base2025}" readonly tabindex="-1" style="background:var(--surface-1); color:var(--text-secondary); cursor:default;">`;
+      d.innerHTML=`<label><span class="party-dot" style="background:${p.color}"></span>${p.name}</label><span></span><input type="number" id="${cfg.prefix}inp_${p.id}" value="${baseStr}" readonly tabindex="-1" style="background:var(--surface-1); color:var(--text-secondary); cursor:default;">`;
     } else {
-      d.innerHTML=`<label><span class="party-dot" style="background:${p.color}"></span>${p.name}</label><input type="range" min="0" max="100" step="0.1" id="sld_${p.id}" value="${p.base2025}" oninput="handleInput('${p.id}','range')"><input type="number" min="0" max="100" step="0.1" id="inp_${p.id}" value="${p.base2025}" oninput="handleInput('${p.id}','number')">`;
+      d.innerHTML=`<label><span class="party-dot" style="background:${p.color}"></span>${p.name}</label><input type="range" min="0" max="100" step="0.1" id="${cfg.prefix}sld_${p.id}" value="${baseStr}" oninput="handleInputGroup('${cfg.prefix}','${p.id}','range')"><input type="number" min="0" max="100" step="0.1" id="${cfg.prefix}inp_${p.id}" value="${baseStr}" oninput="handleInputGroup('${cfg.prefix}','${p.id}','number')">`;
     }
     g.appendChild(d);
   });
-  updateOther();
-  updateTotal();
+  updateOtherGroup(cfg);
+  updateTotalGroup(cfg);
+}
+
+function buildInputs(){
+  buildInputGroup(NATIONAL_CFG);
+  buildInputGroup(QC_CFG);
   project();
 }
 
-function resetToDefaults(){
+function resetGroupToDefaults(cfg){
   EDITABLE_IDS.forEach(id=>{
-    const p = PARTIES.find(pp=>pp.id===id);
-    document.getElementById('inp_'+id).value = p.base2025;
-    document.getElementById('sld_'+id).value = p.base2025;
+    const baseStr = cfg.baseline[id].toFixed(1);
+    document.getElementById(cfg.prefix+'inp_'+id).value = baseStr;
+    document.getElementById(cfg.prefix+'sld_'+id).value = baseStr;
   });
-  updateOther();
-  updateTotal();
+  updateOtherGroup(cfg);
+  updateTotalGroup(cfg);
   project();
 }
 
-function handleInput(changedId, source){
-  const numEl = document.getElementById('inp_'+changedId);
-  const sldEl = document.getElementById('sld_'+changedId);
+function resetToDefaults(){ resetGroupToDefaults(NATIONAL_CFG); }
+function resetQcToDefaults(){ resetGroupToDefaults(QC_CFG); }
+
+function handleInputGroup(prefix, changedId, source){
+  const cfg = prefix==='qc_' ? QC_CFG : NATIONAL_CFG;
+  const numEl = document.getElementById(cfg.prefix+'inp_'+changedId);
+  const sldEl = document.getElementById(cfg.prefix+'sld_'+changedId);
   let val = parseFloat(source==='range' ? sldEl.value : numEl.value);
   if(isNaN(val) || val < 0) val = 0;
 
   const othersSum = EDITABLE_IDS.filter(id=>id!==changedId)
-    .reduce((sum,id)=>sum + (parseFloat(document.getElementById('inp_'+id).value)||0), 0);
+    .reduce((sum,id)=>sum + (parseFloat(document.getElementById(cfg.prefix+'inp_'+id).value)||0), 0);
 
   let clamped = false;
   if(othersSum + val > 100){
@@ -739,29 +808,45 @@ function handleInput(changedId, source){
     if(clamped) numEl.value = Math.round(val*10)/10;
   }
 
-  updateOther();
-  updateTotal();
+  updateOtherGroup(cfg);
+  updateTotalGroup(cfg);
   project();
 }
 
-function updateOther(){
-  const editableSum = EDITABLE_IDS.reduce((sum,id)=>sum + (parseFloat(document.getElementById('inp_'+id).value)||0), 0);
+function updateOtherGroup(cfg){
+  const editableSum = EDITABLE_IDS.reduce((sum,id)=>sum + (parseFloat(document.getElementById(cfg.prefix+'inp_'+id).value)||0), 0);
   const other = Math.max(0, Math.round((100 - editableSum)*10)/10);
-  document.getElementById('inp_OTH').value = other;
+  document.getElementById(cfg.prefix+'inp_OTH').value = other;
 }
 
-function getInputs(){
-  return PARTIES.map(p=>({id:p.id, val:parseFloat(document.getElementById('inp_'+p.id).value)||0}));
+function getInputsGroup(cfg){
+  return PARTIES.map(p=>({id:p.id, val:parseFloat(document.getElementById(cfg.prefix+'inp_'+p.id).value)||0}));
 }
 
-function updateTotal(){
-  const vals=getInputs();
+function getInputs(){ return getInputsGroup(NATIONAL_CFG); }
+function getQcInputs(){ return getInputsGroup(QC_CFG); }
+
+function updateTotalGroup(cfg){
+  const vals=getInputsGroup(cfg);
   const tot=vals.reduce((a,b)=>a+b.val,0);
-  const el=document.getElementById('total-display');
+  const el=document.getElementById(cfg.totalDisplayId);
   el.textContent=tot.toFixed(1);
   el.className='total-val ok';
-  document.getElementById('total-note').textContent='';
-  document.getElementById('err-msg').textContent='';
+  document.getElementById(cfg.totalNoteId).textContent='';
+  document.getElementById(cfg.errMsgId).textContent='';
+}
+
+function isQcEnabled(){
+  return document.getElementById('qc-toggle').classList.contains('on');
+}
+
+function toggleQcPanel(){
+  const btn = document.getElementById('qc-toggle');
+  const on = !btn.classList.contains('on');
+  btn.classList.toggle('on', on);
+  btn.setAttribute('aria-checked', on ? 'true' : 'false');
+  document.getElementById('qc-panel-body').style.display = on ? 'block' : 'none';
+  project();
 }
 
 function project(){
@@ -774,19 +859,67 @@ function project(){
   }
   document.getElementById('err-msg').textContent='';
 
-  // Per-party swing model. Above 20% of a party's 2025 national vote share,
+  const qcEnabled = isQcEnabled();
+  let qcVals=null;
+  if(qcEnabled){
+    qcVals = getQcInputs();
+    const qcTot = qcVals.reduce((a,b)=>a+b.val,0);
+    if(Math.abs(qcTot-100)>10){
+      document.getElementById('qc-err-msg').textContent='Quebec vote shares must add up to roughly 100% too.';
+      document.getElementById('results').style.display='none';
+      return;
+    }
+    document.getElementById('qc-err-msg').textContent='';
+  }
+
+  // Per-party swing model. Above 20% of a party's baseline vote share,
   // apply standard uniform national swing (additive). Below that threshold,
-  // taper local support linearly down to exactly 0% at a 0% national input,
-  // so a party polling at 0% nationally cannot still cling to a safe seat
-  // just because its 2021/2025 local base there was very high.
+  // taper local support linearly down to exactly 0% at a 0% input, so a
+  // party polling at 0% cannot still cling to a safe seat just because its
+  // 2025 local base there was very high.
   const TAPER_THRESHOLD = 0.2;
-  const partyMeta = {};
-  PARTIES.forEach((p,i)=>{
-    const baseNat = p.base2025;
-    const input = vals[i].val;
+  function buildMeta(baseNat, input){
     const ratio = baseNat>0 ? input/baseNat : 0;
-    partyMeta[p.id] = { baseNat, input, ratio, additiveSwing: input-baseNat };
-  });
+    return { baseNat, input, ratio, additiveSwing: input-baseNat };
+  }
+
+  let partyMeta=null, partyMetaQC=null, partyMetaROC=null;
+
+  if(!qcEnabled){
+    // Single national swing applied uniformly to every riding, as before.
+    partyMeta = {};
+    PARTIES.forEach((p,i)=>{ partyMeta[p.id] = buildMeta(p.base2025, vals[i].val); });
+    document.getElementById('roc-implied').textContent='';
+  } else {
+    // Quebec gets its own baseline and its own user-set target. The rest of
+    // Canada's implied target is solved for so that the riding-count-weighted
+    // blend of (Quebec target, rest-of-Canada target) reproduces the
+    // national target the user set above — e.g. a Liberal surge in Quebec
+    // that isn't matched by a bigger national number implies softer Liberal
+    // numbers in the rest of Canada.
+    partyMetaQC = {};
+    PARTIES.forEach((p,i)=>{ partyMetaQC[p.id] = buildMeta(QC_BASE2025[p.id], qcVals[i].val); });
+
+    const rocRaw = {};
+    let hadNegative = false;
+    PARTIES.forEach((p,i)=>{
+      const nationalTarget = vals[i].val;
+      const qcTarget = qcVals[i].val;
+      const raw = (nationalTarget*RIDINGS.length - QC_RIDING_COUNT*qcTarget) / ROC_RIDING_COUNT;
+      if(raw<0) hadNegative = true;
+      rocRaw[p.id] = Math.max(0, raw);
+    });
+    const rocRawSum = PARTIES.reduce((s,p)=>s+rocRaw[p.id],0);
+    const rocFinal = {};
+    PARTIES.forEach(p=>{ rocFinal[p.id] = rocRawSum>0 ? rocRaw[p.id]*100/rocRawSum : 0; });
+
+    partyMetaROC = {};
+    PARTIES.forEach(p=>{ partyMetaROC[p.id] = buildMeta(ROC_BASE2025[p.id], rocFinal[p.id]); });
+
+    const rocLine = PARTIES.filter(p=>p.id!=='OTH').map(p=>`${p.name} ${rocFinal[p.id].toFixed(1)}%`).join(', ');
+    const warn = hadNegative ? ' Your Quebec input alone would exceed the national target for at least one party, so its implied rest-of-Canada share was floored at 0% and the difference redistributed.' : '';
+    document.getElementById('roc-implied').textContent = `Implied rest-of-Canada average needed to hit your national target: ${rocLine}.${warn}`;
+  }
 
   const seatCounts={LPC:0,CPC:0,NDP:0,BQ:0,GPC:0,PPC:0};
   MINOR_PARTIES.forEach(p=>{ seatCounts[p.id]=0; });
@@ -800,8 +933,9 @@ function project(){
     const projected={};
     const localBaseMap={};
     const province = r[1];
+    const regionMeta = qcEnabled ? (province==='QC' ? partyMetaQC : partyMetaROC) : partyMeta;
     PIDS.forEach((pid,i)=>{
-      const meta = partyMeta[pid];
+      const meta = regionMeta[pid];
       const localBase = r[2+i];
       localBaseMap[pid]=localBase;
       let val;
@@ -1024,7 +1158,15 @@ function attachZoomPan(hostId){
     const px = (clientX - rect.left)/rect.width;
     const py = (clientY - rect.top)/rect.height;
     const vb = state.current;
-    const newW = vb.w/factor, newH = vb.h/factor;
+    // Clamp the target width/height BEFORE computing the pan offset from it.
+    // Computing the offset from an un-clamped (too-large or too-small) width
+    // and only clamping the size afterward leaves the offset centered on a
+    // size that's no longer the one actually used, which silently drifts
+    // the view off-center — worse each time you zoom past the limit (e.g.
+    // repeatedly clicking "-" once already fully zoomed out).
+    const minW = base.w*0.04, maxW = base.w;
+    const newW = Math.max(minW, Math.min(maxW, vb.w/factor));
+    const newH = newW * (base.h/base.w);
     const svgX = vb.x + px*vb.w, svgY = vb.y + py*vb.h;
     state.current = clampVB({ x: svgX - px*newW, y: svgY - py*newH, w: newW, h: newH });
     applyVB();
@@ -1405,7 +1547,6 @@ buildInputs();
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
