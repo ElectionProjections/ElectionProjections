@@ -827,6 +827,33 @@ Object.keys(WARD_DATA).forEach(councilName => {
   COUNCIL_PARTY_ASSUMED_SHARE[councilName] = assumedShare;
 });
 
+// Builds the baseline context for one overridden council, falling back to
+// the NATIONAL figure on a per-party basis wherever that council has zero
+// real 2022 footprint for a party (e.g. Con and LD never stood in any
+// Shetland ward). Without this, a party with no local history at all has
+// both baseline2022=0 and assumedShare=0 for that council, and applySwing's
+// "only fill in a party that's rising" check (assumed > 0) can never pass
+// -- meaning the slider would visibly move but silently have zero effect,
+// no matter how high it's pushed. Falling back to the national figures
+// makes "what if this party contested here" a real, workable question
+// instead of a dead end.
+function buildCouncilBaselineCtx(councilName){
+  const councilBaseline = COUNCIL_BASELINE_2022[councilName];
+  const councilAssumed = COUNCIL_PARTY_ASSUMED_SHARE[councilName];
+  const baseline2022 = {};
+  const partyAssumedShare = {};
+  MAJOR_PARTIES.forEach(p => {
+    baseline2022[p] = (councilBaseline[p] > 0) ? councilBaseline[p] : BASELINE_2022[p];
+    if(p === 'Reform') return;
+    partyAssumedShare[p] = (councilAssumed[p] > 0) ? councilAssumed[p] : PARTY_ASSUMED_SHARE[p];
+  });
+  return {
+    baseline2022,
+    otherBaseline: COUNCIL_OTHER_BASELINE[councilName] > 0 ? COUNCIL_OTHER_BASELINE[councilName] : OTHER_BASELINE,
+    partyAssumedShare,
+  };
+}
+
 const SEATS_2022 = {SNP:453, Lab:282, Con:214, LD:87, Grn:35, Ind:149, WDC:1, BUP:1, Rubbish:1, Reform:0};
 
 const TOTAL_SEATS = 1226;
@@ -973,6 +1000,33 @@ function applySwing(wardParties, nationalInput, reformShapeValue, baselineCtx){
   const otherBaseline = baselineCtx ? baselineCtx.otherBaseline : OTHER_BASELINE;
   const partyAssumedShare = baselineCtx ? baselineCtx.partyAssumedShare : PARTY_ASSUMED_SHARE;
 
+  // Below this fraction of a party's baseline, its ward-level support
+  // starts taper down to a genuine zero exactly at input=0, rather than
+  // sitting on a permanent "floor" equal to baseline minus a fixed number
+  // of points. Pure additive swing has no such floor built in -- a
+  // stronghold ward can easily out-earn even a large negative points swing
+  // (e.g. Edinburgh's ~15% real Green baseline survives an 6-point cut
+  // easily), so a party dialled all the way down to 0% nationally could
+  // still show real, seat-winning support in its best areas. That's the
+  // one thing additive swing doesn't do that a genuine "this party is
+  // gone" input should.
+  const TAPER_THRESHOLD = 0.2;
+
+  // Applies additive swing above the taper threshold; below it, linearly
+  // interpolates from the threshold's own additive value down to exactly
+  // 0 at input=0, so the curve is continuous at the threshold and every
+  // ward genuinely reaches zero together, not just the weak ones.
+  function swingWithTaper(base, input, baseline){
+    if(!(baseline > 0)) return base;
+    const ratio = input / baseline;
+    if(ratio >= TAPER_THRESHOLD){
+      return Math.max(0, base + (input - baseline));
+    }
+    const thresholdInput = TAPER_THRESHOLD * baseline;
+    const thresholdValue = Math.max(0, base + (thresholdInput - baseline));
+    return thresholdValue * (ratio / TAPER_THRESHOLD);
+  }
+
   let raw = {};
   let sum = 0;
 
@@ -980,11 +1034,13 @@ function applySwing(wardParties, nationalInput, reformShapeValue, baselineCtx){
     const base = wardParties[p];
     if(!(base > 0)) return;
     if(MAJOR_PARTIES.indexOf(p) !== -1 && p !== 'Reform'){
-      const swingPoints = (baseline2022[p] !== undefined) ? (nationalInput[p] - baseline2022[p]) : 0;
-      const v = Math.max(0, base + swingPoints);
+      const v = (baseline2022[p] !== undefined)
+        ? swingWithTaper(base, nationalInput[p], baseline2022[p])
+        : base;
       if(v > 0){ raw[p] = v; sum += v; }
     } else if(MAJOR_PARTIES.indexOf(p) === -1) {
-      // Minor party: ratio-scaled as a bucket (see note above).
+      // Minor party: ratio-scaled as a bucket (see note above). This
+      // already reaches exactly 0 at input.Oth=0 with no taper needed.
       const ratio = (otherBaseline>0) ? (nationalInput.Oth/otherBaseline) : 1;
       const v = base * ratio;
       raw[p] = v;
@@ -999,7 +1055,9 @@ function applySwing(wardParties, nationalInput, reformShapeValue, baselineCtx){
   // ward is assumed to stand anyway once it's rising -- estimated from its
   // typical share where it DID stand, shifted by the same swing points
   // used everywhere else, so it's treated identically to a real local
-  // result rather than needing separate "extra ratio" logic.
+  // result rather than needing separate "extra ratio" logic. This branch
+  // only ever fires when a party is RISING above its baseline, the
+  // opposite regime from the taper above, so the two never overlap.
   MAJOR_PARTIES.forEach(p => {
     if(p === 'Reform' || (wardParties[p] && wardParties[p] > 0)) return;
     const assumed = partyAssumedShare[p];
@@ -1035,11 +1093,7 @@ function runProjection(nationalInput){
     // scoped to one council.
     const hasOverride = !!councilOverrides[councilName];
     const inputForThisCouncil = councilOverrides[councilName] || nationalInput;
-    const baselineCtx = hasOverride ? {
-      baseline2022: COUNCIL_BASELINE_2022[councilName],
-      otherBaseline: COUNCIL_OTHER_BASELINE[councilName],
-      partyAssumedShare: COUNCIL_PARTY_ASSUMED_SHARE[councilName],
-    } : null;
+    const baselineCtx = hasOverride ? buildCouncilBaselineCtx(councilName) : null;
     const councilSeats = {};
     const councilVoteWeighted = {};
     let councilSeatWeight = 0;
@@ -1938,11 +1992,7 @@ function computeWardResult(councilName, wardName){
   const reformShapeValue = (REFORM_SHAPE[councilName]||{})[ward.name] || 0;
   const hasOverride = !!councilOverrides[councilName];
   const input = councilOverrides[councilName] || state;
-  const baselineCtx = hasOverride ? {
-    baseline2022: COUNCIL_BASELINE_2022[councilName],
-    otherBaseline: COUNCIL_OTHER_BASELINE[councilName],
-    partyAssumedShare: COUNCIL_PARTY_ASSUMED_SHARE[councilName],
-  } : null;
+  const baselineCtx = hasOverride ? buildCouncilBaselineCtx(councilName) : null;
   const swung = applySwing(ward.parties, input, reformShapeValue, baselineCtx);
   const seatsWon = countWard(swung, ward.seats);
   return {swung, seatsWon, seats: ward.seats};
