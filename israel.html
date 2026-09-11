@@ -807,11 +807,12 @@ const PARTY_COLOR_MAP = {
   "Religious Zionism": '#8FB94A',    // authentic lime-green accent from Mafdal–RZ branding
   "Yashar": '#E86F48',               // hypothetical party, no real basis — warm terracotta for map legibility
   "Yisrael Beiteinu": '#34A3A3',     // teal, differentiated from the other blues
-  "Hadash-Ta'al": '#CC4444',         // authentic — Hadash's communist-descended red
+  "Joint List": '#CC4444',           // authentic — Hadash's communist-descended red, carried over from Hadash-Ta'al
   "Ra'am": '#259A5E',                // authentic — Islamist-party green
   "Blue and White": '#3A5C8F',       // authentic navy from its blue/dark-blue/white branding
   "The Democrats": '#DA4E8F',        // its real color is listed simply as "blue" (already used 4x elsewhere) — vibrant rose instead
-  "Zionist Home": '#714D9E',         // no real-world basis (hypothetical party) — distinct purple
+  "The Reservists": '#714D9E',       // no real-world basis (hypothetical party) — distinct purple
+  "People of Israel": '#B5793C',     // no real-world basis (hypothetical party) — warm bronze, distinct from Likud blue
 };
 const INK_PALETTE = ['#2E3F63', '#9A4E3D', '#4E7856', '#8A62B0', '#C79A38', '#4E7899', '#B0517A', '#628144'];
 
@@ -853,11 +854,12 @@ let parties = [
   { name: "Otzma Yehudit", seats: 7, locked: true, bloc: 'netanyahu' },
   { name: "Religious Zionism", seats: 7, locked: true, bloc: 'netanyahu' },
   { name: "Yisrael Beiteinu", seats: 6, locked: true, bloc: 'opposition' },
-  { name: "Hadash-Ta'al", seats: 5, locked: true, bloc: 'arab' },
+  { name: "Joint List", seats: 5, locked: true, bloc: 'arab' },
   { name: "Ra'am", seats: 5, locked: true, bloc: 'arab' },
   { name: "Blue and White", seats: 5, locked: true, bloc: 'opposition' },
   { name: "The Democrats", seats: 4, locked: true, bloc: 'opposition' },
-  { name: "Zionist Home", seats: 0, locked: true, bloc: 'opposition' },
+  { name: "The Reservists", seats: 0, locked: true, bloc: 'opposition' },
+  { name: "People of Israel", seats: 0, locked: true, bloc: 'netanyahu' },
 ];
 
 function roughPct(seats, total) {
@@ -1356,6 +1358,13 @@ render();
   </div>
 </div>
 
+<div class="roll-label" id="mapGradientLegend"
+     style="display:none; align-items:center; gap:10px; justify-content:flex-start; margin-bottom:8px; padding:0 2px;">
+  <div class="grad-name" style="font-size:11.5px; color:var(--ink-soft); white-space:nowrap;"></div>
+  <div class="grad-bar" style="flex:1; height:8px; border-radius:2px; border:1px solid var(--line);"></div>
+  <div class="grad-max" style="font-size:9.5px; color:var(--ink-faint); font-family:var(--mono); white-space:nowrap;"></div>
+</div>
+
 <div class="cols">
 
   <!-- ============ MAP ============ -->
@@ -1389,6 +1398,11 @@ render();
       <div class="stat-label">Find a locality</div>
       <input type="search" id="search" placeholder="Sderot, Umm al-Fahm, Efrat…"
              autocomplete="off" aria-label="Search localities">
+    </div>
+    <div class="ctl">
+      <div class="stat-label">Focus on one party</div>
+      <select id="partyFocus" class="bloc-select" style="width:100%; font-size:12.5px; padding:6px 8px;"
+              aria-label="Show a single party's strength by locality"></select>
     </div>
   </div>
 </div>
@@ -1436,6 +1450,7 @@ const KC = {city:"--lik", local_council:"--ya", rural:"--mrz", arab:"--raam", go
   settlement:"--rz", other:"--oth"};
 
 let active=null, sel=null, sortK="valid", sortD=-1, q="", mode="party";
+let focusParty=-1, focusMax=100; // -1 = off; when set, map shows one party's vote-share gradient
 
 /* ---------------- projection ---------------- */
 // Web Mercator. Both axes must be in the SAME angular unit (radians), or the
@@ -1671,7 +1686,7 @@ const LEGACY_MAP = {
   "Otzma Yehudit": {rz:0.5},
   "Religious Zionism": {rz:0.5},
   "Yisrael Beiteinu": {yb:1},
-  "Hadash-Ta'al": {had:1, bal:1},
+  "Joint List": {had:1, bal:1},
   "Ra'am": {raam:1},
   "Blue and White": {nu:5/12},
   "The Democrats": {lab:1, mrz:1},
@@ -1682,6 +1697,7 @@ function recomputeSwing(){
   const baseline = DB.sample.agg;      // 2022 national baseline (this dataset's sample)
   const results = calcVotes();         // this page's current projected national % per party
   PARTY_COLORS = parties.map((p,i)=>monogramFor(p.name,i).color);
+  updatePartyFocusSelect();
   // A pure multiplicative swing can never move a party off 0% in a locality where
   // it got exactly 0% in 2022, no matter how large its national swing factor is
   // (0 × factor = 0) — so a locality with 0% Likud in 2022 would stay completely
@@ -1726,18 +1742,68 @@ function colourFor(d){
   return d._projWin==null ? '#5a5f52' : PARTY_COLORS[d._projWin];
 }
 
+/* ---------------- single-party strength view ---------------- */
+// Blends from a neutral paper tone up to the party's own color, scaled so the
+// single strongest locality for that party is fully saturated — this keeps
+// small and large parties equally readable instead of everything looking pale
+// for a party that never cracks 20% nationally.
+function hexMix(a,b,t){
+  const pa=[1,3,5].map(i=>parseInt(a.substr(i,2),16));
+  const pb=[1,3,5].map(i=>parseInt(b.substr(i,2),16));
+  return '#'+pa.map((v,i)=>Math.round(v+(pb[i]-v)*t).toString(16).padStart(2,'0')).join('');
+}
+function computeFocusMax(i){
+  let m=0;
+  DB.localities.forEach(d=>{ if(d._proj && d._proj[i]>m) m=d._proj[i]; });
+  return m>0 ? m : 100;
+}
+function strengthColor(d,i){
+  if(d._projWin==null) return '#5a5f52';
+  const v = (d._proj && d._proj[i]) || 0;
+  const t = Math.max(0, Math.min(1, v/focusMax));
+  return hexMix('#EAE4D6', PARTY_COLORS[i], t);
+}
+function updatePartyFocusSelect(){
+  const el = document.getElementById('partyFocus');
+  if(!el) return;
+  const prev = focusParty;
+  el.innerHTML = '<option value="-1">— none (use "Colour the map by" above) —</option>' +
+    parties.map((p,i)=>`<option value="${i}">${p.name || '(unnamed party)'}</option>`).join('');
+  focusParty = (prev>=0 && prev<parties.length) ? prev : -1;
+  el.value = String(focusParty);
+}
+document.getElementById('partyFocus').addEventListener('change', e=>{
+  focusParty = parseInt(e.target.value, 10);
+  draw();
+});
+
 /* ---------------- draw ---------------- */
 function draw(){
   const on=new Set(listed().map(d=>d.name));
+  const focusing = focusParty>=0 && parties[focusParty];
+  if (focusing) focusMax = computeFocusMax(focusParty);
+
   nodes.forEach(({d,c,isPoly})=>{
-    c.setAttribute("fill",colourFor(d));
+    c.setAttribute("fill", focusing ? strengthColor(d,focusParty) : colourFor(d));
     c.classList.toggle("mute",!on.has(d.name));
     c.classList.toggle("sel",sel===d.name);
     if (!isPoly) c.setAttribute("r", radDot(d.valid).toFixed(2));
   });
   document.getElementById("mapCount").textContent = shown().length+" of "+DB.localities.length+" localities";
-  document.getElementById("mapTitle").textContent =
-    mode==="bloc" ? "Leading bloc by locality — 2026 projection" : "Leading party by locality — 2026 projection";
+  document.getElementById("mapTitle").textContent = focusing
+    ? `${parties[focusParty].name} — projected vote share by locality`
+    : (mode==="bloc" ? "Leading bloc by locality — 2026 projection" : "Leading party by locality — 2026 projection");
+
+  const legend = document.getElementById('mapGradientLegend');
+  if (legend){
+    legend.style.display = focusing ? 'flex' : 'none';
+    if (focusing){
+      legend.querySelector('.grad-name').textContent = parties[focusParty].name + ':';
+      legend.querySelector('.grad-bar').style.background =
+        `linear-gradient(to right, #EAE4D6, ${PARTY_COLORS[focusParty]})`;
+      legend.querySelector('.grad-max').textContent = `0% \u2192 ${focusMax.toFixed(0)}%+`;
+    }
+  }
 }
 
 const MODES={party:"Party",bloc:"Bloc"};
