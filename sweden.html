@@ -335,6 +335,42 @@
     margin-bottom:18px;
   }
 
+  /* hemicycle */
+  .hemicycle-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-bottom:22px;
+  }
+  #hemicycle{
+    width:100%;
+    max-width:560px;
+    height:auto;
+    overflow:visible;
+  }
+  #hemicycle circle.seat{
+    stroke:#ffffff;
+    stroke-width:1px;
+  }
+  .hemicycle-total{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:26px;
+    font-weight:700;
+    color:var(--navy);
+    text-align:center;
+    margin-top:-6px;
+  }
+  .hemicycle-total span{
+    display:block;
+    font-family:"SFMono-Regular",Menlo,Consolas,monospace;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:#6a6e78;
+    margin-top:2px;
+  }
+
   table{
     width:100%;
     border-collapse:collapse;
@@ -609,7 +645,6 @@
 
   <section>
     <h2>National vote shares</h2>
-    <p class="section-sub">Figures are percentages. The remainder is automatically assigned to "other parties" (none of which are assumed to clear the 4% national threshold).</p>
     <div class="panel">
       <div class="input-grid" id="inputGrid"></div>
       <div class="add-party-row">
@@ -629,8 +664,11 @@
 
   <section>
     <h2>National seat projection</h2>
-    <p class="section-sub">Computed with the same divisor (1.4, then 3, 5, 7&hellip;) and the same 349-seat target the Election Authority uses to determine each qualifying party's overall entitlement, before fixed and levelling seats are reconciled.</p>
     <div class="panel">
+      <div class="hemicycle-wrap">
+        <svg id="hemicycle" viewBox="0 0 620 340" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="hemicycle-total" id="hemicycleTotal">349<span>seats</span></div>
+      </div>
       <table id="resultsTable">
         <thead>
           <tr><th>Party</th><th>Vote share</th><th>Seats</th><th>+/&minus; 2022</th></tr>
@@ -643,7 +681,6 @@
 
   <section>
     <h2>Coalition builder</h2>
-    <p class="section-sub">Click parties to add or remove them from a hypothetical coalition and see whether it reaches the 175-seat majority. Groupings are illustrative only &mdash; they don't reflect any prediction of who would actually govern together.</p>
     <div class="panel">
       <div class="btn-row">
         <button class="secondary bloc-btn" id="leftBlocBtn">Autofill left bloc</button>
@@ -659,7 +696,6 @@
 
   <section>
     <h2>Constituency-level breakdown</h2>
-    <p class="section-sub">The uniform swing from step 1 is applied to each valkrets' actual 2022 result, then seats are allocated within each constituency separately. Each constituency is shaded by whichever party (or bloc) leads on projected vote share there — click a region to see the underlying vote share and seat breakdown. This is where the 12% constituency threshold is checked for parties polling under 4% nationally.</p>
     <div class="panel">
       <div class="map-mode-toggle" id="mapModeToggle">
         <button type="button" class="map-mode-btn active" data-mode="party">By party</button>
@@ -671,22 +707,8 @@
           <div class="map-tooltip" id="mapTooltip"></div>
         </div>
       </div>
-      <div class="note" id="approxNote">Constituency-level seat counts are an estimate: the real system allocates 310 fixed seats per-constituency with a 1.2 divisor, then separately assigns 39 national levelling seats to specific constituencies through a comparative-figure procedure. This map instead runs one proportional calculation per constituency across its full historical seat total, which reproduces the geographic pattern closely but will not always match the official fixed/levelling split seat-for-seat. The national totals in the seat projection section are the authoritative figures. Constituency boundaries are simplified from municipality-level geodata.</div>
     </div>
   </section>
-
-  <details>
-    <summary>Methodology &amp; assumptions</summary>
-    <p><strong>Baseline data.</strong> 2022 vote shares and total seats for all 29 constituencies are taken from the Election Authority's (Valmyndigheten) final results.</p>
-    <p><strong>Swing model.</strong> For each party, swing = (your input) &minus; (2022 national share). That same percentage-point swing is added to the party's 2022 share in every constituency, then each constituency's shares are rescaled to sum to 100%. This is a "uniform national swing" model &mdash; it assumes the change in support is geographically even, which is a simplification real elections rarely satisfy exactly, but it is the standard approach used by pollsters and forecasters absent constituency-level polling.</p>
-    <p><strong>Thresholds.</strong> A party qualifies for the national seat pool only if its national vote share is &ge;4%. A party under 4% nationally can still win constituency seats in any single valkrets where its swung local vote share is &ge;12% &mdash; the tool checks this for every constituency and flags it when triggered.</p>
-    <p><strong>Modified Sainte-Laguë.</strong> Seats are awarded one at a time to whichever qualifying party has the highest quotient (votes &divide; divisor). The first divisor is 1.4; after a party wins its first seat, its divisor becomes 3, then 5, 7, 9&hellip; (2&times;seats already won, plus 1).</p>
-    <p><strong>What this tool does not model:</strong> turnout changes, new parties not listed here, regional swing variation, candidate-level personal votes, or the exact fixed/levelling seat split within a constituency (see the note in section 4).</p>
-  </details>
-
-  <footer>
-    Baseline data: Sweden's Election Authority (Valmyndigheten), 2022 riksdagsval final results, via Wikipedia. Built for illustrative projection purposes only &mdash; not an official Valmyndigheten tool.
-  </footer>
 </div>
 
 <script>
@@ -864,6 +886,112 @@ function allocateSeats(votesObj, totalSeats, firstDivisor){
     seats[bestParty]++;
   }
   return seats;
+}
+
+// ---------- HEMICYCLE ----------
+// Left-to-right political ordering used to arrange seat blocks across the arc.
+const POLITICAL_ORDER = ["V","MP","S","C","L","KD","M","SD"];
+
+function computeHemicycleLayout(total, cx, cy, rMin, rMax){
+  // Find the row-to-row gap that makes seats fall exactly `total` seats onto
+  // concentric arcs, using that SAME gap as the target spacing between seats
+  // within each row — so radial and angular spacing end up equal throughout.
+  function rowsForGap(g){
+    const numRows = Math.floor((rMax-rMin)/g) + 1;
+    const rows = [];
+    for(let i=0; i<numRows; i++){
+      const radius = rMin + i*g;
+      const seatsInRow = Math.max(1, Math.round(Math.PI*radius/g));
+      rows.push({radius, seatsInRow});
+    }
+    return rows;
+  }
+  let bestGap = null, bestRows = null, bestDiff = Infinity;
+  for(let g = 4; g <= 40; g += 0.02){
+    const rows = rowsForGap(g);
+    const sum = rows.reduce((a,r) => a + r.seatsInRow, 0);
+    const diff = Math.abs(sum - total);
+    if(diff < bestDiff){ bestDiff = diff; bestGap = g; bestRows = rows; }
+    if(diff === 0) break;
+  }
+  // nudge the outermost row(s) so the count matches exactly
+  let diff = bestRows.reduce((a,r) => a + r.seatsInRow, 0) - total;
+  let ri = bestRows.length - 1;
+  while(diff !== 0){
+    if(diff > 0 && bestRows[ri].seatsInRow > 1){ bestRows[ri].seatsInRow--; diff--; }
+    else if(diff < 0){ bestRows[ri].seatsInRow++; diff++; }
+    ri = ri === 0 ? bestRows.length - 1 : ri - 1;
+  }
+  const seats = [];
+  bestRows.forEach(row => {
+    const n = row.seatsInRow;
+    for(let s=0; s<n; s++){
+      const t = n === 1 ? 0.5 : s/(n-1);
+      const angle = Math.PI - t*Math.PI;
+      seats.push({
+        x: cx + row.radius*Math.cos(angle),
+        y: cy - row.radius*Math.sin(angle),
+        angle
+      });
+    }
+  });
+  // sort left-to-right (high angle = left, low angle = right)
+  seats.sort((a,b) => b.angle - a.angle);
+  return {seats, gap: bestGap};
+}
+
+// computed once — the geometry never changes between renders, only the colors do
+const HEMICYCLE_CX = 310, HEMICYCLE_CY = 310, HEMICYCLE_RMIN = 92, HEMICYCLE_RMAX = 300;
+const HEMICYCLE_LAYOUT = computeHemicycleLayout(349, HEMICYCLE_CX, HEMICYCLE_CY, HEMICYCLE_RMIN, HEMICYCLE_RMAX);
+const HEMICYCLE_DOT_R = HEMICYCLE_LAYOUT.gap * 0.42;
+
+function renderHemicycle(nationalSeats){
+  const svg = document.getElementById("hemicycle");
+  svg.innerHTML = "";
+  const positions = HEMICYCLE_LAYOUT.seats;
+  const dotR = HEMICYCLE_DOT_R;
+
+  // build ordered list of [party, seatCount] left-to-right: known political order first,
+  // then any custom parties (with seats) appended at the end.
+  const ordered = [];
+  POLITICAL_ORDER.forEach(p => {
+    if(PARTIES.includes(p) && (nationalSeats[p]||0) > 0) ordered.push(p);
+  });
+  PARTIES.forEach(p => {
+    if(!POLITICAL_ORDER.includes(p) && (nationalSeats[p]||0) > 0) ordered.push(p);
+  });
+
+  const svgns = "http://www.w3.org/2000/svg";
+  let cursor = 0;
+  ordered.forEach(p => {
+    const n = nationalSeats[p] || 0;
+    for(let i=0; i<n; i++){
+      const pos = positions[cursor];
+      cursor++;
+      if(!pos) return;
+      const circle = document.createElementNS(svgns, "circle");
+      circle.setAttribute("class", "seat");
+      circle.setAttribute("cx", pos.x.toFixed(1));
+      circle.setAttribute("cy", pos.y.toFixed(1));
+      circle.setAttribute("r", dotR.toFixed(1));
+      circle.setAttribute("fill", PARTY_COLOR[p]);
+      const title = document.createElementNS(svgns, "title");
+      title.textContent = `${PARTY_NAMES[p] || p} (${p})`;
+      circle.appendChild(title);
+      svg.appendChild(circle);
+    }
+  });
+  // any leftover positions (e.g. unallocated seats when fewer than 349 qualify) render as empty slots
+  for(; cursor < positions.length; cursor++){
+    const pos = positions[cursor];
+    const circle = document.createElementNS(svgns, "circle");
+    circle.setAttribute("class", "seat");
+    circle.setAttribute("cx", pos.x.toFixed(1));
+    circle.setAttribute("cy", pos.y.toFixed(1));
+    circle.setAttribute("r", dotR.toFixed(1));
+    circle.setAttribute("fill", "#e7e0cc");
+    svg.appendChild(circle);
+  }
 }
 
 // ---------- UI: build input grid ----------
@@ -1114,6 +1242,8 @@ function runProjection(){
 
 function renderNational(newNational, nationalSeats){
   const totalAllocated = PARTIES.reduce((a,p) => a + nationalSeats[p], 0);
+
+  renderHemicycle(nationalSeats);
 
   const body = document.getElementById("resultsBody");
   body.innerHTML = "";
