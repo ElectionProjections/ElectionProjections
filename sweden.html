@@ -464,6 +464,8 @@
   .map-layout{
     display:flex;
     justify-content:center;
+    align-items:center;
+    gap:28px;
   }
   .map-mode-toggle{
     display:flex;
@@ -486,12 +488,75 @@
     background:var(--navy);
     color:var(--paper);
   }
+  .map-strength-controls{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .strength-select-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+  }
+  .strength-select-row select{
+    font-family:inherit;
+    font-size:13px;
+    font-weight:600;
+    padding:6px 10px;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:2px;
+    cursor:pointer;
+  }
+  .strength-legend{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:"SFMono-Regular",Menlo,Consolas,monospace;
+    font-size:11px;
+    color:#5b5f6b;
+  }
+  .strength-legend-bar{
+    width:160px;
+    height:10px;
+    border:1px solid var(--line);
+    border-radius:2px;
+  }
   .map-wrap{
     position:relative;
     flex:0 0 auto;
     width:100%;
     max-width:280px;
-    margin:0 auto;
+    margin:0;
+  }
+  .map-legend{
+    flex:0 0 auto;
+    width:140px;
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+  }
+  .map-legend-title{
+    font-size:10.5px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:#5b5f6b;
+    margin-bottom:2px;
+  }
+  .map-legend-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12.5px;
+    color:var(--ink);
+  }
+  .map-legend-item .swatch{
+    width:12px;height:12px;flex:0 0 12px;
+    border-radius:2px;
   }
   #constituencyMap{
     width:100%;
@@ -581,12 +646,33 @@
     font-weight:700;
     color:#fff;
   }
+  .map-tooltip .tt-row-highlight{
+    font-weight:700;
+    color:#fff;
+    background:rgba(255,255,255,.1);
+    border-radius:2px;
+  }
+  .map-tooltip .tt-row-highlight .tt-pct,
+  .map-tooltip .tt-row-highlight .tt-seats-figure{
+    color:#fff;
+  }
   .map-tooltip .tt-divider{
     border-top:1px solid rgba(255,255,255,.18);
     margin:6px 0;
   }
   @media (max-width:640px){
     .map-wrap{max-width:100%;}
+    .map-layout{flex-direction:column; align-items:center;}
+    .map-legend{
+      width:100%;
+      max-width:280px;
+      flex-direction:row;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:6px 14px;
+      padding-top:14px;
+    }
+    .map-legend-title{width:100%; text-align:center;}
   }
 
   .note{
@@ -698,14 +784,27 @@
     <h2>Constituency-level breakdown</h2>
     <div class="panel">
       <div class="map-mode-toggle" id="mapModeToggle">
-        <button type="button" class="map-mode-btn active" data-mode="party">By party</button>
-        <button type="button" class="map-mode-btn" data-mode="bloc">By bloc</button>
+        <button type="button" class="map-mode-btn active" data-mode="party">By leading party</button>
+        <button type="button" class="map-mode-btn" data-mode="bloc">By leading bloc</button>
+        <button type="button" class="map-mode-btn" data-mode="strength">By party strength</button>
+      </div>
+      <div class="map-strength-controls" id="strengthControls" style="display:none;">
+        <div class="strength-select-row">
+          <label for="strengthPartySelect">Show strength of</label>
+          <select id="strengthPartySelect"></select>
+        </div>
+        <div class="strength-legend">
+          <span id="strengthLegendMin">0%</span>
+          <div class="strength-legend-bar" id="strengthLegendBar"></div>
+          <span id="strengthLegendMax">40%+</span>
+        </div>
       </div>
       <div class="map-layout">
         <div class="map-wrap">
           <svg id="constituencyMap" viewBox="0 0 500 1114.4" xmlns="http://www.w3.org/2000/svg"></svg>
           <div class="map-tooltip" id="mapTooltip"></div>
         </div>
+        <div class="map-legend" id="mapLegend"></div>
       </div>
     </div>
   </section>
@@ -1150,6 +1249,7 @@ function addCustomParty(rawName){
   document.getElementById("newPartyName").value = "";
   onInputsChanged();
   renderSeatbarAndCoalition();
+  refreshStrengthPartySelect();
 }
 
 function removeCustomParty(id){
@@ -1166,6 +1266,7 @@ function removeCustomParty(id){
   document.getElementById("chip_"+id)?.remove();
   onInputsChanged();
   renderSeatbarAndCoalition();
+  refreshStrengthPartySelect();
 }
 
 document.getElementById("addPartyBtn").addEventListener("click", () => {
@@ -1338,7 +1439,7 @@ function buildTooltipContent(name){
   }).join("");
 
   const rows = isBlocMode ? "" : entries.map(([p,pct,s]) => `
-    <div class="tt-row">
+    <div class="tt-row${(mapColorMode === "strength" && p === selectedStrengthParty) ? " tt-row-highlight" : ""}">
       <span><span class="tt-dot" style="background:${PARTY_COLOR[p]}"></span>${p}</span>
       <span class="tt-pct">${pct.toFixed(1)}%</span>
       <span class="tt-seats-figure">${s} seat${s===1?"":"s"}</span>
@@ -1422,10 +1523,112 @@ function hideMapTooltip(){
 
 let latestConstituencyByName = {};
 let mapColorMode = "party";
+let selectedStrengthParty = PARTIES[0];
+
+// ---- strength-mode helpers ----
+function hexToRgb(hex){
+  let h = hex.replace("#","");
+  if(h.length === 3) h = h.split("").map(c => c+c).join("");
+  const n = parseInt(h, 16);
+  return [(n>>16)&255, (n>>8)&255, n&255];
+}
+// PARTY_COLOR entries are either literal hex (custom parties) or a var(--x)
+// reference into :root (built-in parties) — resolve to a real color either way.
+function resolvePartyColor(raw){
+  if(!raw) return null;
+  if(raw.startsWith("var(")){
+    const varName = raw.slice(4, -1).trim();
+    const resolved = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    return resolved || null;
+  }
+  return raw;
+}
+// Light neutral (matches the paper/panel tone) that strength colors fade toward at the low end.
+const STRENGTH_BG = [247,244,234];
+// Domain (lo/hi local share) the current strength gradient is stretched across —
+// recomputed from the actual spread of results each time the map renders.
+let strengthDomain = {lo: 0, hi: 40};
+function computeStrengthDomain(results, party){
+  if(!party || !results.length) return {lo: 0, hi: 40};
+  const vals = results.map(r => r.swung[party] || 0);
+  let lo = Math.floor(Math.min(...vals) / 10) * 10;
+  let hi = Math.ceil(Math.max(...vals) / 10) * 10;
+  if(hi <= lo) hi = lo + 10; // guard against a flat spread collapsing the gradient
+  return {lo, hi};
+}
+function strengthColor(party, pct, domain){
+  const hex = resolvePartyColor(PARTY_COLOR[party]);
+  if(!hex || hex[0] !== "#") return "#ccc";
+  const d = domain || strengthDomain;
+  const [r,g,b] = hexToRgb(hex);
+  const t = Math.max(0, Math.min(1, (pct - d.lo) / (d.hi - d.lo)));
+  const mix = (c0,c1) => Math.round(c0 + (c1-c0)*t);
+  return `rgb(${mix(STRENGTH_BG[0],r)},${mix(STRENGTH_BG[1],g)},${mix(STRENGTH_BG[2],b)})`;
+}
+function updateStrengthLegend(){
+  const bar = document.getElementById("strengthLegendBar");
+  const minLabel = document.getElementById("strengthLegendMin");
+  const maxLabel = document.getElementById("strengthLegendMax");
+  if(!bar) return;
+  const full = PARTY_COLOR[selectedStrengthParty] || "#ccc";
+  bar.style.background = `linear-gradient(to right, ${strengthColor(selectedStrengthParty, strengthDomain.lo, strengthDomain)}, ${full})`;
+  if(minLabel) minLabel.textContent = strengthDomain.lo + "%";
+  if(maxLabel) maxLabel.textContent = strengthDomain.hi + "%";
+}
+function refreshStrengthPartySelect(){
+  const sel = document.getElementById("strengthPartySelect");
+  if(!sel) return;
+  const prev = selectedStrengthParty;
+  sel.innerHTML = PARTIES.map(p => `<option value="${p}">${p} — ${PARTY_NAMES[p] || p}</option>`).join("");
+  selectedStrengthParty = PARTIES.includes(prev) ? prev : (PARTIES[0] || null);
+  if(selectedStrengthParty) sel.value = selectedStrengthParty;
+  updateStrengthLegend();
+}
+document.getElementById("strengthPartySelect").addEventListener("change", (e) => {
+  selectedStrengthParty = e.target.value;
+  renderMap(Object.values(latestConstituencyByName));
+  if(activeConstituencyName) refreshOpenTooltip();
+});
+refreshStrengthPartySelect();
+
+function updateMapLegend(results){
+  const legend = document.getElementById("mapLegend");
+  if(!legend) return;
+  if(mapColorMode === "strength"){
+    legend.style.display = "none";
+    legend.innerHTML = "";
+    return;
+  }
+  legend.style.display = "flex";
+  if(mapColorMode === "bloc"){
+    const hasTie = results.some(r => {
+      const leftPct = LEFT_BLOC.reduce((a,p) => a + (r.swung[p]||0), 0);
+      const rightPct = RIGHT_BLOC.reduce((a,p) => a + (r.swung[p]||0), 0);
+      return leftPct === rightPct;
+    });
+    legend.innerHTML = `
+      <div class="map-legend-title">Leading bloc</div>
+      <div class="map-legend-item"><span class="swatch" style="background:var(--bloc-left)"></span>Left bloc</div>
+      <div class="map-legend-item"><span class="swatch" style="background:var(--bloc-right)"></span>Right bloc</div>
+      ${hasTie ? `<div class="map-legend-item"><span class="swatch" style="background:var(--bloc-none)"></span>Tied / none</div>` : ""}
+    `;
+  } else {
+    const hasNoLead = results.some(r => PARTIES.every(p => (r.swung[p]||0) <= 0));
+    const rows = PARTIES.map(p => `<div class="map-legend-item"><span class="swatch" style="background:${PARTY_COLOR[p]}"></span>${p}</div>`).join("");
+    legend.innerHTML = `<div class="map-legend-title">Leading party</div>${rows}${hasNoLead ? `<div class="map-legend-item"><span class="swatch" style="background:#ccc"></span>No lead</div>` : ""}`;
+  }
+}
 
 function renderMap(results){
   latestConstituencyByName = {};
   results.forEach(r => { latestConstituencyByName[r.name] = r; });
+
+  updateMapLegend(results);
+
+  if(mapColorMode === "strength"){
+    strengthDomain = computeStrengthDomain(results, selectedStrengthParty);
+    updateStrengthLegend();
+  }
 
   results.forEach(r => {
     const pathEl = mapPathEls[r.name];
@@ -1438,6 +1641,10 @@ function renderMap(results){
       if(leftPct > rightPct) fill = "var(--bloc-left)";
       else if(rightPct > leftPct) fill = "var(--bloc-right)";
       pathEl.setAttribute("fill", fill);
+    } else if(mapColorMode === "strength"){
+      const p = selectedStrengthParty;
+      const pct = p ? (r.swung[p] || 0) : 0;
+      pathEl.setAttribute("fill", p ? strengthColor(p, pct, strengthDomain) : "#ccc");
     } else {
       let winner = null, winnerPct = -1;
       PARTIES.forEach(p => {
@@ -1459,6 +1666,7 @@ document.querySelectorAll(".map-mode-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     mapColorMode = btn.dataset.mode;
     document.querySelectorAll(".map-mode-btn").forEach(b => b.classList.toggle("active", b === btn));
+    document.getElementById("strengthControls").style.display = mapColorMode === "strength" ? "flex" : "none";
     renderMap(Object.values(latestConstituencyByName));
   });
 });
