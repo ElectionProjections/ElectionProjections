@@ -455,10 +455,27 @@ function hemicycleLayout(total) {
   seats.sort((a, b) => a.angle - b.angle);
   const cx = 260,
     cy = 255;
-  return seats.map(s => ({
+  const positions = seats.map(s => ({
     x: cx - s.r * Math.cos(s.angle),
     y: cy - s.r * Math.sin(s.angle)
   }));
+
+  // Fit the viewBox tightly to the actual seat positions (plus room for each
+  // seat's own radius) with small, even padding on every side, instead of a
+  // fixed box that leaves mismatched gaps above and below the dome.
+  const seatRadius = 17;
+  const pad = 8;
+  const xs = positions.map(p => p.x);
+  const ys = positions.map(p => p.y);
+  const minX = Math.min(...xs) - seatRadius - pad;
+  const maxX = Math.max(...xs) + seatRadius + pad;
+  const minY = Math.min(...ys) - seatRadius - pad;
+  const maxY = Math.max(...ys) + seatRadius + pad;
+  const viewBox = `${minX} ${minY} ${maxX - minX} ${maxY - minY}`;
+  return {
+    positions,
+    viewBox
+  };
 }
 function GreenlandSeatProjector() {
   const [parties, setParties] = useState(DEFAULT_PARTIES);
@@ -490,7 +507,7 @@ function GreenlandSeatProjector() {
   const orderedByVotes = useMemo(() => {
     return [...parties].filter(p => (Number(p.votes) || 0) > 0).sort((a, b) => b.votes - a.votes);
   }, [parties]);
-  const seatPositions = useMemo(() => hemicycleLayout(TOTAL_SEATS), []);
+  const hemicycle = useMemo(() => hemicycleLayout(TOTAL_SEATS), []);
   const seatFills = useMemo(() => {
     const flat = [];
     orderedForSeats.forEach(p => {
@@ -786,12 +803,13 @@ function GreenlandSeatProjector() {
       color: "#0F2A38"
     }
   }, "Projected results"), /*#__PURE__*/React.createElement("svg", {
-    viewBox: "0 0 520 300",
-    className: "w-full mt-3",
+    viewBox: hemicycle.viewBox,
+    className: "w-full mt-3 mx-auto",
     style: {
-      maxHeight: 320
+      maxHeight: 260,
+      maxWidth: 460
     }
-  }, seatPositions.map((pos, i) => /*#__PURE__*/React.createElement("circle", {
+  }, hemicycle.positions.map((pos, i) => /*#__PURE__*/React.createElement("circle", {
     key: i,
     cx: pos.x,
     cy: pos.y,
