@@ -98,6 +98,39 @@
 <style>
   html, body { margin: 0; padding: 0; }
   #root { min-height: 100vh; }
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #E8E4DA;
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: currentColor;
+    cursor: pointer;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 0 0 1px rgba(31,42,51,0.15);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: currentColor;
+    cursor: pointer;
+    border: 2px solid #FFFFFF;
+    box-shadow: 0 0 0 1px rgba(31,42,51,0.15);
+  }
+  input[type="range"]::-moz-range-track {
+    background: #E8E4DA;
+    height: 6px;
+    border-radius: 3px;
+  }
 </style>
 </head>
 <body>
@@ -688,6 +721,75 @@ const KOMMUNU_RESULTS = {
     }
   }
 };
+function darkenColor(hex, amount) {
+  const c = hex.replace("#", "");
+  const num = parseInt(c.length === 3 ? c.split("").map(ch => ch + ch).join("") : c, 16);
+  const r = Math.max(0, (num >> 16) - amount);
+  const g = Math.max(0, (num >> 8 & 0xFF) - amount);
+  const b = Math.max(0, (num & 0xFF) - amount);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+function lerpColor(hexA, hexB, t) {
+  const parse = h => {
+    const c = h.replace("#", "");
+    const full = c.length === 3 ? c.split("").map(ch => ch + ch).join("") : c;
+    return parseInt(full, 16);
+  };
+  const an = parse(hexA),
+    bn = parse(hexB);
+  const ar = an >> 16 & 0xFF,
+    ag = an >> 8 & 0xFF,
+    ab = an & 0xFF;
+  const br = bn >> 16 & 0xFF,
+    bg = bn >> 8 & 0xFF,
+    bb = bn & 0xFF;
+  const r = Math.round(ar + (br - ar) * t);
+  const g = Math.round(ag + (bg - ag) * t);
+  const b = Math.round(ab + (bb - ab) * t);
+  const toHex = n => n.toString(16).padStart(2, "0");
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+function buildHemicyclePoints(totalSeats) {
+  const numRows = 4;
+  const cx = 200,
+    cy = 196;
+  const innerR = 68,
+    outerR = 176;
+  const step = (outerR - innerR) / (numRows - 1);
+  const radii = [];
+  for (let i = 0; i < numRows; i++) radii.push(innerR + step * i);
+  const totalWeight = radii.reduce((a, b) => a + b, 0);
+  const seatsPerRow = radii.map(r => Math.round(totalSeats * r / totalWeight));
+  let diff = totalSeats - seatsPerRow.reduce((a, b) => a + b, 0);
+  let idx = seatsPerRow.length - 1;
+  while (diff !== 0) {
+    if (diff > 0) {
+      seatsPerRow[idx]++;
+      diff--;
+    } else {
+      seatsPerRow[idx]--;
+      diff++;
+    }
+    idx = (idx - 1 + seatsPerRow.length) % seatsPerRow.length;
+  }
+  const points = [];
+  for (let i = 0; i < numRows; i++) {
+    const n = seatsPerRow[i];
+    const r = radii[i];
+    for (let j = 0; j < n; j++) {
+      const angleDeg = n === 1 ? 90 : 180 - j * 180 / (n - 1);
+      const angleRad = angleDeg * Math.PI / 180;
+      points.push({
+        x: cx + r * Math.cos(angleRad),
+        y: cy - r * Math.sin(angleRad),
+        angleDeg
+      });
+    }
+  }
+  points.sort((a, b) => b.angleDeg - a.angleDeg);
+  return points;
+}
+const HEMICYCLE_POINTS = buildHemicyclePoints(TOTAL_SEATS);
 function FaroeElectionProjector() {
   const {
     useState,
@@ -697,10 +799,29 @@ function FaroeElectionProjector() {
   const [nextId, setNextId] = useState(8);
   const [coalition, setCoalition] = useState(new Set());
   const [mapClick, setMapClick] = useState(null); // { id, x, y }
+  const [showStrength, setShowStrength] = useState(false);
+  const [strengthPartyId, setStrengthPartyId] = useState(null);
 
   const totalPct = useMemo(() => parties.reduce((sum, p) => sum + (parseFloat(p.pct) || 0), 0), [parties]);
   const seats = useMemo(() => dHondt(parties, TOTAL_SEATS), [parties]);
   const totalSeatsAssigned = seats.reduce((a, b) => a + b, 0);
+  const hemicycleSeats = useMemo(() => {
+    const assigned = [];
+    parties.forEach((p, i) => {
+      for (let k = 0; k < seats[i]; k++) assigned.push({
+        color: p.color,
+        name: p.name
+      });
+    });
+    while (assigned.length < TOTAL_SEATS) assigned.push({
+      color: "#E8E4DA",
+      name: null
+    });
+    return HEMICYCLE_POINTS.map((pt, idx) => ({
+      ...pt,
+      ...assigned[idx]
+    }));
+  }, [parties, seats]);
   const updateParty = (id, field, value) => {
     setParties(prev => prev.map(p => p.id === id ? {
       ...p,
@@ -766,6 +887,24 @@ function FaroeElectionProjector() {
     };
   };
   const coalitionSeats = parties.reduce((sum, p, i) => sum + (coalition.has(p.id) ? seats[i] : 0), 0);
+  const partyStrength = useMemo(() => {
+    if (!showStrength || strengthPartyId == null) return null;
+    const values = KOMMUNUR_MAP.features.map(feat => {
+      const data = getMunicipalityProjection(feat.id);
+      const entry = data.breakdown.find(b => b.party?.id === strengthPartyId);
+      return entry ? entry.pct : 0;
+    });
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const lower = Math.max(0, Math.floor((min - 0.0001) / 10) * 10);
+    const upper = Math.min(100, Math.ceil((max + 0.0001) / 10) * 10);
+    return {
+      min,
+      max,
+      lower,
+      upper
+    };
+  }, [showStrength, strengthPartyId, parties]);
   const coalitionPct = parties.reduce((sum, p) => sum + (coalition.has(p.id) ? parseFloat(p.pct) || 0 : 0), 0);
   const addParty = () => {
     const palette = ["#2C5F8A", "#B5433C", "#3A7D5C", "#D4A32C", "#7A5C8E", "#C0392B", "#8B8B8B", "#4A90A4"];
@@ -788,10 +927,6 @@ function FaroeElectionProjector() {
     })));
   };
   const majorityThreshold = Math.floor(TOTAL_SEATS / 2) + 1;
-  const leadingParty = parties.reduce((max, p, i) => seats[i] > (max.seatCount ?? -1) ? {
-    ...p,
-    seatCount: seats[i]
-  } : max, {});
   const pctIsOff = Math.abs(totalPct - 100) > 0.05;
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -854,18 +989,22 @@ function FaroeElectionProjector() {
       gap: 10
     }
   }, parties.map(p => {
-    const idx = parties.indexOf(p);
-    const seatCount = seats[idx] || 0;
     return /*#__PURE__*/React.createElement("div", {
       key: p.id,
       style: {
         display: "flex",
-        alignItems: "center",
-        gap: 10,
+        flexDirection: "column",
+        gap: 8,
         background: "#FFFFFF",
         border: "1px solid #E0DCD3",
         borderRadius: 6,
         padding: "10px 12px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 10
       }
     }, /*#__PURE__*/React.createElement("input", {
       type: "color",
@@ -926,25 +1065,7 @@ function FaroeElectionProjector() {
         fontSize: 13,
         color: "#8A8378"
       }
-    }, "%")), /*#__PURE__*/React.createElement("div", {
-      style: {
-        flexShrink: 0,
-        minWidth: 54,
-        textAlign: "center",
-        fontFamily: "'Helvetica Neue', Arial, sans-serif",
-        fontSize: 20,
-        fontWeight: 700,
-        color: seatCount > 0 ? p.color : "#C9C3B6"
-      }
-    }, seatCount, /*#__PURE__*/React.createElement("div", {
-      style: {
-        fontSize: 9,
-        fontWeight: 400,
-        letterSpacing: "0.08em",
-        color: "#8A8378",
-        textTransform: "uppercase"
-      }
-    }, "seats")), /*#__PURE__*/React.createElement("button", {
+    }, "%")), /*#__PURE__*/React.createElement("button", {
       onClick: () => removeParty(p.id),
       "aria-label": `Remove ${p.name}`,
       style: {
@@ -959,7 +1080,20 @@ function FaroeElectionProjector() {
         fontSize: 14,
         lineHeight: 1
       }
-    }, "×"));
+    }, "×")), /*#__PURE__*/React.createElement("input", {
+      type: "range",
+      min: "0",
+      max: "100",
+      step: "0.1",
+      value: p.pct,
+      onChange: e => updateParty(p.id, "pct", e.target.value),
+      style: {
+        width: "100%",
+        accentColor: p.color,
+        color: p.color,
+        cursor: "pointer"
+      }
+    }));
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
@@ -981,51 +1115,124 @@ function FaroeElectionProjector() {
     style: {
       marginBottom: 10,
       fontFamily: "'Helvetica Neue', Arial, sans-serif",
-      fontSize: 12,
-      letterSpacing: "0.08em",
+      fontSize: 13,
+      letterSpacing: "0.06em",
       textTransform: "uppercase",
-      color: "#8A8378"
+      fontWeight: 700,
+      color: "#1F2A33"
     }
   }, "Parliament composition — ", totalSeatsAssigned, " of ", TOTAL_SEATS, " seats"), /*#__PURE__*/React.createElement("div", {
     style: {
-      display: "flex",
-      width: "100%",
-      height: 40,
-      borderRadius: 6,
-      overflow: "hidden",
-      border: "1px solid #E0DCD3",
-      marginBottom: 12
-    }
-  }, parties.map((p, i) => seats[i] > 0 && /*#__PURE__*/React.createElement("div", {
-    key: p.id,
-    title: `${p.name}: ${seats[i]} seats`,
-    style: {
-      width: `${seats[i] / TOTAL_SEATS * 100}%`,
-      background: p.color,
-      transition: "width 0.3s ease"
-    }
-  }))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Helvetica Neue', Arial, sans-serif",
-      fontSize: 13,
-      color: "#5A6670",
       marginBottom: 24
     }
-  }, "A governing majority requires ", /*#__PURE__*/React.createElement("strong", null, majorityThreshold), " seats.", leadingParty.name && leadingParty.seatCount > 0 && /*#__PURE__*/React.createElement(React.Fragment, null, " Largest party: ", /*#__PURE__*/React.createElement("strong", {
+  }, /*#__PURE__*/React.createElement("svg", {
+    viewBox: "0 0 400 210",
     style: {
-      color: leadingParty.color
+      width: "100%",
+      maxWidth: 460,
+      height: "auto",
+      display: "block",
+      margin: "0 auto"
     }
-  }, leadingParty.name), " with ", leadingParty.seatCount, " seats.")), /*#__PURE__*/React.createElement("div", {
+  }, hemicycleSeats.map((seat, idx) => /*#__PURE__*/React.createElement("circle", {
+    key: idx,
+    cx: seat.x,
+    cy: seat.y,
+    r: 13,
+    fill: seat.color
+  }, seat.name && /*#__PURE__*/React.createElement("title", null, seat.name))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 28
+    }
+  }, /*#__PURE__*/React.createElement("table", {
+    style: {
+      width: "100%",
+      borderCollapse: "collapse",
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 13
+    }
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: "left",
+      padding: "6px 8px",
+      borderBottom: "1px solid #E0DCD3",
+      color: "#8A8378",
+      fontWeight: 600,
+      fontSize: 11,
+      textTransform: "uppercase",
+      letterSpacing: "0.05em"
+    }
+  }, "Party"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: "right",
+      padding: "6px 8px",
+      borderBottom: "1px solid #E0DCD3",
+      color: "#8A8378",
+      fontWeight: 600,
+      fontSize: 11,
+      textTransform: "uppercase",
+      letterSpacing: "0.05em"
+    }
+  }, "Vote %"), /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: "right",
+      padding: "6px 8px",
+      borderBottom: "1px solid #E0DCD3",
+      color: "#8A8378",
+      fontWeight: 600,
+      fontSize: 11,
+      textTransform: "uppercase",
+      letterSpacing: "0.05em"
+    }
+  }, "Seats"))), /*#__PURE__*/React.createElement("tbody", null, parties.map((p, i) => /*#__PURE__*/React.createElement("tr", {
+    key: p.id
+  }, /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: "8px",
+      borderBottom: "1px solid #F0EDE6"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 10,
+      height: 10,
+      borderRadius: 2,
+      background: p.color,
+      display: "inline-block",
+      flexShrink: 0
+    }
+  }), p.name)), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: "8px",
+      borderBottom: "1px solid #F0EDE6",
+      textAlign: "right",
+      color: "#5A6670"
+    }
+  }, (parseFloat(p.pct) || 0).toFixed(1), "%"), /*#__PURE__*/React.createElement("td", {
+    style: {
+      padding: "8px",
+      borderBottom: "1px solid #F0EDE6",
+      textAlign: "right",
+      fontWeight: 700,
+      color: seats[i] > 0 ? p.color : "#C9C3B6"
+    }
+  }, seats[i] || 0)))))), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 28
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: "'Helvetica Neue', Arial, sans-serif",
-      fontSize: 12,
-      letterSpacing: "0.08em",
+      fontSize: 13,
+      letterSpacing: "0.06em",
       textTransform: "uppercase",
-      color: "#8A8378",
+      fontWeight: 700,
+      color: "#1F2A33",
       marginBottom: 10
     }
   }, "Coalition builder"), /*#__PURE__*/React.createElement("div", {
@@ -1165,10 +1372,11 @@ function FaroeElectionProjector() {
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: "'Helvetica Neue', Arial, sans-serif",
-      fontSize: 12,
-      letterSpacing: "0.08em",
+      fontSize: 13,
+      letterSpacing: "0.06em",
       textTransform: "uppercase",
-      color: "#8A8378",
+      fontWeight: 700,
+      color: "#1F2A33",
       marginBottom: 4
     }
   }, "Municipal map — 29 kommunur"), /*#__PURE__*/React.createElement("div", {
@@ -1179,7 +1387,82 @@ function FaroeElectionProjector() {
       marginBottom: 10,
       lineHeight: 1.5
     }
-  }, "Click a municipality to see its projected result. Each kommuna's projection applies uniform national swing — the gap between the vote shares you've set above and the real national result — to that kommuna's own baseline (its real counted result where we have one, otherwise the national result). Boundaries from Umhvørvisstovan's official GIS data."), /*#__PURE__*/React.createElement("div", {
+  }, "Click a municipality to see its projected result."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      flexWrap: "wrap",
+      gap: 10,
+      marginBottom: 10,
+      fontFamily: "'Helvetica Neue', Arial, sans-serif"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      const next = !showStrength;
+      setShowStrength(next);
+      if (next && strengthPartyId == null && parties.length > 0) setStrengthPartyId(parties[0].id);
+    },
+    style: {
+      padding: "7px 14px",
+      fontSize: 12.5,
+      borderRadius: 20,
+      border: `1.5px solid ${showStrength ? "#1F2A33" : "#E0DCD3"}`,
+      background: showStrength ? "#1F2A33" : "#FFFFFF",
+      color: showStrength ? "#FFFFFF" : "#1F2A33",
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      cursor: "pointer"
+    }
+  }, showStrength ? "✓ Show party strength" : "Show party strength"), showStrength && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 6
+    }
+  }, parties.map(p => /*#__PURE__*/React.createElement("button", {
+    key: p.id,
+    onClick: () => setStrengthPartyId(p.id),
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      padding: "4px 10px",
+      borderRadius: 14,
+      border: `1.5px solid ${strengthPartyId === p.id ? p.color : "#E0DCD3"}`,
+      background: strengthPartyId === p.id ? p.color : "#FFFFFF",
+      color: strengthPartyId === p.id ? "#FFFFFF" : "#1F2A33",
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
+      fontSize: 12,
+      cursor: "pointer"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 7,
+      height: 7,
+      borderRadius: "50%",
+      background: strengthPartyId === p.id ? "#FFFFFF" : p.color,
+      flexShrink: 0
+    }
+  }), p.name)))), showStrength && strengthPartyId != null && partyStrength && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginBottom: 10,
+      fontFamily: "'Helvetica Neue', Arial, sans-serif"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 10,
+      borderRadius: 4,
+      background: `linear-gradient(to right, #FFFFFF, ${partyById(strengthPartyId)?.color || "#999"})`,
+      border: "1px solid #E0DCD3"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      fontSize: 11,
+      color: "#8A8378",
+      marginTop: 4
+    }
+  }, /*#__PURE__*/React.createElement("span", null, partyStrength.lower.toFixed(0), "%"), /*#__PURE__*/React.createElement("span", null, partyById(strengthPartyId)?.name, " strength across kommunur"), /*#__PURE__*/React.createElement("span", null, partyStrength.upper.toFixed(0), "%"))), /*#__PURE__*/React.createElement("div", {
     style: {
       position: "relative",
       border: "1px solid #E0DCD3",
@@ -1202,13 +1485,29 @@ function FaroeElectionProjector() {
     const data = getMunicipalityProjection(feat.id);
     const leader = data.breakdown[0].party;
     const isSelected = mapClick?.id === feat.id;
+    let fillColor, fillOpacity, titleSuffix;
+    if (showStrength && strengthPartyId != null && partyStrength) {
+      const party = partyById(strengthPartyId);
+      const entry = data.breakdown.find(b => b.party?.id === strengthPartyId);
+      const pct = entry ? entry.pct : 0;
+      const range = partyStrength.upper - partyStrength.lower || 1;
+      const t = Math.min(1, Math.max(0, (pct - partyStrength.lower) / range));
+      const base = party ? lerpColor("#FFFFFF", party.color, t) : "#FFFFFF";
+      fillColor = isSelected ? darkenColor(base, 30) : base;
+      fillOpacity = data.hasLocalData ? 0.95 : 0.55;
+      titleSuffix = party ? ` — ${party.name}: ${pct.toFixed(1)}%${data.hasLocalData ? "" : " (national swing estimate)"}` : "";
+    } else {
+      fillColor = leader ? isSelected ? darkenColor(leader.color, 40) : leader.color : isSelected ? "#D8D3C8" : "#FFFFFF";
+      fillOpacity = leader ? data.hasLocalData ? 0.85 : 0.4 : 1;
+      titleSuffix = leader ? ` — projected: ${leader.name}${data.hasLocalData ? "" : " (national swing estimate)"}` : "";
+    }
     return /*#__PURE__*/React.createElement("path", {
       key: feat.id,
       d: feat.d,
-      fill: leader ? leader.color : "#FFFFFF",
-      fillOpacity: leader ? data.hasLocalData ? 0.85 : 0.4 : 1,
-      stroke: isSelected ? "#1F2A33" : "#B7C4CB",
-      strokeWidth: isSelected ? 1.8 : 0.8,
+      fill: fillColor,
+      fillOpacity: fillOpacity,
+      stroke: "#B7C4CB",
+      strokeWidth: 0.8,
       style: {
         cursor: "pointer",
         transition: "fill 0.15s ease"
@@ -1222,7 +1521,7 @@ function FaroeElectionProjector() {
           y: e.clientY - svgRect.top
         });
       }
-    }, /*#__PURE__*/React.createElement("title", null, feat.name, leader ? ` — projected: ${leader.name}${data.hasLocalData ? "" : " (national swing estimate)"}` : ""));
+    }, /*#__PURE__*/React.createElement("title", null, feat.name, titleSuffix));
   })), mapClick && (() => {
     const feat = KOMMUNUR_MAP.features.find(f => f.id === mapClick.id);
     const data = getMunicipalityProjection(mapClick.id);
@@ -1239,9 +1538,9 @@ function FaroeElectionProjector() {
         border: "1px solid #D8D3C8",
         borderRadius: 8,
         boxShadow: "0 6px 18px rgba(31,42,51,0.18)",
-        padding: "12px 14px",
-        minWidth: 220,
-        maxWidth: 260,
+        padding: "9px 11px",
+        minWidth: 160,
+        maxWidth: 185,
         zIndex: 10,
         fontFamily: "'Helvetica Neue', Arial, sans-serif"
       }
@@ -1250,7 +1549,7 @@ function FaroeElectionProjector() {
         display: "flex",
         justifyContent: "space-between",
         alignItems: "flex-start",
-        marginBottom: 6
+        marginBottom: 3
       }
     }, /*#__PURE__*/React.createElement("strong", {
       style: {
@@ -1274,13 +1573,14 @@ function FaroeElectionProjector() {
       style: {
         fontSize: 11,
         color: "#8A8378",
-        marginBottom: 8
+        marginBottom: 5,
+        lineHeight: 1.35
       }
-    }, data.hasLocalData ? `Swung from actual result — ${data.stations.length === 1 ? "1 polling station" : `${data.stations.length} polling stations`}: ${data.stations.join(", ")}` : "No local data yet — swung from the national result instead"), /*#__PURE__*/React.createElement("div", {
+    }, data.hasLocalData ? `${data.stations.length === 1 ? "1 polling station" : `${data.stations.length} polling stations`}: ${data.stations.join(", ")}` : "No local data yet — swung from the national result instead"), /*#__PURE__*/React.createElement("div", {
       style: {
         display: "flex",
         flexDirection: "column",
-        gap: 4
+        gap: 2
       }
     }, data.breakdown.map(({
       letter,
@@ -1337,16 +1637,7 @@ function FaroeElectionProjector() {
       background: p.color,
       display: "inline-block"
     }
-  }), p.name)))), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'Helvetica Neue', Arial, sans-serif",
-      fontSize: 12,
-      color: "#8A8378",
-      borderTop: "1px solid #E0DCD3",
-      paddingTop: 14,
-      lineHeight: 1.6
-    }
-  }, "Since 2008, all 33 Løgting seats are allocated from a single nationwide constituency using the D'Hondt method: each party's vote total is divided successively by 1, 2, 3… and seats go to the highest resulting quotients until all 33 are filled. This tool applies that formula directly to whatever vote shares you enter — it doesn't model turnout, thresholds, or real candidate lists.")));
+  }), p.name))))));
 }
 function btnStyle(border, color, bg = "#1F2A33") {
   return {
@@ -1366,7 +1657,6 @@ root.render(React.createElement(FaroeElectionProjector));
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
