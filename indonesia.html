@@ -223,6 +223,15 @@
   .hemicycle svg{max-width:520px;}
   .below-thresh{font-size:11.5px;color:var(--muted);margin:8px 0 18px;line-height:1.5;}
 
+  .map-mode-controls{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+  .map-mode-controls select{
+    font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;
+    padding:6px 9px;border:1px solid var(--line);border-radius:2px;
+    background:#fbfaf6;color:var(--ink);
+  }
+  .map-legend-gradient{display:flex;align-items:center;gap:8px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;}
+  .map-legend-gradient .grad-bar{flex:1;max-width:240px;height:10px;border-radius:1px;}
+  .map-legend-gradient .grad-label{color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;}
   .map-zoom-controls{
     position:absolute;top:8px;right:8px;
     display:flex;flex-direction:column;gap:4px;
@@ -383,7 +392,14 @@
       </div>
 
       <div class="panel">
-        <div class="section-title">Constituency map <span style="font-weight:400;color:var(--muted);font-size:13px;">— winning party in each of the 84 electoral districts. Click a district for details.</span></div>
+        <div class="section-title">Constituency map <span style="font-weight:400;color:var(--muted);font-size:13px;">— click a district for details.</span></div>
+        <div class="map-mode-controls">
+          <select id="mapModeSelect">
+            <option value="winner">Winning party per district</option>
+            <option value="strength">Vote strength by party</option>
+          </select>
+          <select id="mapStrengthPartySelect" style="display:none;"></select>
+        </div>
         <div class="map-wrap" style="position:relative;">
           <div id="mapContainer"></div>
           <div class="map-zoom-controls">
@@ -826,7 +842,59 @@ function darkenColor(hex, amount){
 
 let highlightedDistrict = null;
 
+let mapMode = 'winner';
+let mapStrengthParty = 'PDIP';
+
+function interpolateColor(hexA, hexB, t){
+  t = Math.max(0, Math.min(1, t));
+  const a = hexA.replace('#',''), b = hexB.replace('#','');
+  const ar=parseInt(a.substring(0,2),16), ag=parseInt(a.substring(2,4),16), ab=parseInt(a.substring(4,6),16);
+  const br=parseInt(b.substring(0,2),16), bg=parseInt(b.substring(2,4),16), bb=parseInt(b.substring(4,6),16);
+  const r = Math.round(ar + (br-ar)*t), g = Math.round(ag + (bg-ag)*t), bl = Math.round(ab + (bb-ab)*t);
+  return '#' + [r,g,bl].map(v=>v.toString(16).padStart(2,'0')).join('');
+}
+
 function renderMap(run){
+  const legend = document.getElementById('mapLegend');
+
+  if(mapMode === 'strength'){
+    const meta = PARTY_META[mapStrengthParty] || {label:mapStrengthParty, color:'#999'};
+    let maxShare = 0;
+    run.districtResults.forEach(dist => {
+      maxShare = Math.max(maxShare, dist.shareByParty[mapStrengthParty] || 0);
+    });
+    maxShare = Math.max(maxShare, 1); // avoid divide-by-zero
+    run.districtResults.forEach(dist => {
+      const path = mapPaths[dist.name.toUpperCase()];
+      const share = dist.shareByParty[mapStrengthParty] || 0;
+      const color = interpolateColor('#ece7d9', meta.color, share/maxShare);
+      if(path){
+        path.setAttribute('fill', color);
+        path.setAttribute('stroke', '#f4f1e9');
+        path.setAttribute('stroke-width', '0.2');
+        if(dist.name.toUpperCase() === highlightedDistrict && highlightOverlay){
+          highlightOverlay.setAttribute('d', path.getAttribute('d'));
+          highlightOverlay.setAttribute('fill', darkenColor(color, 0.28));
+          highlightOverlay.setAttribute('stroke', 'none');
+        }
+      }
+    });
+    if(!highlightedDistrict && highlightOverlay){
+      highlightOverlay.setAttribute('d', '');
+      highlightOverlay.setAttribute('fill', 'none');
+      highlightOverlay.setAttribute('stroke', 'none');
+    }
+
+    legend.innerHTML = `
+      <div class="map-legend-gradient">
+        <span>${meta.label} vote share</span>
+        <span class="grad-label">0%</span>
+        <div class="grad-bar" style="background:linear-gradient(to right, #ece7d9, ${meta.color});"></div>
+        <span class="grad-label">${maxShare.toFixed(1)}%</span>
+      </div>`;
+    return;
+  }
+
   const winnerCounts = {};
   run.districtResults.forEach(dist => {
     const path = mapPaths[dist.name.toUpperCase()];
@@ -856,7 +924,6 @@ function renderMap(run){
     highlightOverlay.setAttribute('stroke', 'none');
   }
 
-  const legend = document.getElementById('mapLegend');
   legend.innerHTML = '';
   Object.keys(winnerCounts)
     .sort((a,b)=>winnerCounts[b]-winnerCounts[a])
@@ -868,6 +935,27 @@ function renderMap(run){
       legend.appendChild(item);
     });
 }
+
+// ---------- Map mode / party-strength controls ----------
+const mapStrengthPartySelect = document.getElementById('mapStrengthPartySelect');
+orderedParties.forEach(p=>{
+  const meta = PARTY_META[p] || {label:p};
+  const opt = document.createElement('option');
+  opt.value = p;
+  opt.textContent = meta.label;
+  mapStrengthPartySelect.appendChild(opt);
+});
+mapStrengthPartySelect.value = mapStrengthParty;
+
+document.getElementById('mapModeSelect').addEventListener('change', (e)=>{
+  mapMode = e.target.value;
+  mapStrengthPartySelect.style.display = mapMode === 'strength' ? '' : 'none';
+  renderMap(window.__lastRun || baselineRun);
+});
+mapStrengthPartySelect.addEventListener('change', (e)=>{
+  mapStrengthParty = e.target.value;
+  renderMap(window.__lastRun || baselineRun);
+});
 
 orderedParties.forEach(p=>{
   const meta = PARTY_META[p] || {label:p, color:"#999"};
@@ -1058,7 +1146,6 @@ render(baselineRun);
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
