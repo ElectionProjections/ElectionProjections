@@ -446,6 +446,7 @@ function partyMeta(p) {
   };
 }
 const SWING_PARTIES = ["Lab", "Con", "RUK", "LD", "Green", "REB", "SNP", "PC", "Oth"];
+const MAP_TOGGLE_PARTIES = ["Lab", "Con", "RUK", "LD", "Green", "REB", "SNP", "PC"];
 const NI_PARTIES = ["DUP", "SF", "SDLP", "UUP", "APNI", "TUV", "PBP", "Aontu"];
 const TOTAL_SEATS = SEAT_DATA.length;
 const MAJORITY = Math.floor(TOTAL_SEATS / 2) + 1;
@@ -905,13 +906,6 @@ function SeatProjector() {
           text-transform: uppercase;
           line-height: 1;
         }
-        .masthead .sub {
-          color: #8B92A5;
-          font-size: 14px;
-          margin-top: 6px;
-          max-width: 520px;
-          line-height: 1.4;
-        }
         .masthead .tag {
           font-family: 'JetBrains Mono', monospace;
           font-size: 12px;
@@ -1138,8 +1132,6 @@ function SeatProjector() {
           margin: 0 0 4px;
         }
         .headline .n { color: var(--lead-color, #D4AF6A); }
-        .subheadline { color: #8B92A5; font-size: 13.5px; margin-bottom: 18px; }
-
         .hemicycle-wrap { display:flex; justify-content:center; }
 
         .coalition-panel { margin-top: 22px; }
@@ -1203,6 +1195,35 @@ function SeatProjector() {
         }
 
         .map-panel { margin-top: 22px; }
+        .map-party-toggles {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-bottom: 14px;
+        }
+        .map-party-chip {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          background: transparent;
+          border: 1px solid #3A4051;
+          border-radius: 999px;
+          padding: 6px 12px 6px 10px;
+          font-family: 'Inter', sans-serif;
+          font-size: 12.5px;
+          font-weight: 500;
+          color: #F1F2F5;
+          cursor: pointer;
+          transition: background 0.12s, color 0.12s;
+        }
+        .map-party-chip .swatch { width: 9px; height: 9px; border-radius: 50%; }
+        .map-party-chip:not(.active):hover { background: #1B202B; }
+        .map-party-chip.winner-chip.active { background: #2A2F3C; border-color: #D4AF6A; color: #D4AF6A; }
+        .map-legend-hint {
+          font-size: 11.5px;
+          color: #6B7280;
+          margin: -6px 0 12px;
+        }
         .map-wrap {
           position: relative;
           max-width: 560px;
@@ -1314,13 +1335,7 @@ function SeatProjector() {
         .bar-track { background:#1D212B; border-radius: 3px; height: 8px; width: 130px; overflow:hidden; }
         .bar-fill { height: 100%; border-radius: 3px; }
 
-        footer.note {
-          margin-top: 24px;
-          font-size: 12px;
-          color: #5D6376;
-          line-height: 1.6;
-        }
-      `), /* @__PURE__ */ React.createElement("div", { className: "wrap" }, /* @__PURE__ */ React.createElement("div", { className: "masthead" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "UK Seat Projector"), /* @__PURE__ */ React.createElement("div", { className: "sub" }, "Adjust national vote share and see the resulting House of Commons seat count, calculated with uniform national swing against the actual 2024 general election result in all 650 constituencies.")), /* @__PURE__ */ React.createElement("div", { className: "tag" }, "UNS MODEL \xB7 BASELINE GE2024")), /* @__PURE__ */ React.createElement("div", { className: "grid" }, /* @__PURE__ */ React.createElement("div", { className: "controls-col" }, /* @__PURE__ */ React.createElement("div", { className: "panel" }, /* @__PURE__ */ React.createElement("h2", null, "UK vote share"), SWING_PARTIES.map((p) => {
+      `), /* @__PURE__ */ React.createElement("div", { className: "wrap" }, /* @__PURE__ */ React.createElement("div", { className: "masthead" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "UK Seat Projector")), /* @__PURE__ */ React.createElement("div", { className: "tag" }, "UNS MODEL \xB7 BASELINE GE2024")), /* @__PURE__ */ React.createElement("div", { className: "grid" }, /* @__PURE__ */ React.createElement("div", { className: "controls-col" }, /* @__PURE__ */ React.createElement("div", { className: "panel" }, /* @__PURE__ */ React.createElement("h2", null, "UK vote share"), SWING_PARTIES.map((p) => {
     const lockedTag = lockedInUKPanel(p);
     return /* @__PURE__ */ React.createElement(
       PartySliderRow,
@@ -1365,7 +1380,7 @@ function SeatProjector() {
       style: { "--lead-color": partyMeta(leader.p).color }
     },
     majorityDiff >= 0 ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { className: "n" }, partyMeta(leader.p).name), " ", "majority of ", /* @__PURE__ */ React.createElement(StatNumber, { value: workingMajority })) : /* @__PURE__ */ React.createElement(React.Fragment, null, "No overall majority \u2014", " ", /* @__PURE__ */ React.createElement("span", { className: "n" }, partyMeta(leader.p).name), " ", "largest party, ", /* @__PURE__ */ React.createElement(StatNumber, { value: Math.abs(majorityDiff) }), " ", "seat", Math.abs(majorityDiff) === 1 ? "" : "s", " short")
-  ), /* @__PURE__ */ React.createElement("div", { className: "subheadline" }, partyMeta(leader.p).short, " ", leaderSeats, " \xB7 ", partyMeta(second.p).short, " ", second.seats, " \xB7 ", MAJORITY, " needed for a majority of ", TOTAL_SEATS), /* @__PURE__ */ React.createElement("div", { className: "hemicycle-wrap" }, /* @__PURE__ */ React.createElement(Hemicycle, { colors: hemicycleColors })), /* @__PURE__ */ React.createElement("div", { className: "table-panel" }, /* @__PURE__ */ React.createElement("table", null, /* @__PURE__ */ React.createElement("thead", null, /* @__PURE__ */ React.createElement("tr", null, /* @__PURE__ */ React.createElement("th", null, "Party"), /* @__PURE__ */ React.createElement("th", null, "Seats"), /* @__PURE__ */ React.createElement("th", null, "Change"), /* @__PURE__ */ React.createElement("th", null, "Share"))), /* @__PURE__ */ React.createElement("tbody", null, orderedTally.map((row) => {
+  ), /* @__PURE__ */ React.createElement("div", { className: "hemicycle-wrap" }, /* @__PURE__ */ React.createElement(Hemicycle, { colors: hemicycleColors })), /* @__PURE__ */ React.createElement("div", { className: "table-panel" }, /* @__PURE__ */ React.createElement("table", null, /* @__PURE__ */ React.createElement("thead", null, /* @__PURE__ */ React.createElement("tr", null, /* @__PURE__ */ React.createElement("th", null, "Party"), /* @__PURE__ */ React.createElement("th", null, "Seats"), /* @__PURE__ */ React.createElement("th", null, "Change"), /* @__PURE__ */ React.createElement("th", null, "Share"))), /* @__PURE__ */ React.createElement("tbody", null, orderedTally.map((row) => {
     const change = row.seats - row.base;
     const meta = partyMeta(row.p);
     return /* @__PURE__ */ React.createElement("tr", { key: row.p }, /* @__PURE__ */ React.createElement("td", null, /* @__PURE__ */ React.createElement("div", { className: "party-cell" }, /* @__PURE__ */ React.createElement(
@@ -1439,7 +1454,7 @@ function SeatProjector() {
       className: "coalition-majority-mark",
       style: { left: `${MAJORITY / TOTAL_SEATS * 100}%` }
     }
-  )))), /* @__PURE__ */ React.createElement("div", { className: "panel map-panel" }, /* @__PURE__ */ React.createElement("h2", null, "Seats by constituency"), /* @__PURE__ */ React.createElement("div", { className: "map-wrap" }, /* @__PURE__ */ React.createElement(ConstituencyMap, { results }))), /* @__PURE__ */ React.createElement("footer", { className: "note" }, "The UK panel's swing applies to every seat in Great Britain by default; Northern Ireland is held fixed at its actual 2024 result, since Great Britain's parties barely contest it. Switching on Scotland, Wales, or Northern Ireland below replaces the UK figure with that nation's own \u2014 calculated from, and applied only to, seats in that nation \u2014 which matters since national polls track Scotland, Wales and Northern Ireland separately but never break out England on its own. Because the UK figure is itself a blend of all three nations, switching one on backs its contribution out of the UK figure first, so what's left over \u2014 applied to England, and to any nation not switched on \u2014 reflects that nation's implied swing rather than double-counting the part already covered separately. Northern Ireland uses its own party list (DUP, Sinn F\xE9in, SDLP, UUP, Alliance, TUV) rather than Great Britain's.", " ", "Uniform national swing applies the change in each party's vote share equally to every constituency in scope, then re-checks the winner \u2014 a standard, simple projection method, but one that doesn't capture local campaign effects, tactical voting, or incumbency, so treat results as indicative rather than predictive. Source: House of Commons Library, general election 2024 results.")));
+  )))), /* @__PURE__ */ React.createElement("div", { className: "panel map-panel" }, /* @__PURE__ */ React.createElement("h2", null, "Projected results map"), /* @__PURE__ */ React.createElement("div", { className: "map-wrap" }, /* @__PURE__ */ React.createElement(ConstituencyMap, { results })))));
 }
 function Hemicycle({ colors }) {
   const dotR = 4.8;
@@ -1453,31 +1468,7 @@ function Hemicycle({ colors }) {
   const cy = height - bottomMargin;
   const lineTop = cy - HEMI_MAX_R - topMargin + 4;
   const lineBottom = cy - HEMI_MIN_R + 8;
-  return /* @__PURE__ */ React.createElement("svg", { width, height, viewBox: `0 0 ${width} ${height}` }, /* @__PURE__ */ React.createElement(
-    "line",
-    {
-      x1: cx,
-      y1: lineTop,
-      x2: cx,
-      y2: lineBottom,
-      stroke: "#D4AF6A",
-      strokeWidth: "1",
-      strokeDasharray: "3,4",
-      opacity: "0.55"
-    }
-  ), /* @__PURE__ */ React.createElement(
-    "text",
-    {
-      x: cx,
-      y: lineTop - 8,
-      textAnchor: "middle",
-      fill: "#D4AF6A",
-      fontFamily: "JetBrains Mono, monospace",
-      fontSize: "11"
-    },
-    MAJORITY,
-    " FOR A MAJORITY"
-  ), HEMICYCLE_POINTS.map((pt, i) => {
+  return /* @__PURE__ */ React.createElement("svg", { width, height, viewBox: `0 0 ${width} ${height}` }, HEMICYCLE_POINTS.map((pt, i) => {
     const p = colors[i] || "Oth";
     const meta = partyMeta(p);
     return /* @__PURE__ */ React.createElement("circle", { key: i, cx: cx + pt.x, cy: cy + pt.y, r: dotR, fill: meta.color });
@@ -1496,6 +1487,7 @@ function ConstituencyMap({ results }) {
   const movedRef = React.useRef(false);
   const [view, setView] = useState({ zoom: 1, x: 0, y: 0 });
   const [selected, setSelected] = useState(null);
+  const [selectedParty, setSelectedParty] = useState(null);
   function clampView(v) {
     const zoom = Math.max(1, Math.min(8, v.zoom));
     const minX2 = vbWidth - vbWidth * zoom;
@@ -1603,6 +1595,31 @@ function ConstituencyMap({ results }) {
     for (const r of results) m[r.n] = r;
     return m;
   }, [results]);
+  function shareForParty(seat, party) {
+    if (seat.breakdown) {
+      const row = seat.breakdown.find((r) => r.p === party);
+      return row ? row.pct : 0;
+    }
+    const total = Object.values(seat.v).reduce((a, b) => a + b, 0) || 1;
+    if (seat.v[party] !== void 0) return seat.v[party] / total * 100;
+    for (const [p, v] of seat.om || []) {
+      if (p === party) return v / total * 100;
+    }
+    return 0;
+  }
+  function didPartyContest(seat, party) {
+    if (seat.v[party] !== void 0) return true;
+    for (const [p] of seat.om || []) {
+      if (p === party) return true;
+    }
+    return false;
+  }
+  const partyShareByName = useMemo(() => {
+    if (!selectedParty) return null;
+    const m = {};
+    for (const r of results) m[r.n] = shareForParty(r, selectedParty);
+    return m;
+  }, [results, selectedParty]);
   function pathFor(rings) {
     return rings.map((ring) => {
       const pts = ring.map(([x, y]) => {
@@ -1651,6 +1668,41 @@ function ConstituencyMap({ results }) {
     return rows.sort((a, b) => b.pct - a.pct);
   }, [selSeat]);
   return /* @__PURE__ */ React.createElement(
+    React.Fragment,
+    null,
+    /* @__PURE__ */ React.createElement(
+      "div",
+      { className: "map-party-toggles" },
+      /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          className: "map-party-chip winner-chip" + (!selectedParty ? " active" : ""),
+          onClick: () => setSelectedParty(null)
+        },
+        "Winner"
+      ),
+      MAP_TOGGLE_PARTIES.map((p) => {
+        const meta = partyMeta(p);
+        const isActive = selectedParty === p;
+        return /* @__PURE__ */ React.createElement(
+          "button",
+          {
+            key: p,
+            className: "map-party-chip" + (isActive ? " active" : ""),
+            style: isActive ? { background: meta.color, color: meta.text, borderColor: meta.color } : { borderColor: meta.color },
+            onClick: () => setSelectedParty(isActive ? null : p)
+          },
+          /* @__PURE__ */ React.createElement("span", { className: "swatch", style: { background: isActive ? meta.text : meta.color } }),
+          meta.short
+        );
+      })
+    ),
+    selectedParty && /* @__PURE__ */ React.createElement(
+      "div",
+      { className: "map-legend-hint" },
+      `Shading shows ${partyMeta(selectedParty).name}'s projected vote share in every seat \u2014 darker means stronger.`
+    ),
+    /* @__PURE__ */ React.createElement(
     "div",
     {
       className: "map-wrap",
@@ -1670,22 +1722,43 @@ function ConstituencyMap({ results }) {
         style: { cursor: "pointer" }
       },
       /* @__PURE__ */ React.createElement("g", { transform: `translate(${view.x},${view.y}) scale(${view.zoom})` }, orderedBoundaries.map((b) => {
-        const winner = winnerByName[b.n];
-        const meta = partyMeta(winner || "Oth");
         const isSelected = !!selected && selected.name === b.n;
+        let fill, fillOpacity, titleText;
+        if (selectedParty) {
+          const seat = seatByName[b.n];
+          const contests = !seat || (selectedParty !== "SNP" && selectedParty !== "PC") || partyCanContest(selectedParty, seat);
+          if (!contests) {
+            fill = "#454B59";
+            fillOpacity = 1;
+            titleText = `${b.n} \u2014 ${partyMeta(selectedParty).name} did not contest this seat`;
+          } else {
+            const meta = partyMeta(selectedParty);
+            const pct = (partyShareByName && partyShareByName[b.n]) || 0;
+            fill = meta.color;
+            fillOpacity = Math.max(0.3, Math.min(1, pct / 55));
+            titleText = `${b.n} \u2014 ${meta.name}: ${pct.toFixed(1)}%`;
+          }
+        } else {
+          const winner = winnerByName[b.n];
+          const meta = partyMeta(winner || "Oth");
+          fill = meta.color;
+          fillOpacity = 1;
+          titleText = `${b.n} \u2014 ${meta.name}`;
+        }
         return /* @__PURE__ */ React.createElement(
           "path",
           {
             key: b.n,
             d: pathFor(b.r),
-            fill: meta.color,
+            fill,
+            fillOpacity,
             fillRule: "evenodd",
             stroke: isSelected ? "#FFFFFF" : "#0F1219",
             strokeWidth: (isSelected ? 2.2 : 0.4) / view.zoom,
             style: isSelected ? { filter: "drop-shadow(0 0 3px rgba(255,255,255,0.85))" } : void 0,
             onClick: (e) => handleSeatClick(e, b.n)
           },
-          /* @__PURE__ */ React.createElement("title", null, b.n, " \u2014 ", meta.name)
+          /* @__PURE__ */ React.createElement("title", null, titleText)
         );
       }))
     ),
@@ -1709,6 +1782,7 @@ function ConstituencyMap({ results }) {
       ),
       /* @__PURE__ */ React.createElement("div", { className: "mt-sub" }, selSeat.breakdown ? `Projected vote share \xB7 2024: ${partyMeta(selSeat.w).name} held` : `2024 vote share \xB7 ${partyMeta(selSeat.w).name} held`),
       selRows.map((row) => /* @__PURE__ */ React.createElement("div", { className: "mt-row", key: row.key }, /* @__PURE__ */ React.createElement("span", { className: "swatch", style: { background: row.color } }), /* @__PURE__ */ React.createElement("span", { className: "mt-name" }, row.label), /* @__PURE__ */ React.createElement("span", { className: "mt-pct" }, row.pct.toFixed(1), "%")))
+    )
     )
   );
 }
