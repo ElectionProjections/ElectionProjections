@@ -277,6 +277,7 @@ function SeatProjector() {
   const [nextCustomId, setNextCustomId] = useState(1);
   const [coalition, setCoalition] = useState(/* @__PURE__ */ new Set());
   const [selectedProvince, setSelectedProvince] = useState(null);
+  const [mapParty, setMapParty] = useState(null);
   const allParties = [...PARTIES_INFO, ...customParties];
   const voteSum = allParties.reduce((a, p) => a + (Number(votePcts[p.id]) || 0), 0);
   const eligibleIds = useMemo(() => {
@@ -342,6 +343,51 @@ function SeatProjector() {
     });
     return out;
   }, [districtResults, customParties]);
+  const provincePartyStrength = useMemo(() => {
+    const districtRaw = DISTRICT_DATA.map((d) => {
+      const raw = allParties.map((p) => {
+        var _a;
+        let pct;
+        if (p.national != null) {
+          const baselineDist = (_a = d.v[p.id]) != null ? _a : 0;
+          const swing = (Number(votePcts[p.id]) || 0) - p.national;
+          pct = Math.max(0, baselineDist + swing);
+        } else {
+          pct = Number(votePcts[p.id]) || 0;
+        }
+        return { id: p.id, votePct: pct };
+      });
+      const rawSum = raw.reduce((a, r) => a + r.votePct, 0);
+      const normalized = raw.map((r) => ({ id: r.id, votePct: rawSum > 0 ? r.votePct / rawSum * 100 : 0 }));
+      return { name: d.n, seats: d.s, values: normalized };
+    });
+    const byProvince = {};
+    districtRaw.forEach((d) => {
+      const base = d.name.includes("-") ? d.name.split("-")[0] : d.name;
+      if (!byProvince[base]) byProvince[base] = { voteWeighted: {}, seatWeight: 0 };
+      const p = byProvince[base];
+      p.seatWeight += d.seats;
+      d.values.forEach((v) => {
+        p.voteWeighted[v.id] = (p.voteWeighted[v.id] || 0) + v.votePct * d.seats;
+      });
+    });
+    const out = {};
+    Object.entries(byProvince).forEach(([prov, p]) => {
+      out[prov] = {};
+      allParties.forEach((party) => {
+        out[prov][party.id] = p.seatWeight > 0 ? (p.voteWeighted[party.id] || 0) / p.seatWeight : 0;
+      });
+    });
+    return out;
+  }, [votePcts, customParties]);
+  const partyStrengthMax = useMemo(() => {
+    if (!mapParty) return 0;
+    let max = 0;
+    Object.values(provincePartyStrength).forEach((vals) => {
+      if (vals[mapParty] > max) max = vals[mapParty];
+    });
+    return max;
+  }, [provincePartyStrength, mapParty]);
   const nationalTotals = useMemo(() => {
     const totals = new Map(allParties.map((p) => [p.id, 0]));
     districtResults.forEach((d) => {
@@ -516,7 +562,7 @@ function SeatProjector() {
       },
       /* @__PURE__ */ React.createElement(Plus, { size: 14 }),
       " Add party"
-    ), /* @__PURE__ */ React.createElement("p", { className: "text-xs mt-3", style: { fontFamily: "Helvetica, Arial, sans-serif", color: voteSum >= 99.95 ? "#3A7D44" : INK, opacity: voteSum >= 99.95 ? 1 : 0.7 } }, "Vote shares add up to ", voteSum.toFixed(1), "% of 100%."), /* @__PURE__ */ React.createElement("p", { className: "text-xs opacity-60 mt-1", style: { fontFamily: "Helvetica, Arial, sans-serif" } }, "National electoral threshold fixed at ", NATIONAL_THRESHOLD, "%. Total seats fixed at ", TOTAL_SEATS, ", across the real 87 electoral districts.")), /* @__PURE__ */ React.createElement("div", { className: "rounded-lg p-4 mb-6", style: { background: "white", border: "1px solid #00000015" } }, /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 600 320", className: "w-full h-auto" }, hemicycle.map((pt, i) => /* @__PURE__ */ React.createElement("circle", { key: i, cx: pt.x, cy: pt.y, r: 5.5, fill: colorFor(pt.party.id) })))), /* @__PURE__ */ React.createElement("div", { className: "rounded-lg overflow-hidden mb-4", style: { background: "white", border: "1px solid #00000015" } }, /* @__PURE__ */ React.createElement("table", { className: "w-full text-sm", style: { fontFamily: "Helvetica, Arial, sans-serif" } }, /* @__PURE__ */ React.createElement("thead", null, /* @__PURE__ */ React.createElement("tr", { style: { background: INK, color: CREAM } }, /* @__PURE__ */ React.createElement("th", { className: "text-left px-3 py-2 font-normal" }, "Party"), /* @__PURE__ */ React.createElement("th", { className: "text-right px-3 py-2 font-normal" }, "Vote %"), /* @__PURE__ */ React.createElement("th", { className: "text-right px-3 py-2 font-normal" }, "Seats"), /* @__PURE__ */ React.createElement("th", { className: "text-right px-3 py-2 font-normal" }, "Seat %"))), /* @__PURE__ */ React.createElement("tbody", null, results.slice().sort((a, b) => b.seats - a.seats || b.votePct - a.votePct).map((p) => {
+    ), /* @__PURE__ */ React.createElement("p", { className: "text-xs mt-3", style: { fontFamily: "Helvetica, Arial, sans-serif", color: voteSum >= 99.95 ? "#3A7D44" : INK, opacity: voteSum >= 99.95 ? 1 : 0.7 } }, "Vote shares add up to ", voteSum.toFixed(1), "% of 100%."), /* @__PURE__ */ React.createElement("p", { className: "text-xs opacity-60 mt-1", style: { fontFamily: "Helvetica, Arial, sans-serif" } }, "National electoral threshold fixed at ", NATIONAL_THRESHOLD, "%. Total seats fixed at ", TOTAL_SEATS, ", across the real 87 electoral districts.")), /* @__PURE__ */ React.createElement("div", { className: "rounded-lg p-4 mb-6", style: { background: "white", border: "1px solid #00000015" } }, /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 600 320", className: "w-full h-auto", style: { maxWidth: 700, display: "block", margin: "0 auto" } }, hemicycle.map((pt, i) => /* @__PURE__ */ React.createElement("circle", { key: i, cx: pt.x, cy: pt.y, r: 5.5, fill: colorFor(pt.party.id) })))), /* @__PURE__ */ React.createElement("div", { className: "rounded-lg overflow-hidden mb-4", style: { background: "white", border: "1px solid #00000015" } }, /* @__PURE__ */ React.createElement("table", { className: "w-full text-sm", style: { fontFamily: "Helvetica, Arial, sans-serif" } }, /* @__PURE__ */ React.createElement("thead", null, /* @__PURE__ */ React.createElement("tr", { style: { background: INK, color: CREAM } }, /* @__PURE__ */ React.createElement("th", { className: "text-left px-3 py-2 font-normal" }, "Party"), /* @__PURE__ */ React.createElement("th", { className: "text-right px-3 py-2 font-normal" }, "Vote %"), /* @__PURE__ */ React.createElement("th", { className: "text-right px-3 py-2 font-normal" }, "Seats"), /* @__PURE__ */ React.createElement("th", { className: "text-right px-3 py-2 font-normal" }, "Seat %"))), /* @__PURE__ */ React.createElement("tbody", null, results.slice().sort((a, b) => b.seats - a.seats || b.votePct - a.votePct).map((p) => {
       const seatPct = TOTAL_SEATS ? (p.seats / TOTAL_SEATS * 100).toFixed(1) : "0.0";
       const belowThreshold = p.votePct < NATIONAL_THRESHOLD;
       return /* @__PURE__ */ React.createElement("tr", { key: p.id, style: { borderTop: "1px solid #00000010" } }, /* @__PURE__ */ React.createElement("td", { className: "px-3 py-2 flex items-center gap-2" }, /* @__PURE__ */ React.createElement("span", { className: "w-2.5 h-2.5 rounded-full inline-block", style: { background: colorFor(p.id) } }), p.name, belowThreshold && /* @__PURE__ */ React.createElement("span", { className: "text-xs opacity-50" }, "(below threshold)")), /* @__PURE__ */ React.createElement("td", { className: "px-3 py-2 text-right" }, Number(p.votePct).toFixed(1), "%"), /* @__PURE__ */ React.createElement("td", { className: "px-3 py-2 text-right font-semibold" }, p.seats), /* @__PURE__ */ React.createElement("td", { className: "px-3 py-2 text-right opacity-70" }, seatPct, "%"));
@@ -571,7 +617,34 @@ function SeatProjector() {
           title: `Majority: ${majoritySeats} seats`
         }
       )
-    ), /* @__PURE__ */ React.createElement("p", { className: "text-sm mt-2", style: { fontFamily: "Helvetica, Arial, sans-serif", color: hasMajority ? "#3A7D44" : INK } }, coalition.size === 0 ? `Click parties above to build a coalition. Majority needs ${majoritySeats} of ${TOTAL_SEATS} seats.` : hasMajority ? `Majority reached \u2014 ${coalitionSeats} of ${TOTAL_SEATS} seats (${majoritySeats} needed).` : `${coalitionSeats} of ${TOTAL_SEATS} seats \u2014 ${majoritySeats - coalitionSeats} more needed for a majority.`)), /* @__PURE__ */ React.createElement("div", { className: "rounded-lg p-4 mb-6 relative", style: { background: "white", border: "1px solid #00000015", overflow: "visible" } }, /* @__PURE__ */ React.createElement("h2", { className: "text-sm uppercase tracking-wide opacity-70 mb-3", style: { fontFamily: "Helvetica, Arial, sans-serif" } }, "Seat map by province"), /* @__PURE__ */ React.createElement("div", { className: "relative" }, /* @__PURE__ */ React.createElement(
+    ), /* @__PURE__ */ React.createElement("p", { className: "text-sm mt-2", style: { fontFamily: "Helvetica, Arial, sans-serif", color: hasMajority ? "#3A7D44" : INK } }, coalition.size === 0 ? `Click parties above to build a coalition. Majority needs ${majoritySeats} of ${TOTAL_SEATS} seats.` : hasMajority ? `Majority reached \u2014 ${coalitionSeats} of ${TOTAL_SEATS} seats (${majoritySeats} needed).` : `${coalitionSeats} of ${TOTAL_SEATS} seats \u2014 ${majoritySeats - coalitionSeats} more needed for a majority.`)), /* @__PURE__ */ React.createElement("div", { className: "rounded-lg p-4 mb-6 relative", style: { background: "white", border: "1px solid #00000015", overflow: "visible" } }, /* @__PURE__ */ React.createElement("h2", { className: "text-sm uppercase tracking-wide opacity-70 mb-3", style: { fontFamily: "Helvetica, Arial, sans-serif" } }, "Seat map by province"), /* @__PURE__ */ React.createElement("div", { className: "flex flex-wrap gap-1.5 mb-3" }, /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        onClick: () => setMapParty(null),
+        className: "px-2.5 py-1 rounded-full border text-xs",
+        style: {
+          fontFamily: "Helvetica, Arial, sans-serif",
+          borderColor: !mapParty ? INK : "#00000020",
+          background: !mapParty ? INK : "white",
+          color: !mapParty ? CREAM : INK
+        }
+      },
+      "Leading party"
+    ), allParties.map((p) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: p.id,
+        onClick: () => setMapParty(mapParty === p.id ? null : p.id),
+        className: "px-2.5 py-1 rounded-full border text-xs",
+        style: {
+          fontFamily: "Helvetica, Arial, sans-serif",
+          borderColor: mapParty === p.id ? shadeColor(p.color, -35) : "#00000020",
+          background: mapParty === p.id ? p.color : "white",
+          color: mapParty === p.id ? "white" : INK
+        }
+      },
+      p.name
+    ))), mapParty && /* @__PURE__ */ React.createElement("p", { className: "text-xs opacity-60 mb-3", style: { fontFamily: "Helvetica, Arial, sans-serif" } }, "Shading is relative to ", allParties.find((p) => p.id === mapParty).name, "'s strongest province (", partyStrengthMax.toFixed(1), "%)."), /* @__PURE__ */ React.createElement("div", { className: "relative" }, /* @__PURE__ */ React.createElement(
       "svg",
       {
         viewBox: PROVINCE_MAP_DATA.viewBox,
@@ -580,7 +653,14 @@ function SeatProjector() {
       },
       Object.entries(PROVINCE_MAP_DATA.paths).map(([key, d]) => {
         const info = provinceResults[key];
-        const fill = info && info.leaderId ? colorFor(info.leaderId) : "#E5E1D8";
+        let fill;
+        if (mapParty) {
+          const pct = (provincePartyStrength[key] && provincePartyStrength[key][mapParty]) || 0;
+          const ratio = partyStrengthMax > 0 ? pct / partyStrengthMax : 0;
+          fill = shadeColor(colorFor(mapParty), (1 - ratio) * 92);
+        } else {
+          fill = info && info.leaderId ? colorFor(info.leaderId) : "#E5E1D8";
+        }
         const selected = selectedProvince === key;
         return /* @__PURE__ */ React.createElement(
           "path",
@@ -642,7 +722,7 @@ function SeatProjector() {
           }
         )))))))
       );
-    })()), /* @__PURE__ */ React.createElement("p", { className: "text-xs opacity-50 mt-3", style: { fontFamily: "Helvetica, Arial, sans-serif" } }, "Click a province to see its vote shares and seats won. Color shows the leading party there; \u0130stanbul, Ankara, \u0130zmir and Bursa each combine multiple electoral districts into one shape.")), /* @__PURE__ */ React.createElement("div", { className: "flex gap-2 text-xs opacity-70 items-start p-3 rounded", style: { background: "#00000006", fontFamily: "Helvetica, Arial, sans-serif" } }, /* @__PURE__ */ React.createElement(Info, { size: 14, className: "shrink-0 mt-0.5" }), /* @__PURE__ */ React.createElement("p", null, "This applies uniform national swing (UNS): each party's district-level 2023 result is adjusted by the same number of percentage points as the change you entered from its 2023 national score, then renormalized within each district. This preserves real regional strongholds (e.g. YSP/DEM's strength in the southeast, AK Parti's in central Anatolia) far better than a flat national percentage, but it still assumes swings are uniform everywhere \u2014 real elections often swing harder or softer in particular regions. The 2023 baseline figures come from an independently compiled dataset of official results and may differ marginally from YSK's own rounding. Smaller parties and independents outside these 11 aren't modeled individually \u2014 their 2023 vote share is implicitly redistributed among these parties in each district by the renormalization step. Anahtar Parti and YEN\u0130 Parti didn't exist in 2023 (founded October 2024 and mid-2026 respectively), so \u2014 like any party you add yourself \u2014 they have no 2023 result to draw on and start at 0%, spread at an even rate across all 87 districts rather than following a real regional shape. YEN\u0130 Parti in particular has been polling anywhere from roughly 12% to 31% depending on pollster since its July 2026 launch \u2014 enter a figure yourself rather than relying on a default.")))
+    })()), /* @__PURE__ */ React.createElement("p", { className: "text-xs opacity-50 mt-3", style: { fontFamily: "Helvetica, Arial, sans-serif" } }, mapParty ? `Click a province to see its vote shares and seats won. Color intensity shows ${allParties.find((p) => p.id === mapParty).name}'s vote share there; \u0130stanbul, Ankara, \u0130zmir and Bursa each combine multiple electoral districts into one shape.` : "Click a province to see its vote shares and seats won. Color shows the leading party there; \u0130stanbul, Ankara, \u0130zmir and Bursa each combine multiple electoral districts into one shape.")))
   );
 }
 
