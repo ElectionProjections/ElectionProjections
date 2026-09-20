@@ -571,9 +571,7 @@
 
 <header class="hero">
   <div class="hero-inner">
-    <p class="eyebrow">Scotland · Local Government · STV Projection</p>
     <h1>Scottish Council<br>Seat Projector</h1>
-    <p class="lede">Set national first&#8209;preference vote shares and see the <b>1,226 council seats</b> across all 32 local authorities redistributed &mdash; using real <b>2022 ward&#8209;by&#8209;ward results</b> as the baseline and a genuine <b>STV count</b> for every one of Scotland's 356 wards.</p>
   </div>
 </header>
 
@@ -584,7 +582,6 @@
     <div class="controls-head">
       <div>
         <h2>National first preferences</h2>
-        <div class="sub">Applied as a uniform swing to each ward's real 2022 local result</div>
       </div>
       <div style="display:flex;align-items:center;gap:12px;">
         <span class="total-pill" id="totalPill">100.0%</span>
@@ -609,11 +606,10 @@
 
     <table class="results-table">
       <thead>
-        <tr><th>Party</th><th>Vote share</th><th>Seats</th><th>Seat share</th><th>vs 2022</th></tr>
+        <tr><th>Party</th><th>Vote share</th><th>Seats</th><th>vs 2022</th></tr>
       </thead>
       <tbody id="resultsBody"></tbody>
     </table>
-    <p class="table-footnote"><b>Independent</b> seats are never one party &mdash; each is a different local candidate with their own personal following, grouped into a single block per ward only so the count can run, and they keep their own slider above. Every other small party &mdash; the Scottish Family Party, the British Unionist Party, TUSC, and the rest &mdash; is tracked individually in the count using its own real local 2022 result, ward by ward, so if one wins a seat above it's shown by its real name. They share a single combined "Other" figure rather than one slider each: it isn't adjustable directly, but is whatever's left once you've set the six main parties, and scales every minor party up or down together while keeping their relative local strength fixed.</p>
   </section>
 
   <section class="map-section">
@@ -669,11 +665,10 @@
       </div>
       <table class="results-table">
         <thead>
-          <tr><th>Party</th><th>Vote share</th><th>Seats</th><th>Seat share</th></tr>
+          <tr><th>Party</th><th>Vote share</th><th>Seats</th><th>vs 2022</th></tr>
         </thead>
         <tbody id="councilResultsBody"></tbody>
       </table>
-      <p class="table-footnote">Vote share here is the same uniform swing used everywhere else in this tool, applied to each ward's real 2022 first preferences and aggregated up to council level (weighted by each ward's number of seats, the best available stand-in for ward size since raw vote totals aren't stored). Seats are this council's share of the national STV count above, run ward by ward exactly as before &mdash; not a separate calculation.</p>
 
       <div class="coalition-builder">
         <h3 id="coalitionBuilderTitle">Coalition builder</h3>
@@ -690,7 +685,6 @@
           <svg id="wardMap" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg"></svg>
           <div>
             <div class="map-legend" id="wardMapLegend"></div>
-            <p class="table-footnote" style="margin-top:16px;">Colour shows the party projected to win the most seats in each ward, with first-preference vote share breaking any tie. Hatched wards have had their boundaries redrawn since this source data was published and can't be matched to a specific current ward, so no result is shown for them. Click a ward for its vote share and seats.</p>
           </div>
         </div>
       </div>
@@ -908,12 +902,16 @@ function countWard(partyPct, seats){
   let tally = {};
   let seatsWon = {};
   let status = {};
+  let total = 0;
   Object.keys(partyPct).forEach(p => {
     seatsWon[p] = 0;
-    if((partyPct[p]||0) > 1e-9){ tally[p] = partyPct[p]; status[p] = 'contesting'; }
+    if((partyPct[p]||0) > 1e-9){ tally[p] = partyPct[p]; status[p] = 'contesting'; total += partyPct[p]; }
   });
   const contesting = () => Object.keys(status).filter(p => status[p]==='contesting');
-  const quota = 100/(seats+1);
+  // Droop quota, scaled to whatever the party shares actually sum to here
+  // (previously hard-coded to 100 -- see applySwing for why that no longer
+  // holds in every case).
+  const quota = total/(seats+1);
   const candCap = assumedCandidates(partyPct, quota, seats);
   let seatsLeft = seats;
   let guard = 0;
@@ -965,6 +963,47 @@ function countWard(partyPct, seats){
   return seatsWon;
 }
 
+// Per-council equivalent of SEATS_2022: the real, official 2022 seat tally
+// for each council (not modelled -- sourced from each council's Wikipedia
+// election article / the Local Elections Archive Project). Cross-checked
+// against the national totals: SNP and Con sum to exactly 453 and 214;
+// Lab sums to 281 against an official 282, likely a single Labour &
+// Co-operative seat attributed slightly differently at source.
+const COUNCIL_SEATS_2022 = {
+  "Aberdeen City": {SNP:20, Lab:11, Con:8, LD:4, Ind:2},
+  "Aberdeenshire": {Con:26, SNP:21, LD:14, Ind:9},
+  "Angus": {SNP:13, Con:7, Ind:7, Lab:1},
+  "Argyll and Bute": {SNP:12, Con:10, Ind:7, LD:5, Lab:1, Grn:1},
+  "Clackmannanshire": {SNP:9, Lab:5, Con:3, Grn:1},
+  "Dumfries and Galloway": {Con:16, SNP:11, Lab:9, Ind:6, LD:1},
+  "Dundee City": {SNP:15, Lab:9, LD:4, Con:1},
+  "East Ayrshire": {SNP:14, Lab:10, Con:4, Ind:3, Rubbish:1},
+  "East Dunbartonshire": {SNP:8, LD:6, Lab:4, Con:3, Ind:1},
+  "East Lothian": {Lab:9, SNP:7, Con:4, Grn:1, Ind:1},
+  "East Renfrewshire": {SNP:6, Con:5, Lab:5, Ind:2},
+  "City of Edinburgh": {SNP:19, Lab:13, LD:12, Grn:10, Con:9},
+  "Falkirk": {SNP:12, Lab:9, Con:5, Ind:4},
+  "Fife": {SNP:34, Lab:20, LD:13, Con:8},
+  "Glasgow City": {SNP:37, Lab:36, Grn:10, Con:2},
+  "Highland": {SNP:22, Ind:21, LD:15, Con:10, Grn:4, Lab:2},
+  "Inverclyde": {Lab:9, SNP:8, Ind:3, Con:2},
+  "Midlothian": {SNP:8, Lab:7, Con:3},
+  "Moray": {Con:11, SNP:8, Lab:3, Ind:2, LD:1, Grn:1},
+  "Na h-Eileanan Siar": {Ind:22, SNP:6, Con:1},
+  "North Ayrshire": {SNP:12, Con:10, Lab:9, Ind:2},
+  "North Lanarkshire": {SNP:36, Lab:32, Con:5, Ind:2, Grn:1, BUP:1},
+  "Orkney Islands": {Ind:19, Grn:2},
+  "Perth and Kinross": {SNP:16, Con:14, LD:4, Ind:4, Lab:2},
+  "Renfrewshire": {SNP:21, Lab:15, Con:5, LD:1, Ind:1},
+  "Scottish Borders": {Con:14, SNP:9, Ind:7, LD:3, Grn:1},
+  "Shetland Islands": {Ind:20, Grn:1, Lab:1, SNP:1},
+  "South Ayrshire": {Con:10, SNP:9, Lab:5, Ind:4},
+  "South Lanarkshire": {SNP:27, Lab:24, Con:7, LD:3, Ind:2, Grn:1},
+  "Stirling": {SNP:8, Con:7, Lab:6, Grn:1, Ind:1},
+  "West Dunbartonshire": {Lab:12, SNP:9, WDC:1},
+  "West Lothian": {SNP:15, Lab:12, Con:4, Ind:1, LD:1}
+};
+
 // `baselineCtx`, when provided, scopes every ratio to a single council's
 // own real 2022 result instead of the national one -- used when that
 // council has a custom override. Without it (the normal national-slider
@@ -995,6 +1034,9 @@ function countWard(partyPct, seats){
 //     difference against in the first place. It keeps its existing
 //     mechanism: scaling a notional ward "shape" against a synthetic
 //     national anchor.
+const TAPER_THRESHOLD = 0.2;
+
+
 function applySwing(wardParties, nationalInput, reformShapeValue, baselineCtx){
   const baseline2022 = baselineCtx ? baselineCtx.baseline2022 : BASELINE_2022;
   const otherBaseline = baselineCtx ? baselineCtx.otherBaseline : OTHER_BASELINE;
@@ -1010,7 +1052,6 @@ function applySwing(wardParties, nationalInput, reformShapeValue, baselineCtx){
   // still show real, seat-winning support in its best areas. That's the
   // one thing additive swing doesn't do that a genuine "this party is
   // gone" input should.
-  const TAPER_THRESHOLD = 0.2;
 
   // Applies additive swing above the taper threshold; below it, linearly
   // interpolates from the threshold's own additive value down to exactly
@@ -1028,7 +1069,6 @@ function applySwing(wardParties, nationalInput, reformShapeValue, baselineCtx){
   }
 
   let raw = {};
-  let sum = 0;
 
   Object.keys(wardParties).forEach(p => {
     const base = wardParties[p];
@@ -1037,14 +1077,13 @@ function applySwing(wardParties, nationalInput, reformShapeValue, baselineCtx){
       const v = (baseline2022[p] !== undefined)
         ? swingWithTaper(base, nationalInput[p], baseline2022[p])
         : base;
-      if(v > 0){ raw[p] = v; sum += v; }
+      if(v > 0){ raw[p] = v; }
     } else if(MAJOR_PARTIES.indexOf(p) === -1) {
       // Minor party: ratio-scaled as a bucket (see note above). This
       // already reaches exactly 0 at input.Oth=0 with no taper needed.
       const ratio = (otherBaseline>0) ? (nationalInput.Oth/otherBaseline) : 1;
       const v = base * ratio;
       raw[p] = v;
-      sum += v;
     }
     // Reform is handled separately below regardless of whether it appears
     // here (it never does -- no 2022 ward data -- but skip explicitly for
@@ -1065,19 +1104,27 @@ function applySwing(wardParties, nationalInput, reformShapeValue, baselineCtx){
     const swingPoints = nationalInput[p] - baseline2022[p];
     if(swingPoints <= 0) return; // only fill in for a party that's rising
     const v = Math.max(0, assumed + swingPoints);
-    if(v > 0){ raw[p] = v; sum += v; }
+    if(v > 0){ raw[p] = v; }
   });
 
   const reformRatio = (nationalInput.Reform||0) / REFORM_BASELINE_ANCHOR;
   if(reformRatio > 0 && reformShapeValue > 0){
     const v = reformShapeValue * reformRatio;
     raw.Reform = v;
-    sum += v;
   }
-  if(sum<=0) return raw;
-  let out = {};
-  Object.keys(raw).forEach(p => out[p] = raw[p]*100/sum);
-  return out;
+
+  // NOTE: this deliberately does NOT rescale `raw` back up to sum to 100.
+  // Rescaling would spread any shortfall -- most commonly an 'Other'/minor
+  // party swing target that this particular ward has no real minor-party
+  // history to absorb -- proportionally across every party in the ward,
+  // including whichever party's slider the user actually moved. That made
+  // a council's displayed vote share silently drift away from the number
+  // typed into its own slider (e.g. typing 25.7% for a party could show up
+  // as 29%+ once every ward rescaled to fill in for a locally-nonexistent
+  // 'Other' vote). Leaving the shares un-rescaled means they mean exactly
+  // what the sliders say; countWard's quota is scaled to whatever they
+  // actually sum to here rather than assuming a fixed 100.
+  return raw;
 }
 
 function runProjection(nationalInput){
@@ -1260,14 +1307,12 @@ function update(){
     const delta = seats - baseline2022;
     const deltaClass = delta>0 ? 'delta-pos' : (delta<0 ? 'delta-neg' : 'delta-zero');
     const deltaStr = delta>0 ? ('+'+delta) : (delta===0?'\u2014':delta);
-    const seatShare = (results[p]/TOTAL_SEATS*100).toFixed(1);
     const voteShareStr = MAJOR_PARTIES.indexOf(p) !== -1 ? (state[p].toFixed(1)+'%') : '—';
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><div class="party-cell"><span class="swatch" style="background:${PARTY_COLORS[p]}"></span>${PARTY_NAMES[p]}</div></td>
       <td>${voteShareStr}</td>
       <td><b>${seats}</b></td>
-      <td>${seatShare}%</td>
       <td class="${deltaClass}">${deltaStr}</td>
     `;
     body.appendChild(tr);
@@ -1527,16 +1572,29 @@ function renderCouncilBreakdown(){
 
   const body = document.getElementById('councilResultsBody');
   body.innerHTML = '';
+  const councilInput = councilOverrides[councilName] || state;
+  const council2022 = COUNCIL_SEATS_2022[councilName] || {};
   sortedParties.forEach(p => {
     const seats = Math.round(data.seats[p]||0);
-    const seatShare = seats>0 ? (data.seats[p]/data.totalSeats*100).toFixed(1)+'%' : '—';
-    const voteShare = data.voteShare[p] !== undefined ? data.voteShare[p].toFixed(1)+'%' : '—';
+    const baseline2022 = Math.round(council2022[p]||0);
+    const delta = seats - baseline2022;
+    const deltaClass = delta>0 ? 'delta-pos' : (delta<0 ? 'delta-neg' : 'delta-zero');
+    const deltaStr = delta>0 ? ('+'+delta) : (delta===0?'\u2014':delta);
+    // For the seven parties with their own slider, show exactly what was
+    // typed (the council's own override if it has one, else the national
+    // slider) -- the same approach the main national table already uses --
+    // rather than the ward-level STV aggregate, which can differ from the
+    // input once any ward's real result is too weak to carry the full
+    // swing without going negative.
+    const voteShare = MAJOR_PARTIES.indexOf(p) !== -1
+      ? (councilInput[p]!==undefined ? councilInput[p].toFixed(1)+'%' : '—')
+      : (data.voteShare[p] !== undefined ? data.voteShare[p].toFixed(1)+'%' : '—');
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><div class="party-cell"><span class="swatch" style="background:${PARTY_COLORS[p]||'#888'}"></span>${PARTY_NAMES[p]||p}</div></td>
       <td>${voteShare}</td>
       <td><b>${seats}</b></td>
-      <td>${seatShare}</td>
+      <td class="${deltaClass}">${deltaStr}</td>
     `;
     body.appendChild(tr);
   });
