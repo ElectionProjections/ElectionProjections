@@ -14,8 +14,6 @@
   <url><loc>https://electionprojections.github.io/botswana.html</loc></url>
   <url><loc>https://electionprojections.github.io/canada.html</loc></url>
   <url><loc>https://electionprojections.github.io/denmark.html</loc></url>
-  <url><loc>https://electionprojections.github.io/greenland.html</loc></url>
-  <url><loc>https://electionprojections.github.io/faroe.html</loc></url>
   <url><loc>https://electionprojections.github.io/finland.html</loc></url>
   <url><loc>https://electionprojections.github.io/france.html</loc></url>
   <url><loc>https://electionprojections.github.io/germany.html</loc></url>
@@ -27,6 +25,7 @@
   <url><loc>https://electionprojections.github.io/israel.html</loc></url>
   <url><loc>https://electionprojections.github.io/italy.html</loc></url>
   <url><loc>https://electionprojections.github.io/japan.html</loc></url>
+  <url><loc>https://electionprojections.github.io/malaysia.html</loc></url>
   <url><loc>https://electionprojections.github.io/new-zealand.html</loc></url>
   <url><loc>https://electionprojections.github.io/norway.html</loc></url>
   <url><loc>https://electionprojections.github.io/pakistan.html</loc></url>
@@ -42,15 +41,16 @@
   <url><loc>https://electionprojections.github.io/uk.html</loc></url>
 
   <!-- Sub-Pages & Regional Breakdowns -->
-  <url><loc>https://electionprojections.github.io/quebec.html</loc></url>
-  <url><loc>https://electionprojections.github.io/malaysia.html</loc></url>
+  <url><loc>https://electionprojections.github.io/faroe.html</loc></url>
+  <url><loc>https://electionprojections.github.io/greenland.html</loc></url>
   <url><loc>https://electionprojections.github.io/johor.html</loc></url>
   <url><loc>https://electionprojections.github.io/malacca.html</loc></url>
   <url><loc>https://electionprojections.github.io/negeri-sembilan.html</loc></url>
-  <url><loc>https://electionprojections.github.io/sarawak.html</loc></url>
-  <url><loc>https://electionprojections.github.io/selangor.html</loc></url>
   <url><loc>https://electionprojections.github.io/northern-ireland.html</loc></url>
-  <url><loc>https://electionprojections.github.io/scottish-councils.html</loc></url>
+  <url><loc>https://electionprojections.github.io/quebec.html</loc></url>
+  <url><loc>https://electionprojections.github.io/sarawak.html</loc></url>
   <url><loc>https://electionprojections.github.io/scotland.html</loc></url>
+  <url><loc>https://electionprojections.github.io/scottish-councils.html</loc></url>
+  <url><loc>https://electionprojections.github.io/selangor.html</loc></url>
   <url><loc>https://electionprojections.github.io/wales.html</loc></url>
 </urlset>
