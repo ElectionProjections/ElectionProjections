@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portugal Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+<!-- GoatCounter Analytics -->
+    <script data-goatcounter="https://electionprojections.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portugal seat projector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2F4F8; --panel:#FFFFFF; --ink:#101B33; --muted:#566279; --line:#D9DFEA; --soft:#E8ECF4;
+  --lift:0%; --accent:#1B3FA0; --accent-ink:#FFFFFF; --warn:#B42318; --ok:#17713F; --focus:#1B3FA0;
+  --font:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C121E; --panel:#151D2D; --ink:#E7ECF5; --muted:#9AA7BE; --line:#263248; --soft:#1C2638;
+    --lift:40%; --accent:#86A3FF; --accent-ink:#0C121E; --warn:#FF8F85; --ok:#5FD39A; --focus:#9DB4FF;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C121E; --panel:#151D2D; --ink:#E7ECF5; --muted:#9AA7BE; --line:#263248; --soft:#1C2638;
+  --lift:40%; --accent:#86A3FF; --accent-ink:#0C121E; --warn:#FF8F85; --ok:#5FD39A; --focus:#9DB4FF;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.5;
+  font-variant-numeric:tabular-nums;-webkit-text-size-adjust:100%}
+h1,h2,h3{margin:0;line-height:1.15;letter-spacing:-0.01em}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+
+.wrap{max-width:980px;margin:0 auto;padding:28px 20px 64px}
+.masthead{padding:8px 0 26px;border-bottom:3px solid var(--accent);margin-bottom:28px}
+.masthead h1{font-size:clamp(28px,4.4vw,46px);font-weight:800;letter-spacing:-0.025em}
+.masthead p{margin:10px 0 0;max-width:68ch;color:var(--muted);font-size:17px}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr);gap:40px}
+
+/* ---------- inputs ---------- */
+.inputs{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+#rows{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));column-gap:32px}
+.inputs h2{font-size:20px;font-weight:700}
+.hint{margin:6px 0 14px;color:var(--muted);font-size:14px}
+.prow{display:grid;grid-template-columns:1fr auto;grid-template-areas:"name num" "slide slide";
+  column-gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.pname{grid-area:name;display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px}
+.sw{width:13px;height:13px;border-radius:50%;background:var(--c);flex:none}
+.pnum{grid-area:num;display:flex;align-items:center;gap:4px;align-self:center}
+.pnum input{width:5.2rem;text-align:right;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);font-weight:600}
+.pnum span{color:var(--muted);font-size:14px}
+.pslide{grid-area:slide;width:100%;margin:6px 0 0;height:24px;background:transparent;-webkit-appearance:none;appearance:none;cursor:pointer}
+.pslide::-webkit-slider-runnable-track{height:6px;border-radius:99px;background:linear-gradient(to right,var(--c) var(--pct,0%),var(--soft) var(--pct,0%))}
+.pslide::-moz-range-track{height:6px;border-radius:99px;background:var(--soft)}
+.pslide::-moz-range-progress{height:6px;border-radius:99px;background:var(--c)}
+.pslide::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-7px;border-radius:50%;background:var(--panel);border:4px solid var(--c)}
+.pslide::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--panel);border:4px solid var(--c)}
+.orow{display:flex;justify-content:space-between;align-items:baseline;padding:12px 0;border-top:1px solid var(--line);font-size:15px}
+.orow b{font-weight:700}
+.status{margin:4px 0 12px;font-size:14px;min-height:1.4em}
+.status.bad{color:var(--warn)}
+.status:empty{display:none}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:8px 13px;font-size:14px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+/* ---------- results ---------- */
+.results h2,.section h2{font-size:22px;font-weight:700}
+.rhead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px 16px;margin-bottom:6px}
+.tag{font-size:13px;font-weight:600;color:var(--ok);padding:3px 9px;border:1px solid currentColor;border-radius:99px}
+.hemi{display:block;width:100%;max-width:600px;height:auto;margin:0 auto}
+.legend{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;max-width:760px;margin:6px auto 26px;padding:0;font-size:14.5px;font-weight:600}
+.legend li{display:inline-flex;align-items:center;gap:7px}
+.legend li span.n{font-weight:400;color:var(--muted)}
+.seat-dot{transition:fill .35s ease}
+@media (prefers-reduced-motion:reduce){.seat-dot{transition:none}}
+table{border-collapse:collapse;width:100%}
+.stab th,.stab td{padding:10px 8px;text-align:right;border-bottom:1px solid var(--line);font-size:15px}
+.stab th{font-size:13px;font-weight:600;color:var(--muted)}
+.stab th:first-child,.stab td:first-child{text-align:left;padding-left:2px}
+.stab td.name{font-weight:600}
+.nm{display:inline-flex;align-items:center;gap:9px}
+.shrt{display:none}
+@media (max-width:560px){.full{display:none}.shrt{display:inline}}
+.stab td.seats{font-size:19px;font-weight:800}
+.chg.up{color:var(--ok)}.chg.dn{color:var(--warn)}.chg.eq{color:var(--muted)}
+.coal{margin-top:28px;padding:20px;background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.coal h3{font-size:20px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 22px}
+.chipbtn{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1.5px solid var(--line);border-radius:99px;background:var(--panel);cursor:pointer;font-size:14.5px;font-weight:600}
+.chipbtn b{font-weight:800}
+.chipbtn:hover{border-color:var(--c)}
+.chipbtn[aria-pressed=true]{background:color-mix(in srgb,var(--c) 22%,var(--panel));border-color:var(--c)}
+.chipbtn.zero{opacity:.55}
+.barwrap{position:relative;padding-top:24px}
+.bar{display:flex;height:30px;border-radius:8px;background:var(--soft);overflow:hidden}
+.bar span{display:block;height:100%;width:0;background:var(--c);transition:width .45s ease}
+.mark{position:absolute;left:50.43%;top:0;bottom:0;border-left:2px solid var(--ink);pointer-events:none}
+.mark span{position:absolute;top:0;left:7px;font-size:13px;font-weight:600;white-space:nowrap;color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.bar span{transition:none}}
+.tally{margin:14px 0 0;font-size:16px;font-weight:600}
+.tally.ok{color:var(--ok)}
+.note{margin:12px 0 0;font-size:13.5px;color:var(--muted);max-width:75ch}
+
+/* ---------- sections ---------- */
+.section{margin-top:56px}
+.section>p{margin:8px 0 18px;color:var(--muted);max-width:75ch}
+.cmap{display:block;width:100%;height:auto}
+.cmap .box{fill:none;stroke:var(--line);stroke-width:1.4}
+.cmap path{cursor:pointer}
+.cmap path.sel{stroke:var(--ink);stroke-width:2}
+.cmap path:focus{outline:none}
+.cmap path:focus-visible{stroke:var(--focus);stroke-width:2.6}
+.cmap circle{cursor:pointer;stroke:var(--bg);stroke-width:.9;transition:fill .35s ease}
+.cmap circle.sel{stroke:var(--ink);stroke-width:2}
+.cmap circle:focus{outline:none}
+.cmap circle:focus-visible{stroke:var(--focus);stroke-width:2.6}
+.pop{position:absolute;z-index:5;width:300px;max-width:calc(100% - 8px);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px 6px;box-shadow:0 8px 24px rgba(16,27,51,.25)}
+.pop[hidden]{display:none}
+.pop h3{margin:0 26px 1px 0;font-size:16px;font-weight:800}
+.pop .psub{margin:0 0 6px;font-size:11.5px;color:var(--muted)}
+.pop .px{position:absolute;top:5px;right:5px;width:28px;height:28px;border:0;border-radius:7px;background:transparent;color:var(--muted);font-size:20px;line-height:1;cursor:pointer}
+.pop .px:hover{background:var(--soft)}
+.pr{display:grid;grid-template-columns:50px 40px 30px minmax(0,1fr);column-gap:6px;align-items:center;padding:3px 0;border-top:1px solid var(--line);font-size:12.5px;line-height:1.3}
+.pr.hd{border-top:0;padding:0 0 2px;font-size:11px;font-weight:600;color:var(--muted)}
+.pr .pn{display:flex;align-items:center;gap:5px;font-weight:700}
+.pr .sw{width:9px;height:9px}
+.pr .ps,.pr .pc{text-align:right}
+.pr .pc{font-weight:800}
+.pr .z{color:var(--muted);font-weight:400}
+.dots{display:flex;flex-wrap:wrap;gap:2px}
+.dots i{display:block;width:8px;height:8px;border-radius:50%;background:var(--c)}
+.cmap path{stroke:var(--bg);stroke-width:.9;stroke-linejoin:round;transition:fill .35s ease}
+.cmap text{font-family:var(--font);font-size:16px;font-weight:600;fill:var(--muted)}
+@media (prefers-reduced-motion:reduce){.cmap path,.cmap circle{transition:none}}
+.maptools{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;max-width:940px;margin:0 auto 14px}
+.maptools .chips{margin:0}
+.maptools .chips[hidden]{display:none}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--soft);border-radius:10px;padding:3px}
+.seg label{position:relative;text-align:center}
+.seg input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.seg span{display:block;padding:8px 16px;border-radius:8px;font-size:14px;font-weight:600;color:var(--muted);white-space:nowrap}
+.seg input:checked + span{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(16,27,51,.18)}
+.seg input:focus-visible + span{outline:3px solid var(--focus);outline-offset:1px}
+.slegend[hidden]{display:none}
+.slegend .st{font-weight:700;line-height:1.3}
+.slegend .ss{margin:2px 0 10px;font-size:13px;color:var(--muted)}
+.slegend .sb{height:14px;border-radius:7px}
+.slegend .se{display:flex;justify-content:space-between;margin-top:5px;font-size:13px;color:var(--muted)}
+.mapwrap{position:relative;max-width:940px;margin:0 auto}
+.mapside{position:absolute;right:0;top:50%;transform:translateY(-50%);width:31%;max-width:270px;font-size:15px}
+.mlist{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.mlist[hidden]{display:none}
+.mlist li{display:flex;align-items:center;gap:9px;font-weight:700}
+.mlist .n{margin-left:auto;font-weight:400;color:var(--muted)}
+#mlegend li{align-items:flex-start;line-height:1.3}
+#mlegend .sw{margin-top:4px}
+@media (max-width:640px){
+  .pop{position:fixed;left:8px;right:8px;bottom:calc(8px + env(safe-area-inset-bottom,0px));top:auto;width:auto;max-width:none;max-height:72vh;overflow:auto}
+  .mapside{position:static;transform:none;width:auto;max-width:none;margin-top:18px;}
+}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <h1>Portugal seat projector</h1>
+  <p>Set national vote shares and see how the 230 seats of the Assembleia da República fall.</p>
+</header>
+
+<main class="layout">
+
+  <section class="inputs" aria-labelledby="in-h">
+    <h2 id="in-h">National vote share</h2>
+    <p class="hint">Share of valid votes, excluding blank and null ballots. Others is whatever is left to reach 100%.</p>
+    <div id="rows"></div>
+    <div class="orow"><span>Others (remainder)</span><b id="oth">–</b></div>
+    <p class="status" id="status" role="status"></p>
+    <div class="btns">
+      <button class="btn" id="reset" type="button">Reset to 2025</button>
+    </div>
+  </section>
+
+  <section class="results" aria-labelledby="res-h">
+    <div class="rhead">
+      <h2 id="res-h">Projected seats</h2>
+      <span class="tag" id="basetag" hidden>Reproduces the actual 2025 result</span>
+    </div>
+    <svg class="hemi" id="hemi" viewBox="0 0 720 372" role="img" aria-label="Parliament chart"></svg>
+    <ul class="legend" id="legend" aria-label="Chart legend"></ul>
+    <table class="stab">
+      <thead><tr><th>Party</th><th>Vote</th><th>Seats</th><th>vs 2025</th></tr></thead>
+      <tbody id="stab"></tbody>
+    </table>
+    <p class="note" id="devnote" hidden></p>
+    <section class="coal" aria-labelledby="co-h">
+      <h3 id="co-h">Coalition builder</h3>
+      <p class="hint">Select parties to add up their seats against the majority line.</p>
+      <div class="chips" id="chips"></div>
+      <div class="barwrap">
+        <div class="bar" id="bar" role="img" aria-label="Seats of selected parties against majority"></div>
+        <div class="mark" aria-hidden="true"><span>116 for a majority</span></div>
+      </div>
+      <p class="tally" id="tally" role="status"></p>
+    </section>
+  </section>
+
+</main>
+
+<section class="section" aria-labelledby="c-h">
+  <h2 id="c-h">Constituency map</h2>
+  <p>Colour the map by the party projected to win the most votes, or by one party's projected vote share. Click a constituency, or one of the two overseas circles, for its vote shares and seats. The Azores and Madeira are shown in boxes at 50% of the mainland scale.</p>
+  <div class="maptools">
+    <div class="seg" role="radiogroup" aria-label="Map view">
+      <label><input type="radio" name="mapmode" value="winner" checked><span>Winner</span></label>
+      <label><input type="radio" name="mapmode" value="strength"><span>Party strength</span></label>
+    </div>
+    <div class="chips" id="mchips" role="group" aria-label="Party to show" hidden></div>
+  </div>
+  <div class="mapwrap" id="mapwrap">
+    <svg class="cmap" id="cmap" viewBox="0 0 0 0" role="group" aria-label="Map of projected plurality winners by constituency"></svg>
+    <div class="mapside">
+      <ul class="mlist" id="mlegend" aria-label="Map legend"></ul>
+      <div class="slegend" id="slegend" hidden></div>
+    </div>
+    <div class="pop" id="pop" role="dialog" aria-label="Constituency details" hidden></div>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* ===== Portugal seat projector: data + engine ===== */
+
+/* Party order here is parliamentary seating, left to right. */
+const PARTIES = [
+  { id: 'BE',   name: 'Left Bloc (BE)',           short: 'BE',    color: '#8E1B3F' },
+  { id: 'CDU',  name: 'Unitary Democratic Coalition (CDU)', short: 'CDU',   color: '#D8262B' },
+  { id: 'L',    name: 'Free (LIVRE)',           short: 'LIVRE', color: '#93C01F' },
+  { id: 'PAN',  name: 'People–Animals–Nature (PAN)', short: 'PAN',   color: '#10899A' },
+  { id: 'PS',   name: 'Socialist Party (PS)',     short: 'PS',    color: '#E4569B' },
+  { id: 'JPP',  name: 'Together for the People (JPP)', short: 'JPP',   color: '#1E7F4E' },
+  { id: 'AD',   name: 'Democratic Alliance (AD)', short: 'AD',    color: '#F28522' },
+  { id: 'IL',   name: 'Liberal Initiative (IL)', short: 'IL',    color: '#1FB4EA' },
+  { id: 'CH',   name: 'Enough (CH)',            short: 'CH',    color: '#3A3A9A' },
+  { id: 'ADN',  name: 'National Democratic Alternative (ADN)', short: 'ADN',   color: '#7C8AA5' }
+];
+const PARTY_IDS = PARTIES.map(p => p.id);
+const OTHERS = 'OTH';
+
+/* 18 May 2025 results by constituency (CNE / MAI official results).
+   v = votes per party; valid = total valid votes (blank & null excluded);
+   others = valid minus the ten listed parties; actual = seats actually won. */
+const CONSTITUENCIES = [
+  { id: 'AVR', name: 'Aveiro', seats: 16, valid: 403812,
+    v: { AD:163617, PS:90010, CH:85760, IL:23444, L:12805, CDU:4923, BE:7015, PAN:5131, ADN:6974, JPP:0 },
+    actual: { AD:7, PS:4, CH:4, IL:1 } },
+  { id: 'AZO', name: 'Azores', seats: 5, valid: 96705,
+    v: { AD:36879, PS:23810, CH:23053, IL:3481, L:2534, CDU:1219, BE:2106, PAN:1314, ADN:1666, JPP:271 },
+    actual: { AD:3, PS:1, CH:1 } },
+  { id: 'BEJ', name: 'Beja', seats: 3, valid: 72041,
+    v: { AD:15407, PS:19536, CH:20447, IL:1439, L:1547, CDU:10000, BE:1365, PAN:636, ADN:713, JPP:0 },
+    actual: { AD:1, PS:1, CH:1 } },
+  { id: 'BRG', name: 'Braga', seats: 19, valid: 530433,
+    v: { AD:198180, PS:125539, CH:119917, IL:36687, L:16615, CDU:9180, BE:10029, PAN:5181, ADN:5329, JPP:307 },
+    actual: { AD:8, PS:5, CH:5, IL:1 } },
+  { id: 'BGC', name: 'Bragança', seats: 3, valid: 68199,
+    v: { AD:30611, PS:17796, CH:14288, IL:1527, L:792, CDU:725, BE:591, PAN:469, ADN:1071, JPP:0 },
+    actual: { AD:2, PS:1 } },
+  { id: 'CBO', name: 'Castelo Branco', seats: 4, valid: 101229,
+    v: { AD:33616, PS:29751, CH:24313, IL:3143, L:2652, CDU:2227, BE:1715, PAN:944, ADN:1872, JPP:0 },
+    actual: { AD:2, PS:1, CH:1 } },
+  { id: 'COI', name: 'Coimbra', seats: 9, valid: 224315,
+    v: { AD:79524, PS:63348, CH:42527, IL:10273, L:9392, CDU:5796, BE:5027, PAN:2828, ADN:3752, JPP:154 },
+    actual: { AD:4, PS:3, CH:2 } },
+  { id: 'EVO', name: 'Évora', seats: 3, valid: 82911,
+    v: { AD:21070, PS:23616, CH:21080, IL:2415, L:2296, CDU:8637, BE:1487, PAN:790, ADN:983, JPP:0 },
+    actual: { AD:1, PS:1, CH:1 } },
+  { id: 'FAO', name: 'Faro', seats: 9, valid: 225285,
+    v: { AD:59353, PS:47293, CH:78168, IL:10047, L:7735, CDU:6170, BE:5724, PAN:4161, ADN:4182, JPP:262 },
+    actual: { AD:3, PS:2, CH:4 } },
+  { id: 'GRD', name: 'Guarda', seats: 3, valid: 79244,
+    v: { AD:32291, PS:21550, CH:17247, IL:1994, L:1229, CDU:1037, BE:1010, PAN:607, ADN:1660, JPP:0 },
+    actual: { AD:1, PS:1, CH:1 } },
+  { id: 'LEI', name: 'Leiria', seats: 10, valid: 256929,
+    v: { AD:98243, PS:50321, CH:61162, IL:15971, L:9299, CDU:5468, BE:5099, PAN:3103, ADN:5745, JPP:0 },
+    actual: { AD:5, PS:2, CH:3 } },
+  { id: 'LIS', name: 'Lisbon', seats: 48, valid: 1246070,
+    v: { AD:362506, PS:301492, CH:265718, IL:97098, L:87530, CDU:45430, BE:29914, PAN:23369, ADN:15415, JPP:815 },
+    actual: { AD:15, PS:12, CH:11, IL:4, L:3, CDU:1, BE:1, PAN:1 } },
+  { id: 'MAD', name: 'Madeira', seats: 6, valid: 136540,
+    v: { AD:57447, PS:18704, CH:29038, IL:3657, L:1749, CDU:1763, BE:1870, PAN:1445, ADN:1554, JPP:17115 },
+    actual: { AD:3, PS:1, CH:1, JPP:1 } },
+  { id: 'PTG', name: 'Portalegre', seats: 2, valid: 56135,
+    v: { AD:15458, PS:16125, CH:17220, IL:1107, L:986, CDU:2977, BE:733, PAN:393, ADN:619, JPP:0 },
+    actual: { PS:1, CH:1 } },
+  { id: 'POR', name: 'Porto', seats: 40, valid: 1073532,
+    v: { AD:375606, PS:263793, CH:226806, IL:66926, L:47156, CDU:25002, BE:22192, PAN:16433, ADN:11275, JPP:749 },
+    actual: { AD:15, PS:11, CH:9, IL:2, L:2, CDU:1 } },
+  { id: 'SAN', name: 'Santarém', seats: 9, valid: 237970,
+    v: { AD:74716, PS:55545, CH:68687, IL:9593, L:7857, CDU:8780, BE:4367, PAN:2749, ADN:3969, JPP:0 },
+    actual: { AD:4, PS:2, CH:3 } },
+  { id: 'SET', name: 'Setúbal', seats: 19, valid: 480656,
+    v: { AD:103181, PS:122679, CH:129569, IL:28700, L:27057, CDU:34956, BE:13068, PAN:9229, ADN:4187, JPP:453 },
+    actual: { AD:5, PS:5, CH:6, IL:1, L:1, CDU:1 } },
+  { id: 'VIA', name: 'Viana do Castelo', seats: 5, valid: 136233,
+    v: { AD:55376, PS:30393, CH:32141, IL:5344, L:3640, CDU:2763, BE:2285, PAN:1300, ADN:2047, JPP:0 },
+    actual: { AD:3, PS:1, CH:1 } },
+  { id: 'VRL', name: 'Vila Real', seats: 5, valid: 111138,
+    v: { AD:50522, PS:27990, CH:22754, IL:2481, L:1743, CDU:1401, BE:1150, PAN:775, ADN:1713, JPP:0 },
+    actual: { AD:3, PS:1, CH:1 } },
+  { id: 'VIS', name: 'Viseu', seats: 8, valid: 201173,
+    v: { AD:88374, PS:45210, CH:45794, IL:6465, L:4394, CDU:2489, BE:2464, PAN:0, ADN:4188, JPP:0 },
+    actual: { AD:4, PS:2, CH:2 } },
+  { id: 'EUR', name: 'Europe', seats: 2, valid: 172618,
+    v: { AD:37406, PS:34574, CH:71990, IL:6452, L:5626, CDU:2213, BE:4743, PAN:4071, ADN:1201, JPP:551 },
+    actual: { AD:1, CH:1 } },
+  { id: 'OUT', name: 'Outside Europe', seats: 2, valid: 64804,
+    v: { AD:19054, PS:13119, CH:20202, IL:2063, L:996, CDU:585, BE:1756, PAN:2018, ADN:1479, JPP:234 },
+    actual: { AD:1, CH:1 } }
+];
+
+/* Votes for all unlisted parties, kept as one pool that cannot win seats. */
+CONSTITUENCIES.forEach(c => {
+  const listed = PARTY_IDS.reduce((s, p) => s + (c.v[p] || 0), 0);
+  c.v[OTHERS] = c.valid - listed;
+});
+
+/* National baseline: share of valid votes, summed over the 22 constituencies. */
+function nationalBaseline() {
+  const totalValid = CONSTITUENCIES.reduce((s, c) => s + c.valid, 0);
+  const out = {};
+  [...PARTY_IDS, OTHERS].forEach(p => {
+    out[p] = 100 * CONSTITUENCIES.reduce((s, c) => s + c.v[p], 0) / totalValid;
+  });
+  return out;
+}
+
+/* D'Hondt: returns seats per party plus the closing quotients for audit. */
+function dhondt(votes, nSeats) {
+  const seats = {};
+  const ids = Object.keys(votes).filter(p => p !== OTHERS);
+  ids.forEach(p => { seats[p] = 0; });
+  let lastWon = null, tie = false;
+  for (let i = 0; i < nSeats; i++) {
+    let best = null, bestQ = -1, runnerQ = -1;
+    for (const p of ids) {
+      const q = votes[p] / (seats[p] + 1);
+      if (q > bestQ || (q === bestQ && votes[p] > votes[best])) {
+        runnerQ = Math.max(runnerQ, bestQ);
+        bestQ = q; best = p;
+      } else {
+        runnerQ = Math.max(runnerQ, q);
+      }
+    }
+    if (bestQ > 0 && Math.abs(bestQ - runnerQ) < 1e-9) tie = true;
+    if (bestQ <= 0) break;
+    seats[best]++;
+    lastWon = { party: best, quotient: bestQ };
+  }
+  /* The best unsuccessful quotient is the first seat not won. */
+  let next = null;
+  for (const p of ids) {
+    const q = votes[p] / (seats[p] + 1);
+    if (q > 0 && (!next || q > next.quotient)) next = { party: p, quotient: q };
+  }
+  const margin = lastWon && next ? (lastWon.quotient - next.quotient) / lastWon.quotient : null;
+  return { seats, lastWon, next, margin, tie };
+}
+
+/* Projected shares (percent) in one constituency under uniform national swing. */
+function projectShares(c, inputs, natBase) {
+  const ids = [...PARTY_IDS, OTHERS];
+  const raw = {};
+  ids.forEach(p => {
+    const base = 100 * c.v[p] / c.valid;
+    if (c.v[p] <= 0) { raw[p] = 0; return; }           /* no list, no swing */
+    raw[p] = Math.max(0, base + (inputs[p] - natBase[p]));
+  });
+  const sum = ids.reduce((s, p) => s + raw[p], 0);
+  const out = {};
+  ids.forEach(p => { out[p] = sum > 0 ? 100 * raw[p] / sum : 0; });
+  return out;
+}
+
+/* Full model run. inputs: percent for each party id and OTH. */
+function runModel(inputs) {
+  const natBase = nationalBaseline();
+  const national = {};
+  [...PARTY_IDS, OTHERS].forEach(p => { national[p] = { seats: 0, actualSeats: 0, impliedVotes: 0 }; });
+  const rows = CONSTITUENCIES.map(c => {
+    const shares = projectShares(c, inputs, natBase);
+    const votes = {};
+    Object.keys(shares).forEach(p => { votes[p] = shares[p] / 100 * c.valid; });
+    const d = dhondt(votes, c.seats);
+    const actualVotes = {};
+    PARTY_IDS.forEach(p => { actualVotes[p] = c.v[p]; });
+    const base = {};
+    [...PARTY_IDS, OTHERS].forEach(p => { base[p] = 100 * c.v[p] / c.valid; });
+    PARTY_IDS.forEach(p => {
+      national[p].seats += d.seats[p] || 0;
+      national[p].actualSeats += c.actual[p] || 0;
+    });
+    [...PARTY_IDS, OTHERS].forEach(p => { national[p].impliedVotes += votes[p]; });
+    /* first place by projected votes */
+    const first = PARTY_IDS.reduce((a, b) => (votes[b] > votes[a] ? b : a));
+    return {
+      id: c.id, name: c.name, magnitude: c.seats, valid: c.valid,
+      baseShare: base, baseVotes: { ...c.v },
+      share: shares, votes, seats: d.seats, actualSeats: c.actual,
+      first, lastWon: d.lastWon, next: d.next, margin: d.margin, tie: d.tie
+    };
+  });
+  const totalValid = CONSTITUENCIES.reduce((s, c) => s + c.valid, 0);
+  Object.keys(national).forEach(p => {
+    national[p].impliedShare = 100 * national[p].impliedVotes / totalValid;
+  });
+  return { inputs: { ...inputs }, natBase, national, constituencies: rows };
+}
+
+if (typeof module !== 'undefined') {
+  module.exports = { PARTIES, PARTY_IDS, OTHERS, CONSTITUENCIES, nationalBaseline, dhondt, projectShares, runModel };
+}
+
+</script>
+<script>
+(function(){
+'use strict';
+
+const TABLE_ORDER = ['AD','CH','PS','IL','L','CDU','BE','PAN','JPP','ADN'];
+const P = Object.fromEntries(PARTIES.map(p => [p.id, p]));
+const TOTAL = 230, MAJORITY = 116;
+const NAT = nationalBaseline();
+
+const state = {
+  inputs: Object.fromEntries(PARTY_IDS.map(p => [p, NAT[p]])),
+  method: 'additive',   /* uniform national swing only */
+  selected: new Set(),
+  openId: null, opener: null, anchor: null,
+  mapMode: 'winner', mapParty: 'AD',
+  result: null
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt = (v, d = 1) => v.toFixed(d);
+const int = n => Math.round(n).toLocaleString('en-GB');
+const signed = (v, d = 1) => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(d);
+const sw = id => `<span class="sw" style="--c:${P[id].color}"></span>`;
+
+/* ---------- inputs ---------- */
+function buildRows(){
+  $('rows').innerHTML = TABLE_ORDER.map(id => `
+    <div class="prow" data-p="${id}" style="--c:${P[id].color}">
+      <label class="pname" for="num-${id}">${sw(id)}${esc(P[id].name)}</label>
+      <div class="pnum"><input id="num-${id}" type="number" inputmode="decimal" step="0.1" min="0" max="100"><span>%</span></div>
+      <input class="pslide" id="sl-${id}" type="range" min="0" max="50" step="0.1" aria-label="${esc(P[id].name)} share slider">
+    </div>`).join('');
+}
+function syncInputs(skip){
+  TABLE_ORDER.forEach(id => {
+    const v = state.inputs[id];
+    const n = $('num-' + id), s = $('sl-' + id);
+    if (n !== skip && document.activeElement !== n) n.value = fmt(v, 2);
+    if (s !== skip) s.value = v;
+    s.style.setProperty('--pct', Math.min(100, v / 50 * 100) + '%');
+  });
+}
+function namedTotal(){ return PARTY_IDS.reduce((s, p) => s + state.inputs[p], 0); }
+function fullInputs(){
+  const named = namedTotal();
+  return { ...state.inputs, [OTHERS]: Math.max(0, 100 - named) };
+}
+function isBaseline(){
+  return PARTY_IDS.every(p => Math.abs(state.inputs[p] - NAT[p]) < 0.005);
+}
+
+/* ---------- hemicycle ---------- */
+const HEMI = (function(){
+  const N = TOTAL, rows = 8, cx = 360, cy = 348, R = 330, r0 = 125;
+  const radii = [...Array(rows)].map((_, i) => r0 + (R - r0) * i / (rows - 1));
+  const sum = radii.reduce((a, b) => a + b, 0);
+  const counts = radii.map(r => Math.floor(N * r / sum));
+  let rem = N - counts.reduce((a, b) => a + b, 0);
+  radii.map((r, i) => [N * r / sum - counts[i], i]).sort((a, b) => b[0] - a[0])
+    .slice(0, rem).forEach(x => counts[x[1]]++);
+  const pts = [];
+  radii.forEach((r, i) => {
+    const n = counts[i];
+    for (let j = 0; j < n; j++){
+      const th = Math.PI - j * Math.PI / (n - 1);
+      pts.push({ x: cx + r * Math.cos(th), y: cy - r * Math.sin(th), th, r });
+    }
+  });
+  pts.sort((a, b) => (b.th - a.th) || (a.r - b.r));
+  return pts;
+})();
+function buildHemi(){
+  const dots = HEMI.map(p => `<circle class="seat-dot" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="10.5" fill="#999"/>`).join('');
+  $('hemi').innerHTML = dots;
+}
+function drawHemi(res){
+  const dots = $('hemi').querySelectorAll('.seat-dot');
+  let k = 0;
+  PARTIES.forEach(p => {
+    const n = res.national[p.id].seats;
+    for (let i = 0; i < n && k < dots.length; i++, k++) dots[k].setAttribute('fill', p.color);
+  });
+  /* legend: parties with seats, in seating order (left to right) */
+  $('legend').innerHTML = PARTIES.filter(p => res.national[p.id].seats > 0)
+    .map(p => `<li>${sw(p.id)}${esc(p.short)} <span class="n">${res.national[p.id].seats}</span></li>`).join('');
+  const ranked = PARTY_IDS.map(p => [p, res.national[p].seats]).sort((a, b) => b[1] - a[1]);
+  const desc = ranked.filter(r => r[1] > 0).map(r => `${P[r[0]].short} ${r[1]}`).join(', ');
+  $('hemi').setAttribute('aria-label', `Projected parliament of ${TOTAL} seats: ${desc}`);
+}
+
+/* Parties ranked by projected seats; ties keep the fixed order. */
+function seatOrder(res){
+  return TABLE_ORDER.slice().sort((a, b) =>
+    res.national[b].seats - res.national[a].seats || TABLE_ORDER.indexOf(a) - TABLE_ORDER.indexOf(b));
+}
+
+/* ---------- seat table ---------- */
+function drawSeatTable(res){
+  $('stab').innerHTML = seatOrder(res).map(id => {
+    const n = res.national[id], d = n.seats - n.actualSeats;
+    const cls = d > 0 ? 'up' : d < 0 ? 'dn' : 'eq';
+    return `<tr>
+      <td class="name"><span class="nm">${sw(id)}<span class="full">${esc(P[id].name)}</span><span class="shrt">${esc(P[id].short)}</span></span></td>
+      <td>${fmt(state.inputs[id], 1)}%</td>
+      <td class="seats">${n.seats}</td>
+      <td class="chg ${cls}">${d === 0 ? '–' : signed(d, 0)}</td></tr>`;
+  }).join('');
+  drawCoalition(res);
+  /* deviation of implied national share from inputs */
+  const inp = fullInputs();
+  let worst = 0, wp = null;
+  [...PARTY_IDS, OTHERS].forEach(p => {
+    const dev = Math.abs(res.national[p].impliedShare - inp[p]);
+    if (dev > worst){ worst = dev; wp = p; }
+  });
+  const nt = $('devnote');
+  if (worst > 0.05){
+    nt.hidden = false;
+    nt.textContent = `Zero floors and rescaling move the model’s national shares by up to ${worst.toFixed(2)} points from your inputs (largest: ${wp === OTHERS ? 'Others' : P[wp].short}).`;
+  } else nt.hidden = true;
+}
+
+/* ---------- coalition builder ---------- */
+function buildCoalition(){
+  $('chips').innerHTML = TABLE_ORDER.map(id =>
+    `<button type="button" class="chipbtn" data-co="${id}" aria-pressed="false" style="--c:${P[id].color}">${sw(id)}${esc(P[id].short)} <b id="cn-${id}">0</b></button>`).join('');
+  $('bar').innerHTML = TABLE_ORDER.map(id => `<span id="cb-${id}" style="--c:${P[id].color}"></span>`).join('');
+}
+function drawCoalition(res){
+  /* reorder buttons and bar segments by projected seats, keeping keyboard focus */
+  const order = seatOrder(res);
+  const chips = $('chips'), bar = $('bar');
+  if (order.some((id, i) => chips.children[i].dataset.co !== id)){
+    const active = document.activeElement;
+    order.forEach(id => {
+      chips.appendChild(document.querySelector(`[data-co="${id}"]`));
+      bar.appendChild($('cb-' + id));
+    });
+    if (active && active.dataset && active.dataset.co) active.focus();
+  }
+  let sum = 0;
+  TABLE_ORDER.forEach(id => {
+    const n = res.national[id].seats, on = state.selected.has(id);
+    $('cn-' + id).textContent = n;
+    const b = document.querySelector(`[data-co="${id}"]`);
+    b.setAttribute('aria-pressed', on);
+    b.classList.toggle('zero', n === 0);
+    $('cb-' + id).style.width = on ? (n / TOTAL * 100) + '%' : '0%';
+    if (on) sum += n;
+  });
+  const sel = TABLE_ORDER.filter(id => state.selected.has(id));
+  const t = $('tally');
+  t.className = 'tally' + (sum >= MAJORITY ? ' ok' : '');
+  if (!sel.length){ t.textContent = `No parties selected. A majority needs ${MAJORITY} of ${TOTAL} seats.`; }
+  else {
+    const names = sel.map(id => P[id].short).join(' + ');
+    t.textContent = sum >= MAJORITY
+      ? `${names}: ${sum} seats, a majority of ${2 * sum - TOTAL}.`
+      : `${names}: ${sum} seats, ${MAJORITY - sum} short of the ${MAJORITY} needed.`;
+  }
+  $('bar').setAttribute('aria-label', `${sum} of ${TOTAL} seats selected; ${MAJORITY} needed for a majority`);
+}
+
+/* ---------- constituency map ---------- */
+const MAPDATA = {"w":921.1,"h":576.5,"paths":{"AVR":"M427.2 121L428.1 120.9L428.9 121.7L430.1 121.7L430.1 122.8L430.7 123.2L430.7 125.2L429.8 125.4L430.4 125.6L430.1 126.1L430.3 126.9L431.3 126.4L432.9 127.1L432.2 128.9L433.7 128.4L435.1 129.5L436.2 129.8L436.6 129.4L438.1 130.6L438.9 130.6L439.9 129.6L440.1 128.5L441.4 128L441.8 126.7L442.4 127.2L442.6 129.6L438.9 134L440 137.3L439.3 139.5L440.4 140.4L441.4 143L441.1 144.3L439.3 145L436 143.1L434.1 145.3L432.7 145L430.6 143.2L428.6 144.2L430.1 147.6L429.6 149.6L428.5 150.5L428.3 152L427.5 152.6L427.4 154.1L426.8 154.4L427.1 155.2L426.6 155L424.1 156.8L422.1 157.1L422.8 159.3L422.6 160.3L423.6 161.1L424.2 162.3L425 162.3L424.9 164.2L425.7 164.9L425.1 166.9L425.2 168.7L426.1 169.2L426.6 169L429.4 170.8L426.8 172.1L425.6 172L424.9 172.6L424.7 172.3L424.1 173L424.8 175.1L425.7 176.1L426 179.4L427.3 179.8L429 182.5L427.8 183.3L426.2 182.7L424.8 183.8L422.2 184.5L421.8 186.4L423.1 188.5L423.2 190.2L422 190.7L421 192L421.5 192.7L420.8 193.6L420.1 193.8L420.5 195.1L419.7 197.9L420.1 199L419.9 200.6L418.3 201.3L415.8 200.1L416.1 201.3L415.4 203.3L413.7 203.3L412 204L412.2 207L411.6 208.2L411.1 208.2L410.5 207.9L410.4 207.1L408.7 206.7L405.7 206.9L405.5 206.6L405.2 204.1L406.7 204.5L409 204.2L408.4 200.8L409.2 198.9L408.8 198.3L409.4 197.5L409.3 196.4L407.8 194.7L407.3 194.8L407.4 192.3L405 193.2L404.2 194L401.6 194.7L401 192.4L401.1 190L401.7 189.1L401.4 187.5L400.7 186L398.7 185.8L398.1 185.2L396.6 187.4L396.3 191.8L395.2 192L394 191.5L392.2 190.5L390.7 188.1L383.7 181.3L386.5 170L386.7 168L386 167.8L386.7 167.9L387.1 167.4L385.6 167.6L386.6 166.2L392.9 142.8L395.3 131.3L395.7 128.5L395.3 128.2L395.8 126.3L396.6 126.4L399.1 125.2L400.2 126.5L403.2 126.4L403.4 125.2L405.7 123.6L406.8 126.4L407.9 127.1L408.9 126.7L408.7 125.7L410.8 124.8L408.7 123.7L409.2 122.3L410 122.3L411.7 123.4L412.4 122.2L414.1 124.1L413.7 124.9L413.9 125.7L415.2 126.5L416.7 126.8L417.3 128L417.8 127.7L417.5 126.7L417.9 125.6L416.8 125.3L416.4 124.6L416.6 122.4L418.9 122.5L420.1 123.6L420.9 123.7L422.6 121.8L423.7 121.6L425.4 119.3L427.2 121Z","BEJ":"M513.2 424.3L515.1 427.2L515.2 429.6L516.7 431.7L517.6 432.4L521.4 433.5L520.7 436L522.1 438L524.2 443.1L524.9 443.7L524.8 441.6L526.9 441.7L527.5 440.1L529.1 440L529.6 440.9L530.4 441L530.8 442L532.4 440.9L532.4 440L533.3 440.2L533 441L534 440.6L534.4 439.9L535.6 440.5L536.2 440.1L536.7 438.8L537.3 439L537.2 438L538.5 438.1L539.8 437.2L540.6 438.2L541.9 436.5L542.7 436.5L542.8 437.1L543.7 436.1L543.5 437.5L544.1 437.5L540.9 442.2L541 443L542.4 443.7L541.8 444L541.9 445.4L541.3 446L540.8 448.4L540.4 449.1L539.4 449.3L539.2 454.5L538.2 455.7L538.2 458.2L536.2 458L534.3 459.1L534.2 458.8L532.8 458.6L532.5 457L531.1 457L529.7 455.9L528.3 456.7L528.2 457.3L527.1 457.5L527.4 458L526.8 458.4L527.2 458.6L527.1 459.6L527.8 460.3L526.4 460.9L525.7 460.5L524.7 461.5L523.2 461.6L522.8 461L522.3 461.2L522 460.6L520.7 460.5L520.4 461.1L518.5 462.2L516.9 461.8L515.4 463.2L516.5 464.6L516.7 466L515.9 468.3L516.1 469.5L515.5 469.3L514.5 472.1L513.7 472.3L514 474.7L513.7 475.5L512.4 476.9L512.1 478.5L510.1 481.4L506.5 484L503.8 487.2L502.8 486.9L502.3 487.7L501.6 487.8L501.9 489.5L501 489.8L501.2 490.6L500.3 492.3L500.1 494.3L499.7 494.1L499.3 494.6L499.7 495.6L499 496.9L499.7 498.3L498.7 498.6L499.1 499L498.8 500.3L497.7 500L498 500.8L497.3 501.6L497.4 502.7L496.4 502.8L496.6 503.4L495.8 505L494.5 505L495.1 506.1L494.7 507.9L493.5 508.9L494.2 509.2L494.2 510.2L493.7 509.9L492.8 510.4L493.8 512.4L493.6 513.8L492.6 513.4L491 514.4L490.6 513.7L489.1 514.2L489.2 513.7L488.3 513.4L487.9 514.8L486.4 515.2L486.4 516.2L484.7 516.7L484.2 517.8L482.8 516.6L481.8 517.3L481.3 516.9L481.5 516.4L480.9 516.6L480.5 516L476.6 516.8L476 516.5L475.1 517.6L474.4 517L474.2 517.7L473.3 517.7L473.5 518.1L472.4 518.9L471.4 518.1L471.6 519L470.8 519L469.5 520.2L468.9 519.9L468.3 520.9L466.8 521.9L466.3 521.8L466.3 520.9L465.5 522.5L463.7 522.4L463.4 523.7L462.8 523.9L462.4 523.4L461.6 524.3L460.2 524L459.8 525L460.3 525L460.6 526.1L459.4 525.9L458.8 527.4L458.7 526.7L457.6 527L457.4 526.3L456.9 527.1L455.9 527.5L455.9 526.7L454.7 527.4L454 526.7L453.2 527.6L452.2 527.1L452.1 528.2L450.7 528.1L450.3 529.4L450.8 529.8L450.1 530.3L450.6 530.5L450.7 531.4L451.3 531L451.1 531.5L451.5 532L450.8 531.8L450.5 532.6L450.2 532L449.3 532.3L448.9 533.1L448.2 532.9L448.2 533.5L447.3 533.8L447.6 534.7L446.9 534.5L446.9 534.9L446.4 534.8L446.7 535.4L445.6 536.4L445.1 536.3L444.9 536.9L443.3 535.8L441.5 536.1L439.8 535.5L437.6 535.4L433.7 534.2L432.9 533.3L433 532.9L432.3 532.9L430.7 531.3L430.2 531.5L428.9 530.3L428.7 529.6L426.3 529.3L426.3 527.6L427.3 527L426 526.3L426.1 525L425.2 524.3L423.3 524.3L422.6 523.5L421.5 525.3L420.9 524.2L420.3 525L419 524.7L419.1 524.2L418.2 524.3L417.8 524.9L415.8 524.8L414.7 525.1L414.6 525.7L413.7 525.6L413.5 526.8L413 526.7L413.2 528.9L412.6 529.7L411.6 529.1L411.3 529.8L411.1 529.3L410.4 530.7L406.9 529.4L405.7 529.4L405.1 530.2L399.9 526.5L398.5 527.5L395.7 527.6L394.3 530.2L393.6 530.4L391.9 527.7L390.9 527.9L390.7 527.4L389.8 528.2L388.9 527.8L388.2 528.1L388.1 527.7L387.5 528.1L386.8 527.5L386.5 528.1L386.2 527.5L385.7 528.2L385.3 526.1L384.4 525.8L384.8 525L384.1 525L384.3 524.2L383.6 524.5L382.6 523.6L380.9 523.9L379.9 522.9L379.8 520.8L380.2 520.6L379.8 519.4L380.4 518.5L380 517.5L380.5 517.5L380.2 516.7L380.7 515.8L380.4 515.4L381 514.6L380.8 513.5L381.2 512.9L380.4 510.5L380.7 510L379.7 508.2L378.9 507.6L378.3 505.5L379 504.4L379 502.1L380.4 497.2L380.8 495L380.4 493.9L381.3 492.8L380.7 492.1L380.4 490.3L379.2 489.7L379 488.9L379.5 488.5L379.5 485.9L380 485.4L380.8 481.1L381.5 481.3L381.7 482.5L382.3 482.7L383.6 481.6L384.6 481.9L385.9 481.7L388 484.3L388.3 485.7L389.4 486L389.8 487.9L390.4 488.5L392.4 486.9L393.4 487.7L393.8 487.5L394.8 488.6L395.6 488.4L395.7 488.9L396.2 489L397.2 487.8L398.9 488.2L398.8 487.3L399.3 487.2L398.6 485.8L399.3 484.7L399.2 483.5L400.8 481.3L402.3 481.6L402.1 478.1L403.3 477.5L408.4 477.3L409.9 476.1L411.8 476.8L412.4 475.6L416.7 476.8L418.2 476.7L421.5 478.2L421.1 476.1L423.2 474.4L423.1 473.3L424.3 472.5L423.4 471.1L424.2 469.7L423.6 469L424.6 466.7L424.8 462L423.7 461.4L423.7 460.5L422.3 459L422.6 458.4L420.1 459.4L419.6 458.2L418.6 458.8L418.7 458.2L417.7 457.7L417.9 456.6L415.6 455.1L414.6 453.2L415.4 452.5L416.5 448.5L418.2 449.8L418.7 449.7L419.6 447.8L419.4 445.9L420.9 445.6L421.3 444L423.3 445.9L425.1 445.9L425.6 440.6L426.4 440.6L427.2 441.3L429.5 441.4L430.4 439.4L431.2 438.8L432.8 439L436.1 437.1L439.2 436.4L439.2 431.7L438 428.2L436.2 425.8L436.6 425.7L436.4 425L437.3 424.8L438.1 426.3L438.9 426.6L441.3 425.7L443.8 425.5L444.2 425.9L445.7 424.8L446.7 425.1L448.7 427.9L449.6 427.7L449.7 428L450.9 427.7L452.2 426L455.5 427.4L458.6 429.4L458.3 429.7L458.7 430.2L459.3 429.7L462.1 431.9L463 432L464.6 433.3L465.8 433L466.8 434.1L468.9 432.9L469.8 433.6L471.6 433.8L473.8 435.3L475.7 437.3L477.4 437.7L479.5 439L482.5 437.9L484.7 438.7L486.5 438.5L487.3 439.6L488.5 440.2L489.2 439.6L490.3 439.5L494.6 440.2L495.1 440L494.5 438.9L494.7 438.1L497.5 437L498.4 435L499.7 434.1L500.2 432.1L502.2 431.4L502.3 430.4L503.3 428.8L502.4 427.9L503.3 427.8L503.5 428.3L504.4 427.5L505.1 427.9L506.9 427.8L508.5 425.3L509.9 425.8L510.8 424.8L513.2 424.3Z","BRG":"M445.5 37.1L446.2 39.1L445.2 39.6L444.6 40.9L444.9 43.5L443.5 45L442.8 48.7L442.1 49.7L440.9 50.1L440 51.7L443.8 51L445.8 51.3L446.9 50.4L448 50.7L448.5 51.7L450.9 52.1L451.5 52.9L450.1 55.6L450.5 56.2L449.9 57L449.7 59.2L450.3 61.2L451.4 61.5L452.9 61.1L453.9 62.3L455.8 62.1L458 63L459.1 62.3L459.9 62.9L461.9 61.4L462.4 59.9L464.2 61.3L465.4 63.1L465 63.8L465.6 63.8L465.8 64.5L465 66.4L463.4 66.7L464.1 67.5L463.2 68L463.6 68.6L461.4 69.9L461.6 71.3L459.3 71.7L458.9 71.1L458.5 71.9L458.8 72.6L458.1 73.8L457.1 73.6L456.2 73.9L455.2 75.1L454.7 77.9L455.3 78.8L454.9 80.4L452.8 82.3L453.1 83.6L452.1 83.5L452.2 84.1L451.6 84.3L451.9 84.8L452.6 84.6L452.8 84.9L451 89.6L449.7 90.2L449.3 91.3L448.2 91.7L448.4 92.2L447.8 92.7L446.8 92.7L445.9 91.4L444.5 90.6L444.6 90.1L442.8 91.6L442.1 90.7L441.1 90.5L440.4 89.7L440 90.1L439.1 89.5L438.5 88.2L437.8 88.2L438.4 86.3L436.7 85.9L436.2 83.7L435.1 84.1L434.5 82.7L432.2 82.5L431.4 82.7L431.4 84.5L429.5 84.4L428.3 86.2L426.8 87.2L427.1 87.9L426.7 89.8L426 90.3L424.6 90.1L423.6 89.2L422.6 87.6L422.8 86.3L421.4 86.5L420.1 87.6L418.6 87.9L418.3 87.3L417.1 88L417 86.8L417.9 85.9L416.6 85.5L413.9 87.9L413.1 87.9L411.9 86.4L408.1 87.2L406.8 88.6L406.7 89.7L405.1 90L404 89.5L403.3 89.9L400 89.6L399.4 90.5L398.9 90.2L397.9 85.6L399 84.6L400.5 84.4L400.6 83.7L399.4 82.3L398.7 82.8L397 81.6L395.7 81.5L395.1 79.6L394 78.6L392.9 78.2L391.5 78.9L390.7 77.7L389.1 77.7L387.7 76L387.1 76.3L385.2 75.6L383.9 72.3L384.3 70.9L383.8 69.8L383.9 67.9L382.6 59.8L383.2 60.6L385.3 59.6L386.9 59.8L386.9 59L387.6 58.6L388.2 59.3L388.9 59L389.6 57.7L391.1 57.8L391.9 56.9L394.7 56.7L395.7 58L396.1 57.8L396.4 55.4L397.7 55.8L397.5 56.6L398.6 56.6L399.6 57.7L401.2 56.6L401.9 56.7L403.1 58.9L404.9 58L404.8 57.1L405.3 55.9L404.4 54.4L405.6 52.7L406.5 52.7L407.2 48L406.8 47.5L408.7 45.9L409.4 46L409.5 47.4L411.6 46.8L414.7 44L418.1 43.6L418.8 42.6L420.8 43.8L422.5 43.2L424.5 43.7L425.5 41.5L427.4 42.5L430 40.6L430.9 40.7L433.7 38L436.1 38.5L436.2 37.3L439.5 38.4L440.3 38L442.2 38.5L442.4 38L445.2 37.6L445.5 37.1Z","BGC":"M548.4 17.1L552 18L553.5 22.5L555.6 23.2L556.5 23L557.8 23.6L563.1 22.5L564.3 22.7L565.2 21.8L566.1 21.7L567 19.6L570.2 22.1L570.5 23.6L568.5 28.9L573 29.8L573.2 30.1L572.4 31.4L572.7 32.1L571.9 34.2L572.3 35.8L571.6 36.1L571.8 36.6L571.1 37.5L571.4 38L570.7 38.7L571 40.5L570.5 40.7L570.1 42.9L569 44.4L570.1 45.1L570.2 46.5L570.7 46.4L570.2 46.9L571.3 49.1L571.1 49.4L570.5 49L570.3 49.5L571.4 51.4L575 53.9L578.5 52.8L578.8 51.2L579.5 50.8L580.2 51.2L582.7 51.1L585.3 51.9L587 51.6L591.4 53.1L595.4 56.2L597.1 59L600 60.4L601 62.5L599.2 64.3L598.7 66.2L597.2 68.6L595.5 69.4L596 70.9L594.8 71.2L595.2 72.5L593.3 73.4L593.2 74.7L591.6 76.6L592.5 78.1L592.1 79L591.3 80L589.9 80.4L589.4 81.1L589.5 81.6L590.8 82.5L590.7 83.8L590.1 83.7L587.9 84.7L586.8 83.7L586.6 83L584.7 84L584.4 85.7L585.1 86.4L585.8 86.3L585.9 86.8L584.6 87.9L582.7 88.1L581.8 89.8L582.5 90.6L581.2 91.2L580.9 92.9L579.9 93.6L578.3 93.4L576.8 94.5L576.4 95.3L577.5 96.3L576.1 97.4L574.8 97.6L573.8 96.3L571.8 98.3L571.5 99.7L569.8 100.5L568.7 100.3L568.1 98.7L567.4 100L566.8 99.4L565 100.2L563.3 99.7L563 101L562.3 101.2L559.8 103.9L559.9 105.4L559.2 105.8L559.3 106.7L558.4 108.1L556.6 109.3L554.8 111.7L553.5 112.3L553.3 113.5L554.7 115.7L551.7 121.1L550.2 122.4L550.2 123.3L548.2 124.2L545.3 124.5L541.3 123.2L539.5 124.3L537.7 124.1L536.9 123.5L535 124.8L534.3 123.5L533.1 123L531.9 123.4L530.5 122.7L529.2 120.7L525.5 118.7L525.5 116.1L527 113.7L525.9 112.7L523.7 112.8L523.1 112.4L523.3 111.7L524.4 111L524.5 108.2L524.2 107.8L523.5 108.1L522.9 109.9L521.4 110.6L520.3 113.7L517.9 113.7L516.5 112.7L515.1 112.6L513.1 111.7L510.3 112.8L508.4 112.4L508 111.6L507.1 112L504 111.5L503.6 110.4L502.6 110.3L502.7 109.2L501.2 106.2L497.7 104.6L498.6 103.4L498.4 101.4L499.2 100.4L499.8 100.8L501.4 100.8L500.7 100L500.7 98.8L501.4 97.6L500.9 97L501 96.2L502.6 95.4L503.5 94.2L502.3 93L503.9 91.1L507.4 90.3L507.4 90L504.6 88.9L503.4 87.4L504.2 86.1L503.5 85.5L503.7 84.8L503 83.8L503.4 82.8L503 81.8L503.6 80.8L503.1 79L504.8 77.6L505.8 77.8L506 76.9L508.6 76.3L508.1 75.8L508.3 73.7L509.8 70.6L513.6 70.2L514.4 69.7L511.9 65.3L512.3 63.1L511.8 62.2L512.3 59.8L513 59.1L512.6 57.9L513.1 56.5L515.4 52.2L515.8 48.7L516.9 47.8L517.2 46.4L518.5 45.9L518.8 45L518.4 43.6L518.9 42.3L517.9 41.2L517.4 41.4L517.4 40.8L517 40.9L516.9 39.5L516.3 39.2L516.6 38.6L516 38.4L515.6 37.4L516 36.7L515.3 36L516.8 31.6L516.1 30.6L517.1 29.1L517.8 26.4L518.5 25.7L517.1 23.2L517.6 22.8L517.3 22.6L517.6 21.5L517.3 21.5L517.8 19.2L519.1 18.9L519.7 19.3L520.2 18.2L521.1 17.7L522.9 18.1L525.6 19.6L526.5 21.9L527.4 22.3L528.6 22.2L529.3 21.6L529.8 22L532.3 22L532.9 20.6L534.5 19.4L536.3 19.9L537.5 22.6L538.4 22.4L541.8 23.1L543.7 22.1L545.4 22.7L547.6 22.3L548.6 19.7L548.4 17.1Z","CBO":"M510.2 192.7L512.1 193.6L512.2 195.9L511.6 197.7L511.9 199.6L511.5 200L511.9 200.2L511.7 201.4L509.2 205.2L507 206.3L508.1 207.8L512 209.4L513.4 209.2L514.9 210.2L516 208.1L517.2 207.1L518.9 207.5L519.8 208.4L520.5 208.2L520.9 209.1L521.5 209L523.7 207.4L524.1 204.3L525.7 202.7L526.9 203.7L526.8 204.6L527.9 206.5L527.2 207.1L528.2 207.8L532.7 207.8L533.4 207.2L533.3 206.5L534.1 206.4L536.7 208.3L538.5 208.8L539.4 210L538.4 212.1L537.7 212.3L537.1 211.9L535.5 212.5L534.3 213.6L533.8 216.7L532.8 218L534 219.1L533.5 220.1L534.2 222.1L533.6 222.7L534.7 224.2L534.4 224.6L536.1 225.4L536.1 226.1L536.6 225.4L538.7 225.6L538.8 226.3L539.4 225.7L539.9 226.4L540.5 226.1L540.4 227L541.2 227.1L542.3 228.9L542.6 231.2L543.3 231.1L543.8 231.7L544.8 231.8L544.4 232.7L545.8 233.9L545.6 234.8L546.4 235.9L546.1 236.5L547.3 237.1L546.4 237.7L546.4 239.1L545.4 240.8L546 241.6L545.2 242.8L545.6 245.1L543.8 247L543.7 247.6L544.4 248.4L543.8 250.7L544.2 251.1L544.1 252.9L543.2 254.2L541.9 254.8L541.5 256.5L540.5 257L540.3 257.7L538.4 258L538 258.7L537.5 258.6L537 259.7L536.8 261.4L538 263.9L537.1 264.9L536.5 267.5L536.6 268.4L537.1 268.9L536.1 270.4L534.8 275.2L530.6 276.7L528.5 276.1L525.6 276.1L523.2 277.3L514.5 275.9L511.4 276.6L507.5 278.8L503.9 277.8L501.6 278.3L497 276.5L490.3 276L488.8 277.1L487.5 276.8L486.2 277.1L485.1 278L485 279.1L481.2 281L479.5 279.8L478.4 278.1L475.7 279.6L474.8 280.7L475 282.6L474.1 284.4L471.4 284.9L470.1 287.6L469.1 288.1L467.7 289.7L465.4 290.6L465.1 289.7L465.4 289.6L465.6 288.1L466.7 287.4L466.6 286.8L466.1 286.7L466.1 285.2L465.7 285.6L465.6 284.9L465.2 285.1L465.2 284.5L464.3 284.1L464.7 283.6L464 283.6L464.2 282.8L463.4 282.8L463.4 281L462.2 281L462.5 280.2L461.9 279.4L461.4 279.6L461 278.9L459.6 278.8L459.6 277.7L458.7 277.4L459.1 277.1L457.9 276.8L458.1 276.5L457.6 276L456.5 276.1L456.6 276.9L456.2 276.6L455.8 277.2L455.6 276.7L453.9 276.8L454.1 275.1L454.6 274.8L454.3 270.7L453.9 268L453 267.5L452.6 268.3L451.1 269.4L450.3 268.8L449.9 267.7L448.3 268.1L447.4 267.8L447.1 267.2L446.7 268.2L445.6 268.6L446 270.5L445 273.4L445.4 275.4L445.1 276.1L444.2 276L443.6 277.3L445.7 281.8L444.4 281.3L442.5 282.2L440.5 282L438.8 282.4L437.4 281.7L437.1 281L435.3 280.9L434 280L431.6 279.6L430.4 278.5L429.9 279L430.7 276.5L430.4 274.5L431 272.1L430.7 271.8L430.2 272.2L429.9 271.6L430.5 269.7L430 268.7L430.8 267.8L430.7 266.6L429.5 263.8L427.6 264.9L427.2 264.2L426.8 264.5L426 263.8L426 261.5L425.2 260.6L426.2 259.2L427 259.3L426.7 256.7L430.3 256.3L430.8 255.2L432.3 255.8L433.4 254.9L433.2 254.2L434.4 253.4L434.4 252.4L435.9 253.1L436.3 252.3L437.5 252L438.3 250.9L438.2 250.2L439.3 247.5L440.1 246.9L440.2 245.2L440.6 245L441.9 245.8L443.2 245.1L442.7 244.3L442.9 243.1L443.5 244L444.6 244.3L445.4 242.6L446.1 243.3L447.4 243.6L447.7 243.1L447.2 241.8L447.6 241L448.8 242.4L449.8 242.3L449.1 240.4L450.5 241.7L451.1 241.6L451.2 240.5L452.2 240.4L453.4 241.8L454.3 239L457.1 239.4L457.6 239.1L457.5 238.4L458.6 238.9L458.1 236.4L457.4 235.6L458.5 234.5L459.5 234.6L462.6 232.7L463.4 233.3L465.2 233.6L466.6 235.2L467.3 233.9L466.6 233.9L466.5 233.4L467.4 232.6L466.8 231.4L467.6 230.6L466.3 231L465.9 230.6L466.8 230.5L467.3 229.4L468.4 229.6L468.1 230.3L469.6 232.1L469.4 231.3L472.2 229L472.2 228.4L471.4 228.1L473.1 227.4L472.7 225.4L469.5 223.1L469.3 221.7L467.6 221.3L467.2 219.7L466.5 219L467.6 216.8L468.6 216.1L468.7 213.7L469.4 213L472.9 212.9L474.9 210.2L477 209.1L479.5 208.8L482.6 205.8L482.6 204.7L483.5 203.2L485.2 203.4L485.8 204.5L486.7 203.6L489.5 203.8L491.2 200.9L491.4 198.1L493.7 195.2L495.9 194.4L497.1 196.1L499 195.5L500.6 196.7L501.6 196.7L504.6 195.4L505.8 196.6L506 194.5L507.3 193.3L507.8 193L509 194.1L510.2 192.7Z","COI":"M383.7 181.3L390.7 188.1L392.2 190.5L395.2 192L396.2 191.9L396.5 191.2L396.6 187.4L397.6 185.6L398.1 185.2L398.7 185.8L400.7 186L401.7 188.4L401 192L401.6 194.7L404.2 194L405 193.2L407.4 192.3L407.3 194.8L407.8 194.7L409.3 196.4L409.4 197.5L408.8 198.3L409.2 198.9L408.4 200.8L409 204.2L406.7 204.5L405.2 204.1L405.5 206.6L405.7 206.9L408.7 206.7L410.4 207.1L410.5 207.9L411.2 208.2L412.2 207L412.1 203.9L413.7 203.3L415.4 203.3L416.1 201.3L415.8 200.1L418.3 201.3L419.8 200.7L420.3 198.1L421.1 198.2L422.2 199.8L422.6 199.8L422.6 199.1L424.7 199.5L426.7 202L427.8 202.2L428.9 203.4L429.6 203L430.4 203.4L430.5 202.4L432.3 201.3L433.3 201.6L434 201.2L434.5 202.2L435.7 200.9L437.1 201.8L438.5 201.8L438.8 202.3L439 201.1L440.3 201.6L442.6 199.2L443.9 198.9L444.5 197.7L445.4 197.9L446.8 196.3L449.9 195.8L452.4 194.3L453.9 192.2L456 191.6L457.2 189.6L458.3 188.9L460 186.7L461.5 186L463.2 184.2L463.6 184.5L464.7 183.8L464.8 185.7L467.4 188.4L466.2 190.4L465 190.3L463.1 191.6L463.3 193.2L464.9 194.4L467.4 194.2L467.5 198.7L466.8 199.5L466.8 200.4L468.3 200.8L468.7 201.7L469.6 201.5L470.8 202.3L470.2 204.1L469 203.8L467.8 204.9L466.8 205L466.5 206.9L465.7 207.9L465.8 209.1L465 209.7L465.4 210.7L466.9 210.7L468.7 213.6L468.6 216.1L467.6 216.8L466.5 219L467.2 219.7L467.6 221.3L469.3 221.7L469.5 223.1L472.7 225.4L473.1 227.5L471.4 228.1L472.2 228.4L472.2 229L469.4 231.3L469.6 232.1L468.1 230.3L468.4 229.6L467.3 229.4L466.8 230.5L465.9 230.6L466.3 231L467.6 230.6L466.8 231.4L467.4 232.6L466.5 233.4L466.6 233.9L467.3 233.9L466.6 235.2L465.2 233.6L462 232.7L461.3 233.7L459.5 234.6L458.5 234.5L457.4 235.6L458.1 236.4L458.6 238.9L457.5 238.4L457.6 239.1L457.1 239.4L454.3 239L453.4 241.8L452.2 240.4L451.2 240.5L451.1 241.6L450.5 241.7L449.1 240.4L449.8 242.3L448.8 242.4L447.6 241L447.2 241.8L447.7 243.1L447.4 243.6L446.1 243.3L445.4 242.6L444.6 244.3L443.5 244L442.9 243.1L442.7 244.3L443.2 245L442.9 245.5L441.8 245.8L440.4 245L440 245.6L440.1 246.6L439.7 246.7L438.9 245.9L440.8 244.1L440.9 242.4L440 240.7L439.5 240.8L439.5 240.3L438.5 239.7L438.2 238.2L437 237.1L436.9 236.2L438 231.2L435 229.3L432.7 232.3L432.4 233.5L430.5 231.9L429.6 231.8L429 233.2L427.8 233.3L426.7 234.2L424.8 238.2L426.1 240.1L427.2 240.4L427.2 241.1L426.5 241.5L427 242L426.4 242.6L426.4 243.7L424 242L423.5 240.5L422.9 241L422.9 242.4L422.5 242.2L422.3 242.6L422.4 243.2L419.9 245.5L419.6 246.4L418.4 246.7L418.3 247.7L417.8 247.3L417.3 247.7L416.1 247.4L415.3 246.8L416.7 246.2L416.7 244.8L417.7 244.6L417.8 244.2L415.9 241.6L416.2 240.5L415.7 238.6L413.9 236.3L413 237.5L413.5 238.4L414 238.3L413.8 239.5L411.2 237.2L411 238.6L408.7 240L408.4 240.7L405.7 240.9L405.4 243.3L404.2 244.9L403.2 243.5L403.1 242.2L403.6 241.3L403.1 236.7L402.2 236L399.8 236.1L397.7 240L395.4 240.2L395.5 237.9L393.4 237.3L392.6 235.8L390.2 236L387.4 235.5L385.2 234.5L383.3 235L381.9 237.6L378.6 235.8L377.9 236.4L376.1 236.4L376 235.1L373.9 233.9L376.1 227L376.7 223.4L375.8 223.1L376.3 223.3L376.3 222.6L375.7 222.8L376 221.9L375.6 220.9L373 219.1L372.9 217.9L378.4 202.3L383.7 181.3Z","EVO":"M438.1 348.6L439.3 348.9L439.1 347.7L441.4 347.8L441.9 348.9L440.7 348.7L440 349.8L441.5 353.7L442.9 352.9L442.6 351.1L443.6 348.7L444.3 348.5L445.6 349.5L446.3 349.4L447.3 351.3L449.2 352.3L448.7 354.3L449.2 354.9L448.4 355.9L448.5 356.8L449.7 356.3L451.6 356.5L453.2 355.6L454.7 353.5L455.1 353.4L455.2 353.9L456.9 353.1L457.6 353.5L457.8 354.6L458.6 355L459 356.2L459.4 356.1L459.1 356.9L459.5 357.9L460.3 358.6L461.1 358.4L461.2 360.4L462.2 360.3L463.3 361.2L465.4 361.1L468.7 361.8L469 360.5L470.2 361.2L472 360.4L472.9 359.2L473.6 356.9L475.3 359L476.6 359.9L477.9 358L480.6 359.9L481.9 360L481.6 359.2L481.9 358.7L483 358.6L482.2 358L484.7 355.3L485.4 355L488.2 355.4L488 354.6L488.9 354.7L490.1 353.7L490.3 352.2L489.1 351L489.3 350.6L490.1 350.8L489.9 349.8L490.8 349.2L492.7 351.7L493.2 351.2L493.6 351.7L495 351.4L494.8 352.8L496 352.6L497.9 354L496.9 355L497.1 356L496.7 356.6L497.7 357.4L496.7 358.3L500.5 360.8L500.1 363.7L500.6 365L501 364.7L501.9 365.5L502.1 366.8L501.5 366.5L500.4 366.9L502.1 368.1L503.3 372.1L505.3 370.9L504.9 371.7L505.3 372.2L506.6 371.6L506.5 372.4L508.9 371.7L509.6 371.1L509.1 371.1L509.6 370.7L509 369.4L510.6 368.8L510.9 368L511.7 367.6L513 369.1L513.6 368L514.7 368L514.9 366.8L516.4 367.1L517.6 368.9L518.3 368.1L519.3 368.6L518.7 368.6L518.3 369.7L519 371.2L517.2 374L517.3 374.5L518.1 374.5L517.5 375L517.9 376.3L518.5 376.1L519.7 377.5L517.6 379.1L516.7 379.1L515.1 380.3L515 381.7L514.2 383.3L513.8 390.1L514.4 391.3L516.1 391.2L516.4 391.7L514.9 393.1L514.6 395.7L513.6 397.1L512.9 397.1L512.5 399L511.2 400.7L511.3 403.1L510.3 403.9L509.7 407.9L510.4 408.3L511.6 407.3L511.9 407.8L511.7 408.8L510.5 409.9L510.3 411.1L509 411.6L508.5 412.6L510.1 412.1L511.7 413.7L512.4 413.5L512.3 413.9L513.4 414.4L514.2 417.1L520.3 424.3L522 427.9L523.3 429.3L523.2 429.8L523.7 429.6L524.9 430.2L524.7 431.1L525.2 430.9L525.6 431.8L525.6 434.1L528.3 437.9L528.8 439.7L527.3 440.2L526.9 441.7L524.8 441.6L524.9 443.7L524.2 443.1L522.1 438L520.7 436L521.4 433.5L517.6 432.4L516.7 431.7L515.3 429.6L515.1 427.2L513.6 425.4L513.5 424.3L510.8 424.8L509.9 425.8L508.5 425.3L506.9 427.8L505.1 427.9L504.4 427.5L503.5 428.3L503.3 427.8L502.4 427.9L503.3 428.8L502.3 430.4L502.2 431.4L500.2 432.1L499.7 434.1L498.4 435L497.5 437L494.6 438.2L495.1 440L490.3 439.5L489.2 439.6L488.5 440.2L487.3 439.6L486.5 438.5L484.7 438.7L482.5 437.9L479.5 439L477.4 437.7L475.7 437.3L473.8 435.3L471.6 433.8L469.8 433.6L468.9 432.9L466.8 434.1L465.8 433L464.6 433.3L463 432L462.1 431.9L459.3 429.7L458.7 430.2L458.5 429.3L452.8 426.2L452.2 426L450.9 427.7L449.7 428L449.6 427.7L448.7 427.9L446.7 425.1L445.7 424.8L444.2 425.9L443.8 425.5L441.3 425.7L438.9 426.6L438.1 426.3L437.3 424.7L436.4 425L436.5 425.7L435.7 425.8L433.2 423.3L427 422L426.3 420L424.3 419.6L422.3 420L424.2 416.9L425.7 415.5L424.2 414.1L425.7 414L425.1 412.5L422.3 412.8L422.2 411.1L423.4 410.4L421.2 405L419.1 402.9L418.3 400.7L415.7 401.6L414.7 403L413.6 403.4L411.9 403.3L411.7 402.7L409 403.9L408.6 402L407.5 402.5L407.4 400.5L406.5 400.4L405.1 400.9L406.4 403.6L404.4 404.5L404.1 402.6L400.6 402.2L400.4 400.4L399.1 401L396.8 399.8L394.8 400.2L394.6 398.2L393.1 394.3L393.6 393.2L395 392.3L397.2 389.6L398.1 389.5L399.1 388.6L400.2 387.1L400.1 386.6L403.4 385.1L405.2 382.5L406.9 381.8L406.1 379.5L406.5 378.4L407.7 377.5L407.8 376.7L402.9 376.5L407 371.6L409 372.3L409.5 373.1L411.5 371.6L413.1 368.6L414.1 368.3L414.2 369.5L414.9 369.9L417.3 367.9L416.7 367.2L417.7 366.2L420.8 368.1L422.6 365.9L423.5 367.5L424.3 364.8L424.3 365.7L424.7 365.7L425.3 366.6L426.9 367.7L427.8 367.7L427.1 369L428.7 370.4L429.2 370.6L430.4 370L431.1 369.2L433.3 371.6L432.7 372.6L433.8 373.2L434.3 372.2L435.3 372.3L435.2 374.4L436.2 375.1L438.2 375.5L438.3 373.8L439.7 371.9L438.3 370.5L437.4 370.3L437.4 370.9L436.6 371.7L436.7 371.1L436 369.3L434.1 368.2L434.3 366.8L436.7 365.1L434.7 363.7L433.9 364.3L433 363.7L432.4 364.2L432.2 363.1L426.8 360.5L429.4 357.1L430.1 353.7L429.4 353.2L430.3 352L430.7 351.7L431.5 352.7L435.3 348L436.3 348.6L437.3 347.3L438.1 348.6Z","FAO":"M492.6 513.4L493.5 513.4L494.1 514L495.5 514.1L496.3 516.8L498.1 518L497.7 520.1L498.8 521.8L498.7 524.4L499.8 525.5L498.2 526.7L500.2 528.6L500.6 531.9L499.9 533.8L500.4 535.8L500.1 537.5L501 540.1L502 541.6L501 544.3L502.2 545.6L502.7 546.9L503.3 551.7L504.6 553.6L504 553.9L503.4 553L498.3 552.5L494.6 553.5L488.6 556.4L486.1 557.9L484.9 559.1L484.9 559.8L484.7 559.5L481.9 561.9L468.4 570.8L468.8 571.1L467.2 572.7L462.7 575.2L462.7 575.7L462.4 576.3L462.6 575.5L462.2 576.3L461 576.5L456.7 575.5L442.4 565.3L441.1 564.6L440.9 565.1L440.8 564.5L439.6 564.2L439.7 564.6L439.6 564.1L434.8 562.3L432.4 562.4L429.9 563.1L428.2 562.6L427.8 563.4L424.2 564.3L418.7 561.1L417.7 561L415.5 562.2L411.9 562.8L408.1 561.3L404.6 560.5L404.5 560L403.6 560.1L403.3 559.2L400.8 558.9L400.4 559.5L397.2 558.5L393.8 559L392.1 559.9L391.3 560.9L391.4 563.4L389.8 562.7L386.1 562.5L383.6 563.9L381 564.5L380.6 565.1L378.8 564.7L375.5 565.5L374.7 566L373.9 567.4L373.2 566.9L371.2 567.3L370.1 569.3L368.3 569.9L368 570.7L368.5 570.7L368.3 571.3L367.9 571.8L367.6 571.4L366.8 571.5L366.4 572L366.5 572.6L366.4 572.7L366.3 571L365 569.1L363.2 568.9L363 569.9L362.8 569.3L362.5 569.7L362 569.4L363.6 567.1L363.2 566.5L363.7 565.6L365.1 564.2L365.5 561.5L367.3 560L369 556.7L369 555.9L370.5 553.6L369.6 551.7L370 551L369.2 550.2L370.4 550L371.2 549.1L374.4 542.2L373.8 540.5L374 539.4L373 539.2L373.3 538.7L372.9 538L373.4 537.5L372.9 536.4L373.4 536.3L375.9 533L379.1 526.1L379.4 523.5L380.2 522.9L380.9 523.9L382.6 523.6L383.6 524.5L384.3 524.2L384.1 525L384.8 525L384.4 525.8L385.3 526.1L385.7 528.2L386.2 527.5L386.5 528.1L386.8 527.5L387.5 528.1L388.1 527.7L388.2 528.1L388.9 527.8L389.8 528.2L390.7 527.4L390.9 527.9L391.9 527.7L393.6 530.4L394.3 530.2L395.7 527.6L398.5 527.5L399.9 526.5L405.1 530.2L405.7 529.4L406.9 529.4L410.4 530.7L411.1 529.3L411.3 529.8L411.6 529.1L412.6 529.7L413.2 528.9L413 526.7L413.5 526.8L413.7 525.6L414.6 525.7L414.7 525.1L415.8 524.8L417.8 524.9L418.2 524.3L419.1 524.2L419 524.7L420.3 525L420.9 524.2L421.5 525.3L422.6 523.5L423.3 524.3L425.2 524.3L426.1 525L426 526.3L427.3 527L426.3 527.6L426.3 529.3L428.7 529.6L428.9 530.3L430.2 531.5L430.7 531.3L432.3 532.9L433 532.9L432.9 533.3L433.7 534.2L437.6 535.4L439.8 535.5L441.5 536.1L443.3 535.8L444.9 536.9L445.1 536.3L445.6 536.4L446.7 535.4L446.4 534.8L446.9 534.9L446.9 534.5L447.6 534.7L447.3 533.8L448.2 533.5L448.2 532.9L448.9 533.1L449.3 532.3L450.2 532L450.5 532.6L450.8 531.8L451.5 532L451.1 531.5L451.3 531L450.7 531.4L450.6 530.5L450.1 530.3L450.8 529.8L450.3 529.4L450.7 528.1L452.1 528.2L452.2 527.1L453.2 527.6L454 526.7L454.7 527.4L455.9 526.7L455.9 527.5L456.9 527.1L457.4 526.3L457.6 527L458.7 526.7L458.8 527.4L459.4 525.9L460.6 526.1L460.3 525L459.8 525L460.2 524L461.6 524.3L462.4 523.4L462.8 523.9L463.4 523.7L463.7 522.4L465.5 522.5L466.3 520.9L466.3 521.8L466.8 521.9L468.3 520.9L468.9 519.9L469.5 520.2L470.8 519L471.6 519L471.4 518.1L472.4 518.9L473.5 518.1L473.3 517.7L474.2 517.7L474.4 517L475.1 517.6L476 516.5L476.6 516.8L480.5 516L480.9 516.6L481.5 516.4L481.3 516.9L481.8 517.3L482.8 516.6L484.2 517.8L484.7 516.7L486.4 516.2L486.4 515.2L487.9 514.8L488.3 513.4L489.2 513.7L489.1 514.2L490.6 513.7L491 514.4L492.6 513.4Z","GRD":"M499.8 136.6L501.2 138L502.2 138.2L502.5 138.9L502 139.1L501.7 140.7L500.8 141.2L498.5 140.5L498.1 139.7L498.6 137.5L499.1 136.6L499.8 136.6ZM523.7 112.8L525.6 112.6L526.9 113.3L526.9 114.2L525.5 116.1L525.4 118.4L529.2 120.7L530.5 122.7L531.9 123.4L533.1 123L534.2 123.4L535 124.8L536.8 123.5L537.7 124.1L540 124.2L540 125.6L540.8 127.2L541.9 127.6L544.8 131.8L546.2 133L547.2 135.8L547.1 138.2L548.7 140.1L550.5 140.5L551.3 144.2L550.3 144.9L549.2 144.6L549.1 145.1L549.5 145.5L549.2 146.7L550 149.9L549.3 151.3L548.9 156L550.6 158.8L550.4 159.8L551.5 163.1L551.1 164.2L552.1 165L550.4 169.8L548.5 172.5L548.6 174.1L548 175.6L551.7 177.3L551.4 178.9L552.3 181.6L550.7 182.7L550.4 184L549 185.7L547.8 188.3L549.1 193.2L553.7 197.8L552.7 198.9L553 201.3L552.7 201.9L550.7 202.3L548.8 203.6L546.8 205.6L547 207.7L546.5 209.1L543.2 210.3L541.6 209.9L539.2 209.9L538.5 208.8L536.7 208.3L534.1 206.4L533.3 206.5L533.4 207.2L532.7 207.8L528.2 207.8L527.2 207.1L527.9 206.5L526.8 204.6L526.9 203.7L525.7 202.7L524.1 204.3L523.7 207.4L521.6 208.9L520.9 209.1L520.5 208.2L519.8 208.4L518.9 207.5L517.2 207.1L516 208.1L514.9 210.2L513.4 209.2L512 209.4L511 208.7L510 208.8L508.1 207.7L507 206.3L509.2 205.2L511.7 201.2L511.6 197.6L512.2 195.9L512.1 193.6L510.2 192.7L508.9 194.1L507.7 193L506 194.5L505.8 196.6L504.6 195.4L501.6 196.7L500.6 196.7L499 195.5L497.1 196.1L495.9 194.4L493.7 195.2L491.9 197.3L491.3 198.4L491.2 200.9L489.5 203.8L486.7 203.6L485.8 204.5L485.2 203.4L483.5 203.2L482.6 204.7L482.6 205.8L479.5 208.8L477 209.1L474.9 210.2L472.9 212.9L469.8 212.9L468.7 213.7L466.9 210.7L465.4 210.7L465 209.7L465.8 209.1L465.7 207.9L466.5 206.9L466.8 205L467.8 204.9L469 203.8L470.2 204.1L470.8 202.3L469.6 201.5L468.7 201.7L468.3 200.8L466.8 200.4L466.8 199.5L467.5 198.7L467.4 194.2L464.9 194.4L463.3 193.2L463.1 191.6L465 190.3L466.2 190.4L467.4 188.4L464.8 185.7L464.7 183.9L465.2 183.7L465.3 182.7L468.5 182.9L470.6 180.7L471.8 180.8L473.7 179.8L475.2 178.4L476.4 178.5L477 177.9L478.2 177.9L478.5 177L479.4 177L481 176.1L483.5 176.4L485.7 175.4L485 175L485 174.1L487.2 168.5L486.9 167.4L488.9 165.9L488 164.9L488.1 163.9L489.4 162.4L488.8 161.8L487.2 162.1L484.7 159.8L484.2 158.2L486.4 155.9L485.3 154.1L481.5 152.3L484.6 147L485 144.4L487.3 142.1L490.9 142.5L491.4 143.6L492.4 144L492.6 144.8L494.1 146.7L495.3 147.2L496.2 148.8L496.9 148.4L499.5 143.9L500.4 141.4L501.6 141.4L502.4 142.5L502.6 141.9L502 141.2L502.7 140.5L502.8 137.6L504.1 136L506 135.2L506.4 134.5L506.1 134.2L506.9 131L505.8 130.1L502.4 128.9L502.7 128L502.3 126.9L502.6 126.4L504.9 126.7L505.8 126.3L506.2 125.2L505.5 124.8L505.8 124.7L505.2 123.7L505.6 123L505.1 122.8L506.4 119.2L506.8 114.9L508.2 112.6L509 112.4L510.4 112.8L511.5 112L513.1 111.7L515.1 112.6L516.5 112.7L517.9 113.7L520.3 113.8L521.4 110.6L522.9 109.9L523.4 108.1L524.1 107.8L524.5 108.2L524.4 111L523.1 112.2L523.7 112.8Z","LEI":"M435 229.3L438 231.2L438.1 232L436.9 236.8L438 237.8L438.5 239.7L439.5 240.3L439.5 240.8L440 240.7L441 243.5L438.9 245.9L440.1 246.8L439.3 247.5L438.2 250.2L438.3 250.9L437.5 252L436.3 252.3L435.9 253.1L434.4 252.4L434.4 253.4L433.2 254.2L433.4 254.9L432.3 255.8L430.8 255.2L430.3 256.3L426.8 256.7L426.5 257.4L427 259.3L426.2 259.2L425.2 260.5L426 261.5L425.9 261.9L424.2 262.2L421.5 261.1L422.4 262.8L422 264.2L422.5 265.2L422.1 265.7L420.7 264.3L419.3 264.9L417.7 266.8L416.7 265.8L415.7 265.8L414 266.5L413.4 268L411.5 269.1L411.3 267.6L411.7 266.4L410.7 264.4L410.7 260.9L409.7 259.1L409.4 257.1L407.8 258.2L406.9 259.7L406 258.3L405.4 258.3L405.2 259.5L403.6 261.6L401 262.7L400.2 263.6L399.4 263.9L398.5 263.6L398 262.6L395.9 262.5L392.4 264.2L391.9 267L392.6 269.1L393.4 269.6L392 270.1L392.1 271.4L395.4 272.3L396.1 272.9L394.9 274.6L395.2 275.3L394.6 276.8L392.3 277.9L391.9 278.5L390.1 279.1L391.3 282.4L391.4 286.3L392.6 287.8L391.2 289.1L390.6 291L388.9 292.3L387.3 290.6L386.2 291.4L386.4 293.5L387.4 294.7L387.6 296.8L386 296.8L385 297.3L381.3 296.4L377.5 297.6L374.5 297.3L373.5 298.3L372.6 298.3L370.1 303L368.9 306.5L366.9 306.2L364.9 308.2L364 310.5L364.2 312.9L365.3 314.5L364.6 317L363.8 317.6L361.8 317.3L360.7 315.4L358.4 315.5L357.9 316.6L355.4 317.7L354.7 319.2L353.6 319.7L353.5 321.8L351.7 324.4L350.9 323.9L350.3 325.2L349.1 325.2L348.7 326.3L348 325.9L347.9 324.5L346.9 323.7L346.6 322.2L347.9 319.9L347.1 318.5L346.8 316.2L345.4 316.2L344.8 315.6L343 315.8L342.1 314.4L340.3 315.4L340.1 316.2L339.3 316.6L338.5 318.2L337.6 317.4L334.5 317L334.1 314.7L332.9 313.6L333.1 312.2L332.5 310.7L331.8 310.9L331.5 310.4L330.2 310.3L328.9 309.6L330 308.4L331.6 308.6L331.5 307.8L332.2 308.4L332.2 309.2L333.6 309.5L334.9 308.7L334.8 307.4L335 308L335.6 308.1L337.9 307.1L344.7 301.2L346.1 299.3L346.8 297.2L347.5 297L349.6 294.1L351.2 293.2L351.8 293.3L351.5 293.8L351.9 294L352.6 293.6L352.5 292.9L352 293.1L351.8 291.9L353.3 291.2L353.6 290.1L358 284.1L357.9 282.9L357.1 282.8L357.1 281.5L360.2 272.1L360.2 270.1L373.9 233.9L376 235.1L376.1 236.4L377.9 236.4L378.6 235.8L381.9 237.6L383.3 235L384.8 234.5L390.2 236L392.6 235.8L393.4 237.3L395.5 237.9L395.4 240.2L397.7 240L399.8 236.1L402.3 236.1L403.1 236.7L403.6 241.3L403.1 242.2L403.2 243.5L404.2 244.9L405.4 243.3L405.7 240.9L408.4 240.7L408.7 240L411 238.6L411.2 237.2L413.8 239.5L414 238.3L413.5 238.4L413 237.5L413.9 236.3L415.7 238.6L416.2 240.5L415.9 241.6L417.8 244.2L417.7 244.6L416.7 244.8L416.7 246.2L415.3 246.8L416.1 247.4L417.3 247.7L417.8 247.3L418.3 247.7L418.4 246.7L419.6 246.4L419.9 245.5L422.4 243.2L422.3 242.6L422.5 242.2L422.9 242.4L422.9 241L423.5 240.5L424 242L426.4 243.7L426.4 242.6L427 242L426.5 241.5L427.2 241.1L427.2 240.4L426.1 240.1L424.8 238.2L427.2 233.7L429 233.2L429.6 231.8L430.5 231.9L432.4 233.5L432.7 232.3L435 229.3Z","LIS":"M342.1 314.5L343 315.8L344.8 315.6L345.4 316.2L346.8 316.2L347.1 318.5L347.9 319.9L346.6 322.2L346.9 323.7L347.9 324.5L348 325.9L348.7 326.3L349.1 325.2L350.3 325.2L350.9 323.9L351.6 324.4L352.3 323L353.2 322.6L353.6 321.3L353.5 320L354.7 319.2L355.4 317.7L357.9 316.6L358.4 315.5L359.3 315.2L360.7 315.4L361.8 317.3L363.8 317.6L364.7 317L365.5 318.1L366.2 318.1L365.7 322.2L367.3 321.6L369.5 323.3L370.5 323.6L371 323.2L371.7 323.9L372.2 323.3L372 322.9L374.7 322.1L375.9 324.4L378.5 325.3L379.6 328.4L379 329.4L376.5 330.2L375.1 329.2L373.9 329.3L372.9 330.8L371.5 330.6L371.5 331.1L374.2 333.5L375.3 335.7L376 335.8L378.1 337.5L379 337.2L380.6 338.5L381.4 339.4L380.8 340L382.7 343.6L381.1 344.1L379.5 346.8L375.9 346.8L377.5 348.2L375.9 350.2L375.6 352.2L374.3 353.1L376.7 354.5L373.2 356.2L373.1 358.3L371.4 360.7L371.4 362.4L369.5 364.6L368.4 366.8L366.8 368L365.7 370.5L363.9 372.9L363.2 370.5L362.8 370.9L362.2 369L361.9 369.3L361.2 366.7L361.5 365.4L359.5 368.6L357.2 370.8L356.1 372.5L355.1 379.5L353.6 382.1L351.2 383.6L347.6 383.9L345.4 385.1L343.5 385.2L342.8 384.9L343.3 383.4L339 383.1L336.9 384.6L336.2 384.7L335.9 385.6L335.3 385.9L329.4 382.6L327.2 382.8L326.9 383.2L327.5 383.5L326.6 384L325.2 383.2L323.5 383.3L321.9 382.5L321.2 381.6L322.5 378.7L322.5 377.2L320.9 375.7L320.7 374.3L320.1 373.7L324.5 365L327.7 355.7L327.7 354L327.4 353.4L327.1 353.5L327.5 350.9L326.7 349.2L327.8 344.7L327.8 342.4L327.4 341.2L332.9 330.6L334.1 326.9L335.1 319L334.5 317.5L335.1 317.1L337.3 317.4L338.5 318.2L339.3 316.6L340.1 316.2L340.3 315.4L342.1 314.5Z","PTG":"M489.6 276.4L490.5 276.6L490.9 277.3L490.9 279.6L492.4 281.4L493.3 284.6L496.6 286.5L497.9 289.2L499.3 290.7L501.4 291.1L501.9 290.8L502.7 291.2L502.8 294.1L503.8 294.9L503.5 295.5L505 296L505.2 296.5L506.5 295.8L506.8 296.9L508.6 297.3L511.1 299.2L510.1 300.4L509.9 302.2L510.5 303L510.4 304.2L508.7 307.6L509.8 309L510.1 312.6L512.3 314.3L513.4 315.6L513.6 316.5L516.7 319L515.3 321.8L515.8 323L515.6 324.6L515.9 326.8L518.8 329.1L520.1 329.1L525.2 330.8L525.3 331.9L524.7 333.1L525.1 333.8L524 336.3L524.4 337.7L527.8 338.8L528.3 338.1L532.2 336.7L534.1 336.7L538.6 339.9L540.5 343.6L539.8 345.2L541.3 347L535.4 356.3L534.8 358.2L532.7 360L533.6 361L533.7 362.6L534.4 363.2L533.8 364.7L531.3 365.9L528.9 370.2L526.4 370.3L525.1 371.4L523.1 374.3L520.3 375.9L519.7 377.5L518.5 376.1L517.9 376.3L517.5 375L518.1 374.5L517.3 374.5L517.2 374L519 371.2L518.3 369.7L518.7 368.6L519.3 368.6L518.3 368.1L517.6 368.9L516 366.8L514.9 366.8L514.7 368L513.6 368L513 369.1L511.7 367.6L510.9 368L510.7 368.8L509 369.4L509.6 370.7L509.1 371.1L509.6 371.1L508.8 371.7L506.5 372.4L506.6 371.6L505.3 372.2L504.9 371.7L505.3 370.9L503.3 372.1L502.1 368.1L500.4 366.9L501.5 366.5L502.1 366.8L501.9 365.5L501 364.7L500.6 365L500.1 363.7L500.5 360.8L496.7 358.3L497.7 357.4L496.7 356.6L497.1 356L496.9 355L497.9 354L496 352.6L494.8 352.8L495 351.4L493.6 351.7L493.2 351.2L492.7 351.7L490.8 349.2L489.9 349.8L490.1 350.8L489.3 350.6L489.1 351L490.3 352.2L490.1 353.7L488.9 354.7L488 354.6L488.2 355.4L485.4 355L484.7 355.3L482.2 358L483 358.6L481.9 358.7L481.6 359.2L481.9 360L480.6 359.9L477.9 358L476.6 359.9L475.3 359L473.6 356.9L472.9 359.2L472 360.4L470.6 361.1L469 360.5L468.7 361.8L465.4 361.1L463.3 361.2L462.2 360.3L461.2 360.4L461.1 358.4L460.3 358.6L459.5 357.9L459.1 356.9L459.4 356.1L459 356.2L458.6 355L457.8 354.6L457.6 353.5L456.9 353.1L455.2 353.9L455.1 353.4L454.7 353.5L453.2 355.6L451.6 356.5L449.7 356.3L448.5 356.8L448.4 355.9L449.2 354.9L448.7 354.3L449.2 352.3L447.3 351.3L446.3 349.4L445.6 349.5L444.3 348.5L442.9 349.6L442.9 352.9L441.5 353.7L440 349.8L440.7 348.7L441.9 348.9L441.4 347.8L439.1 347.7L439.3 348.9L438.9 348.9L438.3 348.9L437.3 347.3L436.3 348.6L435.3 348L431.5 352.7L430.7 351.7L431.4 351.3L430.8 349.8L429.2 350.3L427.9 348.9L427.2 344.5L426.1 344.7L425.3 343.7L425.2 341.3L423.8 340.9L423.6 340.4L420.7 339L420.7 338.1L422.5 336.4L423 334.9L424.2 333.7L424.6 332.2L427.2 331.3L428.6 330.2L430.2 330.1L431 328.6L433.2 327L433.4 326.4L434.5 326L434.7 324.8L437.3 322.5L437.2 320L438.8 318.4L440.5 318.3L440.3 319.1L440.9 319.5L443.6 319.4L444.5 316.9L446.1 315.7L446.8 313.6L448.1 312.3L447.7 309.9L450.3 309.4L451.2 307.8L453.1 307.8L453.9 306.1L454.8 305.8L455.6 304.7L454.9 303.2L453.4 302.7L453 301.8L452.5 301.9L452.4 301.4L450.7 300.5L449.6 297.7L450 297.1L450.8 297L450.2 296.5L449.9 295.1L450.9 293.5L451.9 293L453.3 289.7L452.9 289.3L454.2 287.6L454.7 288.3L458.1 289.4L458.4 290.2L461.2 291.6L463.1 293.6L464.2 293L465.6 290.3L467.7 289.8L469.1 288.1L470.1 287.6L471.3 284.9L474.2 284.3L475 282.6L474.7 280.8L475.7 279.5L478.5 278.1L480.5 280.8L481.5 281L485 279.1L485.2 277.9L486.4 277L488.8 277.1L489.6 276.4Z","POR":"M387.1 76.3L387.7 76L389.1 77.7L390.7 77.7L391.5 78.9L392.9 78.2L394.2 78.7L395.1 79.6L395.7 81.5L397 81.6L398.7 82.8L399.4 82.3L400.6 83.7L400.5 84.4L399 84.6L397.9 85.6L398.9 90.2L399.4 90.5L400 89.6L403.3 89.9L404 89.5L405.1 90L406.7 89.7L406.8 88.6L408.1 87.2L411.9 86.4L413.1 87.9L413.9 87.9L416.6 85.5L417.9 85.9L417 86.8L417.1 88L418.3 87.3L418.6 87.9L420.1 87.6L421.4 86.5L422.8 86.3L422.6 87.6L423.6 89.2L424.6 90.1L426 90.3L426.7 89.8L427.1 87.9L426.8 87.2L428.3 86.2L429.5 84.4L431.4 84.5L431.4 82.7L432.2 82.5L434.5 82.7L435.1 84.1L436.2 83.7L436.7 85.9L438.4 86.3L437.8 88.2L438.5 88.2L439.1 89.5L440 90.1L440.4 89.7L441.1 90.5L442.1 90.7L442.8 91.6L444.6 90.1L445.2 91.2L445.9 91.4L446.6 92.5L447.4 92.8L448.3 92.2L448.2 91.7L449.3 91.3L449.7 90.2L451 89.6L452.2 86.5L452.6 86.8L452.3 88.2L453.7 88.3L454.4 89L454.2 89.8L453.5 90.1L453.1 91.6L453.7 92.3L456 92.9L457.8 94.6L456.6 95.9L457.2 97L457.1 97.9L458.7 98.5L458.8 100.5L459.8 100.7L460.5 101.3L458.9 104.9L459.5 107.2L458.6 109.6L459.3 110.1L458.2 111L458.4 111.8L457.4 112.8L457.5 114.9L455.9 115.1L454.1 114.6L453.3 115.6L452.6 115.3L448.9 116.6L447.9 117.4L445.6 118.2L443.1 118L442 117L438.7 118.9L432.9 117.8L431.4 119.4L430.4 119.5L429.2 120.6L428.2 120.4L427.5 121.1L426.6 120.7L426 119.5L425.3 119.3L423.7 121.6L422.6 121.8L420.9 123.7L420.1 123.6L418.9 122.5L416.6 122.4L416.4 124.6L416.8 125.3L417.9 125.6L417.5 126.7L417.8 127.7L417.3 128L416.7 126.8L415.2 126.5L413.9 125.7L413.7 124.9L414.1 124.1L412.4 122.2L411.7 123.4L410 122.3L409.2 122.3L408.7 123.7L410.8 124.8L408.7 125.7L408.9 126.7L407.9 127.1L406.8 126.4L405.7 123.6L403.4 125.2L403.2 126.4L400.2 126.5L399.1 125.2L396.6 126.4L395.8 126.3L395.7 124.5L394.8 122.6L394.8 118L393.7 113.5L394 112.4L393.4 111.7L393 111.9L393.4 111.7L392.5 110.5L392.2 108.8L391.5 108.2L391.2 108.4L391 108.4L390.9 108.3L391.5 108.1L390.8 107.4L390.4 108L390.6 108.9L390.3 107.8L390.7 106.7L390 105.5L389.9 102.9L388.9 101.1L389.4 99.5L387.9 93.6L388.1 90.9L386.8 90L386.8 88.6L385.8 86.7L386.2 86.7L385.7 86.5L385.4 86.9L385.6 85.8L384.1 81.8L385.2 75.6L387.1 76.3Z","SAN":"M409.4 257.1L409.7 259.1L410.7 261L410.7 264.4L411.7 266.4L411.3 267.6L411.5 269.1L413.4 268L414 266.5L415.7 265.8L416.7 265.8L417.7 266.8L419.3 264.9L420.7 264.3L422.1 265.7L422.5 265.2L422 264.2L422.4 262.8L421.5 261.1L424.2 262.2L425.9 261.9L426.1 263.9L426.8 264.5L427.2 264.2L427.6 264.9L429.5 263.8L430.8 267.6L430 268.7L430.5 269.7L429.9 271.9L431 272L430.4 274.5L430.7 276.5L429.9 279L430.4 278.5L431.6 279.6L434 280L435.3 280.9L437.1 281L437.4 281.7L438.8 282.4L440.5 282L442.5 282.2L444.4 281.3L445.7 281.8L443.6 277.3L444.2 276L445.1 276.1L445.4 275.4L445 273.4L446 270.5L445.6 268.6L446.7 268.2L447.1 267.2L447.4 267.8L448.3 268.1L449.9 267.7L450.3 268.8L451.1 269.4L452.6 268.3L452.9 267.4L453.4 267.6L453.9 268L454.6 274.8L454.1 275.1L453.9 276.8L455.6 276.7L455.8 277.2L456.2 276.6L456.6 276.9L456.5 276.1L457.6 276L458.1 276.5L457.9 276.8L459.1 277.1L458.7 277.4L459.6 277.7L459.6 278.8L461 278.9L461.4 279.6L462 279.4L462.5 280.2L462.2 280.9L463.4 281L463.4 282.8L464.2 282.7L464 283.6L464.7 283.6L464.3 284.1L465.2 284.5L465.2 285.1L465.6 284.9L465.7 285.6L466.1 285.2L466.1 286.7L466.6 286.8L466.7 287.4L465.6 288.1L465.1 289.8L465.4 290.6L464.3 292.9L463.1 293.6L461.2 291.6L458.4 290.2L457.5 289L454.7 288.3L454.2 287.5L453.8 287.9L452.9 289.3L453.3 289.7L451.9 293L450.8 293.6L449.9 295.1L450.8 297L450 297.1L449.6 297.7L450.7 300.5L452.4 301.4L452.5 301.9L453 301.8L453.4 302.7L454.9 303.2L455.6 304.7L454.8 305.8L453.9 306.1L453.1 307.8L451.2 307.8L450.3 309.4L447.7 309.9L448.1 312.3L446.8 313.6L446.1 315.7L444.5 316.9L443.6 319.4L440.9 319.5L440.3 319.1L440.5 318.3L438.8 318.4L437.2 320L437.3 322.5L434.7 324.8L434.5 326L433.4 326.4L433.2 327L431 328.6L430.2 330.1L428.6 330.2L427.2 331.3L424.6 332.2L424.2 333.7L423 334.9L422.5 336.4L420.7 338.1L420.7 339.1L421.5 339.7L425.2 341.3L425.3 343.7L426.1 344.7L427.2 344.5L427.9 348.9L429.1 350.3L430.8 349.8L431.3 350.7L431.4 351.3L429.4 353.2L430.1 353.7L429.4 357.1L426.8 360.5L432.2 363.1L432.4 364.2L433 363.7L433.9 364.3L434.7 363.7L436.7 365.1L434.3 366.8L434.1 368.2L436 369.3L436.7 371.1L436.6 371.7L437.4 370.9L437.4 370.3L438.3 370.5L439.7 371.9L438.3 373.8L438.1 375.5L435.2 374.4L435.3 372.3L434.3 372.2L433.8 373.2L432.7 372.6L433.3 371.6L431.1 369.2L430.4 370L429.2 370.6L428.7 370.4L427.1 369L427.8 367.7L426.9 367.7L425.3 366.6L424.7 365.7L424.3 365.7L424.3 364.8L423.5 367.5L422.6 365.9L420.8 368.1L417.7 366.2L416.7 367.2L417.3 367.9L414.9 369.9L414.2 369.5L414.1 368.3L413.1 368.6L411.5 371.6L409.5 373.1L409 372.3L407 371.6L402.8 376.5L402 375.8L400.7 375.5L399.7 376.1L397.2 374.3L397.9 372.8L397.8 369.4L398.7 367.8L395.8 369L394.9 371.3L394.2 371.3L390.9 369.4L389.9 367.8L389 367.3L389.3 367.9L388.9 369.4L385.8 374.8L385 378.6L382.7 379.6L381.6 379.6L380.8 378.7L380 378.9L378.8 377.3L377.5 376.5L372.9 378.7L371.9 378.1L371.6 379.3L372.3 379.7L371.5 379.7L371.1 378.3L370.1 377.7L368.6 372.1L366.4 369.1L366.5 368.6L368.4 366.8L369.5 364.6L371.4 362.4L371.4 360.7L373.1 358.3L373.2 356.2L376.7 354.5L374.3 353.1L375.6 352.2L375.9 350.2L377.5 348.2L375.9 346.8L379.5 346.8L381.1 344.1L382.7 343.4L380.8 340L381.4 339.4L380.6 338.5L379 337.2L378.1 337.5L376 335.8L375.3 335.7L374.2 333.5L371.5 331.1L371.5 330.6L372.9 330.8L374 329.3L375.1 329.2L376.5 330.2L379 329.4L379.6 328.4L378.5 325.3L375.9 324.4L374.7 322.1L372 322.9L372.2 323.3L371.7 323.9L371 323.2L370.5 323.6L369.5 323.3L367.3 321.6L365.7 322.2L366.2 318.1L365.5 318.1L364.6 317L365.3 314.5L364.2 312.9L364 310.5L364.9 308.2L366.7 306.3L368.9 306.5L370.1 303L372.6 298.3L373.5 298.3L374.5 297.3L377.5 297.6L381.3 296.4L385 297.3L386 296.8L387.6 296.8L387.4 294.7L386.4 293.5L386.2 291.4L387.3 290.6L388.9 292.3L390.6 291L391.2 289.1L392.7 287.6L391.4 286.3L391.3 282.4L390.1 279.1L391.9 278.5L392.3 277.9L394.6 276.8L395.2 275.3L394.9 274.6L396.1 272.9L395.4 272.3L392.1 271.4L392 270.1L393.4 269.6L392.6 269.1L391.9 267L392 264.7L395.9 262.5L398 262.6L398.5 263.6L399.4 263.9L400.2 263.6L401 262.7L403.6 261.6L405.2 259.5L405.4 258.3L406 258.3L406.9 259.7L408 258.1L409.4 257.1Z","SET":"M391 369.4L392.5 370L393.4 371.1L394.9 371.3L395.8 369L398.7 367.8L397.8 369.4L397.9 372.8L397.2 374.2L397.7 374.9L399.7 376.1L400.7 375.5L402 375.8L402.8 376.5L405.7 376.3L407.8 376.7L407.7 377.5L406.5 378.4L406.1 379.5L406.9 381.8L405.2 382.5L403.4 385.1L400.1 386.6L400.2 387.1L399.1 388.6L398.1 389.5L397.2 389.6L395 392.3L393.6 393.2L393.1 394.3L394.6 398.2L394.8 400.2L396.8 399.8L399.1 401L400.4 400.4L400.6 402.2L404.1 402.6L404.4 404.5L406.4 403.6L405.1 400.9L406.5 400.4L407.4 400.5L407.5 402.5L408.6 402L409 403.9L411.7 402.7L411.9 403.3L413.6 403.4L414.7 403L415.7 401.6L418.3 400.7L419.1 402.9L421.2 405L423.4 410.4L422.2 411.1L422.3 412.8L425.1 412.5L425.7 414L424.2 414.1L425.7 415.5L424.2 416.9L422.3 420L424.3 419.6L426.3 420L427 422L433.2 423.3L435.7 425.8L436.4 426L438 428.2L439.2 431.7L439.2 436.4L436.1 437.1L432.8 439L431.2 438.8L430.4 439.4L429.5 441.4L427.2 441.3L426.4 440.6L425.6 440.6L425.1 445.9L423.3 445.9L421.3 444L420.9 445.6L419.4 445.9L419.6 447.8L418.7 449.7L418.1 449.8L416.7 448.4L416 449.4L415.4 452.5L414.6 453.2L414.9 454.1L417 456.3L417.9 456.6L417.7 457.7L418.7 458.2L418.6 458.8L419.6 458.2L420.1 459.4L422.6 458.4L422.3 459L423.7 460.5L423.7 461.4L424.8 462L424.6 466.7L423.6 469L424.2 469.7L423.4 471.1L424.3 472.5L423.1 473.3L423.2 474.4L421.1 476.1L421.5 478.2L418.2 476.7L416.7 476.8L412.4 475.6L411.8 476.8L409.9 476.1L408.4 477.3L403.3 477.5L402.1 478.1L402.3 481.6L400.8 481.3L399.2 483.5L399.3 484.7L398.6 485.8L399.3 487.2L398.8 487.3L398.9 488.2L397.2 487.8L396.2 489L395.7 488.9L395.6 488.4L394.8 488.6L393.8 487.5L393.4 487.7L392.4 486.9L391.6 487.2L391 488.3L390.2 488.4L389.4 486L388.3 485.7L388 484.3L385.8 481.7L384.6 481.9L383.6 481.6L382.3 482.7L381.7 482.5L381.5 481.3L380.8 481.1L381.1 479.1L380.5 477.5L380.9 476L380.2 471.3L379.4 469.1L376.9 467.9L376.2 468.5L375.4 468.4L376.1 469.3L374.4 467.8L375.5 468.3L375 467.7L375.5 467.7L375.3 467.2L373.9 466.4L372.9 466.9L372.6 466.3L372.4 467.5L372.5 465.7L374.9 462.9L378.7 454.2L380.6 447.9L382.2 440.7L382.6 434.1L382 425.4L380.6 419.8L378.4 414.5L371.1 406.9L370.4 404.3L369.5 404.6L369.7 404.9L369 406.8L368.3 407.3L366.7 407.1L364.9 407.8L363.5 409.8L360.7 411.4L359.6 411.3L358.5 412.1L357.8 412L357.6 412.6L353.8 411.7L353.3 412.6L351.5 413.2L348.5 413.1L346.1 415.3L343.8 414.8L346.8 408.1L347.4 402.1L346.7 398.6L344.9 393.5L341.8 388.2L340.6 387.1L341.7 386.8L341.6 386L342 386.6L342.5 385.8L347.8 385.4L350.7 384.4L350.7 385.2L351.1 385.3L350.3 386.2L350.7 386.8L351.1 386.9L351.2 386.3L351.4 387.6L354.7 388.9L355.7 387.4L358.3 385.9L358.2 385.1L359.6 385L359.1 384.1L359.6 381.4L361.4 380.3L361.3 379.1L362.7 378.5L360.8 378.7L361.9 377L364.7 377.6L367.6 376.6L365.7 377L365.7 376.4L364.3 377.1L364.8 376.3L363.3 376.5L362.6 376L363.4 374.5L364.6 373.8L365.1 373.9L365.3 374.6L363.7 375L363.9 375.3L365.6 374.7L365.5 373.8L367.6 373.9L367.5 373.4L365.8 373.5L366.7 373.2L366.8 372.2L364.6 373L366.2 371.8L365.1 371.9L366.5 369.2L368.6 372.1L370.2 377.7L371.1 378.3L371.3 379.7L372 379.8L372.3 379.5L371.6 379.3L371.5 378.7L371.9 378.1L372.9 378.7L377.5 376.5L378.8 377.3L380 378.9L380.8 378.7L381.6 379.6L384.7 378.8L385.3 377.8L385.8 374.8L388.9 369.4L389.3 367.9L389 367.3L389.9 367.8L391 369.4Z","VIA":"M434.1 1.3L434.3 8.9L434.8 9.9L437.5 8.3L438.5 8.7L440.1 8L441.9 9.1L442.9 11.9L443.1 14L442.8 15.3L442.2 15.8L440.4 16.6L439.3 16.5L438.3 18.4L436.4 19.1L435.4 22.1L433.5 23.9L432 26.8L432.1 28.4L433.2 29.6L433.3 31.2L435.7 30.6L436.5 32.6L436.1 38.5L433.7 38L430.9 40.7L430 40.6L427.3 42.6L425.7 41.3L424.5 43.7L422.5 43.2L420.8 43.8L418.8 42.6L418.1 43.6L414.7 44L411.6 46.8L409.5 47.4L409.4 46L408.2 46.1L406.8 47.5L407.2 48L406.5 52.7L405.6 52.7L404.4 54.5L405.3 55.9L404.8 57.1L404.9 58L403.1 58.9L401.9 56.7L401.2 56.6L399.6 57.7L398.6 56.6L397.5 56.6L397.7 55.8L396.4 55.4L396.1 57.8L395.7 58L394.7 56.7L391.9 56.9L391.1 57.8L389.6 57.7L388.9 59L388.2 59.3L387.6 58.6L386.9 59L386.9 59.8L385.3 59.6L383.2 60.6L382.6 59.8L382.3 60.1L381.5 58.1L381.2 53.4L380.1 52L379.5 52.2L379.7 53.1L379.5 52.4L379.3 51L377.4 47.2L376.7 44.3L377.5 41.5L377.2 39.3L378.1 37.7L377.6 37.6L377.1 35.8L377.2 34.6L377.9 33.6L377.6 32L379.2 30.7L381.8 27L384.7 26.1L387.1 24.5L387.9 23.4L388.2 20.8L390.6 19.2L393.7 18L395.1 16.7L395.5 13.7L397.6 11.5L400.6 10.7L401.8 11.3L404.7 11L406.3 10.1L406.2 8.8L406.9 8.2L413.3 7.9L414.4 9.1L416.4 8.2L418.3 8.6L419.2 7.3L419.9 7.1L422.4 7.8L423.7 5.5L424.8 5.6L427.3 3.4L428.5 3.6L428.9 2L429.7 1.6L431.4 2.3L432.8 1.5L433.5 0L434.1 1.3Z","VRL":"M457.7 25.2L459.5 25.5L459.5 30.3L458.9 32.7L459.8 33.1L460.5 34.3L461 32.8L463.1 31.9L462.8 30.3L467.6 30L469.6 28.3L472.1 29L474.8 27.3L476.7 28.9L477.5 28.9L478.7 30.2L481 30.4L481.6 29.8L482.5 30.4L484.3 30.1L484.5 30.8L483 31.8L483.1 32.5L482.2 34L482.2 36L483.3 35.5L485.3 35.9L489.7 34.5L491 33.5L490.4 32.3L491.3 31.5L492.2 31.2L492.7 32.3L495.4 31.9L496 32.7L495.7 33.3L496.2 34.8L497.6 35.8L497.2 36.6L497.8 37.3L497.5 38.3L500 36.2L500.6 34.4L502.6 33.2L503.4 34.6L505.2 34L506.8 34.3L508 33.3L509.4 33.2L511.6 31.7L513.7 31.5L515.7 30.1L516.3 30.1L516.1 30.7L516.8 31.6L515.3 35.9L516 36.7L515.6 37.4L516 38.4L516.6 38.6L516.3 39.2L516.9 39.5L517 40.9L517.4 40.8L517.4 41.4L518 41.2L518.9 42.5L518.4 43.6L518.8 45L518.5 45.9L517.2 46.3L516.9 47.8L515.8 48.7L515.4 52.2L513.1 56.5L512.6 57.9L513 59.1L512.3 59.8L511.8 62.2L512.3 63.1L511.9 65.3L514.4 69.7L513.6 70.2L509.8 70.6L508.3 73.7L508.1 75.8L508.6 76.3L506 76.9L505.8 77.8L504.8 77.6L503.1 79L503.6 80.8L503 81.8L503.4 82.8L503 83.8L503.7 84.8L503.5 85.5L504.2 86.1L503.4 87.4L504.6 88.9L507.4 90L507.4 90.3L503.9 91.2L502.3 93L503.5 94.2L502.6 95.4L501 96.2L500.9 97L501.4 97.6L500.7 98.8L500.7 100L501.3 100.3L501.3 101L499.2 100.4L498.4 101.4L498.6 103.4L497.7 104.6L496.1 104.2L494.6 105.8L491.8 105.9L490 108.1L488 107.1L487.3 108.8L485.7 110.2L484.5 110.7L478.2 110L475.4 112.4L468.9 111.3L467.1 110.2L466.4 110.5L465.7 112L463.4 111L460.8 110.7L460.2 111.2L459.5 113.3L458.7 113.5L458.6 114.6L458 115L457.5 114.9L457.3 113.2L458.4 111.8L458.2 111L459.3 110.1L458.6 109.6L459.5 107.2L458.9 104.9L460.5 101.3L459.8 100.7L458.8 100.5L458.7 98.5L457.1 97.9L457.2 97L456.6 95.9L457.8 94.6L456 92.9L453.7 92.3L453.1 91.6L453.5 90.1L454.2 89.8L454.4 89L453.7 88.3L452.3 88.2L452.6 86.8L452.2 86.5L452.7 84.7L452 84.9L451.6 84.3L452.2 84.1L452.1 83.5L453.1 83.6L452.8 82.3L454.9 80.4L455.3 78.8L454.7 77.9L455.2 75.1L456.2 73.9L457.1 73.6L458.1 73.8L458.8 72.6L458.5 71.9L458.9 71.1L459.3 71.7L461.6 71.3L461.4 69.9L463.6 68.6L463.2 68L464.1 67.5L463.4 66.7L465 66.4L465.7 63.9L465 63.8L465.4 63.1L464.2 61.3L462.4 59.9L461.9 61.4L459.9 62.9L459.1 62.3L458 63L455.8 62.1L453.9 62.3L452.9 61.1L451.4 61.5L450.3 61.2L449.7 59.2L449.9 57L450.5 56.2L450.1 55.6L451.5 52.9L450.2 51.8L448.5 51.7L448 50.7L446.8 50.4L445.8 51.3L443.8 51L440 51.7L440.9 50.1L442.6 49.1L443.5 45L444.8 43.7L444.6 40.9L445.2 39.6L446.2 38.9L445.7 37.2L446.7 36L448.9 36.1L449.5 34.1L450.8 32.7L451 31.7L452.1 31L453.4 31L454.2 31.5L456.5 30.7L457.7 25.2Z","VIS":"M500.7 106L502.6 108.8L502.6 110.3L503.6 110.4L504.1 111.5L507.1 112L508 111.6L508.5 112.4L506.8 114.9L506.4 119.2L505.1 122.8L505.6 123L505.2 123.7L505.8 124.7L505.5 124.8L506.2 125.2L505.8 126.3L504.9 126.7L502.6 126.4L502.3 126.9L502.7 128L502.4 128.9L505.8 130.1L506.9 131L506.1 134.2L506.4 134.5L506 135.2L504.1 136L502.8 137.6L502.7 140.5L502 141.2L502.6 141.9L502.4 142.5L501.6 141.4L500.4 141.4L497.7 147.5L496.2 148.8L495.3 147.8L495.3 147.2L493.7 146.3L492.4 144L491.4 143.6L491.1 142.5L487.3 142.1L485.8 143.3L484.9 144.7L484.6 147L481.5 152.3L485.3 154.1L486.4 155.9L484.2 158.2L484.7 159.8L487.2 162.1L488.8 161.8L489.4 162.4L488.1 163.9L488 164.9L488.9 165.9L486.9 167.4L487.2 168.5L485 174.1L485 175L485.6 175.5L483.5 176.4L481 176.1L479.4 177L478.5 177L478.2 177.9L477 177.9L476.4 178.5L475.2 178.4L473.7 179.8L471.8 180.8L470.6 180.7L468.5 182.9L465.3 182.7L465.2 183.7L463.6 184.5L463.2 184.2L461.5 186L460 186.7L458.3 188.9L457.2 189.6L456 191.6L453.9 192.2L452.4 194.3L449.9 195.8L446.6 196.4L445.9 197.5L445.4 197.9L444.4 197.8L443.9 198.9L442.6 199.2L440.3 201.6L439 201.2L438.8 202.3L438.5 201.8L437.1 201.8L435.7 200.9L434.5 202.2L433.8 201.1L433.3 201.6L432.3 201.4L430.5 202.4L430.4 203.4L429.6 203L428.9 203.4L427.8 202.2L426.7 202L424.7 199.5L422.6 199.1L422.6 199.8L422.2 199.8L421.1 198.2L419.7 198.3L420.1 195.3L420.5 195.1L420.1 193.8L420.8 193.6L421.5 192.7L421 192L422 190.7L423.2 190.2L423.1 188.5L421.8 186.4L422.2 184.5L424.8 183.8L426.2 182.7L427.8 183.3L429 182.5L427.3 179.8L426 179.4L425.7 176.1L424.8 175.1L424.1 173L424.7 172.3L424.9 172.6L425.6 172L426.8 172.1L429.4 170.8L426.6 169L426.1 169.2L425.2 168.7L425.1 166.9L425.7 164.9L424.9 164.2L425 162.3L424.2 162.3L423.6 161.1L422.6 160.3L422.8 159.3L422.1 157.1L424.1 156.8L426.6 155L427.1 155.2L426.8 154.4L427.4 154.1L427.5 152.6L428.3 152L428.5 150.5L429.6 149.6L430.1 147.6L428.6 144.2L430.6 143.2L432.7 145L434.1 145.3L436 143.1L439.3 145L441.1 144.3L441.4 143L440.4 140.4L439.3 139.5L440 137.3L438.9 134L442.6 129.6L442.4 127.2L441.8 126.7L441.4 128L440.1 128.5L439.9 129.6L438.9 130.6L438.1 130.6L436.6 129.4L436.2 129.8L435.1 129.5L433.7 128.4L432.2 128.9L432.9 127.1L431.3 126.4L430.3 126.9L430.1 126.1L430.4 125.6L429.8 125.4L430.7 125.2L430.7 123.1L430.1 122.8L430 121.6L428.9 121.7L427.9 120.9L428.1 120.5L429.2 120.6L430.4 119.5L431.4 119.4L432.9 117.8L438.7 118.9L442 117L443.1 118L445.6 118.2L447.9 117.4L448.9 116.6L452.6 115.3L453.3 115.6L454.1 114.6L455.9 115.1L458.3 114.9L458.7 113.5L459.5 113.3L460.6 110.7L461.8 110.6L465.7 112L466.4 110.5L467.1 110.2L468.9 111.3L475.4 112.4L478.2 110L484.3 110.7L485.7 110.3L487.3 108.8L488 107.1L490 108.1L491.3 106.1L494.6 105.8L496.1 104.2L500.7 106ZM499.8 136.6L499.1 136.6L498.6 137.5L498.1 139.7L498.5 140.5L500.8 141.2L501.7 140.7L502 139.1L502.5 138.9L502.2 138.2L501.2 138L499.8 136.6Z","AZO":"M14.6 308.4L14.9 308.3L14.8 308.6L15 309.1L15.4 309.1L15.3 309.4L15.8 309.7L16 309.5L16.3 309.8L16.9 309.6L17.3 310.5L17.2 311.1L17.7 311.8L18.1 311.7L18.2 312.3L17.3 313.2L17.4 313.5L17.3 313.6L17.6 313.9L17.1 314L17.1 314.8L16.6 315.6L16.5 316L16 316.3L16.1 316.5L15.1 316.7L13.9 316.5L13.4 316.7L12.7 316.4L12.3 315.9L12.3 315.1L12.6 314.7L12.2 314L12.1 313.5L12.3 313L12 312.1L12.1 311.7L12.4 311.8L12.5 311.5L12.6 310.1L13.7 308.9L13.6 308.4L14.6 308.4ZM19.6 297.2L20.5 297.7L20.6 298.8L20.4 299.5L19.3 300.4L19 300.4L18.8 300.1L19.1 299.8L19.1 299.5L18.7 299L18.7 298.5L19.1 297.6L19 297.2L19.6 297.2ZM131.5 365.5L132.5 365.7L132.8 365.5L133.3 365.6L134 365.4L135.1 365.6L138.1 367.2L138 367.3L138.5 367.5L139.2 368.6L139.7 368.5L140.3 369L140.8 369.1L141.4 369L141.9 369.7L143.3 370.3L143.7 371.1L144.1 371L144.5 371.4L145.7 371.4L146.2 371.7L149.5 372.2L149.6 372.5L150.5 373L150.7 374L149.6 374.2L149.1 374.5L148.6 374.4L148.4 374.6L146.8 374.2L144.2 374L143.8 374.2L143.4 374.8L141.5 375.5L140.9 375.3L141 375.2L141 375L140.8 375L140.7 374.7L140.9 374.6L140.8 374.3L140.1 373.8L138.7 373.9L136.6 373.5L135.9 373.7L133.8 372.8L133.4 373.2L132.6 373.2L131.7 372.5L131.1 372.4L129.5 371.4L129.3 370.7L128.9 370.4L128.4 369.2L128.7 367L129 366.8L129 366.7L128.8 366.7L129 366.6L129.3 366.6L129.4 366.3L130 365.9L131.5 365.5ZM121 360.6L122.8 361.2L124 362.2L125.1 362.5L126 363.5L125.6 364.3L125.8 364.9L125.4 365.3L125.8 366.1L125 366.3L124.8 366.6L124.8 366.9L124.8 366.8L124.8 367L124.7 367L124.7 367.1L124.9 367.1L125 366.8L125 367.3L124.8 367.4L125 367.6L124.9 367.8L124.7 367.6L124.7 367.8L124.5 367.7L124.8 367.4L124.7 367.2L121 367.6L119.6 367.2L119.2 367.4L119.5 367L118.9 365.1L118.6 364.9L118 365L117.4 364.6L116 363.5L116 363.1L115.7 363L115.8 362.8L116.4 362.8L117.1 362.4L118.6 362.3L119.2 362.4L119.8 362.1L120.4 361L121 360.6ZM138.4 354.7L140.7 355.3L142.1 356.1L145.9 357.6L146.3 358L146.9 358L147 358.3L148.1 358.5L148.7 359L149.6 359.3L150 359L149.9 359.2L150.2 359.5L151.1 359.5L151.9 360.2L152.5 360.3L153.1 361.1L153.7 361.1L153.8 361.5L154.9 362.1L155.2 362L155.7 362.7L157.1 363.1L159.7 364.5L159.8 364.8L160.9 365L161 365.3L161.7 365.5L162.8 366.5L161.9 367.2L159.5 367.3L158.1 366.6L157.8 366.2L156.9 365.6L156 365.3L154.6 364.1L154 364.1L153.4 363.7L152.9 363.9L151.7 363.4L151 363.4L149.2 362L147.5 361.7L147.2 361.4L146.8 361.4L146.5 361L143.8 359.7L143.4 359L143 359.2L142.9 358.9L142.5 359L142.6 358.4L142.2 358.3L142.3 358.1L142.1 357.8L140.5 356.9L138.4 354.7ZM184.4 352.5L184.9 352.5L185.1 352.8L185.5 352.7L185.7 353.1L186.2 353L186.3 352.6L186.8 352.9L186.9 352.6L187.1 352.9L187.7 352.9L189.1 353.4L189.3 353.3L189.5 353.6L189.7 353.3L190 353.7L191.1 353.5L192.9 354.8L193 355.7L193.7 356.2L193.5 356.4L193.4 356.8L193.4 356.5L193 356.6L192.9 357.4L193.3 357.6L193.5 357L193.4 357.7L193.8 358L193.8 358.4L193.5 358.9L193.1 359.1L193.2 359.5L192.3 359.8L192.2 360.8L192.4 361L192.2 361L192.3 361.3L191.7 361.4L191.4 361.1L191.1 361.3L190.5 361.1L189.4 361.3L188.3 360.7L187.1 360.9L186.6 360.7L186.4 360.9L186 360.8L186.2 361.4L185.8 361.6L185.4 361.3L185.7 361L185.6 360.6L184.5 360.7L184 360.6L184 360.7L183.6 360.8L180.4 358.9L179.6 357.8L179.2 356.5L179.1 355.6L179.5 354.9L179.2 354.4L179.5 354.5L179.9 353.7L181.2 353L183.1 352.6L184.3 352.6L184.4 352.5ZM151.1 336L151.8 336.2L152.2 336.5L152.4 336.4L152.6 336.5L152.5 336.7L152.9 336.9L153.4 338.1L153.8 338.4L153.7 338.6L154.2 339.1L154.4 339.9L154.6 340.1L154.6 340.4L154.4 340.4L154.5 340.6L153.6 340.9L152.6 340.7L152 340.2L152 340L150.8 340.1L150.3 339.4L149.9 338.3L149.5 337.9L149.5 337.6L149.2 337.6L150.1 336.7L150.2 336.1L151.1 336ZM280.6 450.7L281.2 451.1L281.7 451.1L281.8 450.7L282.3 451L282.3 451.7L282.2 452.3L282.9 452.6L282.9 452.8L283.4 453.1L283.2 453.2L283.3 453.5L283.7 453.5L284 453.8L283.7 454.1L284.1 454.9L283.9 455.3L284 455.5L283.5 455.5L283.4 455.3L283.3 455.5L281.6 455.6L281 454.7L280.1 454.3L279.6 454.3L278.4 455.1L278.1 454.7L277.9 454.9L278.1 455L277.7 455.1L277.2 454.8L276.9 453.5L276.4 452.6L276.5 451.9L276.9 451.8L277.3 451.4L277.6 451.5L278.1 451L278.1 451.3L278.6 451.6L278.8 451.2L279.3 451.5L279.7 451.3L279.7 450.9L280 451.1L280.6 450.7ZM249.2 401.7L250.6 402.2L251.3 402.7L251.9 402.9L252.4 403.4L252.6 404.1L252.8 404.2L253.1 405.3L253.3 405.4L253.4 405.2L253.6 405.3L253.6 405.2L253.7 405.7L255.4 406.1L255.9 405.8L257.9 406.9L258 406.6L259.3 406.8L260.5 406.3L261.5 405.5L261.6 405.2L261.8 405.4L262 405.3L262.1 405L262.4 405.4L262.3 405.7L262.5 405.7L262.9 406.2L263.2 406.1L263.6 406.3L263.8 406L264.2 406.3L264.6 405.8L264.8 405.9L264.8 406.3L265.2 406L265.8 406.1L266.3 405.6L266.7 405.7L268.1 404.9L268.8 404.8L269.6 403.8L269.7 404.1L270.5 404.4L272 403.9L273 404.4L274.9 404.1L275.9 404.1L277 404.5L277.5 405.8L277.7 406L277.6 406.2L277.7 406.9L277.3 407.7L277.6 408.4L277.5 408.8L277.1 409.7L276.2 410.6L275.3 410.6L274.7 411L273 410.4L271.9 410.4L271 410.9L271 411.1L270.9 411L270.4 411.1L269.7 411.7L268.3 411.7L267.4 412.3L266.5 412.2L265.4 412.3L265 412.2L264.2 412.5L263.6 412.2L263.2 412.4L262.5 412.1L261.3 412.8L261 412.3L260.4 412.3L258.8 410.8L258 411L257.4 410.7L256.9 410.8L256.5 410.4L255.9 410.5L255.6 410.9L255.4 410.7L255.1 411L254.7 410.9L254.1 411.3L254.8 411.2L254.5 411.4L253.4 411.5L252.5 411L252.2 410.5L251.6 410.3L251.2 409.8L249.9 408.8L249.5 408.7L249 407.9L247.7 407.3L247.5 406.9L246.6 406.3L246 404.5L246.3 404.2L246.4 403.7L246.6 403.8L246.6 403.5L246.9 403.5L247.2 403.3L247.4 402.2L248.2 402.4L248.9 401.7L249.2 401.7Z","MAD":"M171.1 528.7L170.8 528.5L170.7 528.4L171.2 528.5L171.1 528.7ZM166.6 530.2L166.4 530.1L166.1 529.7L165.8 529.7L165.6 529.2L166.1 529.2L166.2 528.7L166.5 528.5L166.8 527.6L166.6 527.4L167 527.2L166.9 527L167.4 526.9L167.7 526.4L168.4 526.2L168.4 526L168.6 526.1L169.2 525.6L169.4 525.8L169.7 525.8L169.8 526.1L170.5 526L170.5 526.5L170.3 526.9L170.7 527.3L170.5 527.3L170.3 527.7L170.4 528.1L170.5 528.2L169.9 528L169.7 528.3L169.5 528.3L169.7 528.2L169.6 528L169.4 528L169.5 528.2L169.4 528.1L168.9 528.2L166.6 530.2ZM166.3 531.7L166.1 531.6L166.2 531.3L165.9 531.3L165.8 531.1L166.3 530.3L166.3 531.7ZM153 546.2L152.4 546.1L152.2 545.8L152.3 545.7L152.4 546L152.8 546L153 546.2ZM139.7 551.4L139.2 550.9L138.4 550.8L138.3 550.6L138.2 550.6L138.3 550.7L138.2 550.7L137.7 550.4L136.1 550.2L135.5 549.8L134.1 549.4L133.8 549L133.1 548.7L132.2 548.8L130.7 547.3L128.2 546.1L127.2 545.4L127.1 544.9L125.8 543.4L125.9 542.9L125.5 541.8L125 541.4L124.8 541L126.6 539.6L128 538.1L129.6 538.2L129.7 538.5L130.2 538.9L130.3 539.3L131.1 540.2L131.5 540.5L132.3 540.5L132.5 540.9L132.9 541.2L133.4 541.1L134.9 541.6L136.5 541.2L137.8 540.4L138.1 540.7L139 540.7L141.8 540.1L142.1 540.5L142.7 540.7L143.7 541.8L144.1 541.8L143.8 542L143.9 542.3L144.1 542.6L144.3 542.5L144.5 542.9L144.9 543L145.6 544.1L145.8 544L146.7 544.4L147.1 544.2L147.6 544.6L149.2 544.8L149.6 545.2L150 545L150.1 545.2L150.5 545.3L150.9 545L151.3 545.2L151.7 545L151.7 545.3L152.1 545.3L152.2 545.8L152.1 545.9L151.9 545.4L151.5 545.3L151.4 545.6L151.1 545.7L150.9 545.6L150.1 545.5L149.8 545.7L149.9 545.8L149.8 545.8L149.7 546L149.6 546.1L149.8 545.8L149.1 545.9L148.6 546.8L148.2 546.9L148.4 547.4L148 547.8L147.8 548.3L146.9 548.6L146.4 549.3L146.3 549.9L145 551.1L144.3 551.1L144.1 551.3L142.8 550.8L141.5 550.7L141 551L141.5 550.9L141.5 551L140.8 551L140.6 551.2L139.7 551.4ZM158.6 554.8L158.3 554.2L158.4 554.1L158.5 554.2L158.6 554.8ZM158.7 556.8L158.6 555.1L159.5 556.1L159.7 556.9L160.5 558L160.9 559.7L160.8 560.5L159.7 557.6L158.7 556.8ZM160.7 562.6L160.8 561.1L161.1 563.1L162.1 564.5L161.3 564.1L160.7 562.6Z"},"boxes":[{"x":0,"y":253.2,"w":296.1,"h":214.3},{"x":0,"y":481.6,"w":296.1,"h":94.9}],"circles":[{"id":"EUR","cx":121.0,"cy":139.6,"r":20},{"id":"OUT","cx":175.0,"cy":139.6,"r":20}],"labels":[{"t":"Overseas","x":148.0,"y":107.6,"a":"middle"},{"t":"Azores","x":12,"y":275.2,"a":"start"},{"t":"Madeira","x":12,"y":503.6,"a":"start"}]};
+const SVGNS = 'http://www.w3.org/2000/svg';
+function buildMapTools(){
+  $('mchips').innerHTML = TABLE_ORDER.map(id =>
+    `<button type="button" class="chipbtn" data-mp="${id}" aria-pressed="false" style="--c:${P[id].color}">${sw(id)}${esc(P[id].short)}</button>`).join('');
+}
+function buildMap(){
+  const svg = $('cmap');
+  svg.setAttribute('viewBox', `0 0 ${MAPDATA.w} ${MAPDATA.h}`);
+  MAPDATA.boxes.forEach(b => {
+    const r = document.createElementNS(SVGNS, 'rect');
+    ['x','y'].forEach(k => r.setAttribute(k, b[k]));
+    r.setAttribute('width', b.w); r.setAttribute('height', b.h); r.setAttribute('rx', 8);
+    r.setAttribute('class', 'box'); r.setAttribute('aria-hidden', 'true');
+    svg.appendChild(r);
+  });
+  CONSTITUENCIES.forEach(c => {
+    const d = MAPDATA.paths[c.id]; if (!d) return;
+    const el = document.createElementNS(SVGNS, 'path');
+    el.setAttribute('d', d); el.setAttribute('id', 'm-' + c.id); el.setAttribute('role', 'button'); el.setAttribute('tabindex', '0'); el.setAttribute('aria-haspopup', 'dialog');
+    svg.appendChild(el);
+  });
+  MAPDATA.circles.forEach(c => {
+    const el = document.createElementNS(SVGNS, 'circle');
+    el.setAttribute('id', 'm-' + c.id); el.setAttribute('cx', c.cx); el.setAttribute('cy', c.cy); el.setAttribute('r', c.r);
+    el.setAttribute('role', 'button'); el.setAttribute('tabindex', '0'); el.setAttribute('aria-haspopup', 'dialog');
+    svg.appendChild(el);
+  });
+  MAPDATA.labels.forEach(l => {
+    const tx = document.createElementNS(SVGNS, 'text');
+    tx.setAttribute('x', l.x); tx.setAttribute('y', l.y); tx.setAttribute('text-anchor', l.a || 'middle');
+    tx.setAttribute('aria-hidden', 'true'); tx.textContent = l.t;
+    svg.appendChild(tx);
+  });
+}
+/* fill for a constituency in "strength" mode: pale tint up to the full party colour */
+function strengthFill(color, t){
+  return `color-mix(in srgb, color-mix(in srgb, ${color}, white var(--lift)) ${Math.round(12 + 88 * t)}%, var(--soft))`;
+}
+function drawMap(res){
+  const mode = state.mapMode, sp = state.mapParty;
+  const wins = {};
+  const maxShare = Math.max(0.01, ...res.constituencies.map(r => r.share[sp]));
+  res.constituencies.forEach(r => {
+    wins[r.first] = (wins[r.first] || 0) + 1;
+    const el = $('m-' + r.id); if (!el) return;
+    if (mode === 'winner'){
+      el.setAttribute('fill', P[r.first].color); el.style.fill = '';
+      el.setAttribute('aria-label', `${r.name}: ${P[r.first].short} leads. Show details`);
+    } else {
+      el.style.fill = strengthFill(P[sp].color, r.share[sp] / maxShare);
+      el.setAttribute('aria-label', `${r.name}: ${P[sp].short} ${fmt(r.share[sp], 1)}%. Show details`);
+    }
+  });
+  $('mchips').hidden = mode !== 'strength';
+  document.querySelectorAll('#mchips [data-mp]').forEach(b => b.setAttribute('aria-pressed', b.dataset.mp === sp));
+  $('mlegend').hidden = mode !== 'winner';
+  $('slegend').hidden = mode !== 'strength';
+  if (mode === 'winner'){
+    const lead = TABLE_ORDER.filter(id => wins[id])
+      .sort((a, b) => wins[b] - wins[a] || TABLE_ORDER.indexOf(a) - TABLE_ORDER.indexOf(b));
+    $('mlegend').innerHTML = lead.map(id => `<li>${sw(id)}<span>${esc(P[id].name)}</span></li>`).join('');
+  } else {
+    $('slegend').innerHTML = `<div class="st">${esc(P[sp].name)}</div><div class="ss">Projected vote share</div>
+      <div class="sb" style="background:linear-gradient(to right, ${strengthFill(P[sp].color, 0)}, ${strengthFill(P[sp].color, 1)})"></div>
+      <div class="se"><span>0%</span><span>${fmt(maxShare, 1)}%</span></div>`;
+  }
+  if (state.openId) renderPop(res);
+}
+
+/* ---------- constituency popup (opens on click, not hover) ---------- */
+function popRows(r){
+  const rows = PARTY_IDS.filter(id => r.share[id] >= 0.5 || (r.seats[id] || 0) > 0)
+    .sort((a, b) => r.share[b] - r.share[a]);
+  const shown = rows.reduce((s, id) => s + r.share[id], 0);
+  const body = rows.map(id => {
+    const n = r.seats[id] || 0;
+    return `<div class="pr"><span class="pn">${sw(id)}${esc(P[id].short)}</span>
+      <span class="ps">${fmt(r.share[id], 1)}%</span>
+      <span class="pc${n ? '' : ' z'}">${n || '–'}</span>
+      <span class="dots" style="--c:${P[id].color}" aria-hidden="true">${'<i></i>'.repeat(n)}</span></div>`;
+  }).join('');
+  const other = Math.max(0, 100 - shown);
+  return `<div class="pr hd"><span>Party</span><span class="ps">Vote</span><span class="pc">Seats</span><span></span></div>` + body +
+    `<div class="pr"><span class="pn">Others</span><span class="ps">${fmt(other, 1)}%</span><span class="pc z">–</span><span></span></div>`;
+}
+function renderPop(res){
+  const r = res.constituencies.find(c => c.id === state.openId); if (!r) return;
+  const pop = $('pop');
+  pop.setAttribute('aria-label', `${r.name} details`);
+  pop.innerHTML = `<button type="button" class="px" aria-label="Close details">×</button>
+    <h3>${esc(r.name)}</h3><p class="psub">${r.magnitude} seats · projected result</p>${popRows(r)}`;
+  placePop();
+}
+function placePop(){
+  const pop = $('pop');
+  if (window.matchMedia('(max-width:640px)').matches){ pop.style.left = pop.style.top = ''; return; }
+  const w = $('mapwrap').clientWidth, h = $('mapwrap').clientHeight;
+  const pw = pop.offsetWidth, ph = pop.offsetHeight, a = state.anchor || { x: w / 2, y: h / 2 };
+  let left = a.x + 16;
+  if (left + pw > w) left = a.x - pw - 16;
+  left = Math.max(0, Math.min(left, w - pw));
+  const top = Math.max(0, Math.min(a.y - ph / 2, h - ph));
+  pop.style.left = left + 'px'; pop.style.top = top + 'px';
+}
+function markSelected(){
+  document.querySelectorAll('#cmap .sel').forEach(e => e.classList.remove('sel'));
+  if (!state.openId) return;
+  const el = $('m-' + state.openId);
+  if (el){
+    el.classList.add('sel');
+    if (el.parentNode.lastChild !== el){            /* raise above neighbours so the outline shows */
+      const had = document.activeElement === el;
+      el.parentNode.appendChild(el);
+      if (had) el.focus();
+    }
+  }
+}
+function openPop(id, x, y, opener){
+  const rect = $('mapwrap').getBoundingClientRect();
+  if (opener && opener.tagName.toLowerCase() === 'circle'){
+    /* open to the right of the circle pair so neither circle is covered */
+    const c = opener.getBoundingClientRect();
+    x = Math.max(...[...document.querySelectorAll('#cmap circle')].map(e => e.getBoundingClientRect().right)) - 6;
+    y = (c.top + c.bottom) / 2;
+  }
+  state.openId = id; state.opener = opener;
+  state.anchor = { x: x - rect.left, y: y - rect.top };
+  $('pop').hidden = false;
+  renderPop(state.result); markSelected();
+}
+function closePop(restoreFocus){
+  if (!state.openId) return;
+  const op = state.opener;
+  state.openId = null; $('pop').hidden = true; markSelected();
+  if (restoreFocus && op && document.contains(op)) op.focus();
+}
+function togglePop(id, x, y, opener){
+  if (state.openId === id){ closePop(false); return; }
+  openPop(id, x, y, opener);
+}
+
+function applyInputs(inputs){
+  PARTY_IDS.forEach(p => { state.inputs[p] = inputs[p]; });
+  syncInputs(null);
+  update();
+}
+
+/* ---------- update ---------- */
+function update(){
+  const inp = fullInputs();
+  const named = namedTotal();
+  state.result = runModel(inp);
+  $('oth').textContent = fmt(inp[OTHERS], 2) + '%';
+  const st = $('status');
+  if (named > 100.005){
+    st.className = 'status bad';
+    st.textContent = `Named parties add up to ${fmt(named, 1)}%. Each constituency is rescaled to 100%, so treat the figures as relative.`;
+  } else if (named >= 99.995){
+    st.className = 'status';
+    st.textContent = 'Named parties add up to 100%, so no share can rise until another is lowered.';
+  } else {
+    st.className = 'status';
+    st.textContent = '';
+  }
+  $('basetag').hidden = !isBaseline();
+  drawHemi(state.result);
+  drawSeatTable(state.result);
+  drawMap(state.result);
+}
+let raf = 0;
+function schedule(){ if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); }
+
+/* ---------- events ---------- */
+/* A share can rise only while the named parties together stay within 100%. */
+function setShare(id, v, from){
+  if (!isFinite(v)) return state.inputs[id];
+  const room = Math.max(0, 100 - (namedTotal() - state.inputs[id]));
+  state.inputs[id] = Math.max(0, Math.min(v, room));
+  syncInputs(from);
+  schedule();
+  return state.inputs[id];
+}
+$('rows').addEventListener('input', e => {
+  const row = e.target.closest('.prow'); if (!row) return;
+  const id = row.dataset.p;
+  if (e.target.type === 'range'){
+    const v = setShare(id, parseFloat(e.target.value), e.target);
+    e.target.value = v;                       /* snap the thumb back if clamped */
+    $('num-' + id).value = fmt(v, 1);
+    e.target.style.setProperty('--pct', Math.min(100, v / 50 * 100) + '%');
+  } else {
+    const v = parseFloat(e.target.value);
+    if (!isFinite(v)) return;
+    const got = setShare(id, v, e.target);
+    if (Math.abs(got - v) > 1e-9) e.target.value = fmt(got, 2);   /* show the clamped value */
+  }
+});
+$('rows').addEventListener('change', () => syncInputs(null));
+$('reset').addEventListener('click', () => { applyInputs(NAT); });
+document.querySelectorAll('input[name=mapmode]').forEach(r => r.addEventListener('change', e => {
+  state.mapMode = e.target.value; drawMap(state.result);
+}));
+$('mchips').addEventListener('click', e => {
+  const b = e.target.closest('[data-mp]'); if (!b) return;
+  state.mapParty = b.dataset.mp; drawMap(state.result);
+});
+$('cmap').addEventListener('click', e => {
+  const el = e.target.closest('path, circle'); if (!el) return;
+  togglePop(el.id.slice(2), e.clientX, e.clientY, el);
+});
+$('cmap').addEventListener('keydown', e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const el = e.target.closest('path, circle'); if (!el) return;
+  e.preventDefault();
+  const b = el.getBoundingClientRect();
+  togglePop(el.id.slice(2), (b.left + b.right) / 2, (b.top + b.bottom) / 2, el);
+  const x = $('pop').querySelector('.px'); if (x && state.openId) x.focus();
+});
+$('pop').addEventListener('click', e => { if (e.target.closest('.px')) closePop(true); });
+document.addEventListener('click', e => {
+  if (!state.openId) return;
+  if (e.target.closest('#pop') || e.target.closest('#cmap path, #cmap circle')) return;
+  closePop(false);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && state.openId) closePop(true); });
+window.addEventListener('resize', () => { if (state.openId) placePop(); });
+$('chips').addEventListener('click', e => {
+  const b = e.target.closest('[data-co]'); if (!b) return;
+  const id = b.dataset.co;
+  state.selected.has(id) ? state.selected.delete(id) : state.selected.add(id);
+  drawCoalition(state.result);
+});
+/* ---------- init ---------- */
+buildRows();
+buildHemi();
+buildCoalition();
+buildMapTools();
+buildMap();
+syncInputs(null);
+update();
+})();
+</script>
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
