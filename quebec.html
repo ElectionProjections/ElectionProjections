@@ -186,7 +186,7 @@ h1{font-size:24px;font-weight:600;margin-bottom:6px}
 .coalition-status.majority{border-left-color:var(--success);color:var(--success)}
 .province-map-wrap{position:relative;width:100%}
 .province-map-svg{width:100%;max-width:640px;margin:0 auto;display:block}
-#riding-map-svg{max-width:900px}
+#riding-map-svg{max-width:600px}
 .province-map-svg svg{width:100%;height:auto;display:block}
 .province-map-svg path{cursor:pointer;stroke:var(--bg);stroke-width:1.5;vector-effect:non-scaling-stroke;transition:filter .15s,opacity .15s}
 #riding-map-svg path{stroke-width:0.75}
@@ -205,6 +205,27 @@ h1{font-size:24px;font-weight:600;margin-bottom:6px}
 .province-tooltip .prov-row .pname{flex:1;color:var(--text-secondary)}
 .province-tooltip .prov-row .pshare{color:var(--text-muted);width:46px;text-align:right}
 .province-tooltip .prov-row .pseats{width:36px;text-align:right;font-weight:600}
+.map-filter{margin-bottom:1rem}
+.map-filter .mf-label{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+.map-filter .coalition-chips{margin-bottom:.75rem}
+.map-filter .coalition-chip{padding:5px 11px;font-size:12px}
+.mf-strength{display:none;align-items:center;gap:12px;margin-bottom:.6rem;flex-wrap:wrap}
+.mf-strength.on{display:flex}
+.mf-strength .mf-text{font-size:12px;color:var(--text-secondary);min-width:150px}
+.mf-strength input[type="range"]{flex:1;min-width:140px;height:4px;cursor:pointer;accent-color:#0b0b0b}
+@media (prefers-color-scheme: dark){ .mf-strength input[type="range"]{accent-color:#f5f4ef;} }
+.mf-legend{display:none;align-items:center;gap:8px;font-size:11px;color:var(--text-muted);flex-wrap:wrap}
+.mf-legend.on{display:flex}
+.mf-legend .bar{width:140px;height:10px;border-radius:5px;border:1px solid var(--border)}
+.mf-legend .off{width:12px;height:10px;border-radius:3px;background:var(--border);opacity:.5;margin-left:10px}
+.mf-count{font-size:12px;color:var(--text-muted);margin-top:.35rem;display:none}
+.mf-count.on{display:block}
+.mf-flips{display:none;flex-wrap:wrap;gap:6px;margin-top:.5rem}
+.mf-flips.on{display:flex}
+.mf-flip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;border:1px solid var(--border-strong);background:var(--surface);font-size:12px;color:var(--text-secondary)}
+.mf-flip .dot{width:9px;height:9px;border-radius:50%}
+.mf-flip b{color:var(--text-primary);font-weight:600}
+#riding-map-svg path.flipped{stroke:var(--text-primary);stroke-width:1.5}
 .map-zoom-controls{position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:4px;z-index:15}
 .map-zoom-btn{width:30px;height:30px;border-radius:6px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-primary);font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 1px 4px rgba(0,0,0,.1);user-select:none}
 .map-zoom-btn:hover{background:var(--surface-1)}
@@ -219,7 +240,6 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
 <div class="page">
   <header>
     <h1>Quebec provincial seat projector</h1>
-    <p class="subtitle">Enter projected province-wide vote shares. Universal swing is applied to the official 2022 general election results across all 125 ridings to project a seat outcome.</p>
   </header>
 
   <div class="card">
@@ -252,6 +272,7 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
   <div class="card results" id="riding-card" style="display:none">
     <div class="section-label">Results by riding</div>
     <p class="swing-note" style="margin-bottom:1rem">Coloured by the projected winner in each of the 125 provincial ridings. Click a riding for the full breakdown. Scroll or pinch to zoom, drag to pan.</p>
+    <div class="map-filter" id="riding-filter"></div>
     <div class="province-map-wrap" id="riding-map-wrap">
       <div class="province-map-svg" id="riding-map-svg"></div>
       <div class="province-tooltip" id="riding-tooltip"></div>
@@ -263,16 +284,15 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
     </div>
   </div>
 
-  <footer>Baseline: official 2022 Quebec general election results by riding, from Élections Québec's open data (Oct. 3, 2022). Riding boundaries: Élections Québec's 2017-2022 electoral map. Uses universal swing, a standard but simplified projection method.</footer>
 </div>
 
 <script>
 const PARTIES = [
-  { id:'CAQ', name:'Coalition Avenir Québec', color:'#0F4C81', base2022:40.98 },
+  { id:'CAQ', name:'Coalition Avenir Québec', color:'#1E90FF', base2022:40.98 },
   { id:'PLQ', name:'Liberal',                  color:'#D6001C', base2022:14.37 },
   { id:'QS',  name:'Québec solidaire',         color:'#FF7900', base2022:15.43 },
-  { id:'PQ',  name:'Parti Québécois',          color:'#00A0DC', base2022:14.61 },
-  { id:'PCQ', name:'Conservative',             color:'#0E7C7B', base2022:12.91 },
+  { id:'PQ',  name:'Parti Québécois',          color:'#87CEFA', base2022:14.61 },
+  { id:'PCQ', name:'Conservative',             color:'#313E6B', base2022:12.91 },
   { id:'GPQ', name:'Green',                    color:'#2E8B57', base2022:0.76  },
   { id:'OTH', name:'Other',                    color:'#888780', base2022:0.94  },
 ];
@@ -449,7 +469,7 @@ function buildInputs(){
     if(p.id==='OTH'){
       d.innerHTML=`<label><span class="party-dot" style="background:${p.color}"></span>${p.name}</label><span></span><input type="number" id="inp_${p.id}" value="${p.base2022}" readonly tabindex="-1" style="background:var(--surface-1); color:var(--text-secondary); cursor:default;">`;
     } else {
-      d.innerHTML=`<label><span class="party-dot" style="background:${p.color}"></span>${p.name}</label><input type="range" min="0" max="100" step="0.1" id="sld_${p.id}" value="${p.base2022}" oninput="handleInput('${p.id}','range')"><input type="number" min="0" max="100" step="0.1" id="inp_${p.id}" value="${p.base2022}" oninput="handleInput('${p.id}','number')">`;
+      d.innerHTML=`<label><span class="party-dot" style="background:${p.color}"></span>${p.name}</label><input type="range" min="0" max="60" step="0.1" id="sld_${p.id}" value="${p.base2022}" oninput="handleInput('${p.id}','range')"><input type="number" min="0" max="100" step="0.1" id="inp_${p.id}" value="${p.base2022}" oninput="handleInput('${p.id}','number')">`;
     }
     g.appendChild(d);
   });
@@ -729,15 +749,19 @@ function renderResults(seats){
     card.innerHTML=`<div class="party-name"><span class="party-dot" style="background:${p.color}"></span>${p.name}</div><div class="seat-num">${n}</div><div class="delta pos">+${n} vs 2022</div>`;
     grid.appendChild(card);
   });
-  const caq=seats['CAQ']||0;
-  let leader=null, leaderSeats=-1;
-  PARTIES.filter(p=>p.id!=='OTH').forEach(p=>{
-    const n=seats[p.id]||0;
-    if(n>leaderSeats){leaderSeats=n;leader=p.name;}
-  });
+  // Leader = party (major or minor/independent) with the most seats; ties are
+  // reported as ties rather than silently awarded to one party.
+  const standings = [...PARTIES.filter(p=>p.id!=='OTH'), ...MINOR_PARTIES]
+    .map(p=>({ name:p.name, n:seats[p.id]||0 }));
+  const leaderSeats = Math.max(...standings.map(x=>x.n));
+  const leaders = standings.filter(x=>x.n===leaderSeats).map(x=>x.name);
+  const leader = leaders.length>1
+    ? leaders.slice(0,-1).join(', ')+' and '+leaders[leaders.length-1]
+    : leaders[0];
+  const each = leaders.length>1 ? ' each' : '';
   let status='';
-  if(leaderSeats>=63) status=`${leader} majority (${leaderSeats} seats — ${leaderSeats-63} above the line)`;
-  else status=`${leader} minority (${leaderSeats} seats — ${63-leaderSeats} short of a majority)`;
+  if(leaderSeats>=63) status=`${leader} ${leaders.length>1?'tied':'majority'} (${leaderSeats} seats${each} — ${leaderSeats-63} above the line)`;
+  else status=`${leader} ${leaders.length>1?'tied':'minority'} (${leaderSeats} seats${each} — ${63-leaderSeats} short of a majority)`;
   document.getElementById('majority-line').textContent=status;
 
   lastSeats = seats;
@@ -942,6 +966,149 @@ function renderCoalitionBuilder(seats){
   }
 }
 
+
+// --- Party-strength and flipped-ridings filter for the riding map ---
+// "LEAD" = default (coloured by winner). A party shades every riding by that
+// party's projected vote share, with a minimum-strength slider that greys out
+// weaker ridings. "FLIP" highlights ridings whose projected winner differs
+// from the 2022 winner.
+const BASE_WINNER = {};
+RIDINGS.forEach(r=>{
+  let best=-1, win=null;
+  PIDS.forEach((pid,i)=>{ if(r[1+i]>best){ best=r[1+i]; win=pid; } });
+  BASE_WINNER[r[0]] = win;
+});
+// Minor parties and independents are folded into "Other" for flip detection.
+const normWinner = pid => PIDS.includes(pid) ? pid : 'OTH';
+
+const mapFilter = { pid:'LEAD', min:0 };
+
+function buildMapFilter(){
+  const host = document.getElementById('riding-filter');
+  if(!host || host.dataset.built) return;
+  host.dataset.built = '1';
+  let chips = `<div class="coalition-chip selected" data-pid="LEAD" onclick="setMapFilterParty('LEAD')">Leading party</div>`;
+  chips += `<div class="coalition-chip" data-pid="FLIP" onclick="setMapFilterParty('FLIP')">Flipped ridings</div>`;
+  PARTIES.filter(p=>p.id!=='OTH').forEach(p=>{
+    chips += `<div class="coalition-chip" data-pid="${p.id}" onclick="setMapFilterParty('${p.id}')"><span class="dot" style="background:${p.color}"></span>${p.name}</div>`;
+  });
+  host.innerHTML = `
+    <div class="mf-label">Filter by party strength</div>
+    <div class="coalition-chips">${chips}</div>
+    <div class="mf-strength" id="mf-strength">
+      <span class="mf-text" id="mf-text"></span>
+      <input type="range" id="mf-range" min="0" max="100" step="1" value="0" aria-label="Minimum vote share" oninput="setMapFilterMin(this.value)">
+    </div>
+    <div class="mf-legend" id="mf-legend"></div>
+    <div class="mf-count" id="mf-count"></div>
+    <div class="mf-flips" id="mf-flips"></div>`;
+}
+
+function setMapFilterParty(pid){
+  mapFilter.pid = pid;
+  mapFilter.min = 0;
+  applyMapFilter();
+}
+function setMapFilterMin(v){
+  mapFilter.min = parseFloat(v)||0;
+  applyMapFilter();
+}
+
+function applyMapFilter(){
+  buildMapFilter();
+  const st = mapFilter;
+  const host = document.getElementById('riding-filter');
+  host.querySelectorAll('.coalition-chip').forEach(c=>c.classList.toggle('selected', c.dataset.pid===st.pid));
+
+  const strengthEl = document.getElementById('mf-strength');
+  const legendEl = document.getElementById('mf-legend');
+  const countEl = document.getElementById('mf-count');
+  const flipsEl = document.getElementById('mf-flips');
+  const paths = document.querySelectorAll('#riding-map-svg path');
+  flipsEl.classList.remove('on'); flipsEl.innerHTML='';
+  paths.forEach(el=>el.classList.remove('flipped'));
+
+  if(st.pid==='LEAD'){
+    paths.forEach(el=>{ el.style.fill=''; el.style.opacity=''; });
+    strengthEl.classList.remove('on'); legendEl.classList.remove('on'); countEl.classList.remove('on');
+    return;
+  }
+
+  if(st.pid==='FLIP'){
+    strengthEl.classList.remove('on');
+    const nameMap = {}; PARTIES.forEach(p=>nameMap[p.id]=p.name);
+    const colorMap = {}; PARTIES.forEach(p=>colorMap[p.id]=p.color);
+    const flows = {};
+    let flipped = 0, total = 0;
+    paths.forEach(el=>{
+      const name = el.dataset.name;
+      const stats = lastRidingStats && lastRidingStats[name];
+      if(!stats) return;
+      total++;
+      const from = BASE_WINNER[name], to = normWinner(stats.winner);
+      if(from && to!==from){
+        flipped++;
+        el.style.fill = '';
+        el.style.opacity = '';
+        el.classList.add('flipped');
+        const k = from+'>'+to;
+        flows[k] = (flows[k]||0)+1;
+      } else {
+        el.style.fill = 'var(--border)';
+        el.style.opacity = '0.5';
+      }
+    });
+    legendEl.innerHTML = `<span>Coloured by new winner; outlined ridings changed hands</span><span class="off"></span><span>no change</span>`;
+    legendEl.classList.add('on');
+    countEl.textContent = `${flipped} of ${total} ridings flipped from their 2022 winner`;
+    countEl.classList.add('on');
+    Object.entries(flows).sort((a,b)=>b[1]-a[1]).forEach(([k,n])=>{
+      const [f,t] = k.split('>');
+      flipsEl.insertAdjacentHTML('beforeend',
+        `<span class="mf-flip"><span class="dot" style="background:${colorMap[f]||'#888'}"></span>${nameMap[f]||f} → <span class="dot" style="background:${colorMap[t]||'#888'}"></span>${nameMap[t]||t} <b>${n}</b></span>`);
+    });
+    if(flipped>0) flipsEl.classList.add('on');
+    return;
+  }
+
+  const party = PARTIES.find(p=>p.id===st.pid);
+  const values = {};
+  if(lastRidingStats) Object.keys(lastRidingStats).forEach(n=>{ values[n] = lastRidingStats[n].shares[st.pid]||0; });
+  const maxVal = Math.max(1, ...Object.values(values));
+  const sliderMax = Math.max(1, Math.ceil(maxVal));
+  if(st.min > sliderMax) st.min = sliderMax;
+
+  const range = document.getElementById('mf-range');
+  range.max = sliderMax;
+  range.value = st.min;
+  document.getElementById('mf-text').textContent =
+    st.min>0 ? `${party.name} at least ${st.min}%` : `${party.name}: show all`;
+  strengthEl.classList.add('on');
+
+  let shown = 0, total = 0;
+  paths.forEach(el=>{
+    const v = values[el.dataset.name];
+    if(v===undefined) return;
+    total++;
+    if(v < st.min){
+      el.style.fill = 'var(--border)';
+      el.style.opacity = '0.5';
+    } else {
+      shown++;
+      const pct = Math.round(12 + 88*(v/maxVal));
+      el.style.fill = `color-mix(in srgb, ${party.color} ${pct}%, var(--surface-1))`;
+      el.style.opacity = '';
+    }
+  });
+
+  const lo = `color-mix(in srgb, ${party.color} 12%, var(--surface-1))`;
+  legendEl.innerHTML = `<span>0%</span><span class="bar" style="background:linear-gradient(to right, ${lo}, ${party.color})"></span><span>${maxVal.toFixed(1)}%</span>` +
+    (st.min>0 ? `<span class="off"></span><span>below threshold</span>` : '');
+  legendEl.classList.add('on');
+  countEl.textContent = `${shown} of ${total} ridings at or above ${st.min}% ${party.name} support`;
+  countEl.classList.add('on');
+}
+
 let lastRidingStats = null;
 let selectedRiding = null;
 
@@ -975,6 +1142,7 @@ function renderRidingMap(ridingStats){
     el.setAttribute('fill', color);
     el.classList.toggle('selected', selectedRiding===name);
   });
+  applyMapFilter();
 
   if(selectedRiding) showRidingDetail(selectedRiding);
 }
@@ -1051,7 +1219,6 @@ buildInputs();
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
