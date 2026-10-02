@@ -215,6 +215,28 @@ h1{font-size:24px;font-weight:600;margin-bottom:6px}
 .province-tooltip .prov-row .pname{flex:1;color:var(--text-secondary)}
 .province-tooltip .prov-row .pshare{color:var(--text-muted);width:46px;text-align:right}
 .province-tooltip .prov-row .pseats{width:36px;text-align:right;font-weight:600}
+
+.map-filter{margin-bottom:1rem}
+.map-filter .mf-label{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
+.map-filter .coalition-chips{margin-bottom:.75rem}
+.map-filter .coalition-chip{padding:5px 11px;font-size:12px}
+.mf-strength{display:none;align-items:center;gap:12px;margin-bottom:.6rem;flex-wrap:wrap}
+.mf-strength.on{display:flex}
+.mf-strength .mf-text{font-size:12px;color:var(--text-secondary);min-width:150px}
+.mf-strength input[type="range"]{flex:1;min-width:140px;height:4px;cursor:pointer;accent-color:#0b0b0b}
+@media (prefers-color-scheme: dark){ .mf-strength input[type="range"]{accent-color:#f5f4ef;} }
+.mf-legend{display:none;align-items:center;gap:8px;font-size:11px;color:var(--text-muted);flex-wrap:wrap}
+.mf-legend.on{display:flex}
+.mf-legend .bar{width:140px;height:10px;border-radius:5px;border:1px solid var(--border)}
+.mf-legend .off{width:12px;height:10px;border-radius:3px;background:var(--border);opacity:.5;margin-left:10px}
+.mf-count{font-size:12px;color:var(--text-muted);margin-top:.35rem;display:none}
+.mf-count.on{display:block}
+.mf-flips{display:none;flex-wrap:wrap;gap:6px;margin-top:.5rem}
+.mf-flips.on{display:flex}
+.mf-flip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;border:1px solid var(--border-strong);background:var(--surface);font-size:12px;color:var(--text-secondary)}
+.mf-flip .dot{width:9px;height:9px;border-radius:50%}
+.mf-flip b{color:var(--text-primary);font-weight:600}
+#riding-map-svg path.flipped{stroke:var(--text-primary);stroke-width:1.5}
 .map-zoom-controls{position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:4px;z-index:15}
 .map-zoom-btn{width:30px;height:30px;border-radius:6px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text-primary);font-size:16px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 1px 4px rgba(0,0,0,.1);user-select:none}
 .map-zoom-btn:hover{background:var(--surface-1)}
@@ -229,7 +251,6 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
 <div class="page">
   <header>
     <h1>Canada federal seat projector</h1>
-    <p class="subtitle">Enter projected national vote shares. Universal national swing is applied to the official 2025 election results across all 343 ridings to project a seat outcome.</p>
   </header>
 
   <div class="card">
@@ -251,7 +272,6 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
       </div>
     </div>
     <div id="qc-panel-body" style="display:none">
-      <p class="swing-note" style="margin-bottom:.85rem">Quebec has its own dynamics — the Bloc Québécois only runs candidates there. Set Quebec's numbers below (baseline: 2025 Quebec-only results) and the national inputs above are treated as your Canada-wide target; the rest of Canada is solved for automatically so a Quebec swing shows up as a corresponding change elsewhere.</p>
       <div class="inputs-grid" id="qc-inputs"></div>
       <div class="total-row">
         <span>Quebec total: <span class="total-val" id="qc-total-display">—</span>% <span id="qc-total-note"></span></span>
@@ -282,6 +302,7 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
   <div class="card results" id="province-card" style="display:none">
     <div class="section-label">Results by province</div>
     <p class="swing-note" style="margin-bottom:1rem">Coloured by the leading party's projected vote share in each province. Click a province for the full breakdown. Scroll or pinch to zoom, drag to pan.</p>
+    <div class="map-filter" id="province-filter"></div>
     <div class="province-map-wrap" id="province-map-wrap">
       <div class="province-map-svg" id="province-map-svg"></div>
       <div class="province-tooltip" id="province-tooltip"></div>
@@ -296,6 +317,7 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
   <div class="card results" id="riding-card" style="display:none">
     <div class="section-label">Results by riding</div>
     <p class="swing-note" style="margin-bottom:1rem">Coloured by the projected winner in each of the 343 federal ridings. Click a riding for the full breakdown. Scroll or pinch to zoom, drag to pan — dense urban ridings are easier to pick out zoomed in.</p>
+    <div class="map-filter" id="riding-filter"></div>
     <div class="province-map-wrap" id="riding-map-wrap">
       <div class="province-map-svg" id="riding-map-svg"></div>
       <div class="province-tooltip" id="riding-tooltip"></div>
@@ -307,7 +329,6 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
     </div>
   </div>
 
-  <footer>Baseline: official 2025 Canadian federal election results by riding, certified by Elections Canada. Uses universal national swing (UNS), a standard but simplified projection method.</footer>
 </div>
 
 <script>
@@ -738,13 +759,17 @@ const NATIONAL_CFG = {
 const QC_CFG = {
   prefix:'qc_', inputsId:'qc-inputs', totalDisplayId:'qc-total-display',
   totalNoteId:'qc-total-note', errMsgId:'qc-err-msg',
-  baseline: QC_BASE2025
+  baseline: QC_BASE2025,
+  sortByBaseline: true
 };
 
 function buildInputGroup(cfg){
   const g = document.getElementById(cfg.inputsId);
   g.innerHTML='';
-  PARTIES.forEach(p=>{
+  const rowParties = cfg.sortByBaseline
+    ? [...PARTIES].sort((a,b)=>cfg.baseline[b.id]-cfg.baseline[a.id])
+    : PARTIES;
+  rowParties.forEach(p=>{
     const d=document.createElement('div');
     d.className='input-row';
     const base = cfg.baseline[p.id];
@@ -1320,6 +1345,175 @@ function renderCoalitionBuilder(seats){
   }
 }
 
+
+// --- Party-strength filter for the province and riding maps ---
+// "LEAD" = default view (coloured by winner). Choosing a party instead shades
+// every area by that party's projected vote share, and a minimum-strength
+// slider greys out areas where the party falls below the chosen threshold.
+// Baseline (2025) winner of each riding, used to detect flips.
+const BASE_WINNER = {};
+RIDINGS.forEach(r=>{
+  let best=-1, win=null;
+  PIDS.forEach((pid,i)=>{ if(r[2+i]>best){ best=r[2+i]; win=pid; } });
+  BASE_WINNER[r[0]] = win;
+});
+// Minor parties and independents are folded into "Other" for flip detection.
+const normWinner = pid => PIDS.includes(pid) ? pid : 'OTH';
+
+const mapFilter = { province:{pid:'LEAD', min:0}, riding:{pid:'LEAD', min:0} };
+const MAP_FILTER_CFG = {
+  province:{ hostId:'province-filter', unit:'provinces/territories', paths:'#province-map-svg path' },
+  riding:  { hostId:'riding-filter',   unit:'ridings',               paths:'#riding-map-svg path' }
+};
+
+function buildMapFilter(key){
+  const cfg = MAP_FILTER_CFG[key];
+  const host = document.getElementById(cfg.hostId);
+  if(!host || host.dataset.built) return;
+  host.dataset.built = '1';
+  let chips = `<div class="coalition-chip selected" data-pid="LEAD" onclick="setMapFilterParty('${key}','LEAD')">Leading party</div>`;
+  if(key==='riding'){
+    chips += `<div class="coalition-chip" data-pid="FLIP" onclick="setMapFilterParty('riding','FLIP')">Flipped ridings</div>`;
+  }
+  PARTIES.filter(p=>p.id!=='OTH').forEach(p=>{
+    chips += `<div class="coalition-chip" data-pid="${p.id}" onclick="setMapFilterParty('${key}','${p.id}')"><span class="dot" style="background:${p.color}"></span>${p.name}</div>`;
+  });
+  host.innerHTML = `
+    <div class="mf-label">Filter by party strength</div>
+    <div class="coalition-chips">${chips}</div>
+    <div class="mf-strength" id="${key}-mf-strength">
+      <span class="mf-text" id="${key}-mf-text"></span>
+      <input type="range" id="${key}-mf-range" min="0" max="100" step="1" value="0" aria-label="Minimum vote share" oninput="setMapFilterMin('${key}', this.value)">
+    </div>
+    <div class="mf-legend" id="${key}-mf-legend"></div>
+    <div class="mf-count" id="${key}-mf-count"></div>
+    <div class="mf-flips" id="${key}-mf-flips"></div>`;
+}
+
+function setMapFilterParty(key, pid){
+  mapFilter[key].pid = pid;
+  mapFilter[key].min = 0;
+  applyMapFilter(key);
+}
+function setMapFilterMin(key, v){
+  mapFilter[key].min = parseFloat(v)||0;
+  applyMapFilter(key);
+}
+
+// Returns {id: share%} for every area on the given map for one party.
+function mapShareValues(key, pid){
+  const out = {};
+  if(key==='province' && lastProvinceStats){
+    Object.keys(lastProvinceStats).forEach(code=>{
+      const st = lastProvinceStats[code];
+      out[code] = (st.shareSum[pid]||0)/st.count;
+    });
+  } else if(key==='riding' && lastRidingStats){
+    Object.keys(lastRidingStats).forEach(name=>{
+      out[name] = lastRidingStats[name].shares[pid]||0;
+    });
+  }
+  return out;
+}
+
+function applyMapFilter(key){
+  buildMapFilter(key);
+  const cfg = MAP_FILTER_CFG[key];
+  const st = mapFilter[key];
+  const host = document.getElementById(cfg.hostId);
+  host.querySelectorAll('.coalition-chip').forEach(c=>c.classList.toggle('selected', c.dataset.pid===st.pid));
+
+  const strengthEl = document.getElementById(key+'-mf-strength');
+  const legendEl = document.getElementById(key+'-mf-legend');
+  const countEl = document.getElementById(key+'-mf-count');
+  const paths = document.querySelectorAll(cfg.paths);
+  const idOf = el => key==='province' ? el.dataset.code : el.dataset.name;
+
+  const flipsEl = document.getElementById(key+'-mf-flips');
+  if(flipsEl){ flipsEl.classList.remove('on'); flipsEl.innerHTML=''; }
+  paths.forEach(el=>el.classList.remove('flipped'));
+
+  if(st.pid==='LEAD'){
+    paths.forEach(el=>{ el.style.fill=''; el.style.opacity=''; });
+    strengthEl.classList.remove('on'); legendEl.classList.remove('on'); countEl.classList.remove('on');
+    return;
+  }
+
+  if(st.pid==='FLIP'){
+    strengthEl.classList.remove('on');
+    const nameMap = {}; PARTIES.forEach(p=>nameMap[p.id]=p.name);
+    const colorMap = {}; PARTIES.forEach(p=>colorMap[p.id]=p.color);
+    const flows = {};
+    let flipped = 0, total = 0;
+    paths.forEach(el=>{
+      const name = el.dataset.name;
+      const stats = lastRidingStats && lastRidingStats[name];
+      if(!stats){ return; }
+      total++;
+      const from = BASE_WINNER[name], to = normWinner(stats.winner);
+      if(from && to!==from){
+        flipped++;
+        el.style.fill = ''; // keep the projected winner's colour
+        el.style.opacity = '';
+        el.classList.add('flipped');
+        const k = from+'>'+to;
+        flows[k] = (flows[k]||0)+1;
+      } else {
+        el.style.fill = 'var(--border)';
+        el.style.opacity = '0.5';
+      }
+    });
+    legendEl.innerHTML = `<span>Coloured by new winner; outlined ridings changed hands</span><span class="off"></span><span>no change</span>`;
+    legendEl.classList.add('on');
+    countEl.textContent = `${flipped} of ${total} ridings flipped from their 2025 winner`;
+    countEl.classList.add('on');
+    Object.entries(flows).sort((a,b)=>b[1]-a[1]).forEach(([k,n])=>{
+      const [f,t] = k.split('>');
+      flipsEl.insertAdjacentHTML('beforeend',
+        `<span class="mf-flip"><span class="dot" style="background:${colorMap[f]||'#888'}"></span>${nameMap[f]||f} → <span class="dot" style="background:${colorMap[t]||'#888'}"></span>${nameMap[t]||t} <b>${n}</b></span>`);
+    });
+    if(flipped>0) flipsEl.classList.add('on');
+    return;
+  }
+
+  const party = PARTIES.find(p=>p.id===st.pid);
+  const values = mapShareValues(key, st.pid);
+  const vals = Object.values(values);
+  const maxVal = Math.max(1, ...vals);
+  const sliderMax = Math.max(1, Math.ceil(maxVal));
+  if(st.min > sliderMax) st.min = sliderMax;
+
+  const range = document.getElementById(key+'-mf-range');
+  range.max = sliderMax;
+  range.value = st.min;
+  document.getElementById(key+'-mf-text').textContent =
+    st.min>0 ? `${party.name} at least ${st.min}%` : `${party.name}: show all`;
+  strengthEl.classList.add('on');
+
+  let shown = 0, total = 0;
+  paths.forEach(el=>{
+    const v = values[idOf(el)];
+    if(v===undefined){ return; }
+    total++;
+    if(v < st.min){
+      el.style.fill = 'var(--border)';
+      el.style.opacity = '0.5';
+    } else {
+      shown++;
+      const pct = Math.round(12 + 88*(v/maxVal));
+      el.style.fill = `color-mix(in srgb, ${party.color} ${pct}%, var(--surface-1))`;
+      el.style.opacity = '';
+    }
+  });
+
+  const lo = `color-mix(in srgb, ${party.color} 12%, var(--surface-1))`;
+  legendEl.innerHTML = `<span>0%</span><span class="bar" style="background:linear-gradient(to right, ${lo}, ${party.color})"></span><span>${maxVal.toFixed(1)}%</span>` +
+    (st.min>0 ? `<span class="off"></span><span>below threshold</span>` : '');
+  legendEl.classList.add('on');
+  countEl.textContent = `${shown} of ${total} ${cfg.unit} at or above ${st.min}% ${party.name} support`;
+  countEl.classList.add('on');
+}
+
 let lastProvinceStats = null;
 let selectedProvince = null;
 const PROVINCE_NAMES = {
@@ -1367,6 +1561,7 @@ function renderProvinceMap(provinceStats){
     el.setAttribute('fill', leadColor[code] || '#ccc');
     el.classList.toggle('selected', selectedProvince===code);
   });
+  applyMapFilter('province');
 
   if(selectedProvince) showProvinceDetail(selectedProvince);
 }
@@ -1471,6 +1666,7 @@ function renderRidingMap(ridingStats){
     el.setAttribute('fill', color);
     el.classList.toggle('selected', selectedRiding===name);
   });
+  applyMapFilter('riding');
 
   if(selectedRiding) showRidingDetail(selectedRiding);
 }
