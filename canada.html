@@ -279,6 +279,7 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
       </div>
       <div class="error-msg" id="qc-err-msg"></div>
       <div class="swing-note" id="roc-implied" style="margin-top:.9rem"></div>
+      <div class="error-msg" id="roc-warn"></div>
     </div>
   </div>
 
@@ -895,6 +896,14 @@ function project(){
       return;
     }
     document.getElementById('qc-err-msg').textContent='';
+    // The Quebec inputs show baselines rounded to 0.1, so an untouched field
+    // differs from the true riding average by a few hundredths of a point —
+    // enough to flip a razor-thin seat. Treat an input equal to its displayed
+    // baseline as exactly the baseline.
+    qcVals = qcVals.map((v,i)=>{
+      const base = QC_BASE2025[PARTIES[i].id];
+      return Math.abs(v.val - Math.round(base*10)/10) < 1e-9 ? { ...v, val: base } : v;
+    });
   }
 
   // Per-party swing model. Above 20% of a party's baseline vote share,
@@ -915,6 +924,7 @@ function project(){
     partyMeta = {};
     PARTIES.forEach((p,i)=>{ partyMeta[p.id] = buildMeta(p.base2025, vals[i].val); });
     document.getElementById('roc-implied').textContent='';
+    document.getElementById('roc-warn').textContent='';
   } else {
     // Quebec gets its own baseline and its own user-set target. The rest of
     // Canada's implied target is solved for so that the riding-count-weighted
@@ -925,13 +935,22 @@ function project(){
     partyMetaQC = {};
     PARTIES.forEach((p,i)=>{ partyMetaQC[p.id] = buildMeta(QC_BASE2025[p.id], qcVals[i].val); });
 
+    // Work in swings relative to each region's own baseline. The national
+    // input defaults to the real, vote-weighted 2025 national result while the
+    // Quebec / rest-of-Canada baselines are riding averages, so solving on raw
+    // levels mixes two different scales and shifts seats even when nothing has
+    // been changed. Solving on deltas keeps the untouched state identical to
+    // the baseline.
     const rocRaw = {};
-    let hadNegative = false;
+    const floored = [];
     PARTIES.forEach((p,i)=>{
-      const nationalTarget = vals[i].val;
-      const qcTarget = qcVals[i].val;
-      const raw = (nationalTarget*RIDINGS.length - QC_RIDING_COUNT*qcTarget) / ROC_RIDING_COUNT;
-      if(raw<0) hadNegative = true;
+      const natDelta = vals[i].val - p.base2025;
+      const qcDelta = qcVals[i].val - QC_BASE2025[p.id];
+      const raw = ROC_BASE2025[p.id] + (natDelta*RIDINGS.length - QC_RIDING_COUNT*qcDelta) / ROC_RIDING_COUNT;
+      if(raw < -0.05 && p.id!=='OTH'){
+        const minNat = p.base2025 + (qcDelta*QC_RIDING_COUNT - ROC_BASE2025[p.id]*ROC_RIDING_COUNT) / RIDINGS.length;
+        floored.push({ name:p.name, set:vals[i].val, minNat });
+      }
       rocRaw[p.id] = Math.max(0, raw);
     });
     const rocRawSum = PARTIES.reduce((s,p)=>s+rocRaw[p.id],0);
@@ -942,8 +961,10 @@ function project(){
     PARTIES.forEach(p=>{ partyMetaROC[p.id] = buildMeta(ROC_BASE2025[p.id], rocFinal[p.id]); });
 
     const rocLine = PARTIES.filter(p=>p.id!=='OTH').map(p=>`${p.name} ${rocFinal[p.id].toFixed(1)}%`).join(', ');
-    const warn = hadNegative ? ' Your Quebec input alone would exceed the national target for at least one party, so its implied rest-of-Canada share was floored at 0% and the difference redistributed.' : '';
-    document.getElementById('roc-implied').textContent = `Implied rest-of-Canada average needed to hit your national target: ${rocLine}.${warn}`;
+    document.getElementById('roc-implied').textContent = `Implied rest-of-Canada average needed to hit your national target: ${rocLine}.`;
+    document.getElementById('roc-warn').innerHTML = floored.map(f=>
+      `${f.name}: your Quebec figure alone implies at least ${f.minNat.toFixed(1)}% nationally, but the national input is ${f.set.toFixed(1)}%. Rest-of-Canada is floored at 0% for this party, so the national figure isn't fully honoured.`
+    ).join('<br>');
   }
 
   const seatCounts={LPC:0,CPC:0,NDP:0,BQ:0,GPC:0,PPC:0};
@@ -1132,13 +1153,19 @@ function renderResults(seats){
     card.innerHTML=`<div class="party-name"><span class="party-dot" style="background:${p.color}"></span>${p.name}</div><div class="seat-num">${n}</div><div class="delta pos">+${n} vs 2025</div>`;
     grid.appendChild(card);
   });
-  const lpc=seats['LPC']||0;
-  const cpc=seats['CPC']||0;
-  const leader=lpc>cpc?'Liberal':'Conservative';
-  const leaderSeats=Math.max(lpc,cpc);
+  // Leader = party (major or minor/independent) with the most seats; ties are
+  // reported as ties rather than silently awarded to one party.
+  const standings = [...PARTIES.filter(p=>p.id!=='OTH'), ...MINOR_PARTIES]
+    .map(p=>({ name:p.name, n:seats[p.id]||0 }));
+  const leaderSeats = Math.max(...standings.map(x=>x.n));
+  const leaders = standings.filter(x=>x.n===leaderSeats).map(x=>x.name);
+  const leader = leaders.length>1
+    ? leaders.slice(0,-1).join(', ')+' and '+leaders[leaders.length-1]
+    : leaders[0];
+  const each = leaders.length>1 ? ' each' : '';
   let status='';
-  if(leaderSeats>=172) status=`${leader} majority (${leaderSeats} seats — ${leaderSeats-172} above the line)`;
-  else status=`${leader} minority (${leaderSeats} seats — ${172-leaderSeats} short of a majority)`;
+  if(leaderSeats>=172) status=`${leader} ${leaders.length>1?'tied':'majority'} (${leaderSeats} seats${each} — ${leaderSeats-172} above the line)`;
+  else status=`${leader} ${leaders.length>1?'tied':'minority'} (${leaderSeats} seats${each} — ${172-leaderSeats} short of a majority)`;
   document.getElementById('majority-line').textContent=status;
 
   lastSeats = seats;
