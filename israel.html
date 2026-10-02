@@ -1197,6 +1197,7 @@ function render() {
         parties[i].name = e.target.value;
         mono.style.background = monogramFor(parties[i].name, i).color;
         mono.textContent = monogramFor(parties[i].name, i).letters;
+        patchResults();
       };
     }
 
@@ -1241,7 +1242,13 @@ function render() {
       delBtn.className = 'del-btn';
       delBtn.textContent = '×';
       delBtn.title = 'Remove party';
-      delBtn.onclick = () => { parties.splice(i, 1); render(); };
+      delBtn.onclick = () => {
+        const shifted = new Set();
+        coalitionSet.forEach(k => { if (k < i) shifted.add(k); else if (k > i) shifted.add(k - 1); });
+        coalitionSet = shifted;
+        parties.splice(i, 1);
+        render();
+      };
       delSlot.appendChild(delBtn);
     }
 
@@ -1406,18 +1413,6 @@ render();
     </div>
   </div>
 </div>
-
-<p class="note">Every locality is the real 2022 result, swung uniformly to match the national vote
-share implied by the model above: each current party's 2022 predecessor vote is scaled by a single
-national factor (projected share ÷ 2022 share), applied evenly everywhere and renormalized to 100%
-per locality — a simplification, not a forecast of local campaigning. New parties with no 2022
-predecessor have no local history to swing from, so they're assumed to perform uniformly everywhere,
-at their national projected share. The underlying locality shapes and 2022 counts are the real,
-sourced results: 981 localities as real jurisdiction polygons matched by official locality code
-(Ministry of Interior boundaries, CBS data, and Central Elections Committee results), plus 117 West
-Bank settlements shown as dots since they have no polygon in that boundary layer. Altogether the map
-accounts for <span id="covNote"></span> of the national vote; the remainder has no coordinate in the
-source data (overwhelmingly unrecognised Bedouin villages) or is overseas/military-base polling.</p>
 
 </div>
 
@@ -1820,9 +1815,6 @@ function occLabel(d){
   return null;
 }
 
-document.getElementById("covNote").textContent =
-  `${DB.sample.valid.toLocaleString()} of the 4,764,742 valid votes cast nationally `+
-  `(${(DB.sample.valid/4764742*100).toFixed(0)}%).`;
 
 /* ---------------- hook into the seat model above ---------------- */
 const _outerRender = window.render, _outerPatch = window.patchResults;
@@ -1837,7 +1829,6 @@ apply(); draw();
 
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
