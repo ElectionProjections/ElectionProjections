@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Australia Election Projection</title>
+    <title>Wales Election Projection</title>
     <style>
         /* Basic reset and font styling */
         body {
@@ -472,6 +472,7 @@ function computeBaseline() {
   return shares;
 }
 const BASELINE_SHARES = computeBaseline();
+const SLIDER_ORDER = SWING_PARTIES.filter((p) => p !== "Oth").sort((a, b) => BASELINE_SHARES[b] - BASELINE_SHARES[a]).concat("Oth");
 function dhondt(votes, seats) {
   const counts = {};
   for (const p of Object.keys(votes)) counts[p] = 0;
@@ -580,26 +581,26 @@ function projectSeats(shares) {
 }
 const BASELINE_RESULT = projectSeats(BASELINE_SHARES);
 const BASELINE_SEATS = BASELINE_RESULT.tally;
-function layoutHemicycle(n, rows = 6, rMin = 28, rMax = 105) {
-  let lo = 1, hi = 60;
-  let rowCounts = [];
-  for (let iter = 0; iter < 45; iter++) {
-    const d = (lo + hi) / 2;
-    const counts = [];
-    for (let k = 0; k < rows; k++) {
-      const r = rMin + k * (rMax - rMin) / (rows - 1);
-      counts.push(Math.max(1, Math.round(Math.PI * r / d)));
-    }
-    const total2 = counts.reduce((a, b) => a + b, 0);
-    if (total2 > n) lo = d;
-    else hi = d;
-    rowCounts = counts;
+function layoutHemicycle(n, rows = 6, rMax = 105) {
+  const radiiFor = (g) => Array.from({ length: rows }, (_, k) => rMax - (rows - 1 - k) * g);
+  const rawCounts = (g) => radiiFor(g).map((r) => Math.PI * r / g + 1);
+  let lo = 6, hi = 40;
+  for (let iter = 0; iter < 60; iter++) {
+    const g = (lo + hi) / 2;
+    const total = rawCounts(g).reduce((a, c) => a + Math.round(c), 0);
+    if (total > n) lo = g;
+    else hi = g;
   }
-  const total = rowCounts.reduce((a, b) => a + b, 0);
-  rowCounts[rows - 1] += n - total;
+  const g = (lo + hi) / 2;
+  const radii = radiiFor(g);
+  const raw = rawCounts(g);
+  const rowCounts = raw.map((c) => Math.floor(c));
+  let diff = n - rowCounts.reduce((a, c) => a + c, 0);
+  const order = raw.map((c, i) => ({ i, frac: c - Math.floor(c) })).sort((a, b) => b.frac - a.frac);
+  for (let j = 0; diff > 0; j = (j + 1) % rows, diff--) rowCounts[order[j].i]++;
   const points = [];
   for (let k = 0; k < rows; k++) {
-    const r = rMin + k * (rMax - rMin) / (rows - 1);
+    const r = radii[k];
     const count = rowCounts[k];
     for (let i = 0; i < count; i++) {
       const t = count === 1 ? 0.5 : i / (count - 1);
@@ -612,7 +613,6 @@ function layoutHemicycle(n, rows = 6, rMin = 28, rMax = 105) {
 }
 const HEMICYCLE_POINTS = layoutHemicycle(TOTAL_SEATS);
 const HEMI_MAX_R = Math.max(...HEMICYCLE_POINTS.map((p) => Math.max(Math.abs(p.x), -p.y)));
-const HEMI_MIN_R = Math.min(...HEMICYCLE_POINTS.map((p) => Math.sqrt(p.x * p.x + p.y * p.y)));
 const HEMICYCLE_ORDER = [
   "Green",
   "Gwl",
@@ -772,14 +772,6 @@ function SeneddProjector() {
           max-width: 560px;
           line-height: 1.4;
         }
-        .masthead .tag {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 12px;
-          color: #D4AF6A;
-          text-align: right;
-          letter-spacing: 0.5px;
-        }
-
         .grid {
           display: grid;
           grid-template-columns: 300px 1fr;
@@ -964,6 +956,26 @@ function SeneddProjector() {
         .coalition-majority-mark { position: absolute; top: -4px; bottom: -4px; width: 2px; background: #D4AF6A; }
 
         .map-panel { margin-top: 22px; }
+        .colour-controls { max-width: 560px; margin: 0 auto 12px; }
+        .colour-seg { display: inline-flex; gap: 2px; background: #10131C; border-radius: 6px; padding: 2px; }
+        .colour-opt {
+          background: transparent; border: 0; border-radius: 5px; padding: 5px 10px;
+          font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #8B92A5; cursor: pointer;
+        }
+        .colour-opt:hover { color: #FFFFFF; }
+        .colour-opt.active { background: #262B38; color: #FFFFFF; }
+        .party-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+        .party-chip {
+          display: inline-flex; align-items: center; gap: 6px; background: #10131C; border: 0; border-radius: 14px;
+          padding: 4px 10px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #8B92A5; cursor: pointer;
+        }
+        .party-chip:hover { color: #FFFFFF; }
+        .party-chip.active { background: #262B38; color: #FFFFFF; }
+        .strength-legend { position: absolute; left: 14px; bottom: 14px; width: 120px; pointer-events: none; }
+        .sl-title { font-size: 11px; color: #C9CEDB; margin-bottom: 4px; }
+        .sl-bar { height: 8px; border-radius: 4px; background-color: #1D212B; }
+        .sl-labels { display: flex; justify-content: space-between; font-size: 10px; color: #8B92A5; margin-top: 3px; font-family: 'JetBrains Mono', monospace; }
+        .mt-changes { font-size: 11px; color: #8B92A5; margin: 0 0 8px; }
         .map-wrap {
           position: relative;
           max-width: 560px;
@@ -1053,9 +1065,7 @@ function SeneddProjector() {
         }
         .mt-seat-dots { display: flex; gap: 3px; flex-wrap: wrap; }
         .mt-seat-dot { width: 10px; height: 10px; border-radius: 2px; }
-
-        footer.note { margin-top: 24px; font-size: 12px; color: #5D6376; line-height: 1.6; }
-      `), /* @__PURE__ */ React.createElement("div", { className: "wrap" }, /* @__PURE__ */ React.createElement("div", { className: "masthead" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "Senedd Seat Projector"), /* @__PURE__ */ React.createElement("div", { className: "sub" }, "Adjust national vote share and see the resulting Senedd seat count, using closed-list D'Hondt proportional representation across all 16 constituencies \u2014 the system used for the first time at the actual 7 May 2026 election, which is the baseline here.")), /* @__PURE__ */ React.createElement("div", { className: "tag" }, "D'HONDT PR \xB7 BASELINE 2026")), /* @__PURE__ */ React.createElement("div", { className: "grid" }, /* @__PURE__ */ React.createElement("div", { className: "controls-col" }, /* @__PURE__ */ React.createElement("div", { className: "panel" }, /* @__PURE__ */ React.createElement("h2", null, "National vote share"), SWING_PARTIES.map((p) => /* @__PURE__ */ React.createElement(
+      `), /* @__PURE__ */ React.createElement("div", { className: "wrap" }, /* @__PURE__ */ React.createElement("div", { className: "masthead" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "Senedd Seat Projector"), /* @__PURE__ */ React.createElement("div", { className: "sub" }, "Adjust national vote share and see the resulting Senedd seat count, using closed-list D'Hondt proportional representation across all 16 constituencies \u2014 the system used for the first time at the actual 7 May 2026 election, which is the baseline here."))), /* @__PURE__ */ React.createElement("div", { className: "grid" }, /* @__PURE__ */ React.createElement("div", { className: "controls-col" }, /* @__PURE__ */ React.createElement("div", { className: "panel" }, /* @__PURE__ */ React.createElement("h2", null, "National vote share"), SLIDER_ORDER.map((p) => /* @__PURE__ */ React.createElement(
     PartySliderRow,
     {
       key: p,
@@ -1114,38 +1124,65 @@ function SeneddProjector() {
         title: `${meta.name}: ${row.seats}`
       }
     );
-  }), /* @__PURE__ */ React.createElement("div", { className: "coalition-majority-mark", style: { left: `${MAJORITY / TOTAL_SEATS * 100}%` } })))), /* @__PURE__ */ React.createElement("div", { className: "panel map-panel" }, /* @__PURE__ */ React.createElement("h2", null, "Constituencies on the map"), /* @__PURE__ */ React.createElement("div", { className: "map-wrap" }, /* @__PURE__ */ React.createElement(ConstituencyMap, { results }))), /* @__PURE__ */ React.createElement("footer", { className: "note" }, `Baseline is the actual 7 May 2026 Senedd election result across all 16 constituencies, verified against the official national vote and seat totals. Each constituency elects 6 members: national swing is applied to that constituency's own 2026 vote shares, then D'Hondt \u2014 the same method used at the real election \u2014 re-runs on the adjusted shares to work out its 6 seats. D'Hondt has a built-in bias toward larger parties, so a party's seat share will usually run ahead of its vote share, same as it did in the real result. This is a simpler exercise than for first-past-the-post seats: there's no local candidate strength or incumbency to account for, since every seat within a constituency is filled straight down a party's list in order. Restore Britain did not stand at the actual 2026 Senedd election \u2014 no candidates, no votes \u2014 so its slider starts at a genuine zero everywhere rather than being seeded from a real result. "Other" is controlled as one slider, since none of the smaller parties or independents inside it have their own separate polling, but if it wins seats they're credited to the real party or independent behind them \u2014 Independent, Heritage, Propel, Gwlad, and so on \u2014 split by their actual, verified 2026 vote share, scaled with wherever the "Other" slider sits. Independent is capped at 30 seats nationally, the real number of independent candidates who stood, since each can only win the one seat they personally contested, unlike a party with a list. There's no full constituency-by-constituency breakdown for every micro-party in the source data, so exactly which constituency each one is credited in isn't necessarily where they'd really be strongest \u2014 only the national total behind each party is real. Source: Wikipedia, 2026 Senedd election (cross-checked against official national totals).`)));
+  }), /* @__PURE__ */ React.createElement("div", { className: "coalition-majority-mark", style: { left: `${MAJORITY / TOTAL_SEATS * 100}%` } })))), /* @__PURE__ */ React.createElement(MapPanel, { results })));
+}
+const STRENGTH_PARTIES = SLIDER_ORDER.filter((p) => p !== "Oth");
+const BASELINE_BY_NAME = (() => {
+  const m = {};
+  for (const r of BASELINE_RESULT.results) m[r.n] = r;
+  return m;
+})();
+function strengthShare(party, adjusted) {
+  const total = Object.values(adjusted).reduce((a, b) => a + b, 0);
+  return total ? (adjusted[party] || 0) / total * 100 : 0;
+}
+function StrengthLegend({ party, max }) {
+  const meta = partyMeta(party);
+  return /* @__PURE__ */ React.createElement("div", { className: "strength-legend" }, /* @__PURE__ */ React.createElement("div", { className: "sl-title" }, meta.name, " vote share"), /* @__PURE__ */ React.createElement("div", { className: "sl-bar", style: { backgroundImage: `linear-gradient(to right, transparent, ${meta.color})` } }), /* @__PURE__ */ React.createElement("div", { className: "sl-labels" }, /* @__PURE__ */ React.createElement("span", null, "0%"), /* @__PURE__ */ React.createElement("span", null, max.toFixed(0), "%")));
+}
+function MapPanel({ results }) {
+  const [colourMode, setColourMode] = useState("winner");
+  const [strengthParty, setStrengthParty] = useState(STRENGTH_PARTIES[0]);
+  const activeStrength = colourMode === "strength" ? strengthParty : null;
+  return /* @__PURE__ */ React.createElement("div", { className: "panel map-panel" }, /* @__PURE__ */ React.createElement("h2", null, "Constituencies on the map"), /* @__PURE__ */ React.createElement("div", { className: "colour-controls" }, /* @__PURE__ */ React.createElement("div", { className: "colour-seg", role: "group", "aria-label": "Colour map by" }, [["winner", "Largest party"], ["strength", "Party strength"]].map(([k, label]) => /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      key: k,
+      className: colourMode === k ? "colour-opt active" : "colour-opt",
+      "aria-pressed": colourMode === k,
+      onClick: () => setColourMode(k)
+    },
+    label
+  ))), colourMode === "strength" && /* @__PURE__ */ React.createElement("div", { className: "party-chips" }, STRENGTH_PARTIES.map((pk) => {
+    const m = partyMeta(pk);
+    return /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: pk,
+        className: strengthParty === pk ? "party-chip active" : "party-chip",
+        "aria-pressed": strengthParty === pk,
+        onClick: () => setStrengthParty(pk)
+      },
+      /* @__PURE__ */ React.createElement("span", { className: "swatch", style: { background: m.color } }),
+      m.short
+    );
+  }))), /* @__PURE__ */ React.createElement(ConstituencyMap, { results, strengthParty: activeStrength }));
 }
 function Hemicycle({ colors }) {
   const dotR = 6.5;
   const sideMargin = dotR + 6;
   const bottomMargin = dotR + 6;
-  const labelSpace = 24;
-  const topMargin = dotR + 10;
+  const topMargin = dotR + 6;
   const width = HEMI_MAX_R * 2 + sideMargin * 2;
-  const height = HEMI_MAX_R + topMargin + labelSpace + bottomMargin;
+  const height = HEMI_MAX_R + topMargin + bottomMargin;
   const cx = width / 2;
   const cy = height - bottomMargin;
-  const lineTop = cy - HEMI_MAX_R - topMargin + 4;
-  const lineBottom = cy - HEMI_MIN_R + 8;
-  return /* @__PURE__ */ React.createElement("svg", { width, height, viewBox: `0 0 ${width} ${height}` }, /* @__PURE__ */ React.createElement(
-    "line",
-    {
-      x1: cx,
-      y1: lineTop,
-      x2: cx,
-      y2: lineBottom,
-      stroke: "#D4AF6A",
-      strokeWidth: "1",
-      strokeDasharray: "3,4",
-      opacity: "0.55"
-    }
-  ), /* @__PURE__ */ React.createElement("text", { x: cx, y: lineTop - 8, textAnchor: "middle", fill: "#D4AF6A", fontFamily: "JetBrains Mono, monospace", fontSize: "11" }, MAJORITY, " FOR A MAJORITY"), HEMICYCLE_POINTS.map((pt, i) => {
+  return /* @__PURE__ */ React.createElement("svg", { width, height, viewBox: `0 0 ${width} ${height}` }, HEMICYCLE_POINTS.map((pt, i) => {
     const meta = partyMeta(colors[i] || "Oth");
     return /* @__PURE__ */ React.createElement("circle", { key: i, cx: cx + pt.x, cy: cy + pt.y, r: dotR, fill: meta.color });
   }));
 }
-function ConstituencyMap({ results }) {
+function ConstituencyMap({ results, strengthParty }) {
   const vbWidth = 560;
   const { minX, minY, maxX, maxY } = BOUNDARY_BBOX;
   const bw = maxX - minX;
@@ -1231,6 +1268,23 @@ function ConstituencyMap({ results }) {
     if (y + TH > wrapRect.height) y = Math.max(4, wrapRect.height - TH - 4);
     setSelected({ name, x, y });
   }
+  const tooltipRef = React.useRef(null);
+  React.useEffect(() => {
+    if (!selected || !tooltipRef.current || !wrapRef.current) return;
+    const wrapRect = wrapRef.current.getBoundingClientRect();
+    const ttRect = tooltipRef.current.getBoundingClientRect();
+    let { x, y } = selected;
+    let changed = false;
+    if (ttRect.width && wrapRect.left + x + ttRect.width > wrapRect.right) {
+      x = Math.max(4, wrapRect.width - ttRect.width - 4);
+      changed = true;
+    }
+    if (ttRect.height && wrapRect.top + y + ttRect.height > wrapRect.bottom) {
+      y = Math.max(4, wrapRect.height - ttRect.height - 4);
+      changed = true;
+    }
+    if (changed) setSelected((prev) => prev ? { ...prev, x, y } : prev);
+  }, [selected && selected.name]);
   const resultByName = useMemo(() => {
     const m = {};
     for (const r of results) m[r.n] = r;
@@ -1259,7 +1313,24 @@ function ConstituencyMap({ results }) {
   function projectPoint(x, y) {
     return { x: (x - minX) * baseScale, y: (maxY - y) * baseScale };
   }
+  const strength = useMemo(() => {
+    if (!strengthParty) return null;
+    const shares = {};
+    let max = 0;
+    for (const r of results) {
+      const v = strengthShare(strengthParty, r.adjusted);
+      shares[r.n] = v;
+      if (v > max) max = v;
+    }
+    return { shares, max: Math.max(max, 1) };
+  }, [results, strengthParty]);
   const selSeat = selected ? resultByName[selected.name] : null;
+  const selChanges = useMemo(() => {
+    if (!selSeat || !BASELINE_BY_NAME[selSeat.n]) return [];
+    const base = BASELINE_BY_NAME[selSeat.n].seatCounts;
+    const keys = /* @__PURE__ */ new Set([...Object.keys(selSeat.seatCounts), ...Object.keys(base)]);
+    return [...keys].map((k) => ({ k, d: (selSeat.seatCounts[k] || 0) - (base[k] || 0) })).filter((x) => x.d !== 0).sort((a, b) => b.d - a.d);
+  }, [selSeat]);
   const selRows = useMemo(() => {
     if (!selSeat) return [];
     const total = Object.values(selSeat.adjusted).reduce((a, b) => a + b, 0);
@@ -1304,19 +1375,20 @@ function ConstituencyMap({ results }) {
           {
             key: b.n,
             d: pathFor(b.r),
-            fill: meta.color,
-            fillOpacity: "0.72",
+            fill: strength ? partyMeta(strengthParty).color : meta.color,
+            fillOpacity: strength ? (0.06 + 0.9 * ((strength.shares[b.n] || 0) / strength.max)).toFixed(3) : "0.72",
             fillRule: "evenodd",
             stroke: "#0F1219",
             strokeWidth: 0.6 / view.zoom,
             onClick: (e) => handleSeatClick(e, b.n)
           },
-          /* @__PURE__ */ React.createElement("title", null, b.n, " \u2014 ", meta.name, " largest party")
+          /* @__PURE__ */ React.createElement("title", null, b.n, " \u2014 ", strength ? `${partyMeta(strengthParty).name} ${(strength.shares[b.n] || 0).toFixed(1)}%` : `${meta.name} largest party`)
         );
       }))
     ),
     /* @__PURE__ */ React.createElement("div", { className: "map-zoom-controls" }, /* @__PURE__ */ React.createElement("button", { onClick: () => handleButtonZoom(1.4), "aria-label": "Zoom in" }, "+"), /* @__PURE__ */ React.createElement("button", { onClick: () => handleButtonZoom(1 / 1.4), "aria-label": "Zoom out" }, "\u2212"), /* @__PURE__ */ React.createElement("button", { onClick: resetView, "aria-label": "Reset zoom", className: "reset" }, "\u27F2")),
-    selected && selSeat && /* @__PURE__ */ React.createElement("div", { className: "map-tooltip", style: { left: selected.x, top: selected.y } }, /* @__PURE__ */ React.createElement("div", { className: "mt-header" }, /* @__PURE__ */ React.createElement("span", null, selSeat.n), /* @__PURE__ */ React.createElement("button", { onClick: () => setSelected(null) }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "mt-sub" }, "Projected vote share"), selRows.map((row) => /* @__PURE__ */ React.createElement("div", { className: "mt-row", key: row.key }, /* @__PURE__ */ React.createElement("span", { className: "swatch", style: { background: row.color } }), /* @__PURE__ */ React.createElement("span", { className: "mt-name" }, row.label), /* @__PURE__ */ React.createElement("span", { className: "mt-pct" }, row.pct.toFixed(1), "%"))), /* @__PURE__ */ React.createElement("div", { className: "mt-seats-label" }, "6 seats"), /* @__PURE__ */ React.createElement("div", { className: "mt-seat-dots" }, selSeatList.map((p, i) => /* @__PURE__ */ React.createElement(
+    strength && /* @__PURE__ */ React.createElement(StrengthLegend, { party: strengthParty, max: strength.max }),
+    selected && selSeat && /* @__PURE__ */ React.createElement("div", { ref: tooltipRef, className: "map-tooltip", style: { left: selected.x, top: selected.y } }, /* @__PURE__ */ React.createElement("div", { className: "mt-header" }, /* @__PURE__ */ React.createElement("span", null, selSeat.n), /* @__PURE__ */ React.createElement("button", { onClick: () => setSelected(null) }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "mt-sub" }, "Projected vote share"), selChanges.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "mt-changes" }, "Seats vs 2026: ", selChanges.map((c, i) => /* @__PURE__ */ React.createElement("span", { key: c.k, style: { color: c.d > 0 ? "#7FD6A0" : "#F08A8A" } }, i > 0 ? ", " : "", partyMeta(c.k).short, " ", c.d > 0 ? "+" : "\u2212", Math.abs(c.d)))), selRows.map((row) => /* @__PURE__ */ React.createElement("div", { className: "mt-row", key: row.key }, /* @__PURE__ */ React.createElement("span", { className: "swatch", style: { background: row.color } }), /* @__PURE__ */ React.createElement("span", { className: "mt-name" }, row.label), /* @__PURE__ */ React.createElement("span", { className: "mt-pct" }, row.pct.toFixed(1), "%"))), /* @__PURE__ */ React.createElement("div", { className: "mt-seats-label" }, "6 seats"), /* @__PURE__ */ React.createElement("div", { className: "mt-seat-dots" }, selSeatList.map((p, i) => /* @__PURE__ */ React.createElement(
       "span",
       {
         key: i,
@@ -1333,7 +1405,6 @@ root.render(React.createElement(SeneddProjector));
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
