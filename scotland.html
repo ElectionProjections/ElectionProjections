@@ -624,26 +624,26 @@ function projectSeats(constShares, listShares) {
 }
 const BASELINE_RESULT = projectSeats(BASELINE_CONST, BASELINE_LIST);
 const BASELINE_SEATS = BASELINE_RESULT.tally;
-function layoutHemicycle(n, rows = 6, rMin = 30, rMax = 115) {
-  let lo = 1, hi = 60;
-  let rowCounts = [];
-  for (let iter = 0; iter < 45; iter++) {
-    const d = (lo + hi) / 2;
-    const counts = [];
-    for (let k = 0; k < rows; k++) {
-      const r = rMin + k * (rMax - rMin) / (rows - 1);
-      counts.push(Math.max(1, Math.round(Math.PI * r / d)));
-    }
-    const total2 = counts.reduce((a, b) => a + b, 0);
-    if (total2 > n) lo = d;
-    else hi = d;
-    rowCounts = counts;
+function layoutHemicycle(n, rows = 7, rMax = 115) {
+  const radiiFor = (g) => Array.from({ length: rows }, (_, k) => rMax - (rows - 1 - k) * g);
+  const rawCounts = (g) => radiiFor(g).map((r) => Math.PI * r / g + 1);
+  let lo = 6, hi = 30;
+  for (let iter = 0; iter < 60; iter++) {
+    const g = (lo + hi) / 2;
+    const total = rawCounts(g).reduce((a, c) => a + Math.round(c), 0);
+    if (total > n) lo = g;
+    else hi = g;
   }
-  const total = rowCounts.reduce((a, b) => a + b, 0);
-  rowCounts[rows - 1] += n - total;
+  const g = (lo + hi) / 2;
+  const radii = radiiFor(g);
+  const raw = rawCounts(g);
+  const rowCounts = raw.map((c) => Math.floor(c));
+  let diff = n - rowCounts.reduce((a, c) => a + c, 0);
+  const order = raw.map((c, i) => ({ i, frac: c - Math.floor(c) })).sort((a, b) => b.frac - a.frac);
+  for (let j = 0; diff > 0; j = (j + 1) % rows, diff--) rowCounts[order[j].i]++;
   const points = [];
   for (let k = 0; k < rows; k++) {
-    const r = rMin + k * (rMax - rMin) / (rows - 1);
+    const r = radii[k];
     const count = rowCounts[k];
     for (let i = 0; i < count; i++) {
       const t = count === 1 ? 0.5 : i / (count - 1);
@@ -656,7 +656,6 @@ function layoutHemicycle(n, rows = 6, rMin = 30, rMax = 115) {
 }
 const HEMICYCLE_POINTS = layoutHemicycle(TOTAL_SEATS);
 const HEMI_MAX_R = Math.max(...HEMICYCLE_POINTS.map((p) => Math.max(Math.abs(p.x), -p.y)));
-const HEMI_MIN_R = Math.min(...HEMICYCLE_POINTS.map((p) => Math.sqrt(p.x * p.x + p.y * p.y)));
 const HEMICYCLE_ORDER = [
   "Green",
   "SNP",
@@ -864,13 +863,6 @@ function HolyroodProjector() {
           max-width: 580px;
           line-height: 1.4;
         }
-        .masthead .tag {
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 12px;
-          color: #D4AF6A;
-          text-align: right;
-          letter-spacing: 0.5px;
-        }
 
         .grid {
           display: grid;
@@ -978,6 +970,94 @@ function HolyroodProjector() {
         .coalition-majority-mark { position: absolute; top: -4px; bottom: -4px; width: 2px; background: #FFFFFF; }
 
         .map-panel { margin-top: 22px; }
+        .flip-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+          flex-wrap: wrap;
+          max-width: 500px;
+          margin: 0 auto 12px;
+        }
+        .flip-toggle {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: transparent;
+          border: 0;
+          padding: 0;
+          font-family: 'Inter', sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          color: #C9CEDB;
+          cursor: pointer;
+        }
+        .flip-track {
+          position: relative;
+          width: 32px;
+          height: 18px;
+          border-radius: 9px;
+          background: #262B38;
+          transition: background 0.15s;
+        }
+        .flip-knob {
+          position: absolute;
+          top: 2px;
+          left: 2px;
+          width: 14px;
+          height: 14px;
+          border-radius: 50%;
+          background: #8B92A5;
+          transition: transform 0.15s, background 0.15s;
+        }
+        .flip-toggle.on .flip-track { background: #3B6FD4; }
+        .flip-toggle.on .flip-knob { transform: translateX(14px); background: #FFFFFF; }
+        .flip-count { font-size: 12px; color: #8B92A5; font-family: 'JetBrains Mono', monospace; }
+        .mt-flip { font-size: 12px; font-weight: 600; color: #FFFFFF; margin: 2px 0 8px; }
+        .colour-controls { max-width: 500px; margin: 0 auto 12px; }
+        .colour-seg { display: inline-flex; gap: 2px; background: #10131C; border-radius: 6px; padding: 2px; }
+        .colour-opt {
+          background: transparent; border: 0; border-radius: 5px; padding: 5px 10px;
+          font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #8B92A5; cursor: pointer;
+        }
+        .colour-opt:hover { color: #FFFFFF; }
+        .colour-opt.active { background: #262B38; color: #FFFFFF; }
+        .party-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+        .party-chip {
+          display: inline-flex; align-items: center; gap: 6px; background: #10131C; border: 0; border-radius: 14px;
+          padding: 4px 10px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: #8B92A5; cursor: pointer;
+        }
+        .party-chip:hover { color: #FFFFFF; }
+        .party-chip.active { background: #262B38; color: #FFFFFF; }
+        .strength-legend { position: absolute; left: 14px; bottom: 14px; width: 120px; pointer-events: none; }
+        .sl-title { font-size: 11px; color: #C9CEDB; margin-bottom: 4px; }
+        .sl-bar { height: 8px; border-radius: 4px; background-color: #1D212B; }
+        .sl-labels { display: flex; justify-content: space-between; font-size: 10px; color: #8B92A5; margin-top: 3px; font-family: 'JetBrains Mono', monospace; }
+        .map-tabs {
+          display: flex;
+          gap: 4px;
+          background: #10131C;
+          border-radius: 8px;
+          padding: 3px;
+          margin: 0 auto 14px;
+          max-width: 500px;
+        }
+        .map-tab {
+          flex: 1;
+          background: transparent;
+          border: 0;
+          border-radius: 6px;
+          padding: 8px 10px;
+          font-family: 'Barlow Condensed', sans-serif;
+          font-weight: 700;
+          font-size: 15px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          color: #8B92A5;
+          cursor: pointer;
+        }
+        .map-tab:hover { color: #FFFFFF; }
+        .map-tab.active { background: #262B38; color: #FFFFFF; }
         .map-wrap {
           position: relative;
           max-width: 500px;
@@ -1067,10 +1147,7 @@ function HolyroodProjector() {
         }
         .mt-seat-dots { display: flex; gap: 3px; flex-wrap: wrap; }
         .mt-seat-dot { width: 10px; height: 10px; border-radius: 2px; }
-        .region-map-panel { margin-top: 22px; }
-
-        footer.note { margin-top: 24px; font-size: 12px; color: #5D6376; line-height: 1.6; }
-      `), /* @__PURE__ */ React.createElement("div", { className: "wrap" }, /* @__PURE__ */ React.createElement("div", { className: "masthead" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "Holyrood Seat Projector"), /* @__PURE__ */ React.createElement("div", { className: "sub" }, `Adjust national vote share and see the resulting Scottish Parliament, using the Additional Member System \u2014 73 first-past-the-post constituencies plus 56 regional "top-up" seats, allocated by corrective D'Hondt across 8 regions \u2014 baselined on the actual 7 May 2026 election.`)), /* @__PURE__ */ React.createElement("div", { className: "tag" }, "AMS \xB7 BASELINE 2026")), /* @__PURE__ */ React.createElement("div", { className: "grid" }, /* @__PURE__ */ React.createElement("div", { className: "controls-col" }, /* @__PURE__ */ React.createElement("div", { className: "panel" }, /* @__PURE__ */ React.createElement("h2", null, "Constituency vote"), SWING_PARTIES.map((p) => /* @__PURE__ */ React.createElement(
+      `), /* @__PURE__ */ React.createElement("div", { className: "wrap" }, /* @__PURE__ */ React.createElement("div", { className: "masthead" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "Holyrood Seat Projector"), /* @__PURE__ */ React.createElement("div", { className: "sub" }, `Adjust national vote share and see the resulting Scottish Parliament, using the Additional Member System \u2014 73 first-past-the-post constituencies plus 56 regional "top-up" seats, allocated by corrective D'Hondt across 8 regions \u2014 baselined on the actual 7 May 2026 election.`))), /* @__PURE__ */ React.createElement("div", { className: "grid" }, /* @__PURE__ */ React.createElement("div", { className: "controls-col" }, /* @__PURE__ */ React.createElement("div", { className: "panel" }, /* @__PURE__ */ React.createElement("h2", null, "Constituency vote"), SWING_PARTIES.map((p) => /* @__PURE__ */ React.createElement(
     PartySliderRow,
     {
       key: p,
@@ -1133,26 +1210,100 @@ function HolyroodProjector() {
         title: `${meta.name}: ${row.seats}`
       }
     );
-  }), /* @__PURE__ */ React.createElement("div", { className: "coalition-majority-mark", style: { left: `${MAJORITY / TOTAL_SEATS * 100}%` } })))), /* @__PURE__ */ React.createElement("div", { className: "panel map-panel" }, /* @__PURE__ */ React.createElement("h2", null, "Constituencies on the map"), /* @__PURE__ */ React.createElement("div", { className: "map-wrap" }, /* @__PURE__ */ React.createElement(ConstituencyMap, { constResults }))), /* @__PURE__ */ React.createElement("div", { className: "panel region-map-panel" }, /* @__PURE__ */ React.createElement("h2", null, "Regions on the map"), /* @__PURE__ */ React.createElement("div", { className: "map-wrap" }, /* @__PURE__ */ React.createElement(RegionMap, { regionResults }))), /* @__PURE__ */ React.createElement("footer", { className: "note" }, `Baseline is the actual 7 May 2026 Scottish Parliament election result, verified against the official 129-seat outcome (SNP 58, Reform UK 17, Labour 17, Green 15, Conservative 12, Lib Dem 10). Every voter gets two ballots: a constituency vote (first-past-the-post, 73 seats) and a regional list vote (56 seats across 8 regions, allocated by corrective D'Hondt \u2014 a party that swept the constituencies in a region gets little or nothing from that region's list). This tool gives each ballot its own vote-share panel and its own real 2026 baseline, since voters don't always back the same party on both \u2014 move the constituency sliders without touching the list ones, or the other way round. Micro-parties and independents on the regional list are controlled together by the single "Other" slider, but if "Other" wins seats they're credited to the real party or independent behind them, using their actual, verified 2026 vote share \u2014 never pooled into one anonymous bucket, since that would let an amalgamation of unrelated micro-parties outscore a real party's genuine result, cross-checked against the official national outcome.`)));
+  }), /* @__PURE__ */ React.createElement("div", { className: "coalition-majority-mark", style: { left: `${MAJORITY / TOTAL_SEATS * 100}%` } })))), /* @__PURE__ */ React.createElement(MapPanel, { constResults, regionResults })));
+}
+const STRENGTH_MAIN = ["SNP", "Lab", "Con", "RUK", "LD", "Green"];
+function strengthShare(party, entries) {
+  const total = entries.reduce((a, e) => a + e.v, 0);
+  if (!total) return 0;
+  const merged = {};
+  for (const e of entries) {
+    const k = mergeKey(e.p);
+    merged[k] = (merged[k] || 0) + e.v;
+  }
+  return (merged[party] || 0) / total * 100;
+}
+function StrengthLegend({ party, max }) {
+  const meta = partyMeta(party);
+  return /* @__PURE__ */ React.createElement("div", { className: "strength-legend" }, /* @__PURE__ */ React.createElement("div", { className: "sl-title" }, meta.name, " vote share"), /* @__PURE__ */ React.createElement("div", { className: "sl-bar", style: { backgroundImage: `linear-gradient(to right, transparent, ${meta.color})` } }), /* @__PURE__ */ React.createElement("div", { className: "sl-labels" }, /* @__PURE__ */ React.createElement("span", null, "0%"), /* @__PURE__ */ React.createElement("span", null, max.toFixed(0), "%")));
+}
+function MapPanel({ constResults, regionResults }) {
+  const [mode, setMode] = useState("const");
+  const [showFlips, setShowFlips] = useState(false);
+  const [colourMode, setColourMode] = useState("winner");
+  const [strengthParty, setStrengthParty] = useState("SNP");
+  const activeStrength = colourMode === "strength" ? strengthParty : null;
+  const flipCount = useMemo(() => {
+    const base = {};
+    for (const r of BASELINE_RESULT.constResults) base[r.n] = mergeKey(r.winner);
+    return constResults.filter((r) => base[r.n] !== mergeKey(r.winner)).length;
+  }, [constResults]);
+  const tabs = [
+    { key: "const", label: "Constituencies" },
+    { key: "region", label: "Regions" }
+  ];
+  const colourControls = /* @__PURE__ */ React.createElement("div", { className: "colour-controls" }, /* @__PURE__ */ React.createElement("div", { className: "colour-seg", role: "group", "aria-label": "Colour map by" }, [["winner", "Winner"], ["strength", "Party strength"]].map(([k, label]) => /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      key: k,
+      className: colourMode === k ? "colour-opt active" : "colour-opt",
+      "aria-pressed": colourMode === k,
+      onClick: () => setColourMode(k)
+    },
+    label
+  ))), colourMode === "strength" && /* @__PURE__ */ React.createElement("div", { className: "party-chips" }, STRENGTH_MAIN.map((pk) => {
+    const m = partyMeta(pk);
+    return /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: pk,
+        className: strengthParty === pk ? "party-chip active" : "party-chip",
+        "aria-pressed": strengthParty === pk,
+        onClick: () => setStrengthParty(pk)
+      },
+      /* @__PURE__ */ React.createElement("span", { className: "swatch", style: { background: m.color } }),
+      m.short
+    );
+  })));
+  return /* @__PURE__ */ React.createElement("div", { className: "panel map-panel" }, /* @__PURE__ */ React.createElement("div", { className: "map-tabs", role: "tablist" }, tabs.map((t) => /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      key: t.key,
+      id: `maptab-${t.key}`,
+      role: "tab",
+      "aria-controls": "map-tabpanel",
+      "aria-selected": mode === t.key,
+      className: mode === t.key ? "map-tab active" : "map-tab",
+      onClick: () => setMode(t.key)
+    },
+    t.label
+  ))), colourControls, mode === "const" && colourMode === "winner" && /* @__PURE__ */ React.createElement("div", { className: "flip-bar" }, /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      className: showFlips ? "flip-toggle on" : "flip-toggle",
+      role: "switch",
+      "aria-checked": showFlips,
+      onClick: () => setShowFlips((v) => !v)
+    },
+    /* @__PURE__ */ React.createElement("span", { className: "flip-track" }, /* @__PURE__ */ React.createElement("span", { className: "flip-knob" })),
+    "Show flipped seats"
+  ), /* @__PURE__ */ React.createElement("span", { className: "flip-count" }, flipCount, flipCount === 1 ? " seat" : " seats", " changed hands vs 2026")), /* @__PURE__ */ React.createElement("div", { id: "map-tabpanel", role: "tabpanel", "aria-labelledby": `maptab-${mode}` }, mode === "const" ? /* @__PURE__ */ React.createElement(ConstituencyMap, { constResults, showFlips: showFlips && colourMode === "winner", strengthParty: activeStrength }) : /* @__PURE__ */ React.createElement(RegionMap, { regionResults, strengthParty: activeStrength })));
 }
 function Hemicycle({ colors }) {
-  const dotR = 4.4;
+  const dotR = 5;
   const sideMargin = dotR + 6;
   const bottomMargin = dotR + 6;
-  const labelSpace = 24;
-  const topMargin = dotR + 10;
+  const topMargin = dotR + 6;
   const width = HEMI_MAX_R * 2 + sideMargin * 2;
-  const height = HEMI_MAX_R + topMargin + labelSpace + bottomMargin;
+  const height = HEMI_MAX_R + topMargin + bottomMargin;
   const cx = width / 2;
   const cy = height - bottomMargin;
-  const lineTop = cy - HEMI_MAX_R - topMargin + 4;
-  const lineBottom = cy - HEMI_MIN_R + 8;
-  return /* @__PURE__ */ React.createElement("svg", { width, height, viewBox: `0 0 ${width} ${height}` }, /* @__PURE__ */ React.createElement("line", { x1: cx, y1: lineTop, x2: cx, y2: lineBottom, stroke: "#FFFFFF", strokeWidth: "1", strokeDasharray: "3,4", opacity: "0.55" }), /* @__PURE__ */ React.createElement("text", { x: cx, y: lineTop - 8, textAnchor: "middle", fill: "#FFFFFF", fontFamily: "JetBrains Mono, monospace", fontSize: "11" }, MAJORITY, " FOR A MAJORITY"), HEMICYCLE_POINTS.map((pt, i) => {
+  return /* @__PURE__ */ React.createElement("svg", { width, height, viewBox: `0 0 ${width} ${height}` }, HEMICYCLE_POINTS.map((pt, i) => {
     const meta = partyMeta(colors[i] || "Oth");
     return /* @__PURE__ */ React.createElement("circle", { key: i, cx: cx + pt.x, cy: cy + pt.y, r: dotR, fill: meta.color });
   }));
 }
-function ConstituencyMap({ constResults }) {
+function ConstituencyMap({ constResults, showFlips, strengthParty }) {
   const vbWidth = 560;
   const { minX, minY, maxX, maxY } = BOUNDARY_BBOX;
   const bw = maxX - minX;
@@ -1270,7 +1421,24 @@ function ConstituencyMap({ constResults }) {
       return "M" + pts.join("L") + "Z";
     }).join(" ");
   }
+  const strength = useMemo(() => {
+    if (!strengthParty) return null;
+    const shares = {};
+    let max = 0;
+    for (const r of constResults) {
+      const v = strengthShare(strengthParty, r.breakdown.map((row) => ({ p: row.p, v: row.pct })));
+      shares[r.n] = v;
+      if (v > max) max = v;
+    }
+    return { shares, max: Math.max(max, 1) };
+  }, [constResults, strengthParty]);
+  const baselineByName = useMemo(() => {
+    const m = {};
+    for (const r of BASELINE_RESULT.constResults) m[r.n] = mergeKey(r.winner);
+    return m;
+  }, []);
   const selSeat = selected ? resultByName[selected.name] : null;
+  const selFlipFrom = selSeat && baselineByName[selSeat.n] !== mergeKey(selSeat.winner) ? baselineByName[selSeat.n] : null;
   const selRows = useMemo(() => {
     if (!selSeat) return [];
     return selSeat.breakdown.map((row) => {
@@ -1301,27 +1469,30 @@ function ConstituencyMap({ constResults }) {
         const r = resultByName[b.n];
         const meta = partyMeta(mergeKey(r ? r.winner : "Oth"));
         const isSelected = selected && selected.name === b.n;
+        const flipped = !!r && baselineByName[b.n] !== mergeKey(r.winner);
+        const dimmed = showFlips && !flipped;
         return /* @__PURE__ */ React.createElement(
           "path",
           {
             key: b.n,
             d: pathFor(b.rings),
-            fill: meta.color,
-            fillOpacity: isSelected ? "0.95" : "0.78",
+            fill: strength ? partyMeta(strengthParty).color : meta.color,
+            fillOpacity: strength ? Math.min(1, 0.06 + 0.9 * ((strength.shares[b.n] || 0) / strength.max) + (isSelected ? 0.12 : 0)).toFixed(3) : dimmed ? isSelected ? "0.45" : "0.14" : isSelected ? "0.95" : showFlips ? "0.95" : "0.78",
             fillRule: "evenodd",
-            stroke: isSelected ? "#FFFFFF" : "#0F1219",
-            strokeWidth: (isSelected ? 2.2 : 0.5) / view.zoom,
+            stroke: "#0F1219",
+            strokeWidth: 0.5 / view.zoom,
             onClick: (e) => handleSeatClick(e, b.n)
           },
-          /* @__PURE__ */ React.createElement("title", null, b.n, " \u2014 ", meta.name)
+          /* @__PURE__ */ React.createElement("title", null, b.n, " \u2014 ", strength ? `${partyMeta(strengthParty).name} ${(strength.shares[b.n] || 0).toFixed(1)}%` : meta.name, !strength && flipped ? ` (gain from ${partyMeta(baselineByName[b.n]).name})` : "")
         );
       }))
     ),
     /* @__PURE__ */ React.createElement("div", { className: "map-zoom-controls" }, /* @__PURE__ */ React.createElement("button", { onClick: () => handleButtonZoom(1.4), "aria-label": "Zoom in" }, "+"), /* @__PURE__ */ React.createElement("button", { onClick: () => handleButtonZoom(1 / 1.4), "aria-label": "Zoom out" }, "\u2212"), /* @__PURE__ */ React.createElement("button", { onClick: resetView, "aria-label": "Reset zoom", className: "reset" }, "\u27F2")),
-    selected && selSeat && /* @__PURE__ */ React.createElement("div", { ref: tooltipRef, className: "map-tooltip", style: { left: selected.x, top: selected.y } }, /* @__PURE__ */ React.createElement("div", { className: "mt-header" }, /* @__PURE__ */ React.createElement("span", null, selSeat.n), /* @__PURE__ */ React.createElement("button", { onClick: () => setSelected(null) }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "mt-sub" }, selSeat.r, " \xB7 Projected vote share"), selRows.map((row) => /* @__PURE__ */ React.createElement("div", { className: "mt-row", key: row.key }, /* @__PURE__ */ React.createElement("span", { className: "swatch", style: { background: row.color } }), /* @__PURE__ */ React.createElement("span", { className: "mt-name" }, row.label), /* @__PURE__ */ React.createElement("span", { className: "mt-pct" }, row.pct.toFixed(1), "%"))))
+    strength && /* @__PURE__ */ React.createElement(StrengthLegend, { party: strengthParty, max: strength.max }),
+    selected && selSeat && /* @__PURE__ */ React.createElement("div", { ref: tooltipRef, className: "map-tooltip", style: { left: selected.x, top: selected.y } }, /* @__PURE__ */ React.createElement("div", { className: "mt-header" }, /* @__PURE__ */ React.createElement("span", null, selSeat.n), /* @__PURE__ */ React.createElement("button", { onClick: () => setSelected(null) }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "mt-sub" }, selSeat.r, " \xB7 Projected vote share"), selFlipFrom && /* @__PURE__ */ React.createElement("div", { className: "mt-flip" }, partyMeta(mergeKey(selSeat.winner)).name, " gain from ", partyMeta(selFlipFrom).name), selRows.map((row) => /* @__PURE__ */ React.createElement("div", { className: "mt-row", key: row.key }, /* @__PURE__ */ React.createElement("span", { className: "swatch", style: { background: row.color } }), /* @__PURE__ */ React.createElement("span", { className: "mt-name" }, row.label), /* @__PURE__ */ React.createElement("span", { className: "mt-pct" }, row.pct.toFixed(1), "%"))))
   );
 }
-function RegionMap({ regionResults }) {
+function RegionMap({ regionResults, strengthParty }) {
   const vbWidth = 560;
   const { minX, minY, maxX, maxY } = BOUNDARY_BBOX;
   const bw = maxX - minX;
@@ -1449,6 +1620,17 @@ function RegionMap({ regionResults }) {
       return "M" + pts.join("L") + "Z";
     }).join(" ");
   }
+  const strength = useMemo(() => {
+    if (!strengthParty) return null;
+    const shares = {};
+    let max = 0;
+    for (const r of regionResults) {
+      const v = strengthShare(strengthParty, Object.entries(r.adjustedVotes).map(([p, v2]) => ({ p, v: v2 })));
+      shares[r.n] = v;
+      if (v > max) max = v;
+    }
+    return { shares, max: Math.max(max, 1) };
+  }, [regionResults, strengthParty]);
   const selRegion = selected ? resultByName[selected.name] : null;
   const selRows = useMemo(() => {
     if (!selRegion) return [];
@@ -1503,18 +1685,19 @@ function RegionMap({ regionResults }) {
           {
             key: b.n,
             d: pathFor(b.rings),
-            fill: meta.color,
-            fillOpacity: isSelected ? "0.92" : "0.72",
+            fill: strength ? partyMeta(strengthParty).color : meta.color,
+            fillOpacity: strength ? Math.min(1, 0.06 + 0.9 * ((strength.shares[b.n] || 0) / strength.max) + (isSelected ? 0.12 : 0)).toFixed(3) : isSelected ? "0.92" : "0.72",
             fillRule: "evenodd",
-            stroke: isSelected ? "#FFFFFF" : "#0F1219",
-            strokeWidth: (isSelected ? 2.6 : 0.8) / view.zoom,
+            stroke: "#0F1219",
+            strokeWidth: 0.8 / view.zoom,
             onClick: (e) => handleSeatClick(e, b.n)
           },
-          /* @__PURE__ */ React.createElement("title", null, b.n, " \u2014 ", meta.name, " leads the list vote")
+          /* @__PURE__ */ React.createElement("title", null, b.n, " \u2014 ", strength ? `${partyMeta(strengthParty).name} ${(strength.shares[b.n] || 0).toFixed(1)}% of the list vote` : `${meta.name} leads the list vote`)
         );
       }))
     ),
     /* @__PURE__ */ React.createElement("div", { className: "map-zoom-controls" }, /* @__PURE__ */ React.createElement("button", { onClick: () => handleButtonZoom(1.4), "aria-label": "Zoom in" }, "+"), /* @__PURE__ */ React.createElement("button", { onClick: () => handleButtonZoom(1 / 1.4), "aria-label": "Zoom out" }, "\u2212"), /* @__PURE__ */ React.createElement("button", { onClick: resetView, "aria-label": "Reset zoom", className: "reset" }, "\u27F2")),
+    strength && /* @__PURE__ */ React.createElement(StrengthLegend, { party: strengthParty, max: strength.max }),
     selected && selRegion && /* @__PURE__ */ React.createElement("div", { ref: tooltipRef, className: "map-tooltip", style: { left: selected.x, top: selected.y } }, /* @__PURE__ */ React.createElement("div", { className: "mt-header" }, /* @__PURE__ */ React.createElement("span", null, selRegion.n), /* @__PURE__ */ React.createElement("button", { onClick: () => setSelected(null) }, "\xD7")), /* @__PURE__ */ React.createElement("div", { className: "mt-sub" }, "Projected regional list vote share"), selRows.map((row) => /* @__PURE__ */ React.createElement("div", { className: "mt-row", key: row.key }, /* @__PURE__ */ React.createElement("span", { className: "swatch", style: { background: row.color } }), /* @__PURE__ */ React.createElement("span", { className: "mt-name" }, row.label), /* @__PURE__ */ React.createElement("span", { className: "mt-pct" }, row.pct.toFixed(1), "%"))), /* @__PURE__ */ React.createElement("div", { className: "mt-seats-label" }, "7 list seats"), /* @__PURE__ */ React.createElement("div", { className: "mt-seat-dots" }, selSeatList.map((p, i) => /* @__PURE__ */ React.createElement(
       "span",
       {
@@ -1533,7 +1716,6 @@ root.render(React.createElement(HolyroodProjector));
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
