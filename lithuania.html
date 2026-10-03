@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Australia Election Projection</title>
+    <style>
+        /* Basic reset and font styling */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f8fa;
+            color: #24292f;
+        }
+
+        /* The Navigation Bar container */
+        .navbar {
+            background-color: #24292f; /* GitHub dark gray */
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
+        }
+
+        /* Site Title / Brand */
+        .nav-logo {
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 40px;
+        }
+
+        /* Navigation Links Menu */
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #adbac7;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Application Container Area */
+        .app-container {
+            max-width: 1400px; /* Wider container to comfortably fit election maps and sidebars */
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+    </style>
+<!-- GoatCounter Analytics -->
+    <script data-goatcounter="https://electionprojections.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+<body>
+
+    <!-- 1. Shared Global Navigation Component -->
+    <nav class="navbar" id="global-nav"></nav>
+
+    <!-- 2. Application Wrapper Content Zone -->
+    <div class="app-container">
+
+        <!-- ============================================================= -->
+        <!-- START PASTING HERE -->
+        <!-- ============================================================= -->
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seimas seat projector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF0EA; --surface:#FAFBF8; --surface2:#F1F4EE; --ink:#12231A; --muted:#55645B; --line:#CCD5CA;
+  --accent:#0C6A43; --accent-soft:#DCEBE1; --amber:#A87400; --amber-soft:#F6E9C2; --bad:#B3261E; --bad-soft:#F7DAD7;
+  --serif:"Source Serif 4", Georgia, "Times New Roman", serif;
+  --sans:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1511; --surface:#141E19; --surface2:#1A2620; --ink:#E5EEE7; --muted:#9AAEA1; --line:#2B3A32;
+    --accent:#52C48E; --accent-soft:#183A29; --amber:#E0B04A; --amber-soft:#3A2F12; --bad:#F2877F; --bad-soft:#40201D;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1511; --surface:#141E19; --surface2:#1A2620; --ink:#E5EEE7; --muted:#9AAEA1; --line:#2B3A32;
+  --accent:#52C48E; --accent-soft:#183A29; --amber:#E0B04A; --amber-soft:#3A2F12; --bad:#F2877F; --bad-soft:#40201D;
+}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:400 15px/1.45 var(--sans);-webkit-text-size-adjust:100%}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 56px}
+h1{font:600 clamp(26px,4.2vw,40px)/1.1 var(--serif);letter-spacing:-.01em;margin:0 0 6px}
+h2{font:600 22px/1.2 var(--serif);margin:0 0 10px}
+.panel h2{text-align:center}
+.lede{max-width:70ch;color:var(--muted);margin:0 0 14px}
+.check{display:inline-flex;align-items:center;gap:8px;font-size:13px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+.check b{font-weight:600}
+.check.ok{border-color:var(--accent);color:var(--accent)}
+.check.fail{border-color:var(--bad);color:var(--bad);background:var(--bad-soft)}
+.grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px}
+.grid > div > .panel + .panel{margin-top:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px}
+.panel + .panel{margin-top:16px}
+.inputs table{width:100%;border-collapse:collapse}
+.inputs td,.inputs th{padding:7px 4px;vertical-align:middle}
+.inputs tbody td{border-bottom:1px solid var(--line)}
+.inputs tbody tr:hover td{background:var(--surface2)}
+.inputs tbody tr:last-child td{border-bottom:0}
+.inputs .slc{width:55%;padding:7px 8px}
+.sr{position:absolute;left:-9999px}
+.inputs th{font-weight:500;color:var(--muted);font-size:12px;text-align:right}
+.inputs th:first-child{text-align:left}
+.chip{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;flex:none}
+.pname{display:flex;align-items:center;line-height:1.2}
+.pname small{display:block;color:var(--muted);font-size:12px}
+input[type=number]{width:62px;font:600 14px var(--sans);font-variant-numeric:tabular-nums;text-align:right;padding:3px 6px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink)}
+input[type=number]:focus-visible,button:focus-visible,summary:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.slr td{padding:0 4px 8px}
+input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;width:100%;margin:0;height:22px;cursor:pointer;--c:#888;--p:0%}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(to right,var(--c) var(--p),var(--line) var(--p));box-shadow:0 0 0 1px var(--muted)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-6px;border-radius:50%;background:var(--c);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--muted)}
+input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--line);box-shadow:0 0 0 1px var(--muted)}
+input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--c)}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--c);border:2px solid var(--surface);box-shadow:0 0 0 1px var(--muted)}
+input[type=range]:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.d{font-size:12px;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.pos{color:var(--accent)} .neg{color:var(--bad)} .zero{color:var(--muted)}
+.row-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+button{font:600 14px var(--sans);padding:8px 12px;border-radius:4px;border:1px solid var(--line);background:var(--surface2);color:var(--ink);cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.primary{color:#07140d}}
+.sum{margin-top:6px;font-size:13px;padding:7px 9px;border-radius:4px;background:var(--surface2)}
+.sum.warn{background:var(--amber-soft)} .sum.err{background:var(--bad-soft)}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px;font-size:13px;color:var(--muted)}
+.opt input{width:64px}
+.hemi{width:100%;max-width:600px;height:auto;display:block;margin:0 auto}
+.hemi text{font-family:var(--sans)}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:13px;margin-top:6px}
+.legend span{display:inline-flex;align-items:center}
+.key{font-size:12px;color:var(--muted);margin-top:6px}
+.tablewrap{overflow-x:auto}
+table.data{width:100%;border-collapse:collapse;font-size:14px}
+table.data th{font-size:14.5px;font-weight:600;color:var(--muted);text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.data th.r,table.data td.r{text-align:right}
+table.data td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+table.data tr:last-child td{border-bottom:0}
+table.data tfoot td{border-top:2px solid var(--line);font-weight:600}
+.tot{font-weight:700}
+#partyTable{font-size:15px}
+#partyTable td{padding:3px 5px}
+#partyTable th{padding:4px 5px;white-space:normal;line-height:1.2;vertical-align:bottom}
+#partyTable .pname small{font-size:12px}
+#partyTable .d{font-size:14px}
+#partyTable{table-layout:fixed;min-width:560px}
+#partyTable th:nth-child(2),#partyTable td:nth-child(2),#partyTable th:nth-child(4),#partyTable td:nth-child(4){font-style:italic}
+#partyTable th:first-child{width:27%}
+#partyTable th.r,#partyTable td.num,#partyTable td.d{text-align:center}
+#partyTable td,#partyTable th{padding-left:8px;padding-right:8px}
+.tag{display:inline-block;font-size:12px;padding:1px 7px;border-radius:999px;background:var(--surface2);border:1px solid var(--line);white-space:nowrap}
+.tag.md{background:var(--amber-soft);border-color:var(--amber);color:var(--ink)}
+.tag.ch{background:var(--accent-soft);border-color:var(--accent)}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.filters button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .filters button[aria-pressed="true"]{color:#07140d}}
+.muted{color:var(--muted)}
+.mapbar{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:10px}
+.mapbar button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .mapbar button[aria-pressed="true"]{color:#07140d}}
+.mapmode{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:10px}
+.mapmode button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .mapmode button[aria-pressed="true"]{color:#07140d}}
+.mapparty{display:flex;justify-content:center;margin:-2px 0 10px;font-size:14px}
+.mapparty[hidden]{display:none}
+.mapparty select{font:600 14px var(--sans);padding:5px 8px;margin-left:6px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink)}
+.grad{display:inline-block;width:140px;height:12px;border-radius:3px;border:1px solid var(--line);vertical-align:middle;margin:0 6px}
+.mapwrap{max-width:760px;margin:0 auto;position:relative}
+#abroadG{cursor:pointer;outline:none}
+#abroadG circle{stroke:var(--surface);stroke-width:2.5;vector-effect:non-scaling-stroke}
+#abroadG:focus-visible circle{stroke:var(--ink);stroke-width:4}
+#abroadG text{font-family:var(--sans)}
+.zoomctl{position:absolute;top:8px;right:8px;z-index:2;display:flex;flex-direction:column;gap:4px}
+.zoomctl button{min-width:36px;padding:6px 8px;font-size:17px;line-height:1;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.18)}
+.zoomctl #zReset{font-size:12px}
+#cmap{touch-action:pan-y pinch-zoom;user-select:none;-webkit-user-select:none}
+#cmap.zoomed{touch-action:none;cursor:grab}
+#cmap.zoomed.panning{cursor:grabbing}
+#cmap{display:block;width:100%;height:auto;aspect-ratio:5091 / 3915;background:var(--surface2);border:1px solid var(--line);border-radius:4px}
+#cmap path{stroke:var(--surface);stroke-width:1;vector-effect:non-scaling-stroke;stroke-linejoin:round;cursor:pointer}
+.mapinfo{min-height:74px;max-width:760px;margin:8px auto 0;padding:10px 12px;border:1px solid var(--line);border-radius:4px;background:var(--surface2);text-align:center}
+.mapinfo .mt{font:600 17px var(--serif);margin-bottom:3px}
+.mpop{position:absolute;z-index:3;width:300px;max-width:calc(100% - 16px);overflow:auto;background:var(--surface);color:var(--ink);border:1px solid var(--ink);border-radius:6px;box-shadow:0 8px 28px rgba(0,0,0,.3);padding:10px 12px 10px;text-align:left}
+.mpop .x{position:absolute;top:4px;right:4px;min-width:30px;padding:2px 8px;font-size:18px;line-height:1.2;background:transparent;border-color:transparent}
+.mpop .mt{font:600 17px/1.2 var(--serif);margin:0 28px 4px 0}
+.mpop .ms{font-size:14px;margin-bottom:6px}
+.mpop table{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+.mpop th{font-size:12px;font-weight:600;color:var(--muted);text-align:right;padding:3px 4px;border-bottom:1px solid var(--line)}
+.mpop th:first-child,.mpop td:first-child{text-align:left}
+.mpop td{padding:3px 4px;text-align:right;border-bottom:1px solid var(--line)}
+.mpop tr.win td{font-weight:700;background:var(--accent-soft)}
+.mpop tr.rest td{color:var(--muted)}
+.mpop tr.tot td{font-weight:700;border-top:2px solid var(--line);border-bottom:0}
+.mpop .pn{font-size:12.5px;color:var(--muted);margin-top:7px;line-height:1.35}
+.mapsel{display:flex;justify-content:center;align-items:center;gap:8px;font-size:14px;margin-top:10px}
+.mapsel select{font:500 14px var(--sans);padding:5px 8px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink);max-width:60%}
+.legend button.abroad{font-weight:500;padding:3px 8px;font-size:13px}
+.picks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:2px 0 14px}
+button.pick{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;font-weight:600}
+button.pick .chip{margin:0}
+button.pick small{font-weight:500;color:var(--muted);font-size:13px}
+button.pick[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+button.pick:disabled{opacity:.45;cursor:default}
+.cbar{position:relative;display:flex;height:34px;border-radius:5px;background:var(--surface2);border:1px solid var(--line);overflow:hidden}
+.cbar .seg{height:100%;min-width:0;transition:width .35s ease}
+.cbar .maj{position:absolute;top:0;bottom:0;left:50.35%;width:2px;margin-left:-1px;background:var(--ink)}
+.cscale{position:relative;height:20px;font-size:12px;color:var(--muted)}
+.cscale span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.cstat{text-align:center;font-size:16px;margin-top:6px}
+.cstat b{font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion: reduce){.cbar .seg{transition:none}}
+.small{font-size:13px}
+details.method{margin-top:16px}
+details.method summary{cursor:pointer;font:600 17px var(--serif);padding:2px 0}
+details.method ul{padding-left:18px;margin:8px 0}
+details.method li{margin:5px 0;max-width:90ch}
+.range{font-size:12px;color:var(--muted);white-space:nowrap}
+.cons-name{font-weight:600}
+.cons-note{font-size:12.5px;color:var(--muted);max-width:56ch}
+.banner{background:var(--amber-soft);border:1px solid var(--amber);border-radius:6px;padding:10px 12px;margin-top:14px;font-size:14px;max-width:110ch}
+@media (max-width:640px){.hide-sm{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Seimas seat projector</h1>
+    <p class="lede">Enter nationwide list-vote shares.</p>
+    <span id="check" class="check" role="status"></span>
+  </header>
+
+  <div class="grid">
+    <section class="panel inputs" aria-labelledby="in-h">
+      <h2 id="in-h">Input list vote share</h2>
+      <p class="small muted" style="margin:0 0 6px;text-align:center">To win any list seats, a party needs at least 5% of the vote, and a joint list of several parties needs at least 7%.</p>
+            <table>
+        <thead><tr><th scope="col">Party or list</th><th scope="col"><span class="sr">Slider</span></th><th scope="col">Share %</th></tr></thead>
+        <tbody id="inputRows"></tbody>
+        <tfoot><tr><td colspan="3"><div id="sumBox" class="sum" role="status"></div></td></tr></tfoot>
+      </table>
+      <div class="row-actions">
+        <button id="btnReset" class="primary" type="button">Reset to 2024</button>
+      </div>
+    </section>
+
+    <div>
+      <section class="panel" aria-labelledby="res-h">
+        <h2 id="res-h">Projected seats</h2>
+        <svg id="hemi" class="hemi" viewBox="0 0 720 390" role="img" aria-labelledby="hemiTitle"><title id="hemiTitle">Projected seats by party</title></svg>
+        <div id="legend" class="legend"></div>
+        
+        <div id="banner"></div>
+        <div class="tablewrap" style="margin-top:14px">
+          <table class="data" id="partyTable">
+            <thead><tr>
+              <th scope="col">Party</th><th scope="col" class="r">Constituency vote share</th><th scope="col" class="r">Constituency seats</th><th scope="col" class="r">List vote share</th>
+              <th scope="col" class="r">List seats</th><th scope="col" class="r">Total seats</th><th scope="col" class="r" title="Change in total seats compared with 2024">+/−</th>
+            </tr></thead>
+            <tbody></tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section class="panel" style="margin-top:16px" aria-labelledby="coal-h">
+    <h2 id="coal-h">Coalition builder</h2>
+    <p class="small muted" style="margin:0 0 8px;text-align:center">Select parties to build a coalition.</p>
+    <div id="picks" class="picks" role="group" aria-label="Choose coalition parties"></div>
+    <div id="cbar" class="cbar" role="img" aria-label="Coalition seats"></div>
+    <div class="cscale"><span style="left:0">0</span><span style="left:50.35%">71 for a majority</span><span style="left:100%">141</span></div>
+    <div id="cstat" class="cstat" role="status"></div>
+    <div class="row-actions" style="justify-content:center"><button id="btnClear" type="button">Clear selection</button></div>
+  </section>
+
+  <section class="panel" style="margin-top:16px" aria-labelledby="map-h">
+    <h2 id="map-h">Constituency results map</h2>
+    <p id="mhint" class="small muted" style="text-align:center;margin:0 0 10px">Click a constituency to see its projected round 1 and round 2 vote shares. Scroll or use + and − to zoom, and drag to pan.</p>
+    <div class="mapmode" role="group" aria-label="Map view">
+      <button type="button" data-m="winner" aria-pressed="true">Winners</button>
+      <button type="button" data-m="strength" aria-pressed="false">Party strength</button>
+      <button type="button" data-m="flip" aria-pressed="false">Flipped seats</button>
+    </div>
+    <div class="mapparty" id="mparty" hidden><label>Show strength of <select id="mpsel" aria-label="Party"></select></label></div>
+    <div class="mapwrap"><div class="zoomctl" role="group" aria-label="Map zoom"><button type="button" id="zIn" aria-label="Zoom in">+</button><button type="button" id="zOut" aria-label="Zoom out">−</button><button type="button" id="zReset" aria-label="Reset view" title="Reset view">Reset</button></div><svg id="cmap" viewBox="-356.4 -274.1 5803.7 4463.1" role="group" aria-label="Map of projected constituency winners"><g id="cmapG"></g><g id="abroadG" tabindex="0" role="button" aria-label="Constituency 71, Lithuanians abroad: show result"><title></title><circle id="abroadC" cx="604" cy="3225" r="270" fill="#888"/><text id="abroadT1" x="604" y="3205" text-anchor="middle" font-size="96" font-weight="700" pointer-events="none" fill="#fff">Abroad</text><text id="abroadT2" x="604" y="3320" text-anchor="middle" font-size="84" font-weight="500" pointer-events="none" fill="#fff">71</text></g></svg></div>
+    <div id="mlegend" class="legend"></div>
+    <p class="small muted" style="text-align:center;margin:10px 0 0">Boundaries: VRK polling-district data for the 2024 election, merged by constituency. Constituency 71 (Lithuanians abroad) has no territory and is shown as the circle on the map.</p>
+  </section>
+</div>
+
+<script>
+/* Lithuanian Seimas seat projector — data + engine (no UI). */
+
+const PARTIES = [
+  { id: 'LSDP', short: 'LSDP',      name: 'Social Democrats',                 votes: 240503, color: '#C8102E' },
+  { id: 'TS',   short: 'TS–LKD',    name: 'Homeland Union',                   votes: 224026, color: '#1D5FA7' },
+  { id: 'PPNA', short: 'Nemuno Aušra', name: 'Dawn of Nemunas',               votes: 186305, color: '#6B3FA0' },
+  { id: 'DSVL', short: 'DSVL',      name: 'Democrats "For Lithuania"',        votes: 114792, color: '#1C9A8A' },
+  { id: 'LS',   short: 'LS',        name: "Liberals' Movement",               votes: 95868,  color: '#F08A1C' },
+  { id: 'LVZS', short: 'LVŽS',      name: 'Farmers and Greens',               votes: 87374,  color: '#5F9B2D' },
+  { id: 'LP',   short: 'LP',        name: 'Freedom Party',                    votes: 56379,  color: '#D6479C' },
+  { id: 'LLRA', short: 'LLRA–KŠS',  name: 'Electoral Action of Poles',        votes: 48288,  color: '#8E2A2A' },
+  { id: 'NS',   short: 'NS',        name: 'National Alliance',                votes: 35726,  color: '#5B1F14' },
+  { id: 'LLP',  short: 'LLP',       name: "People's Party",                   votes: 32813,  color: '#EBC53D' },
+  // The three ran one joint list in 2024 (27,362 votes). It is split in proportion to their 2024 constituency votes (16,055 / 7,667 / 3,080).
+  { id: 'DP',   short: 'DP',        name: 'Labour Party',                      votes: 16391,  color: '#58B4E9' },
+  { id: 'LKDP', short: 'LKDP',      name: 'Christian Democracy Party',         votes: 7827,   color: '#B58BD0' },
+  { id: 'ZP',   short: 'ŽP',        name: 'Samogitian Party',                  votes: 3144,   color: '#A89F4A' },
+  { id: 'LRP',  short: 'LRP',       name: 'Regions Party',                    votes: 23547,  color: '#E27A6B' },
+  { id: 'LZP',  short: 'LŽP',       name: 'Green Party',                      votes: 21002,  color: '#92C83C' },
+  { id: 'TTS',  short: 'TTS',       name: 'People and Justice Union',         votes: 17218,  color: '#049F3D' },
+  { id: 'PLT',  short: 'PLT',       name: 'Freedom and Justice',              votes: 9367,   color: '#9C7A5B' },
+];
+const IND = { id: 'IND', short: 'Independents', name: 'Independents / self-nominated', color: '#6D7771' };
+
+const VALID_LIST_VOTES = 1220570;      // VRK, multi-member tier, 13 Oct 2024
+const INVALID_LIST_VOTES = 24047;
+const PARTICIPANTS_LIST = 1244617;
+const INVALID_RATE_2024 = INVALID_LIST_VOTES / PARTICIPANTS_LIST * 100; // 1.932%
+
+// Official 2024 final seat totals (VRK) used as the backtest target
+const ACTUAL_2024 = { LSDP: 52, TS: 28, PPNA: 20, DSVL: 14, LS: 12, LVZS: 8, LLRA: 3, NS: 1, PLT: 1, IND: 2 };
+const ACTUAL_2024_PR = { LSDP: 18, TS: 17, PPNA: 14, DSVL: 8, LS: 7, LVZS: 6 };
+
+// Independents have no party swing
+const SWING_ALIAS = { IND: null };
+
+// [no, name, first-round shares (% of voters who took part, as published by VRK), runoff shares or '']
+const RAW = [
+ [1,'Senamiesčio–Žvėryno','LS44.90,TS17.49,LSDP7.05,LP6.72,NS5.01,LVZS4.52,LLRA3.84,DSVL3.40,PLT2.12,LZP1.97,LRP0.77',''],
+ [2,'Naujamiesčio–Vilkpėdės','TS25.80,LP20.58,LS14.39,LSDP11.10,LLRA8.26,NS4.36,LVZS3.95,DSVL3.34,LZP2.79,LKDP2.03,LRP1.07','TS48.54,LP43.08'],
+ [3,'Antakalnio','TS53.55,NS9.59,LSDP9.40,LLRA6.86,LS5.12,LP5.08,LVZS4.06,LZP2.70,LRP1.29',''],
+ [4,'Žirmūnų','TS30.83,LP15.02,LSDP12.19,LLRA7.87,NS6.31,LS5.92,DSVL5.60,LVZS4.11,LZP3.77,LKDP3.29,LRP1.69','TS55.89,LP34.47'],
+ [5,'Fabijoniškių','TS25.94,LSDP12.20,LLRA10.88,LS9.39,PPNA8.50,DSVL7.56,LP7.36,LVZS5.37,NS4.62,LZP3.13,LRP2.31','LSDP49.85,TS47.99'],
+ [6,'Šeškinės–Šnipiškių','TS30.32,LSDP12.41,DSVL10.31,LLRA8.62,LP7.80,PPNA7.74,LS5.98,NS4.75,LVZS3.98,LZP2.32,PLT1.77,LRP1.23','TS52.81,LSDP44.96'],
+ [7,'Justiniškių–Viršuliškių','TS21.59,DSVL15.35,LSDP14.44,LLRA11.72,PPNA8.54,LP6.06,LS6.04,NS4.21,LVZS4.03,LRP2.77,LZP2.35','DSVL60.30,TS37.41'],
+ [8,'Pilaitės–Karoliniškių','TS28.42,NS13.11,LSDP11.24,LP9.91,LLRA7.35,PPNA6.66,LS6.15,DSVL5.61,DP3.03,LVZS2.91,LZP2.29,LRP1.22','NS50.31,TS47.45'],
+ [9,'Lazdynų','TS34.34,DSVL18.69,LLRA9.25,LP8.76,LSDP7.79,LVZS3.89,LS3.81,NS3.78,DP3.26,LZP1.65,PLT1.43','TS53.24,DSVL44.30'],
+ [10,'Naujosios Vilnios','TS23.87,LLRA14.30,LSDP9.36,LP7.66,DSVL6.98,LS6.96,PPNA6.27,LLP5.43,NS3.61,DP3.55,LVZS3.50,LZP2.41,PLT2.15,LRP1.44','TS53.53,LLRA44.20'],
+ [11,'Vilniaus pietinė','TS20.70,LLRA18.71,LSDP12.72,PPNA8.38,LP7.59,DSVL5.73,IND4.78,LVZS4.14,LLP3.63,LS3.45,LRP2.44,LKDP1.87,LZP1.66','LLRA52.78,TS43.99'],
+ [12,'Verkių','TS30.26,LSDP14.74,LP13.90,LS10.87,DSVL6.89,NS6.10,LVZS4.44,LLRA4.42,LZP2.79,DP1.86,LRP0.97','TS57.61,LSDP40.58'],
+ [13,'Pašilaičių','TS23.13,LS17.12,LP13.47,DSVL9.64,LSDP8.87,LLRA8.56,LVZS5.60,NS4.57,PLT2.07,LRP1.81,LZP1.54,TTS0.96','LS50.42,TS44.24'],
+ [14,'Naujininkų–Rasų','TS15.44,PLT14.39,LZP11.96,LLRA9.42,IND8.27,LSDP8.26,LP7.73,LS6.26,DSVL5.83,PPNA5.62,LVZS2.46,LRP1.34','PLT48.52,TS48.22'],
+ [15,'Kalniečių','TS34.61,PPNA20.31,LVZS11.62,LS10.42,LZP4.74,LP4.70,LRP2.80,TTS2.39,LKDP1.96','TS48.99,PPNA48.42'],
+ [16,'Savanorių','TS23.93,LSDP18.81,PPNA16.28,DSVL8.73,LVZS6.87,LS5.59,LP4.59,LZP3.95,LKDP3.09,LRP2.00,TTS1.78','LSDP58.02,TS38.18'],
+ [17,'Petrašiūnų–Gričiupio','TS28.71,LSDP18.21,LVZS12.55,LP8.42,LS7.56,NS5.18,LRP4.44,LZP4.14,DP2.76,TTS2.37','LSDP53.40,TS43.52'],
+ [18,'Panemunės','TS29.80,LSDP12.93,PPNA12.91,DSVL11.34,LVZS8.13,LS6.42,LP3.86,LZP3.66,LRP2.67,TTS2.09,LKDP2.02','LSDP50.96,TS45.86'],
+ [19,'Aleksoto–Vilijampolės','TS16.94,LSDP13.09,DSVL12.02,PPNA11.52,NS10.45,LZP7.62,LS6.63,LP5.12,LKDP4.92,LVZS4.55,TTS2.03,LRP1.81','LSDP56.27,TS40.95'],
+ [20,'Centro–Žaliakalnio','TS29.72,LS11.25,PPNA11.00,DSVL9.53,LSDP9.44,LVZS6.22,NS4.90,LP3.90,LZP3.21,TTS2.34,LKDP1.65,LRP1.64,PLT0.98','LS54.40,TS39.12'],
+ [21,'Šilainių','TS18.68,LSDP13.83,PPNA13.47,LS11.70,DSVL8.69,LVZS8.16,LP6.55,LZP4.45,TTS3.83,LRP3.16,LKDP2.50,PLT0.85','LSDP55.78,TS40.31'],
+ [22,'Pajūrio','TS17.61,PPNA16.45,LS12.35,LSDP12.11,LLRA8.10,LVZS7.79,DSVL7.65,LP4.68,LZP3.22,TTS2.07,LRP1.48,PLT1.39','PPNA51.24,TS43.79'],
+ [23,'Danės','TS31.06,PPNA16.80,LS13.00,LSDP11.94,LVZS11.82,LP4.37,LKDP2.35,TTS2.23,LRP1.68','TS52.29,PPNA43.66'],
+ [24,'Baltijos','PPNA17.09,LSDP16.71,TS16.34,LS10.58,LVZS7.50,LLRA6.22,DSVL5.59,TTS4.81,LP4.25,ZP3.60,LRP1.50,PLT0.84','LSDP50.26,PPNA43.71'],
+ [25,'Marių','LVZS24.34,PPNA15.14,LSDP14.25,LLRA13.96,LS13.73,TS10.13,LRP1.98,TTS1.70','LVZS56.72,PPNA36.84'],
+ [26,'Saulės','LVZS19.90,DSVL17.25,PPNA17.20,LSDP13.67,TS10.85,LS4.70,LP4.01,NS2.73,LLP2.57,TTS1.52,LRP1.52','DSVL54.97,LVZS40.32'],
+ [27,'Aušros','PPNA18.51,LSDP16.06,TS15.24,LVZS14.13,DSVL8.93,LS6.48,LP6.04,ZP4.03,NS2.85,LZP2.19,PLT1.76','LSDP55.60,PPNA38.21'],
+ [28,'Nevėžio','LSDP20.40,TS20.02,PPNA12.24,LVZS10.20,DSVL9.71,LS6.55,NS6.41,LP4.71,LZP2.67,DP2.55','LSDP61.32,TS34.88'],
+ [29,'Panevėžio vakarinė','TS19.98,LSDP16.58,LVZS16.48,PPNA14.11,DSVL9.66,LS5.61,LP4.40,NS3.34,LZP2.46,DP2.15,TTS1.18','LSDP60.60,TS36.33'],
+ [30,'Alytaus','LSDP30.85,TS14.25,LVZS11.62,DSVL11.49,PPNA11.40,LS5.22,LP3.23,LRP2.69,DP2.61,TTS1.71','LSDP68.70,TS27.45'],
+ [31,'Gargždų','LSDP27.68,LS21.48,PPNA16.66,LVZS16.25,TS11.32,LRP2.80','LSDP62.99,LS34.36'],
+ [32,'Šilutės','PPNA32.53,DSVL26.22,LSDP15.36,TS12.25,LVZS3.40,LKDP1.95,LRP1.90,TTS1.41','PPNA50.96,DSVL46.38'],
+ [33,'Aukštaitijos','LSDP22.52,LVZS16.94,TS16.06,PPNA13.98,DSVL9.30,LS8.39,DP3.42,LZP3.31,TTS1.72','LSDP59.17,LVZS34.62'],
+ [34,'Tauragės','LS23.36,PPNA18.92,LSDP18.67,LVZS18.04,TS14.33,LRP1.82','PPNA50.28,LS48.11'],
+ [35,'Plungės–Rietavo','TS20.40,PPNA19.83,LSDP16.94,LS14.55,LVZS12.73,ZP5.64,LZP3.51,LRP2.56','PPNA47.92,TS45.84'],
+ [36,'Mėguvos','TS22.65,PPNA19.53,LSDP17.72,LS11.28,LVZS10.88,LP5.51,LZP4.74,DP2.70','PPNA51.96,TS44.38'],
+ [37,'Kuršo','LSDP19.94,LRP14.76,DSVL14.30,IND14.00,PPNA12.60,TS9.02,LVZS7.73,TTS2.41,LZP2.08','LSDP63.72,LRP33.54'],
+ [38,'Mažeikių','LSDP20.64,DSVL17.49,PPNA17.37,LRP11.18,TS8.13,LVZS7.78,TTS7.23,LS6.50','LSDP60.56,DSVL35.79'],
+ [39,'Žemaitijos šiaurinė','LVZS38.52,LSDP29.08,PPNA10.71,TS8.53,DSVL4.10,LS3.51,LRP1.98','LSDP51.71,LVZS45.66'],
+ [40,'Telšių','IND17.17,DSVL15.03,TTS14.34,LSDP14.15,PPNA13.90,TS7.83,LVZS7.77,LRP3.84,ZP2.04,NS1.15','DSVL53.44,IND43.86'],
+ [41,'Kelmės–Šilalės','PPNA46.44,LSDP15.17,TS13.08,LVZS6.68,LS4.21,PLT4.04,IND3.64,ZP2.37,LRP1.48',''],
+ [42,'Raseinių–Josvainių','LSDP38.03,LVZS15.72,TS14.12,PPNA13.73,DP8.98,LRP5.12','LSDP69.88,LVZS26.37'],
+ [43,'Kėdainių','IND41.36,LSDP16.13,LVZS10.57,TS8.20,LKDP7.06,LS5.40,DSVL4.30,NS2.52,TTS1.37',''],
+ [44,'Radviliškio–Tytuvėnų','LSDP20.06,TS17.82,PPNA13.43,LS10.10,TTS9.32,LVZS8.75,DSVL8.30,LLP3.19,DP2.73,LRP2.34','LSDP66.93,TS29.77'],
+ [45,'Šiaulių krašto','LVZS21.46,PPNA16.56,TS16.01,LSDP15.90,DSVL12.22,LS7.48,LRP3.27,TTS2.46','LVZS59.05,PPNA35.51'],
+ [46,'Žiemgalos vakarinė','LSDP39.58,PPNA16.22,LVZS15.90,TS9.01,LS8.28,DSVL4.72,LRP2.63',''],
+ [47,'Žiemgalos rytinė','LSDP35.66,TS23.57,PPNA11.72,LVZS9.05,DSVL7.77,NS3.34,LRP2.99,TTS2.04','LSDP68.69,TS29.48'],
+ [48,'Sėlos vakarinė','LSDP22.52,LVZS17.59,TS11.81,PPNA8.90,IND8.10,LS7.79,IND7.11,DSVL7.06,DP2.22,TTS2.08,LRP1.24','LSDP60.46,LVZS35.76'],
+ [49,'Deltuvos šiaurinė','LSDP19.62,DSVL17.91,LVZS15.07,TS14.05,LS9.36,LRP7.60,TTS4.24,NS4.22,LZP2.32','LSDP53.49,DSVL41.95'],
+ [50,'Sėlos rytinė','LSDP30.37,PPNA16.26,TS11.41,DSVL10.54,LVZS10.07,LS7.22,LRP5.35,DP3.67,PLT1.68','LSDP61.06,PPNA35.36'],
+ [51,'Utenos','IND34.48,TS19.97,LSDP19.24,DSVL8.51,PPNA5.13,LVZS2.29,LZP2.22,LP2.21,NS1.96,TTS1.06,DP0.80','IND69.96,TS28.41'],
+ [52,'Nalšios šiaurinė','LVZS21.82,LS20.34,LSDP12.73,DSVL12.30,TS7.91,LRP6.97,LLRA6.36,DP3.52,LP1.97,TTS1.97','LS50.47,LVZS47.80'],
+ [53,'Nalšios pietinė','LSDP21.55,PLT19.80,PPNA15.00,TS12.60,DP7.43,LZP6.96,LLRA4.20,LVZS3.75,NS2.55,LRP1.90,TTS0.71','LSDP54.76,PLT42.40'],
+ [54,'Marijampolės','LSDP25.20,LVZS20.48,TS14.35,DSVL9.00,TTS7.75,PPNA7.09,LS4.89,NS4.00,LRP3.57','LSDP54.67,LVZS40.65'],
+ [55,'Riešės','LLRA22.34,TS21.80,LSDP15.90,LS12.44,PPNA6.07,LP5.40,DSVL5.26,LVZS3.81,DP2.37,LRP1.51,TTS0.87','TS54.41,LLRA43.36'],
+ [56,'Šalčininkų–Vilniaus','LLRA46.75,LLP15.87,IND12.36,LSDP10.97,LP4.54,PPNA3.37,TTS2.16',''],
+ [57,'Nemenčinės','LLRA43.34,LSDP21.33,TS9.55,PPNA5.32,LP4.41,LS4.08,DSVL2.95,LVZS2.81,TTS1.70,LRP1.52',''],
+ [58,'Trakų–Vievio','LSDP31.72,LS20.90,LLRA10.57,PPNA8.36,DSVL7.84,TS7.65,LVZS3.95,LP2.43,LRP1.89,TTS1.28','LSDP67.01,LS30.89'],
+ [59,'Kaišiadorių–Elektrėnų','LSDP21.56,TS16.67,LS14.85,DSVL13.27,PPNA8.97,LVZS6.97,LRP5.51,LP2.85,DP2.26,LZP1.95,TTS1.66','LSDP60.68,TS36.01'],
+ [60,'Jonavos','LSDP54.39,TS13.61,LVZS8.50,DP8.12,LRP6.10,LS5.04',''],
+ [61,'Deltuvos pietinė','LRP29.93,LSDP14.54,TS14.23,LVZS9.29,DSVL9.11,DP8.37,NS2.91,LS2.79,LP2.66,LLRA2.15','LSDP53.61,LRP42.24'],
+ [62,'Karšuvos','LS24.47,PPNA17.79,LSDP16.13,LVZS11.85,DSVL8.87,TS8.79,TTS2.99,DP2.81,LRP2.64','LS50.49,PPNA47.60'],
+ [63,'Sūduvos pietinė','DSVL28.08,LSDP22.25,PPNA11.23,TS8.95,LVZS8.23,LRP8.21,LS3.49,TTS2.78,DP2.17','DSVL53.50,LSDP42.76'],
+ [64,'Sūduvos šiaurinė','LSDP25.94,LVZS18.82,TS18.46,PPNA11.58,LKDP5.52,DSVL5.50,LP3.16,LRP2.87,LS2.68,TTS1.33','LSDP55.97,LVZS39.20'],
+ [65,'Raudondvario','LSDP30.02,LS20.72,PPNA13.51,TS11.74,DSVL5.70,LVZS5.46,LZP3.55,DP1.93,LRP1.74,TTS1.70','LSDP55.14,LS42.14'],
+ [66,'Garliavos','TS27.84,LSDP20.68,PPNA10.76,LS9.19,DSVL7.26,LVZS6.00,LZP5.71,TTS5.61,LKDP1.82,LRP1.82','LSDP58.17,TS39.82'],
+ [67,'Dainavos','LSDP26.63,LRP23.15,TS13.07,PPNA9.28,DSVL7.31,LVZS5.03,LS4.02,TTS3.31,DP2.22,NS1.94','LSDP51.42,LRP46.00'],
+ [68,'Vilkaviškio','DSVL39.30,LSDP31.12,PPNA8.92,TS8.89,LVZS5.06,LRP1.78,TTS1.29','DSVL48.98,LSDP48.53'],
+ [69,'Dzūkijos','LSDP23.11,LS20.96,DSVL19.03,TS11.66,PPNA8.66,LVZS4.37,PLT3.29,LZP1.68,DP1.58,LRP1.44','LSDP56.39,LS41.30'],
+ [70,'Jotvingių','DSVL31.14,LSDP17.27,TS13.37,PPNA10.47,LVZS8.62,LS6.03,LRP5.52,TTS1.84,PLT1.43','DSVL56.34,LSDP39.61'],
+ [71,'Pasaulio lietuvių','LP29.75,TS29.18,LSDP7.66,LVZS7.55,DSVL6.52,LS5.50,TTS3.98,DP2.91,LRP2.04,PLT1.44,LLRA1.37','TS49.21,LP45.99'],
+];
+
+// First-round turnout (% of registered) published for individual constituencies (VRK via press/duomenugalia/local reports).
+// Everything else uses the national figure; see THETA notes.
+// Round-1 registered voters and participants in each constituency (VRK, 13 Oct 2024; constituency 71 = Lithuanians abroad).
+// The leader is elected in round 1 only with at least one fifth of REGISTERED voters, so the line, as a share of voters who took part, is 20 / turnout.
+const ELECTORATE = {1:[31716,20259],2:[29482,16968],3:[31275,19713],4:[33369,19243],5:[33167,18428],6:[32900,17997],7:[31322,16612],8:[33736,19407],9:[32792,17993],10:[32454,16190],11:[31112,14565],12:[34857,22015],13:[34358,19619],14:[30608,14268],15:[35672,19735],16:[36391,18726],17:[35339,18867],18:[35814,19323],19:[35599,19326],20:[35718,20891],21:[36035,19820],22:[31047,14426],23:[31029,16469],24:[34171,15505],25:[32496,14376],26:[34693,17949],27:[35917,19823],28:[31368,15977],29:[32326,17104],30:[34615,17379],31:[36144,18197],32:[32425,16346],33:[33165,16235],34:[31072,15181],35:[34018,17159],36:[33723,17547],37:[36313,18197],38:[32444,16529],39:[31309,15135],40:[33542,16448],41:[34420,17732],42:[31210,15952],43:[33205,17785],44:[32451,15582],45:[35002,18097],46:[31629,16118],47:[30914,15890],48:[33888,17088],49:[31899,16069],50:[35152,17618],51:[31931,17268],52:[29464,12363],53:[33992,16799],54:[31268,15876],55:[34298,20031],56:[33893,18018],57:[33594,16492],58:[35431,17400],59:[35026,17928],60:[34391,15847],61:[36384,18821],62:[30615,14863],63:[31804,15179],64:[34754,17042],65:[35806,18998],66:[36390,20241],67:[31108,15634],68:[30705,14765],69:[33338,17038],70:[32478,16793],71:[52395,32776]};
+
+// Round-2 registered voters, participants and invalid ballots (VRK, 27 Oct 2024) for the 63 constituencies that went to a runoff.
+const ELECTORATE2 = {2:[29512,12899,1081],4:[33387,13937,1344],5:[33184,14310,309],6:[32909,14303,319],7:[31340,13125,300],8:[33772,15624,351],9:[32804,14419,354],10:[32476,13070,297],11:[31130,11306,366],12:[34873,17137,310],13:[34385,14071,752],14:[30625,10794,351],15:[35667,15911,412],16:[36388,14514,551],17:[35351,14593,450],18:[35832,15428,490],19:[35618,14920,416],20:[35770,16643,1079],21:[36056,15826,619],22:[31066,11568,576],23:[31080,13334,539],24:[34176,11949,720],25:[32512,10882,701],26:[34701,13137,618],27:[35930,14525,900],28:[31360,12473,474],29:[32343,13651,419],30:[34625,13816,532],31:[36168,15336,407],32:[32450,13670,364],33:[33172,11873,738],34:[31097,12936,208],35:[34047,14102,880],36:[33760,13945,510],37:[36330,14484,397],38:[32458,12707,464],39:[31314,12557,331],40:[33559,12814,346],42:[31207,12380,464],44:[32451,13266,438],45:[35010,13217,719],47:[30921,13980,255],48:[33887,13992,528],49:[31914,12104,551],50:[35143,14586,522],51:[31936,16302,265],52:[29476,11703,203],53:[34031,14843,421],54:[31285,12124,568],55:[34329,16832,375],58:[35459,14745,310],59:[35044,14997,497],61:[36401,15377,637],62:[30610,12491,238],63:[31812,11762,440],64:[34750,13663,660],65:[35834,14192,385],66:[36412,16335,329],67:[31132,12825,332],68:[30714,12613,314],69:[33349,14665,338],70:[32494,12785,518],71:[52734,24242,1163]};
+
+function parseList(s) {
+  if (!s) return [];
+  return s.split(',').map(t => {
+    const m = /^([A-Z]+)(\d+(?:\.\d+)?)$/.exec(t.trim());
+    if (!m) throw new Error('bad token ' + t);
+    return { p: m[1], s: parseFloat(m[2]) };
+  });
+}
+
+const CONSTITUENCIES = RAW.map(([no, name, r1, r2]) => {
+  const c1 = parseList(r1), c2 = parseList(r2);
+  const leader = c1.reduce((a, b) => (b.s > a.s ? b : a));
+  let thetaSrc, theta;
+  { const [reg, part] = ELECTORATE[no]; theta = 2000 / (part / reg * 100); thetaSrc = 'vrk'; }
+  // 2024 finalist slots: the two highest first-round candidates, with their actual runoff shares
+  let slots = null;
+  if (c2.length === 2) {
+    const order = c1.map((x, i) => i).sort((a, b) => c1[b].s - c1[a].s || a - b).slice(0, 2);
+    slots = order.map(i => {
+      const r = c2.find(y => y.p === c1[i].p);
+      if (!r) throw new Error('finalist mismatch in constituency ' + no);
+      return { idx: i, p: c1[i].p, base: c1[i].s, r2: r.s };
+    });
+  }
+  // Share of runoff ballots that were valid in this constituency in 2024 (null where there was no runoff)
+  let r2valid = null;
+  if (ELECTORATE2[no]) { const [, part2, inv2] = ELECTORATE2[no]; r2valid = (part2 - inv2) / part2 * 100; }
+  const S0 = c1.reduce((a, x) => a + x.s, 0);   // candidates' shares add up to this in 2024; the rest of 100% is spoiled ballots
+  return { no, name, r1: c1, r2: c2, theta, thetaSrc, slots, r2valid, S0 };
+});
+
+/* ---------- baseline ---------- */
+const BASE_PCT = {};
+PARTIES.forEach(p => { BASE_PCT[p.id] = p.votes / VALID_LIST_VOTES * 100; });
+
+const r2dp = x => Math.round(x * 100) / 100;
+
+/** Effective share used by the engine. An entry equal (to 2 dp) to the published 2024 figure counts as "unchanged". */
+function effectiveShares(inputs) {
+  const out = {};
+  PARTIES.forEach(p => {
+    const v = Number(inputs[p.id]);
+    out[p.id] = (r2dp(v) === r2dp(BASE_PCT[p.id]) || Math.round(v * 10) === Math.round(BASE_PCT[p.id] * 10)) ? BASE_PCT[p.id] : v;
+  });
+  return out;
+}
+
+/* ---------- proportional tier (Hare quota, largest remainder) ---------- */
+function proportionalTier(shares, invalidRatePct) {
+  const ofPart = p => shares[p.id] * (1 - invalidRatePct / 100);   // share of everyone who voted
+  const eligible = PARTIES.filter(p => shares[p.id] > 0 && ofPart(p) >= (p.coalition ? 7 : 5) - 1e-12);
+  // 60% rule (Electoral Code, art. 169): the lists taking part must together hold at least 60% of everyone who voted.
+  // If they do not, the biggest list still outside is added (tied lists together), and so on until the total reaches 60%.
+  const added = [];
+  let held = eligible.reduce((a, p) => a + ofPart(p), 0);
+  const outside = PARTIES.filter(p => shares[p.id] > 0 && !eligible.includes(p)).sort((a, b) => shares[b.id] - shares[a.id]);
+  while (held < 60 - 1e-9 && outside.length) {
+    const top = shares[outside[0].id];
+    while (outside.length && Math.abs(shares[outside[0].id] - top) < 1e-9) {
+      const q = outside.shift(); eligible.push(q); added.push(q.id); held += ofPart(q);
+    }
+  }
+  const total = eligible.reduce((a, p) => a + shares[p.id], 0);
+  const seats = {}, rem = [];
+  PARTIES.forEach(p => { seats[p.id] = 0; });
+  if (!eligible.length) return { seats, eligible: [], added, quota: 0 };
+  const quota = total / 70;
+  let given = 0;
+  eligible.forEach(p => {
+    const exact = shares[p.id] / quota;
+    const whole = Math.floor(exact + 1e-9);
+    seats[p.id] = whole; given += whole;
+    rem.push({ id: p.id, r: exact - whole });
+  });
+  rem.sort((a, b) => b.r - a.r);
+  for (let i = 0; given < 70; i++, given++) seats[rem[i % rem.length].id]++;
+  return { seats, eligible: eligible.map(p => p.id), added, quota };
+}
+
+/* ---------- constituency tier ---------- */
+const swingKey = code => (code in SWING_ALIAS ? SWING_ALIAS[code] : code);
+
+function deltas(shares) {
+  const d = {}, ratio = {};
+  PARTIES.forEach(p => { d[p.id] = shares[p.id] - BASE_PCT[p.id]; ratio[p.id] = shares[p.id] / BASE_PCT[p.id]; });
+  Object.defineProperty(d, '__ratio', { value: ratio, enumerable: false });   // national share as a fraction of the party's 2024 list share
+  return d;
+}
+const dOf = (d, code) => { const k = swingKey(code); return k ? (d[k] || 0) : 0; };
+
+/* Taper. Above TAPER (20%) of its 2024 list share a party's constituency results move by the plain national swing.
+   Below it they are scaled down linearly, so that at 0% nationally every constituency result is exactly 0.
+   The scaling starts from the value the plain swing would give at the 20% point, so there is no jump there. */
+const TAPER = 0.2;
+function swung(d, code, value) {
+  const k = swingKey(code);
+  if (!k) return value;                                  // independents carry no party swing
+  const t = d.__ratio[k];
+  if (t >= TAPER) return Math.max(0, value + d[k]);
+  const at20 = Math.max(0, value - (1 - TAPER) * BASE_PCT[k]);   // plain additive swing evaluated at 20% of the 2024 share
+  return at20 * Math.max(0, t) / TAPER;
+}
+
+
+/* ---------- national preference flows, fitted from the 63 real 2024 runoffs ---------- */
+const R2_BALLOT_RATIO = 878610 / 1244050;   // runoff ballots / first-round ballots, national (per-constituency turnout unavailable)
+const flowKey = p => (p === 'IND' ? 'IND' : (SWING_ALIAS[p] || p));
+const FLOWS = (function fitFlows(lam) {
+  const obs = CONSTITUENCIES.filter(c => c.slots).map(c => {
+    const fin = new Set(c.slots.map(s => s.idx)), pool = {};
+    c.r1.forEach((x, i) => { if (!fin.has(i)) { const k = flowKey(x.p); pool[k] = (pool[k] || 0) + x.s; } });
+    const fs = c.slots.map(s => ({ p: flowKey(s.p), own: s.base, y: s.r2 * R2_BALLOT_RATIO }));
+    return { fs, pool };
+  });
+  const eqs = [], th = {}, n = {}, ret = {}, tt = {};
+  obs.forEach(o => o.fs.forEach(F => {
+    const terms = [['r|' + F.p, F.own]];
+    th['r|' + F.p] = 0.8; n['r|' + F.p] = (n['r|' + F.p] || 0) + 1;
+    Object.entries(o.pool).forEach(([e, v]) => {
+      const k = 't|' + e + '|' + F.p; terms.push([k, v]); th[k] = 0.25; n[k] = (n[k] || 0) + 1;
+    });
+    eqs.push({ y: F.y, terms });
+  }));
+  const byKey = {}; eqs.forEach(q => q.terms.forEach(t => { (byKey[t[0]] = byKey[t[0]] || []).push([q, t[1]]); }));
+  for (let it = 0; it < 400; it++) {
+    for (const k of Object.keys(th)) {
+      let num = 0, den = 0;
+      byKey[k].forEach(([q, w]) => {
+        let rest = q.y; q.terms.forEach(u => { if (u[0] !== k) rest -= th[u[0]] * u[1]; });
+        num += w * rest; den += w * w;
+      });
+      const prior = k[0] === 'r' ? 0.8 : 0.25;
+      th[k] = Math.max(0, Math.min(1.2, (num + lam * prior) / (den + lam)));
+    }
+  }
+  Object.keys(th).forEach(k => { if (k[0] === 'r') ret[k.slice(2)] = th[k]; else tt[k.slice(2)] = th[k]; });
+  const cnt = {}; Object.keys(n).forEach(k => { cnt[k.slice(2)] = n[k]; });
+  return { ret, t: tt, n: cnt, lam, runoffs: obs.length };
+})(60);
+
+/** Runoff between two projected finalists using the national flows. Scores are in first-round-ballot units. */
+function flowDuel(c, cands, A, B) {
+  const ratio = R2_BALLOT_RATIO, validTarget = c.r2valid || 96.4;   // flows are fitted with the national round-1 to round-2 turnout drop; the pair is then scaled to the constituency's own valid-ballot share
+  const pool = {};
+  cands.forEach(x => { if (x.i === A.i || x.i === B.i) return; const k = flowKey(x.p); pool[k] = (pool[k] || 0) + x.proj; });
+  const f = F => {
+    const fk = flowKey(F.p);
+    let s = (FLOWS.ret[fk] != null ? FLOWS.ret[fk] : 0.8) * F.proj;
+    Object.entries(pool).forEach(([e, v]) => { const t = FLOWS.t[e + '|' + fk]; s += v * (t != null ? t : 0.25); });
+    return s;
+  };
+  const sa = f(A), sb = f(B), tot = (sa + sb) / ratio, k = tot > 0 ? validTarget / tot : 0;
+  const pa = sa / ratio * k, pb = sb / ratio * k;
+  return sa >= sb ? { w: A, l: B, margin: pa - pb, shW: pa, shL: pb } : { w: B, l: A, margin: pb - pa, shW: pb, shL: pa };
+}
+
+function projectOne(c, d) {
+  const cands = c.r1.map((x, i) => ({ p: x.p, base: x.s, proj: swung(d, x.p, x.s), i }));
+  // Model assumption: every party stands in every constituency. Where it did not stand in 2024 its baseline is 0%,
+  // so a rising party gains the full swing there and a falling one stays at 0.
+  const standing = new Set(c.r1.map(x => x.p));
+  PARTIES.forEach((pt, k) => { if (!standing.has(pt.id)) cands.push({ p: pt.id, base: 0, proj: swung(d, pt.id, 0), i: c.r1.length + k, assumed: true }); });
+  {
+    // After swing and taper, scale every candidate equally so the constituency adds up to its 2024 total (spoiled-ballot share held constant)
+    const S = cands.reduce((a, x) => a + x.proj, 0), k = S > 0 ? c.S0 / S : 1;
+    cands.forEach(x => { x.proj *= k; });
+  }
+  cands.sort((a, b) => b.proj - a.proj || b.base - a.base || a.i - b.i);
+  const lead = cands[0], sec = cands[1];
+  const res = { no: c.no, name: c.name, lead, sec, top: cands.slice(0, 3), cands, theta: c.theta, S0: c.S0 };
+
+  if (lead.proj >= c.theta) {
+    return Object.assign(res, { stage: 'R1', winner: lead.p, loser: null, detail: lead.proj - c.theta, firm: true });
+  }
+  const fin = [lead, sec];
+  if (!c.slots) {
+    // 2024 had no runoff here, so there is no real runoff result to swing: national preference flows decide (flagged)
+    const du = flowDuel(c, cands, lead, sec);
+    return Object.assign(res, { stage: 'R2none', winner: du.w.p, loser: du.l.p, detail: du.margin, firm: false, fin: [du.w.p, du.l.p], r2: [{ i: du.w.i, p: du.w.p, s: du.shW }, { i: du.l.i, p: du.l.p, s: du.shL }] });
+  }
+  // Give every projected finalist a slot from the real 2024 runoff.
+  // A finalist who was also a 2024 finalist keeps its own slot; a newcomer takes the displaced finalist's slot.
+  const taken = [null, null];
+  fin.forEach(n => { const k = c.slots.findIndex(s => s.idx === n.i); if (k >= 0) taken[k] = n; });
+  fin.forEach(n => {
+    if (c.slots.some(s => s.idx === n.i)) return;
+    const k = taken.findIndex(t => t === null);
+    taken[k] = n;
+  });
+  const scored = taken.map((n, k) => {
+    const s = c.slots[k];
+    // actual 2024 runoff share of the slot, minus the newcomer's 2024 first-round deficit to the slot's holder, plus the national swing
+    return { p: n.p, i: n.i, slot: k, own: n.i === s.idx, score: swung(d, n.p, s.r2 + (n.base - s.base)) };
+  });
+  // what the real 2024 pairing would give with the same swing (diagnostic for contests whose finalists changed)
+  const altScores = c.slots.map(s => ({ p: s.p, score: swung(d, s.p, s.r2) })).sort((a, b) => b.score - a.score);
+  scored.sort((a, b) => b.score - a.score);
+  const firm = scored.every(x => x.own);
+  if (firm) {
+    const tot = c.slots[0].r2 + c.slots[1].r2, sum = scored[0].score + scored[1].score;
+    if (sum > 0) scored.forEach(x => { x.score *= tot / sum; });
+  }
+  if (!firm) {
+    const du = flowDuel(c, cands, lead, sec);
+    return Object.assign(res, {
+      stage: 'R2new', winner: du.w.p, loser: du.l.p, detail: du.margin, firm: false, fin: [du.w.p, du.l.p],
+      r2: [{ i: du.w.i, p: du.w.p, s: du.shW }, { i: du.l.i, p: du.l.p, s: du.shL }],
+      alt: altScores[0].p, displaced: c.slots.filter(s => !fin.some(n => n.i === s.idx)).map(s => s.p)
+    });
+  }
+  return Object.assign(res, {
+    stage: firm ? 'R2same' : 'R2new', winner: scored[0].p, loser: scored[1].p,
+    detail: scored[0].score - scored[1].score, share: scored[0].score, firm, fin: [scored[0].p, scored[1].p], scored,
+    r2: scored.map(x => ({ i: x.i, p: x.p, s: Math.max(0, x.score) })),
+    alt: altScores[0].p, displaced: c.slots.filter(s => !fin.some(n => n.i === s.idx)).map(s => s.p)
+  });
+}
+
+function project(inputs, opts = {}) {
+  const invalid = opts.invalidRate != null ? opts.invalidRate : INVALID_RATE_2024;
+  const shares = effectiveShares(inputs);
+  const d = deltas(shares);
+  const pr = proportionalTier(shares, invalid);
+  const cons = CONSTITUENCIES.map(c => projectOne(c, d));
+
+  const ids = PARTIES.map(p => p.id).concat('IND');
+  const seats = {}, con = {}, firm = {}, maxCon = {};
+  ids.forEach(k => { seats[k] = 0; con[k] = 0; firm[k] = 0; maxCon[k] = 0; });
+  const keyOf = code => (code === 'IND' ? 'IND' : (SWING_ALIAS[code] || code));
+  cons.forEach(r => {
+    const w = keyOf(r.winner);
+    con[w]++;
+    if (r.firm) { firm[w]++; maxCon[w]++; }
+    else { r.fin.forEach(p => { maxCon[keyOf(p)]++; }); }
+  });
+  ids.forEach(k => { seats[k] = (pr.seats[k] || 0) + con[k]; });
+  // Nationwide constituency vote share (% of valid votes): sum of each party's projected votes over the 71 constituencies
+  const consNat = {}; let den = 0;
+  ids.forEach(k => { consNat[k] = 0; });
+  cons.forEach((r, i) => {
+    const w = ELECTORATE[r.no][1];                     // voters who took part in round 1
+    r.cands.forEach(x => { consNat[keyOf(x.p)] += w * x.proj; });
+    den += w * r.S0;
+  });
+  ids.forEach(k => { consNat[k] = den > 0 ? consNat[k] / den * 100 : 0; });
+  return { shares, deltas: d, pr, cons, con, firm, maxCon, seats, consNat };
+}
+
+/* ---------- 2024 reference result for the backtest / change column ---------- */
+function actual2024Constituencies() {
+  return CONSTITUENCIES.map(c => {
+    const lead = c.r1.reduce((a, b) => (b.s > a.s ? b : a));
+    if (!c.r2.length) return lead.p;
+    return c.r2.reduce((a, b) => (b.s > a.s ? b : a)).p;
+  });
+}
+
+function backtest() {
+  const inputs = {};
+  PARTIES.forEach(p => { inputs[p.id] = r2dp(BASE_PCT[p.id]); });
+  const r = project(inputs);
+  const act = actual2024Constituencies();
+  let match = 0;
+  r.cons.forEach((x, i) => { if (x.winner === act[i]) match++; });
+  const mismatchSeats = [];
+  Object.keys(ACTUAL_2024).forEach(k => { if (r.seats[k] !== ACTUAL_2024[k]) mismatchSeats.push(k + ' ' + r.seats[k] + '≠' + ACTUAL_2024[k]); });
+  const prOK = Object.keys(ACTUAL_2024_PR).every(k => r.pr.seats[k] === ACTUAL_2024_PR[k]);
+  return { constituencyMatch: match, total: CONSTITUENCIES.length, mismatchSeats, prOK, seats: r.seats, pr: r.pr.seats };
+}
+
+if (typeof module !== 'undefined') module.exports = { FLOWS, PARTIES, IND, CONSTITUENCIES, BASE_PCT, project, backtest, proportionalTier, effectiveShares, actual2024Constituencies, INVALID_RATE_2024, ACTUAL_2024, r2dp };
+
+
+var MAP={"W":5091,"H":3915,"paths":{"1":"M3735 2698l-4-3-5 0-3-3-5 5-2 0 0 4-2 2-2 0-3 7 1 3 1 1 4-3 1 0 4 8 6 4 3 0 4 2 3-3 1 0 2-2 6 4 2 0 0 2-3 0-1 3 2 6 2-1 0 1 1 6-2 0 0 2 3 2 3-3 4 1 1-2 2 1 5-1 7 1 1-5 8-10-7-6-2-3-1-8-2-2-7 7-4 2-5-4-8-1-5-5-3-1z","2":"M3727 2723l-5-2-6-10-1 0-12 9 1 4 4 6 0 12-5 11 1 8-2 2-2 5-6 3-5 6-2 0 2 8 10 4 1 2 11-5 4-5 1-5 0-10 4-7 9-5 23-6 7-6-2-1-1 2-4-1-3 3-3-2 0-2 2 0-1-6 0-1-2 1-2-6 1-3 3 0 0-2-2 0-6-4-2 2-1 0-3 3-4-2z","3":"M3812 2619l-2 1-5-3-2-1-3 6-4 4-4 1-5-1-8 4-4 0-4 0-4 1-5 0-2 1 0 7-1 5 1 9 2 2 6-1 6 3 4 6-2 7 1 7-4 15-1 8-4 8 3 3-1 5 3 5 10-4 1-1-2-1 1-2 7-7 7-1 8 7 2-1-1-3 4-4 6-4 3-5 6-3 9-1 4-3 11 2 8-4 3-3 4-1-1-10-4 1 0-8 4-2 0-5 5 0 0-1 6-2 0-8 2-1-1-4 10-2 0-3 2-3 3 1 4 4 2 0 4-86-1-6-33 4 0-7-7 0 1-2-27-1 0-15-14-1-2-5 1-2 7-6-2-1-4 3-3 5-1 3 3 8 0 8-1 5 2 4 4 5 2 5 4 16 0 5 5 8-1 8-3 4-5 3-9 0-2 2 0 7-2 5z","4":"M3761 2663l1 3-9 1 2 3 0 8-2 16 4 1-2 4 2 9-2 0 2 1 1 3-1 5 1 0 3-2 6-5 4-7 2-11 4-15-1-7 2-7-4-6-6-3-6 1z","5":"M3710 2637l-2-1-3 1 3 4-2 1 8 13 6 16 6 0 0 2 5 1-2 7 1 3 5-3 12 0 8-4 0-8-4-5-1-5-3 0-3-3-8 1-2-2-3-8 2-1-1-3-7-4-2 4-4-3-2 2-2-1-1 1z","6":"M3726 2671l-16-3-3 10 5 3-2 5 4 1-1 7-2 3-1 2 6 2 0-4 2 0 6-5 2 3 5 0 4 3 1 8 3 1 5 5 8 1 5 4 1-5-1-3-2 0 2-1-2-9 2-4-4-1 2-17-8 4-12 0-5 3-1-3 2-7-5-1z","7":"M3697 2663l-11 0-4-3 0 1 1 9-1 0 1 3-1 2-1-1-1 7 8 14 1 0-1 4 12 2 10-2 1-2 2-3 1-7-4-1 2-5-5-3 3-10z","8":"M3671 2676l-1-3 1-2-1-3-5-1-10-7-1 2-6-4-6-3-2 6-4 2 5 15-3 2-1 3-3 2-4-1-2 3 1 2-4 0 0 2-6-3-1 3-11-4-6 7-2-1-3 4 15 5 1-1 4 0 7 4 1 0 1 2 2-3 4-1 4 0-1 2 2 1 4-3 2-4 2-1 11 6 0-1 3-1 6-4 2 3 0 7 3 6 2 8 3 3 3 0 7-15 2 1 1-1 6 4 5-7 1 1 1-2 1 1-1 2-2 3 7 6 6-4-2-4 3-7 2 0 2-2-5-2-11 2-12-2 1-4-1 0-8-16-2-2-5-1 0 1z","9":"M3693 2714l-5-3-4-1-7 15-3 0-10 13-2 7 1 1-3 2-3 6 3 1 2 8 11 2 13 12 3 0 3-5 8-4 2-5 2-2-1-10 3-5 2-8 0-8-6-9 3-3-7-6 3-5-3 0z","10":"M3861 2682l-6 6-6 2-11-2-4 3-9 1-6 3-3 5-6 4-4 4 1 3-2 1-8-7-7 1-7 7-1 2 2 1-1 1-10 4 6 7 10-8 16 3 5-6 3 0-1 2 5 4 7 0 2 2 3-6 5 5 0 1-8 7-5 0-4 6-6 4-7-1-7 15 1 4-2 4-6 8-6 4 36 15 1-6 6-6 8-14 2-11 4-4 12-2 3-3 0-8 5-1-1-7 3-1 2 5 3 1 2 2 4 1 3 2 2-4 5 4 1-2 7-1 4-3-5-6 4-5 7-3 4 2 2-3 4-1 2 1 3 4 4-1 1-2-1-9 1 0-2-5-6 2-6 0 0-3-4 1 3-8 0-2 2-2-2-6-2 2-2-1-1 3-5 1-10-4-6-9-3 0-2-3-2 5 2 1 1 2-2 2-11-4z","11":"M3628 2728l-16 12-7 0-24-12-2-8-6-2-2-4-3 0 1 10 1 2-1 1 2 2 0 3 1 1-1 6 1 0 0 2 2 5 5 3-1 1 0 3 6 4 7 0 13-3 1 0-5 2-1 3 5 2 1 1-1 4-17-1-2 1-12 1 0 8 1 0 0 9-6 0 0 2 8 4-1 1-4 3-6 0 1 3-6 0 1 4-8 1 0 1-5-1 1 3-5 0-13 10 35 6 5 14 3 5 1 9 2 2-12 23-18 23-9 13-4 7 7 1 3 4 37 2 4-13 3 1 2-9 6 2 11 10-4 2 2 2-4 4 0 2 10 8 8 2 1-3 2 0 1-4 1 0 8 3 0 11 19-3-1 4 5 4 0 5-3 4 0 7 2 0-1 2-19 8 5 12-3 7 1 9-3 13-2 5-4 4 1 1 2-1 1 3-3 13 1 1 5 0 1 11 5-4 5-9 8-10 14-5 1-1 2-9 7-10 14-14 6 5 6-8 6-2 7 0-2-20 6-16 4-8 2 1 7-2 5 0 2 3 4 0 3-1 1-2 6-3 2-3 3 0 4-6 6-1 2-3 2 0 2 2 2-1 0-9 2-22 0-4-5 0-1-1-1-9-2 0-4 2-2 2-3-3 1-2-4-7 3-2 1 1 4-4 8-3-3-4 2-2 1 1 4-2-1-5-22 10 0-3-14 1 0 2-6 1-1 2-1 0-1-2-3 1 0 1-3-1-1-2 1-1-4-3 1 4-3 4-3-4-2 0-2 2-2 3 4 4-4 5-17-16 3-13-5-10 17-15 10-5 3-5 1-7 10-16-6-5-9 4-6-3-6 4-7 3-1-2-10-4-2-8-3-1-11-11-4-1-6 0-2-2-1-7-3-1 3-6 3-2-1-1 1-5-8 2-3-1-5-12-2 0-4 2-3 0-6-3z","12":"M3818 2541l-3 0-5-13-1 1 2 4-1 4-12-3-4 2-2-2-1-1-1-3 1-1-1-3-2 0 0-2-3 0 0-1 12-5-1-3-2 0-2-2-4-2 1 0-1-1-1 0 1 1-3-1-1 1 0-2-5-7-7 4-1 4-2 0-1 2-3-3-4 0-3 7-5-1 0 1 2 1-1 1 2 1-2 11 2 2 2-2 2 3 2-1 0 4-4 0-1 1 2 5-1 6-2-1 0 3 2 0 0 1-1 2 2 0-2 4-5-2-2 3-4 1-1 24 8-1 1 6-7-1-1 2-3 0 0-2-1 0-1-2-4 0 0 2 2 4-17 9 1 2-5 4 1 3-2 4-1 1-3-1-1 1 6 2 0 9-3 0 0 4-3 3 3 4 3 2 5 5 2-4 7 4 1 3-2 1 2 7 2 2 9 0 3 3 3 0 1 5 2 3 9-1-1-5 1-3 1 0-1-3-2-3-1-8 1-5-1-5 2-3 18-1 8-4 5 1 4-1 4-4 3-6 2 1 6 3 1-1 0-4 2-5-1-5 2-3 3-1 7 0 7-5 1-2 1-9-4-6-4-20-3-7-6-7z","13":"M3707 2640l-2-3 3-1 2 1 4 5 1-1 2 1 2-2-1-2-3-2-3-4 3-3 0-4 3 0 0-9-5-1-1 2-2 0 1-3-4-1-1 6-9-3-1 3-3 6-9-14-5 8-3-5-2 4-4 2 2 4-6 3-1-6-6-1 0 9 3 4 2-1 1 1-4 1 5 7 7 5 4 0-2-8 5-5 2 1 3-2 1 26-3 1-1 1 2 2 14 2 11 4 11 3-6-16-8-13z","14":"M3753 2748l-28 8-8 6-2 5 1 11-3 6 6 3 9-4 6 5-10 16-1 7-3 5-10 5-17 15 5 10-3 13 17 16 4-5-4-4 4-5 2 0 3 4 3-4-1-4 4 3-1 1 1 2 3 1 0-1 3-1 1 2 1 0 1-2 6-1 0-2 7-1 7 0 0 3 23-10-1-5 8-2-1-4 8-5-8-12-1-11 7-2-2-7-4 2-1-2 0-21 0-2 2 1 1-4-3-1 6-4 6-8 2-4-1-4 7-15 7 1 6-4 4-6 5 0 8-7 0-1-5-5-3 6-2-2-7 0-5-4 1-2-3 0-5 6-16-3-10 8-7 9-1 5-7-1-4 1z","15":"M2617 2329l3-2-2-3-4-2 1-10-6-1-10 2-8 2-1 0-7 11-3 9-1 27 4 1-1 5 5 1 0 2 7 4 1-2 5 0 3 6 8-6 1 1-2 2 1 1-6 5 1-1 5 0 0 1 5 0 0-3-2-4 2 0 0-2 0-1-2 2-2-2 22-17 1-3-2-4 11-2 5-4-14 3-6-7-2-6z","16":"M2635 2353l-23 19 2 2 2-2 0 1 0 2-2 0 2 3 7-2 6-4 2 3 0 5 2-1 0-3 3-2-1-2 4-2 2 5 6-3 30 1-7-8 14-7 10 1 2 3 0 3 5-5 13 2 25 19 4-3 14-9 13 4 1-2-5-6 7-9 9-4-3-2-7-3-19-22-4 6 0-1-1 1 14-27-11 1 0-4 9-6 5-7-3-6-27 1-7-9-18 4-9 5-6-1-15 0-5 3-13 14-6 5-1 2-2 8-2 4-3 2-12 4-7-1-9-4-5-5-1 8 4 2 2 3-3 2 10 3 2 6 6 7 14-3-5 4-11 2 0 2 2 1z","17":"M2631 2377l-2-5-6 4-7 2 0 4-1 0 0 1-6 1 7 6 3 5-3 1 0-2-2 1-3 0 0 6-2 2 1 4 8-4 2 4-1 1 2 4 7-4 8 1 8 9 4 13 7 10 2 1 17 5 22-46 7-3 5-11 14-8 8 0 8 4 2-2-26-19-13-2-5 5 0-3-2-3-10-1-14 7 7 8-30-1-6 3-2-5-4 2 1 2-3 2 0 3-2 1z","18":"M2598 2422l1-3-1-1-6 4-4 6-10-6-2 4-6 0-3 7-2 0-3-2-18-1 0 3 2 0-3 0 0 2-1 2 1 5 2 5-5 9-2 1-2-1-1 1-1-3-9 3-13 0 7 17 6-6 6-4 9 5-3 8 14 3 4-15 8 3 15 2 0 1 2 0 1 2 1 1 5 1 2-2 1 1 2-1 3 11 1 1 2 6 1 13-2 6-10 9 13-8 3-6 0-1 1 1 2-3 12-7 7-7 2-4 6 12 7 1-1 1 4 1 3-3 0-2 3-1 3-3 11-4 14 11 10-12 1 1 2-2-9-8 3-1-2-2-6-3-6 0-4-5 8-18-17-5-2-1-7-10-4-13-6-7-8-3-9 3-3 6 0 9-2 1-7-2 2-2-2-1 0-1-1-2-1 2z","19":"M2486 2319l0-5-4 13-2 10 0 8-3 13-2-2-5 5-3-2-2-2-13-5-4 0-5 2 8 4 18 16 9 5 10 9 7 2 7 1-2 5 11 3-3 7-7 9 2 1-2 7 1 1 10-3 1 5 8 8 4 5 3-1 1 0 0 1 4 0 9-4 1 1 0-3 3 0-3-1 1-2 18 1 3 2 2 0 3-7 6 0 2-4 10 6 1-2-6-7-17-9-13-1-5-3-5-7 6 1 10-3 7-8 9-7 1-3 2-9-4-1-5-2-3 4-4-1-4 6-9 5-3-5 2-2-1-1-2 1 1-2-3-5-2 2-1 4 0 2 1 1-5-1 2-2 1-4 4-4-4-3 5-5-6-4 7-8-3-2-1 1-2-2 2-1-4-6-6 4-1-1-22 0-1-10-14 4z","20":"M2576 2379l-2 5-8 5-8 8-9 3-6-1 5 7 5 3 13 1 17 9 6 7 3-4 6-4 1 1-1 3 9-1 1-2 1 2 0 1 2 1-2 2 7 2 2-1 0-8 3-6-2-4 1-1-2-4-8 4-1-3 2-3 0-6 3 0 2-1 0 2 3-1-3-5-7-6 4-1 2 0 0-1-10 0 6-5-1-1 2-2-1-1-8 6-3-6-5 0-1 2-7-4 0-2-5-1 1-5-4-1z","21":"M2547 2330l-7 0-3 5 4 6-2 1 2 2 1-1 3 2-7 8 6 4-5 5 4 3-4 4-1 4-2 2 5 1-1-1 0-2 1-4 2-2 3 5-1 2 2-1 1 1-2 2 3 5 9-5 4-6 4 1 3-4 5 2 4 1 1-8 1-27 4-12 7-8-4-4-3 2-4-2-11 12-4-4-5 5-3-6-4 2-2 1-2 6 1 2z","22":"M200 1185l-4-9-7 6 3 4-2 2-2-3 2 3 1 0 1 1-1 2 5-3-6 4 2 4-1-4 1 0 0 3 4-1 1 2-4 2 1 0 0 1-2-2 4 6 1-1 5 13-2 0 3 0 0 2 1-2 0 2 0 1 1 1 0 4-1 1 2 1 3 15 1-1 4 20 2 1 2-1 0 2-1 0 3 1 0 1-2-1 3 1 0 2-2 0 2 0 1 2-2 0 2 0 1 2-3 0 3 0 0 2 4-1 1 3 2 0-1-4 8-3 1 2 2-1-5-16 2-1 1 2 1-1 0-2-2-5-1 0-1-2-2 0 0-2-2 0-1-1-2 1-3-9 1-1 0-1-1 1-3-5-2 1-3-4 5-2-3-4 4-2 1 3 1-2 7-2 0-1 3-1-3 0-1-3-3 2-1-4-1 0 0-2 3-3 0-1-14 9-8-16-3-4 2-4-1-1 0-1zM201 1238l0-6-1 0-1-3 1-2-9-21-1 1-18-36-6-4 0 9 6 48 4 60 1 32-1 41-5 68-2 24-4 29-23 107-17 61-14 39-24 56-3 10-23 50-15 28 26 5 4-10 10-8-2-9 0-3 3-4 3-1 1 1-1-1 2-2 1 1 1 1 0-1 1-1-1 1-2-1 1-1 2 1 0-1-2-1 0-1 1 1-2-5 2-5 5-6 6-6 1-2 8-3 2-2 6-2 13-11-2-3-2-4 0-7 6-14 0-3-5-6 1-11 0-3 9-10 2-1 0-2 2-2 1-4 7-10-5-4 0-3 1-3 17-17-5-3-1-4-1 0 0 1-1-1 0-3 11-7 2 2-2-2 1-1 10-9-3-6 1-2-15-17-1-3 3-5-1-5 5-7 0-9 4-9 1-5-1-3 5-19 8-11-3-6-1-7-1-1 3-18 3-7-2-2-2-7 2-11 2-3 0-4 2-2-3 0 0-5 2-6 2-2-1 0 3-6 1-5 2-3-2-1 0-2 2 0 0 2 0-2-2-6 3-6-2 0 0-4 1-2-1-2 2-2-1-5 1-6 0-3-2-2 0-9 2-5 1 0 0-1 2-1-1-1 1-1-2-3-1-8 0-4 4-5 1-11 0-6-2-1-1-5 1-5-1-3 1-10-1-2-1-28-2-7 1-12z","23":"M206 1095l-2-1-2-1-1-3 4-14-1-8 1-5-1-7-7 10-10 13-17 10-3-8-11 5-3-3-2 2 0 1 1 2-2 1 6 26 3 32 0 4-2 5 10 4 9 7 12 17-1-3 1-1 1 2 7-6 4 9 5-2 0 1 1 1-2 4 3 3 1-2 2 0 5 3 0-2 9 2 0-3 4-2 29 1-25-68-3-2-2-6-3-2-2-7-4-1-1-3-7-3 1-3-3 0z","24":"M207 1192l8 17 14-9 0 1-3 3 0 2 1 0 1 4 3-2 1 3 3-1-1 2-2 0 0 1-7 2-1 2-1-3-4 2 3 4-5 2 3 4 2-1 3 5 1-1 0 1-1 1 3 9 2-1 2 1 11-4-1-5 1-1 0-2 2-1 0 2 5-2-1-2 4-3-9-12-5 2 0-1 4-2-8-14 24 6 2-1 7 18 6-1 6 3 3-1 5 1 3-5 6 3-2-5 4-1-3-2-4-8 6-2 3 3 3-2 0 1 13-8-1-7-2 0-3-6 5-2 0-16 4-2-2-8 0-7 17-9-2-6 1-5-3-4 4-9-1-1-12 4-13-1-22 30-12 20-4 3-4-2-3-4 5-7-1-11-17 1-7 8 13 36-29-1-4 2 0 3-9-2 0 2-5-3-2 0z","25":"M243 1236l-10 4 0 2 2 0 1 2 1 0 2 5 0 2-1 1-1-2-2 1 5 16-2 1-1-2-8 3 1 4-2 0-1-3-4 1-2 0 2 1 1 2-2-1 3 2 2 5-2 2 1 3-9-11-5-16-3 0-1-3 1 3-1 1 7 23 0 7 3 7 3 3 12-1 15 33 5-2-1-8-2-2-14-33 3-3 3 2 4-1 3 3 10-3 0-2 10 0 0-2 7-1 7 1 3 2-3-5 8-2-5-16-9-21 11-8-2-5-11 8-14-33-2 1-24-6 8 14-4 2 0 1 5-2 9 12-4 3 1 2-5 2 0-2-2 1 0 2-1 1z","26":"M2058 861l-26 21-2-2-3 2-2-2-1 1-1-1-2 1-1-2-7 2 8 10-4 3-6-4-10 8 4 5 6 5 2-3 1 1 3 3 5 15 3 3 6-8-2-3 8-7 3 2 7-11 3 2 1-7 11 8-4 2 8 5 0 4 4 0-9 12-3-1-3 1 0 1-5 1-6 3-3 4-6 3-6 4-4 5 0 7 6 8 3 2 3 0 3 3 8 6 3 0 9 6 5 1 2-1 5 4 2 0-1 5 5 1 6-19 3 1 6-22-3 0 2-4 1 0 0 2 1 0 1-4 8 2 0 3 7-2-1-9-2 0 1-5 2-3 3-1 2-2 13 16 3-5 3 2 4-5 2 2 4-2 5 4 5 0 2 4 2-2-3-3 10-16-2-5-6-6 2-3-3-4-5 1-1-2 2-2-6-5-3-6-11-7 0-4-8-2-1 3-6 2-5-8-2 3-4-2 2-2-2-1 1-1-2-2 0-3 7 1 1-1 1-6-1-3-2 0 1-3-4-3-3 3-8-2-1-17-4-3 2-14-3-1 0 4-4 5-1 1 2 1-2 5-2 3 0 7-4 9-5-1 0 3-4-1-2 2 2 2-2 3 3 2-3 5-1 0z","27":"M2072 797l0-1-1 0-1 2-4-3-3 3-5 2 3 2-5 6-6-4-4 7 2 1-2 3-8-6-7 9 9 7-1 1 3 2-6 8-1 5-1-2-14 20-1 0 0 2 8 6-13 6 2 3 0 4 4-1 1 2 2-1 1 1 1-1 2 2 3-2 2 2 26-21 10 5 1 0 3-5-3-2 2-3-2-2 2-2 4 1 0-3 5 1 4-9 0-7 2-3 2-5-2-1 0-1 5-5 0-4 3-7 2 1 2-3 1 2 5-5 1-3-1-1 1-2-3-2-7 13-2-1 1-2-9-7-2 1-1-1-7 1 3-5-2-2-3 5z","28":"M2939 1111l-3 0 0-3-2 0-2 0 0 1-4 0-7 5-2-4-4 1 1 1-2 2-2-1-3 3-3 0-1-3-3 3 0 10-2 0-1 2 3 0 0 4-19 1 1 2-1 1-2-1-5 4-2 4-2-2 0-2-4-3 1 0-10 2 0 4-3 5 3-1 3-2 0-2 2-1 6 6 5-3 17-3 1 3 3 6 2 0 1-4 6-1 3 1 7 4 2-3 6-5 4-1 4 0 4 3 2-1 3-3 4-2 0 5 2 9 0 11-4 1 0 3 6 0 3 3 4 0 0 1 4 0 2-1-1-1 4-1 0-7 4 0 1 5 8-2 1 1 7-3 2 3 1 0-2 1 3 8 5-2-2-3-1-9 1-2 2 0-2-2 3-4 3-6-1-1 3-7 6-1 0 3 3 0 0-2 1 0 2 5 3 2 4 4 2-1-2-4-4-2 1-4-1-1 7-1 0-5 2 0-8 0-1-4-1 0 0-2-2 0 0 5-7 1-1-6-7 2 1-1-2-1 1 0 0-3-3-2-3 6-1 0-4-3-4-4 0-21-3-1 0-3-1 0 0-2-11 4 2 8-14 1 2 4-6 1 1 2-6 0-4 2-2-1z","29":"M2944 1144l1-6-1 0-7 5-2 1-4-3-4 0-4 1-6 5-2 3-8-4-9 0-2 11 1 1 0 2 5 5-2 0-3-1 3 7 2-1 0 5 8 0 0 1 12-1 0 12 1 1-6 5 5 1-4 9-2 0 3 4 38-4-3-4 7-2 3 7 2-1-2-6 5-3-4-2 7-3-2-3 2 0-3-5-5 1 0-2 2-1 0-2 1-1 0-2-3-6-4 1 1 1-2 1-4 0 0-1-4 0-3-3-6 0 0-3 4-1 0-11z","30":"M2674 3133l-3 3-3 1-4-6-6 6-2-1-1 1-2 2 3 0 0 2 1 0-2 7-1 1 0-1-1 0 0 4-2 0-1 1-3 0 2 2-2 1 3 0 0 2 2 1 1 9 4 1 0 3-8 3-8 18 14 4-1-4 2 0 0-3 4 3 0-4 2-4 4-3 3 0 12 2 8 5 6 7 13 9 9-19 9 6 3 4 3 2 2-5-4-9 1-13-8-10 1-1-8-6-8-1-5-3-8-9-2-3-3 0 1 1-2 1 2 2-4 3-10-11-1 1z","31":"M447 1016l-9 25-37-14-5 11-9-3 2-5-14-5-8 16 9 7 5 7 3 2-7 6-10 1 0 4-9 18-11-6-3 2 2 2-10 4 3 6-2 17-3 1 1 1-4 9 3 4-1 5 2 6-17 9 0 7 2 8-4 2 0 16-5 2 3 6 2 0 1 7-13 8 0-1-3 2-3-3-6 2 4 8 3 2-4 1 2 5-6-3-3 5-5-1-3 1-6-3-6 1 7 15 11-8 2 5-11 8 9 21 5 16-8 2 3 5-3-2-7-1-7 1 0 2-10 0 0 2-10 3-3-3-4 1-3-2-3 3 14 33 2 2 1 8-5 2-15-33-12 1 2 1 5 16-1 2 0 4 8 29 0 6 2 1 1 4 0 2 2 2 1 6 5 4 7 14 5 6 0 3 6 18-1 4 1 1-1 2-1 2 1 1-1 3 1 5 0 2 1 3 0 3 2 3-1 8 3 3 0 3 4 3 0 3 2 1 3-2 2 5 1-1 4 4-1 2 3 1 0 1-4 2 3 0 1 2 1 6-1 4 3 6 1 0-1 3 5 6 3 9 1 6-2 1 1 4 2 1-1 2 1 3-1 2 1 7 2 5-1 2 1 3 5-3 4 1 0-1 6-5 59-29 7 6 15 10 0-6 2-5-3-6 0-6-2-5-2-2-6 0-3-6 3-5 3-1-1-4 1-3-1-2 3-3 3 1 4-2 2 2 2-1 0-7 5-2 4 5 1-1 0-6 6-2 1-3-3-2-1-3 2-3 6-2 3-6-2-3 1-10-1-2 3-3 23 6 6-3-1-6 5-2 3-4 11-5 0 3 4 6 5 2 5 0 1 2-1 2-1 5-6 4-1 1-1-1-5 5 1 4 1-1 1 6 6-1 2-1-1-3 7-1 1-6 5-1 2 2 8 0 0 9 2 2 9 0-8 16 1 1 0 3 4 2 1-5 6-3 2 0 2-6 3 0 5-2 2 1-1 5 4-1 4 0 3-2 4 0-1-14 3-4 15-2 6-6 7 5 3 1-1-8 2-2-2-4-2-1 2-5 9-2-6-20 3 0-1 1 2 3 3-1 0 1 2 0 0 2 2-1 4 1 2-4 4 2 0-1 3 0 0 1 0 1 3-2 2 5 2-2 2 0 2 2-2 1 2-1 1 4 2 0 0 1-1 0 0 2 1 0 3 1-2 0 0 2-1 1 3 2 3 0-1 2 0 2 3-1 3 2 2-1 1 2 2-2 0 2 1-1 2 3 2-3 2 2-1 1 2 0 0 1 3 2 1 0 0 3 2 0-1 2 1 2 2 0 0 1 2 1 0-1 1 0 0 3 1-1 1 2 0 2 1 0 1 2 2 0 1 1 1 0 0 4 1-1 0-1 1 1 0 2 1 4 0 1-1 1 1 2 3 2 3 1 2 2 2 0 0 2 1-1 0 3 1 0 1 2-1 1 1 0 1 2 1 0-1 0 1 1 1 2 2 0 3 3 0-1 2 1 2 1 1-2 2 1 3-4-3-2 2 0 0-1 2-1-2-2 2 1 1-3 4-1 3-2 1 0 1 3 1-2 1 1 2-2 3 1 0 1 8-6 0-4 4-8 6 0 3-6 6-6 0-4-1-8 3-5-2-4 10-8-6-1 1-2 4-1 5-6 5 0 4 3 3 4 7 0-7 8 14 5 15-22 5 3 2-1 3-5 4-3 6 4 21-17-12-7 10-14-33-24 2-1-3-4 3-1 0-2-28 0-1 0 5-8-2 0 0-4-4-4 1-4-2-2 1-5-1-2-8-1-8-6-1-2-5-7 4-2 7 5 4-2-2-5-5-2-3-12-5-3 8-12-3-2 5-14-2-4 5-2 5-6-12-4-2-7-5-9-12 1-7-14-6-3 3-10-1-4 3-6 10-6-1-2-7-9 2-12 0-5 1-1-3-3-16-12-2 7-3-1 0 8-2-1-3 1-3-1 0-5-3-1-6 6-2 3-10-6-4 1-1-2-21-9-4-3-1 1-2 4-1 5-4 2 1 1-2 1 1 1-3 1 0 2-1-1-1 1-1-1-2 1-1-1 0-1 0-1-2 1 0-2-2 2-1-1 0-2-1 1-1-1-1 1-1-1 0 2-1-2-1 2-2-3-2-1-1 2-2-3 3-7-1-13 4-1 5 1 1-6-8 1-2-4-1 0-1-4 3 0-1-14-4 1-2 0-2-2 3-3-4-4-2 3-3 1-4-3 4-2-3-6-6-3 0-8 5-3-3-6 0-6-5-6-2 4 2 3-1 9-4 2 0 2-3 1-4-1 0 1-9 1-10-3-3 4 2 5-11-1-8-3-2-3-9-1-4-2 1 0 2-1-6-3-4-1-9 22-2-1-1 3 1 2-1 3 2 3-2 0 0 1-2-1-1 2 0-2-1 1 0 2-2-2-1 1-1-2-1 1 1 0-3 0-1 1-4-2-4 1-8-3 2-7-14-15-9-5 6-16z","32":"M481 1450l-4 0-1-6-1 1-1-4 5-5 1 1 1-1 6-4 1-5 1-2-1-2-5 0-5-2-4-6 0-3-11 5-3 4-5 2 1 6-6 3-23-6-3 3 1 2-1 10 2 3-3 6-6 2-2 3 1 3 3 2-1 3-6 2 0 6-1 1-4-5-5 2 0 7-2 1-2-2-4 2-3-1-3 3 1 2-1 3 1 4-3 1-3 5 3 6 6 0 2 2 2 5 0 6 3 6-2 5 0 6-15-10-7-6-59 29-6 5 0 1-4-1-5 3 0 2 1 0-2 1 1 7-1 8 1 0-2 2 1 4-1 6 4 0-2 0-2 2-1 3 2 1-3 12 1 14-1 8 1 3 2 0-2 1 1 3-5 11-3 2-2 7-5 5-1 7-3 1 2 4-2 11-6 14-3 1 1-2-3 3 1 2-6 13 0 3-9 15-2 5-1 0-2 4-2 2 0 2 0 1 3-1 10-4-1-1 1 1 2-2 0-1 1 1 3-1 0 1 2 0 5-6 2 0-1-1 2-1 2 0 1 2-2-1 1 2 4-2 3 2 1-1 3-14 3-5 3-4 6-1 4 0 9 7 0 4-2 1 0-3-6-2-1 2-2 2 0 3-3 2 3 6 1 0 1 2-1 1-2 1 0 7-3 1 0 3-2 1-3-1 0 2 3 1 1 5-2 4 3 3 3-2-1-2 7 4 2-1 2 2 0-1 1 1 8 7 4 8 0 1 2 1 0 4 2 3 1 7 2-2 1 1 1 1-1 3 2 2 1 5 1-1 2 0 0 1-2 3 0 2 2 1 0 4-1 7-3 3-2-3-1-7-1 1-1 1 1 2-3 0 0 2-5 8 1 1-2 3-1-1-3 2 0 2-3 0 0 2-4 1 0 3-1 1 1 15 4 7 2 1-1 2 2 3 0 6-1 5-3 2-1-1-1 2-2 0 0 1-1 0 0 1 1 1 0 3 3-1 4 2 8-6 12-5 6-4 2-7 11-7 10-14 6-4 9-4 7-10 16-2 3-3 1-7 5-2 2 2 16 19 9 24 6 10 6 7 3 6 7 27 10 19 7 7 20 14 3 5 6 15 3 5 7 5 4 1 5-2 7-5 6-8 4-2 10-3 17-2 5 1 4 2 8 10 5 3 5 1 9-1 16 8 19 3 1-1-2-1 14 1 2-1 0-3-1-1-1-3-4-1 4-19 10-1 2 1 1 1 8-9 0-10 9 2-1-2 18 1-1 0 3 0 3-2 3 0 3-5 1 1 2-2-6-8 4-6 11-4 15 2 0-3 12 8 6-5 2-4 2 1 10 6 5 1 9 8-6 9 12 3 34 12 5-18 1-7 4-15-3-4 2-4 5-4-12-12-2 0-4-5-3-15 0-4-5-8-2-4 4-11 9-8-1-1 3-6 5-6 0-4 10-4 3 8 7 5 33-47 4-3 4-1-1-2 7-6 1-3 0-15 2 0 4-2 6 1 4-4 4 0-1-2 12-9 4-7 5 0 9-28 1-1 2-10 4-5 2-1 1-7 3-6-2-1-2-3-4 0-5-4 8-5 3-10-1-3-3-3-2 0-5 4 0 4-6 0-2-26-25 3-44-20-41 19-6-63 2-1-14-50-2 2-2 0-1 2-7 3-2-7 0-5-6-22-4 2-1-3 5-7-1-4 3-4-4-7 2-7-1 0 7-7 1-3 0-3-9-6 0 3-3 0-2 1-4 1-6-3 8-10-14-5 7-8-7 0-3-4-4-3-5 0-5 6-4 1-1 2 6 1-10 8 2 4-3 5 1 8 0 4-6 6-3 6-6 0-4 8 0 4-8 6 0-1-3-1-2 2-1-1-1 2-1-3-1 0-3 2-4 1-1 3-2-1 2 2-2 1 0 1-2 0 3 2-3 4-2-1-1 2-2-1-2-1 0 1-3-3-2 0-1-2-1-1 1 0-1 0-1-2-1 0 1-1-1-2-1 0 0-3-1 1 0-2-2 0-2-2-3-1-3-2-1-2 1-1 0-1-1-3 0-4-2 2 0-4-1 0-1-1-2 0-1-2-1 0 0-2-1-2-1 1 0-3-1 0 0 1-2-1 0-1-2 0-2-2 2-2-2 0 0-3-1 0-3-2 0-1-2 0 0-2-2-1-1 3-2-3-1 1 0-2-2 2-1-2-2 1-3-2-3 1 0-2 1-2-3 0-3-2 1-1 0-2 2 0-3-1-1 0 0-2 1 0 0-1-2 0-1-4-2 1 2-1-2-2-2 0-2 2-2-5-3 2 0-1 0-1-3 0 0 1-4-2-2 4-4-1-2 1 0-2-2 0 0-1-3 1-2-3 1-1-1-1-2 1 6 20-9 2-2 5 2 1 2 4-2 2 1 8-3-1-7-5-6 6-15 2-3 4 1 14-4 0-3 2-4 0-4 1 1-5-2-1-5 2-3 0-2 6-2 0-6 3-1 5-4-2 0-3-1-1 8-16-9 0-2-2 0-9-8 0-2-2-5 1-1 6-7 1 1 3z","33":"M2890 898l-22-4-4 0-5 26-12-3-5 0-5-3-4 2-2 2 2 20-1 15-15-3 2 18-1 9-14-3 1 16-27-1 2-6-12-2-1 8-16 1-1-6-3-2-3-53-18 1 1 5-21 5 0 9-2 0 1 3-22 3 1 19-27-5 6 14 3 10-37-5-8 0 1 7-2 2-2 6 2 7 1 1 5 36 2 6 5 0 2 12 3 4 2 7 3 1 13-7 8 1 3 4 3 10 2 2 5 12-1 10-6-2-1 6-4 0 1 6 2 3 9-3 2 4 1 0 0 1 1 0 0 9 13-1-5 21-2-1 0 2 2 1 0 1 2 0-1 9-4-2-4 1-3 19 15 3-1 6 14 2-1 10 6 2-7 11-24-3-4 11 0 3-2-1-1 1-3-1-6 13 1 6 7 4 1 24-1 4 5 1 8 18-3 5-2 1-6 0-6 8-2-3-14 1-7-2-8 0-3 5-5 3 1 11-31-11-10-5-3 10 1-1 0 3 1 0 0 1-1 3-3 4-1 13-3 1 0 10-14 37-1-1-2-1-5 8-2 9-6 7 4 2 7 0 4-5 8-2 2-3 4-1 2 1-1 3 1 12-3 8-1 9 0 3 5 6 4 1 16 38 2-1 3 7 7-3 2 6 5-2 8-4-2-5 15-6 3 6 10-4 32 52 13 5 1 10-2 3 1 3-1 3-4 3 0 1 2 1-1 5-4 7-1 4-1 1-3-2 0 1 1 4-2 2 0 3 12 4 9 2 24-7 4-12 21 3 0 18 10 3 9 0 7-3 4-8 6-3 1-4-1-2 1-3 16 5 9 5 5-10 1 0 2-13 1-10-3-12 4 0 33 12-2 4 0 7 2 8 15 7 19 6 9 5 7 6 3-3 2-24 8 2 0 9 1 4 7 1 11 5 1-1 6 0 6 7 2 0 3-4 3 0 0 7 2 1 11-2 6 2 2 7 3 0 1 6-3-1-3 4-2 6 3 2-2 8 4 3 5 0 3 4 2-1 2 2-1 1 1 1-6 4 3 10-1 5 2 3 3 3 0 1 7 3 2 2 3-4 4-2 11-1 12-6 0-5 5-5 19 2 0 9 6 0 3-14-1-4 13-6 0-2-7 3-1-2-7 1-2-10 3 0 0-12 5 0-1-5-1-2-4 0-1-2 3 0 0-3-2 0 0-3-2 0-1-1-7 2 0 2-8 2 0-3-3-1-10 1 0 1-3 1 0-4-1-2 16-8-3-2-2 1 0-2-4-6 3-16-5-2-9 3 1-7-1-7-3-1 0-4-5 1-7-8-14 4-7-10 1-3-4 1-1-5-2-2-2 1-3-1-2-3 4-4-4-23 5 0-1-8-2-5 1-2 6-1-1-4 10-1-1-7-14 3-1-2-4 1 0 2-6 2-2-2 1-9-6 1 0-17 3-1-2-3 2 0 2-7-2-7 4-9 0-12 2-9 4-9 2-6 4-3-2-4-2-11 4-5 7-25-5-21 2-3-1-2 2 0-2-2 7 0-1-9 1 0-4-11-4-4-6-2 0-10 2 0 0-5 3-4 0-3 7-6 0-10 3 0-1-8-2-5 1-5-2-6-3-3-1-6 22-9 5-5-9-9-11 4-1-2-4 2-3-5 2-3-2-7 2 1-3-8 2-1-1 0-2-3-7 3-1-1-8 2-1-5-4 0 0 7 3 8-1 1 0 2-2 1 0 2 5-1 3 5-2 0 2 3-7 3 4 2-5 3 2 6-2 1-3-7-7 2 3 4-38 4-3-4 2 0 4-9-5-1 6-5-1-1 0-12-12 1 0-1-8 0 0-5-2 1-2-3-1-4 3 1 2 0-5-5 0-2-1-1 1-7-1 0-3-6-1-3-17 3-5 3-6-6-2 1 0 2-3 2-3 1 3-5 0-4 10-2-1 0 4 3 0 2 2 2 2-4 5-4 2 1 1-1-1-2 19-1 0-4-3 0 1-2 2 0 0-10 3-3 1 3 3 0 3-3 2 1 2-2-1-1 4-1 2 4 7-5 4 0 0-1 2 0 2 0 0 3 3 0 1 2 2 1 4-2 6 0-1-2 6-1-2-4 14-1-2-8 11-4 0 2 1 0 0 3 3 1 0 21 4 4 5 3 3-6 3 2 0 3-1 0 2 1-1 1 7-2 1 6 7-1 0-5 2 0 0 2 1 0 1 4 8 0-2 0 0 5-7 1 1 1-1 4 4 2 2 4-2 1-4-4-3-2-2-5-1 0 0 2-3 0 0-3-5 0-2 2-2 6 1 1-3 6-3 4 2 2-2 0-1 2 1 9 12 13 2-1 8 8 1-2 2 1 0-3 7-2 0-3-4-5 1-3 3-1 1-3 2 1 4 7 3 0 4 4 1-1 4 1 0-5 7-1 6-4 5 4 3-1 5 6-3-3 0-2 11-3 2 8-10 4-7 9-1 0-1 3 2 0 0 2 5 0 0-5 12 0-1 5-4 0 15 7 16-11 0-3 7-2-1-1 2-1 1 1 2-2 0 5 10 0 1 4-2 0 0 1 5-1-1-1 10-8 6 8 3-4 1 1 3-2 2 6 0 1 2 1-1 2 2 0 0 4 2 2 2-6 1-2 4-1 7 7 9-1-2-6 3-2 5 3 0-10 1 0 5 2 7-4 3 1 1 4 4 5-1 3 3 5 24 12 11-4 1 3-2 1 4 3-3 2 1 1 11 5 0 2 1 2 5 3 2-3-2-1 1-8 6-5-1-4 2-6-2-2 3-12-2-10-4-12-9-5-6-8-1-6 6-4-1-2 7 0-6-14-12 6-2-4 2-4-2-1 0-2 0-4 2-3-1-3-1 1 2-6-2-4-3 0 1-6-6-4-1-4 17-1 7-9-3-2 0-5 11-3 9 1 4-1 1-2 4 1 1-2 5 0-1-21-6 0 3-15 5-2 12-14-3-8 1-17-15-19 0-11 2-6 1-12-1-4-4-3-10 3 0-6-3-3 2-6 4-3-8-10 4-2-7-44-19-6 1-8-6 0 0-3-3 0-1-3-20 30-5 0-1 6-1 1-6 0-2 2-1 4-1 8-4 2-4 0-5-6 2 0 2-10-2-18-4-1-4 2-11-8-1-1 2-2 2-7-1-1-9 0-1 3-5 2-1 3-6 3 4 18-21 12-15-8-13 31 4 8 6-1 8-5 1 3 6 1 2-4 6 2-3 6-5 5-3-1-1 1 0 7 1 2-2 1 0 2-109 18-3-17 12-5 9-1 1-18-20 6-3-25-19 4-3-30-18-1-7 6-7 36-13-3 0 2-1 1-1-8-20-4-30-9-2 0-5 3 0 2 3 1z","34":"M917 1616l25-3 2 26 6 0 0-4 5-4 3 1 3 4-3 11-8 5 5 4 4 0 2 3 2 1-3 6-1 7-2 1-4 5-2 10-1 1-9 28-5 0-4 7-12 9 1 2-4 0-4 4-6-1-4 2-2 0 0 15-1 3-7 6 1 2-4 1-4 3-47 65 3 4 4-2 12 4 7 6 7 0 14 2 19 8 0 1 11 4-1 1 9 10 8 3 2 3 3-3 1 0 3 2 8 2 19 11 3 0 5 6-2 8-8 7 4 5 8 34 5 12 4 16 2 2 8 12 1 5-5 7 2 2-4 4 1 9 12-2 9 4 12-7 2-6 1 1 5-2 6-4 7-6 7 0 1-1 4 2 14 1-1-7 4-1 1-6 4 3 3 0 4 2 13 16 8 13 21-3 0 1 2 1 1 3 6-3 9 0 2 2 0 2 3 5 6-2 6-6 2 2-1 2 4 1 0-1 5 0 0 3 1 0 1-2 13 0 1 4 3 6 33-9 0-35 4-5-1-1 3 1 1-2 2 3 5 0 0-18-4-5-1 0-1-2 3 1 0-1 1 0 3-2 2-3-2-3-1 1-1-1-3 0-5-9-6 1-1-1 5-3 0-4 4 0-3-5 2-2 1-6 1 0 3-1 1 3 1 0 2 4 4 1 3-2-1-3 3-2-4-6-2-10-1-1 0-2 1-4-1-6-1 0 4-4 2 3 12-3 5 5 5-7 0 3 2 2 3-2 4-4 3 2 2-1 2-1 0-3 3-2 0-3 4-2 0-2 3-5 10-2 1 3 6 1 0 3 3 2-1 5 6 2 1-7 4-4 3-10 5 0 0-3 6 0-2-6 3 0-5-7 1-8 12-4 4 1-1 1 3 4 5-1 1-3 5 0 0-9 2 0 0 2 5 0 1-7 0-5 25 4-1-2-1-6-7-3 2-4 3 1 4-4-3-8-5-5 2-2 6 3 3-1 1-8 4-6 17 4 17-2 0 3 5-1 0-5 6 0 1 3 12 0 21-2 3 2 5-12-4-1-7 3 0-2 3-2 0-2-3-11-2-1-1 1-1-1-1 1 0-2-1 2-2-1 2-3 0-3 1-2-1-5-3-4-1-6-2-2 1-1-2-3-3-5 1-2-1-3 3-2-1 0-2-2-3 1-12-4-2-18 7 3 2-2-7-11 10-7-6-9-7-3-5-1-2-3 0-8-17-1-6 1-1-2 8-5 0-1-1-2-1-3 5 0-1-2 1-1 5 1 4-9 2 2-1 2 0 1 5 3 3-1 1-4-1-2-2-1-2-4 3-1 0-2 2-1 1 4 3-1 3 4 2-1 0-3 1 1 2-1-1-3-3-3 1-1-1-4 21-2 24-27-2-3 9-7 7-7 12-14-9-7-30-7-10 0 0 3 2 0 0 3 2 2 0 1-2 2-1 2-1 0-6-1 2 6 3 2 0 2 1 1-2 2 1 0 0 7-1 0 0-1 0 2-4 0-5-4-2 3 2 3-1 3-6 2 0-2-4 2-1 3 1 3-2 0-1 1 0 2-2 2 1 1-4-1-1-1-4 0-1-2-2 1 0-1-2-1 0-1-2-1 0-3-1 0 0-2-2 0 0-2-1 0-1-1 1-1 0-2-2-1-40 21-10 2-7 0-20 13-2-1-8 0-4-6-6-3-8 7 1 1-2 2-1 0-2 1-6-1-1 2-3 1-1 2-2 1 0 1-2 1 0 1 1 0 1 1-1 0 2 2-1 3-1 0 1 1-2 1 1 2-1 2-19-22-12 10-11-3-5-3-5-7 3-3 1-6-25-30-14 12-3-10-11 6 0-10-9-1-6 16 9 5-3 3-11 2-5-2-7 2 0 4 1 3 4 5-1 2 10 1 2 1-3 4 4 3 3-3 5 2-4 6 5 3 8 0 0 12-2 0 10 11-43 38-3-2-4 5-13-14-1 2-3-2-3 1-2-8-3-1 0-3-5-6-4 1-13-15-14 1-5-8-5-1-4-5-1 0-4 3 5-10-3 0 2-3-1 0 0-3-2-1 3-6-1-3 2 0 2-5-1 0 3-9 5 3 0 1 4 1 0 1 3 0 0 1 1 1 4-1 5-4 3-1 0-3 1-3 6-4-3-4 2-2-5-4-5 0-3-2 0-5 3 1-3-5-5-1 1-1-2-4-3 3-12 1 0-1-3 2 0 3-3 0-10-4-9-4 1-4-1-2 3-1-5-5 1-2-5-2 0 2-6 0 0-1-8 0 2 0 0-3 1-1-3-7-4 0-4 4-3-2-2 1-4-2-2 1-1-2-3 1 1-2-3 1-2-2 1-4 1-1-3 0-1 3-1-2-3 2-2-1 0 2-1-1 0-3-1 1-1 2-1-3-1 3-2 0-1 3-2-3-2-1-3 5-1-2-1 2-2-1-1 1 0 3-2 2-3-1-1 1-1-1 0-2 5-4 0-4 5-6-3-3-5-1-1-2-3-1 2-6-3 1-3-1-1 3-2-1-1 4-1 1-3-1-6-4-6-5-1-3 3-1 1-2-3-2 2-3-5-6-4-2-1-2 2-4-3-1-2 2-1 0-6-7-1 1 0 2-3 0-2-5-6 5-24 14 2 7 0 9 5 10 2 0 0 2-2 1 2 11-3 0 0 2-4 0-2-5-2 0-1-5-20 8 1-2-6-3 3-3 0-3-2-2-2 2-7-4-5 4 0-2-9 2-4-11-6-3-6 1-2 6-3 2-1-3-4-3-2 1-3-2-2 2 0-2-2 1-1-1-3 0 1 3-2 1 14 49-2 1 6 63 41-19z","35":"M809 564l2-10-17-1-1 4-3 2 4 6 2 1 0 5-1 6 1 22-2 4-16-5-30-11-2 5-9-3-2 3-10-3-21 51-16-6-18 51-4-1 0 7-2 0 0 1-3 1-5-2-12 30-12 25-7-3-4 13-3 0-6-2 0-3-7-3-1 2-2-1-2 2-3-1-1 1-8-4-13 33 24 9-16 45 6 1 1 5 3 2 1 33-5 1-5-3-6-1-1 10 4 7 2 0 0-2 1 1 2-1 1 2 2-1 0 1 3 0-1 2 3 1-1 1 2 1 1 2 6 0 3 2 0 2 2-1 0 1 1 0 1 2-2 1 1 2 2 0 1-2 1 1 1-1 0 2 2 0 0 1 2 6 0 3 4 0-5 14-12-2-5-3-2 4-6 3-4 5 3 3-1 1 1 1-1 1 1 0-1 2 2-1 1 2-1 2-3 0 1 3-1 1 3 0-2 2 3 1-1 3 2 0 0 3-1-1-2 2-3 0-11-6-12 2-4 22-12-4-4 10 2 7-1 4 2 5-3 1 0-1 0-1-2-3-6 6 1 4-1 3-2-1-2 9 2 1 0 1-4 5-1-1-5 13 4 1 6 3-2 1-1 0 4 2 9 1 2 3 8 3 11 1-2-5 3-4 10 3 9-1 0-1 4 1 3-1 0-2 4-2 1-9-2-3 2-4 5 6 0 6 3 6-5 3 0 8 6 3 3 6-4 2 4 3 3-1 2-3 4 4-3 3 2 2 2 0 4-1 1 14-3 0 1 4 1 0 2 4 8-1-1 6-5-1-4 1 1 13-3 7 2 3 1-2 2 1 2 3 1-2 1 2 0-2 1 1 1-1 1 1 1-1 0 2 1 1 2-2 0 2 2-1 0 1 0 1 1 1 2-1 1 1 1-1 1 1 0-2 3-1-1-1 2-1-1-1 4-2 1-5 2-4 1-1 4 3 21 9 1 2 4-1 10 6 2-3 6-6 3 1 0 5 3 1 3-1 2 1 0-8 3 1 2-7 19 15-1 1 0 5-2 12 7 9 1 2-10 6-3 6 1 4-3 10 6 3 7 14 12-1 5 9 2 7 12 4-5 6-5 2 2 4-5 14 3 2-8 12 5 3 3 12 5 2 2 5-4 2-7-5-4 2 5 7 1 2 8 6 8 1 1 2-1 5 2 2-1 4 4 4 0 4 2 0-5 7 1 1 28 0 0 2-3 1 3 4-2 1 33 24 63-15 0-1 2 1 5-2 1-3 1 0 1-1 3 0 2-3 2 1 1 2 3-1 12-2 17 9 16 1-3-5 1-1 10-8 4 3 0-19 2-1 2 0 0 2 1-4 4-3 3 0-1-2 5-3-1-6 6 1 2-2-2-9-5-6 6-8 2-4 1 0 8-4 2 2 6-1 1-3 25 14 3-4 3-12 24-8-3-7 15-6 5 2 18-4-1 5 12-3 10-4 21-4 4-5-15-8-3-4 9-29 4-6 1 0 0-3 2-5 3-2-5-2 1-4 1-6 4-3-4-9-19-22 9-21-9-6 0-5 6-11 5-5-5-1-3-3-5 2-6-5-3 1-22-13-5-5-1-8-13 4-6-1-3 1-4-2 2-5 5-1 2-4-3-2-6 0-4-4 8-3 6-24-7 1-2-6-2 1-2-6-3 0-13 4-6-11 2-1 1-2 1 0 0-2 2 0-1-1 3-1-2-1 3-2 0-2-1 1-3-1 3-3-2 0-1-3-2-1 0-2-1 1-1-3 1-2-1 0 1-2 0-1 1 1-1-3 1-3 13-9 4 5 3 8 5-1 3 2 3 1 3-1-1-3 5-1-7-12 3-3-2-9 2-17-25-6-5-11-1-12-5-8 0-1-2-1-1-3 4-1 2 1 2-2-1-9-2 3-3-1 4-7 1 1-1-7-12-8 2 4-6 1-1 1-1 0 0-4 3-2 1 0-2-5-3 0 0-2-1 1-1-2-1 0 0-5 1 0-1-1 1-2-1-3-13 9 1 2 4-2 2 4-3 3-5 3-1-1-1-2 2-1-1-1-1-4-2-3-3-1 2-8 5-5-2-10-4-6-6 2-8-9 8-9 2 1 4-3-2-2-3 1-1-1 0-6-2-1 0-3-1 0-3-11 11-2-1-5 0-3 2-1 8-3 7 1 1-6-1-15 3-5 7-5 1-15-11 0-18-5 0-10-1-10 5-4 3 0-1-7 2 1-3-4 1-1-2-2 1-1-2 1-1-2-1-2-1 0 0-1-1-1 0-2-3 1-1-2 3 0-2-4 2-2 2-1-2-1 2-1-2-1 2-2-3-2 1-2-1-1 0-1 2-1 1-2-2-1-1-2 3-5-2-2-4-2 3-9 20-23-11-9-5 1-3 2-4-2-1-3-14 0-10-5-8-10 5-17-5-2 0-6-3-7-7-4-2 1 1 6-4 6-5 0-4-3-1-2-9 1-2 5-4-14-4-2-32-4-5 39-8 1 0 6-3 6-3 4 1 2 5 3-5 3-3 4-11 4-1-5-3-1 1-7z","36":"M195 752l-4-20-9 1 1-14 5-18 2 2 6 1 5-4 1 1-1-9 4-9-11-4-7 1 4-46-50 12 4 23 3 21-1 11-3 5 2 8 1 24-1 52-2 18-12 55-4 7 1 13-1 12 3 24-1 12 2 6 3 11 1 29 0 14 4 28 2 36 3 17 5 17 2-1-1-2 2-3 3 3 11-5 3 8 17-10 10-13 7-10 1 7-1 5 0 11-3 11 1 3 2 1 2 2 2-2 3 0-1 3 2 2 4 0 3 4 2 0 1 1 2 7 3 2 2 6 3 2 12 32 7-8 17-1 1 11-5 7 3 4 4 2 4-3 12-20 22-30 13 1 15-5 2-17-3-6 10-4-2-2 3-2 11 6 9-18 0-4 10-1 7-6-3-2-5-7-9-7 8-16-22-8-11-17-4-10-8 1-6 4-29 23-17-7 0-8-4-11 0-4-4-5 4-1-1-4 1-3 2-1 2-4 3-3-6-8-4 5-4-2-2-5-2 0-14-30 0-6 5-2 11-9 7 3 2-6 10-1 1-4 4-4 6-2-1-2-2-1 1-2-2 1-2-2-12-12 4-12 9 4 7-39 0-11 2-1 1-35-21-8 11-9 1-3-7-3 2-5 0-3-4-1-2 6-4-1 0 2-4-1-2 5-3-1-1 4 3 1-2 4-7-2-4 11-12-4-6 15-3-1-2 1 0 2-2 1-1-2 0-2 0-3-8 6-29-11z","37":"M280 531l3 4-2 0 1 1 3 1-2 1-2 2 2 1-2 1 2 3 1 1 1-1 0 2 2 0 1 3-1 2 2 0 1 4-3 1 2 2-1 2 2 5-3 1 0 3-2 1 2 5-1 1-4 0-1 2-2 1-2 5 1 1-4 1 2 2 0 1 1 0-1 2 0 2 2-1 0 2-1 1-2-1 0 1-2 1-1 1-2-1 0 1 2 3-3 2 0 2-2 1 1 3-2 0 0 2 2 2-2 2 1 3-2 1 0 2-1 2-2 1 1 1-2 2-1 3-3 1 1 1-1 1 2 1-1 1-6 0-1 1-6 0-2 2-3 0-1-2 1-2-2-1-2-3-2 0 1-2-3 0-3-4-4-2-1-1-2 0-1 2-1-1-3 2-2 0 0 1-3 0 0 1-1-2-3 6-17 4-4 46 7-1 11 4-4 9 1 9-1-1-5 4-6-1-2-2-4 14-2 18 9-1 3 20 1 1-2 29 29 11 8-6 0 3 0 3 3 0 0-2 2-1 3 1 6-15 12 4 4-11 7 2 2-4-3-1 1-4 3 1 2-5 4 1 0-2 4 1 2-6 4 1 0 3-2 5 7 3-1 3-11 9 21 8-1 35-2 1 0 11-7 39-9-4-4 12 12 12 2 2 2-1-1 2 2 1 1 2-6 2-4 4-1 4-10 1-2 6-7-3-11 9-5 2 0 5 14 31 2 0 2 5 4 2 4-5 6 8-3 3-2 4-2 1-1 3 1 4-4 1 4 5 0 4 4 11 0 8 17 7 29-23 6-4 8-1 4 10 11 17 36 13-2 5 9 3 5-11 37 14 9-25 22 8-6 16 9 5 14 15-2 7 8 3 4-1 4 2 1-1 3 0-1 0 1-1 1 2 1-1 2 2 0-2 1-1 0 2 1-2 2 1 0-1 2 0-2-3 1-3-1-2 1-3 2 1 13-32 6-7 0-1-2-1 2-9 2 1 1-3-1-4 6-6 2 3 0 1 0 1 3-1-2-5 1-4-2-7 4-10 12 4 4-22 12-2 11 6 3 0 2-2 1 1 0-3-2 0 1-3-3-1 2-2-3 0 1-1-1-3 3 0 1-2-1-2-2 1 1-2-1 0 1-1-1-1 1-1-3-3 4-5 6-3 2-4 5 3 12 2 5-14-4 0 0-3-2-6 0-1-2 0 0-2-1 1-1-1-1 2-2 0-1-2 2-1-1-2-1 0 0-1-2 1 0-2-3-2-6 0-1-2-2-1 1-1-3-1 1-2-3 0 0-1-2 1-1-2-2 1-1-1 0 2-2 0-4-7 1-10 6 1 5 3 5-1-1-33-3-2-1-5-6-1 16-45-24-9 13-33 8 4 1-1 3 1 2-2 2 1 1-2 7 3 0 3 6 2 3 0 4-13 7 3 12-25 12-30 5 2 3-1 0-1 2 0 0-7 4 1 15-40-47-17-3 6-1-2-1-1 0-2-2 1-1-1 2-1-2-1 1-1-2 1-2-4-1 2-1-2-1-1-1 1 1-2-3 1 1-2-1-1-1-4-2 0-1 1-1-2-1-1 4-9 0-7-4-3-3 1 3-9 3 1 0-7 13 0-5-19-3-29 1-2 4 0 2-3-5-2-3-16 0-18-2-7-3-6-1-9 4 0 0-4-4 0-2-19 3-3-3 0-2-32 10 1 1-4 14-29 2-1 1-5-3-4-2-4-1 1-2 0 1-3-3-3 1-2-1-3-6-2-7-1-1 1-1-2 1-1-2 0-1 1-2 0 0-5 9-3 13-7 8-2 16-23-5-11 2 0 1-5-6-1-4 2-2-5 1 0-3-8 2-1-1-3-1 0-5-9-4 0 0-3-3 0 1-3-2 0 0 2-1-1-3 0-1 2-2-2-2 1-3-2-3-1-2 1-2-2-3 1 0 2-4-2-2 1 0 1-2-1 0 1-4 0-1 2-5-1-2 2 1 2-6 1 0 2 0 1-1 2 1 1-2 1-4-2-3 1-2-1 0-1-1 1-1-1-2 1 0 1 1 2-1-1-2 2 2 2-1 3-4 3 1 4-1 0 2 1-2 2-1-1 0 2-3 1-2 2-1 2 0 2-2 1-2-1-1 2-6 5-4-1-4 0-1 2-1-1-1 2-3 0 1 1-3 0-1 3-1-4-3 0 0-2-2 0-1 2-3 0 0-1 2-2-2-2-3 1 0 3 1 1-4-1-4 2 0 5-16 21-5 5-1 6 1 6-1 3-7 9 0 3-4 6-10 4-8 8-12-2-10 9-23 12-21 5-2 2-4 1-2 3-5 3-1 2-2-1-2 1-1-1 1-1-4 0-3 5-3 1-12 19-2 0 0 4-5 6 1 2-2 3-4 1-1 2-1 0 0 2-2 1-1-1-1 3-1 0-3 3 0 4 1 4-3-2-1 1 1 2-1 2 1 4-4 0 1 1-2 3-1 1-1-1-3 0-1 2 1 2-1 1 0-1-2 2-1 0-1-1-2 2 0-2-2 0-1 3 1 1-2 1-6-1 0 2-1 1-2 0-1-1-2 3-1-2-1 1 0 1-1-1-1 1-1-1-1 1-1 0-2 0 0 2-1 1 1 1-3 1 0 4-1 0 1 2 0 2 2 1 0 4-1 0 0 3-2 0 1 3 1 0 0 1z","38":"M1226 148l-3 1-6-2 0-4-2-5-6-3-3 2-3 0-7 2-6-1-3-4-2 3-3 2-2 6-10 0-2-2-1 2-10 4-3-1-4 2-2 0-2-2-2 0-1-2 1-3-4-5-2-1-4 2 0-2-3-3 0-1-4-1 1 2-2 5 2 2 7 3 6 14-3 12-3 2-1 4 3 2-4 7 0 5-2 6-7 6 1 6-3 4 0 3 2 2 7 4 6 7 2 2 1 3 5 2-1 3 2 2 1 9 4 6 5 1 6 2 2-1 1 1 2 4-1 5 2 2 0 3 3-3 5 0-1-2 2 1 5 0 0 1 2 0 0-13 1 0 0-2 2 1 0-1 12 7-4 7-3 0 2 2-5 8-2 1 1 3-2 2 0 7 1 2 5 0-1 6-4 3-2 0-1-4-4 0-4-3-11-10-2-3 2-1 1-2-20-1-11-3-4 4-4 7-2 9-3 0 2 7 0 5 5 5-4 10 2 1 0-2 2 2 1-1 2 3 1-1-1 1 2 2 2 0 1-2 1 2-1 3 0-1-2 1-1 1-1 0 0 1-2 2 0 1-1 1 1 2-1 3 4 4 5 4 2 3 16 3-2 7 1 1-1 3 23 3-1 0 2 2-1 1 2 0 0 2 1 1-2 1 1 2-2 1-1 0 0 3-2 4-2 0-2 2 1 1-2 1 2 1 0 3-1 5 0 1 25 2 6-2 7 6 3 0 9-4 6-8 11 5 21 1-3-9 1-3 3-3 1-4 3 0 1-4 3-3 5 1 0-2 3-1 0-3 3 0 33 4 1-5 4 1 5 2 1 3 6 4 20 4 9 6 2 4 7-49-14 3-4-6 0-5 4-8-9-1 0-4 19-1 22 3 8 2 3 0 4-2 1-17 3 4 5 1 0-5 3-4-4-2 1-2 3-3 1-6 26 4 2-1 1-5 1 0 2-5 0-3 10-30-1-1 1-2-10-3-1-3-7-2 1-6-7-11-3-14 2-1 0-1 29 4 8 2 6-10 13-5-4-3-4-9-6-5-1 0-2-4-7-1-2 1-3 1-7-2-1-2-3 1-4-5-1-2 1-1-4-2-4 0-4 3-5 2-4-1-2 1-5-3-11 1-8-8-9 2-3-1-3 1-9-5-6-1-1 1-5-4-3-3-2 0-2-2 0-1-3-2-9 1-4-1-5 2-6 0-9-5-2 0-3-4-1-1-7-1-1 1-2 0-2 2-3-1-3 1-2 0-10 6-3 4-3 1-9 0-4-2-7 0-2 2-5 2-1 5-5 3-7-2-2-4-3-1-1-3z","39":"M909 183l-3-5-4 0-6 6-1 4-7 0-3 2-12 2-1 3 1 2-1 1-2-1-11 4-15 3-3 0-8 4-4-2-2-5-13-6-13-2-10 10 0 2-4 0-4 3-6-1 0 5-1 4-3 3 0 2-8 6-2 0 0 2-3 2 0 3-4 1-4 4-2 0-2 2-3 0-1 2-3 0 0 1-7 0-2 3-2 0-2 2-3 2-1 3-5 1 1 2-2 1-2 5-1 0-2 5-5 2 0 5-1 1 0 1-1 3-2-1 0 1-4-1-3-1-1 2-2-2-1 2-1-1 0 1-2 0-1 1-3-2-3 0 0 1-2 1 0 1-3 1-2-3 0 2-3-1 0 1-1-2-2 1-2-2 0 2-4-1 0 2-2 1-1-1-3-2 0-1-1 1 0-3-3 0 1-2-2 0-3-3-2 1-2-1 0 1-2 1-4-4-4-1 4 10 2 0 1 3-2 1 3 8-1 0 2 5 4-2 6 1-1 5-2 0 5 11-16 23-8 2-13 7-9 3 0 5 2 0 1-1 2 0-1 1 1 2 1-1 7 1 6 2 1 3-1 2 3 3-1 3 2 0 1-1 2 4 3 4-1 5-2 1-14 29-1 4-10-1 2 32 3 0-3 3 2 19 4 0 0 4-4 0 1 9 3 6 2 7 0 18 3 16 5 2-2 3-4 0-1 2 3 29 5 19-13 0 0 7-3-1-3 9 3-1 4 3 0 7-4 9 1 1 1 2 1-1 2 0 1 4 1 1-1 2 3-1-1 2 1-1 1 1 1 2 1-2 2 4 2-1-1 1 2 1-2 1 1 1 2-1 0 2 1 1 1 2 3-6 47 17 3-11 16 6 21-51 10 3 2-3 9 3 2-5 30 11 16 5 2-4-1-22 1-6 0-5-2-1-4-6 3-2 1-4 17 1-2 10 47 7-1 7 3 1 1 5 8-3 11-8-5-3-1-2 3-4 3-6 0-6 8-1 5-39 32 4 4 2 4 14 2-5 9-1 1 2 4 3 5 0 4-6-1-7 2 0 7 4 3 7-1 5 1 1 5 2-5 17 8 10 10 5 14 0 1 3 4 2 3-2 5-1 11 9-20 22-3 10 4 2 4-7 5-4 2 1 3-5 6-5 2 1 8-8 2-6 3-3-1-4-3 0 0-9 1-3 1 1 1-3 1 0 4-5 2 1 2-2-1-3 2-7 3 2-1 3 6 4 1-1 1-4 3-2-1-8 2 0 3 15-7 8 1 1 0 2 1 1-6 13-2 1-2 8 11 3-3 2 2 2 1 6 1-1-1 1 0 1 8-3 11 3 0 2 4-5 3-7-1-5-2-5 62 9 0-6 2-2-1-5 3-17 3-2 1-3-1-1 1-2 3-1 1-2-1-1-5-1 1-10 2 1 1-5-2-4 1-6 3 1 5-4 1 1 5 0 3-2 1 1 6-2 0-6 2 0 0-1 7 1 1-2 2 0 1 3 5-1 2 1 0 2 2 0 11-2 2-5 6 1-4 17 6 0 6 2 4-24 9 1 1 2 7-1 1 4 3 2 4 1 2 4 27 3-2 10 14 3 0 4 6 1 4-4 8 4 0 3-3 22-4 1-3-2-2 5 1 1 3 1-4 5-3 0 0 2 10 1 0-1 3-2 3 0 1-10 9 1-2 16 0 2-6-1-2 2-1 7-7 0-1 7 40 5-2 8 21 3 0 2 7 2 1-1 2-12 7 1 0-2-6-6 1-5 31 2 16 3 12 10-1 2 1 2-1 2 9 2 1-1 3 1 0 1 16 4 4-13 13 3 4-9-4-5 4-8 4 6 3-7 2 2 1 5 5-4 3 1 3-3 8-3 2-2 4 2 3-7 10 3 9-8 11 12 3-3 5 4-4 3 2 2-7 2 0 30 5 2 0 6 11 5 4 9 58-18 4-4 17 7 0 3 4 3 1 3 4 0 1 3 10-3-2-2-1-10-2-8 0-5-5-2-4-7 1-9 5-4 8-3 3-5 18-1 3 9 5 3 9 1-4-23 15 0 1 1 2-1 2 0 2 0 2-4 0-2 5-2 7-5-3-4 0-4 3-7 3-2 5 0 1 1 1-2 8-5 3 2 1-2 3 0-14-9 1-7 4 0 0-9 6 0 3 4 3-2-3-7 16-9-5-6 1-1-14-10 4-2-4-2 3-11 15 3 1 4 11-3 1-5 17-2 5 8 4 1 6-2 0-3 6-9-1-4 18-5-1-3 6-2 1 4 16-5 1 2-5 4 4 14 5-1-1-7 5-5 2 5 2 1 8-8 12-4-17-55-14 7-3-8-2 1-2-5-4 1-5-20 5-1-2-8 10-2 10-1-10-32 6-2-8-19 9-3-5-11-4-13-13-11-22 7-15-17 0-6-3-7-7-9-9-34 12-3-14-54-21 1-8-12-24-1-1 4-3 2-1 7 2 3-1 2-3 3-9 3-1-1 3 11 2-1 2 7-8 13-11 3-6 5-14 4-7-1-7 2-3 2-6 0 2 3-1 2-2 0 0-2-1 1-4-3-3 1-1 1 1 1-6 3-1-3-5-1-2 1-3-1-12 2-3-1-12-2-18 2-11-1-7-4-1-3-1 0-8-1 0 1-3-1-4 1-2-2-1 2-3 0-1 3-5 2-3 4-3 1-4 5-2 6-6 7-4 0-2 1-1-1-2 1-4 1-1 1-6-4-3-5-7-4-1-3-5-1-2 1-2 0-3-2-3 1 0-2-2 1-6-6 1-1-13 4-6 10-8-2-29-4 0 1-2 1 1 8 2 6 7 11-1 6 7 2 1 3 10 3-1 2 1 1-10 30 0 3-2 5-1 0-1 5-2 1-26-4-1 6-3 3-1 2 4 2-3 4 0 5-5-1-3-4-1 17-4 2-3 0-8-2-22-3-19 1 0 4 9 1-4 8 0 5 4 6 14-3-7 49-2-4-9-6-20-4-6-4-1-3-5-2-4-1-1 5-33-4-3 0 0 3-3 1 0 2-5-1-3 3-1 4-3 0-1 4-3 3-1 3 3 9-21-1-11-5-6 8-9 4-3 0-7-6-6 2-25-2 0-1 1-5 0-3-2-1 2-1-1-1 2-2 2 0 2-4 0-3 1 0 2-1-1-2 2-1-1-1 0-2-2 0 1-1-2-2 1 0-23-3 1-3-1-1 2-7-16-3-2-3-5-4-4-4 1-3-1-2 1-1 0-1 2-2 0-1 1 0 1-1 2-1 0 1 1-3-1-2-1 2-2 0-2-2 1-1-1 1-2-3-1 1-2-2 0 2-2-1 4-10-5-5 0-5-2-7 3 0 2-9 4-7 4-4 11 3 20 1-1 2-2 1 2 3 11 10 4 3 4 0 1 4 2 0 4-3 1-6-5 0-1-2 0-7 2-2-1-3 2-1 5-8-2-2 3 0 4-7-12-7 0 1-2-1 0 2-1 0 0 13-2 0 0-1-5 0-2-1 1 2-5 0-3 3 0-3-2-2 1-5-2-4-1-1-2 1-6-2-5-1-4-6-1-9-2-2 1-3-5-2-1-3-2-2-6-7-7-4-2-2 0-3 3-4-1-6 7-6 2-6 0-5 4-7-3-2 1-4 3-2 3-12-6-14-7-3-2-2 2-5-2-3-1-7-3-10-2 0-18 4-18 3-11-9-14-5-3-4-3-1-2 1-2-2-1 2-2-1 0 2-3-1 0 2-1-1-2 1 1 2-3 1-1-2-2 1-1-1-1 2-1-1-2 2-1 2-1 0-1 0 0-1-2 0 0-2-1 2-2-2-3 1 0-1-1 0-1 3-2-1 0 1-2 1 0 1 3 1-2 0 1 2-1-1-3 1-6-3-1 1 0-2-1 0-1 2-3-1 2 5-2-1 0 2-1-1 0 2-2 0-1 1 0-1-1 2-2-1 0-3-3 1-3-1 0 2-3 2 1 1-1 0 0 1-3 0 0-2-2 0 0-2-3-1 2-3-4 1 0-3-2 0 1-1-1 0-3 0-2 1-1-1-3-1-2 1-1-1-2 2-2 0-1 4-1 0-2 1 0 2 2 2-1 2 2 2 0 2-10 1-2-2-3 1 0-2-1 3-3 0 2 4-1 1 0 3-2 0 2 3-3 0 1 1-3 8-2 0-3 2-1 6-3 2 0 5 1 7-4 11-3 2z","40":"M1222 526l-6 0 4-17-6-1-2 5-11 2-2 0 0-2-2-1-5 1-1-3-2 0-1 2-7-1 0 1-2 0 0 6-6 2-1-1-3 2-5 0-1-1-5 4-3-1-1 6 2 4-1 5-2-1-1 10 5 1 1 1-1 2-3 1-1 2 1 1-1 3-3 2-3 17 1 5-2 2 0 6-62-9 2 4 1 6-3 7-4 5 0-2-11-3-8 3 0-1 1-1-1 1-1-6-2-2 3-2-11-3 2-8 2-1 6-13-1-1 0-2-1-1 7-8-3-15-2 0 1 9-3 1-1 4-1 1-6-4 1-3-3-2-2 7 1 3-2 2-2-1-4 5-1 0-1 3-1-1-1 3 0 9 3 0 1 4-3 3-2 6-8 8-2-1-6 5-3 5-2-1-5 4-4 7 2 2-3 5 1 2 2 1-1 2-2 1 0 1 1 1-1 2 3 2-2 2 2 1-2 1 2 1-2 1-2 2 2 4-3 0 1 2 3-1 0 2 1 1 0 1 1 0 1 2 1 2 2-1-1 1 2 2-1 1 3 4-2-1 1 7-3 0-5 4 1 10 0 10 18 5 11 0-1 15-7 5-3 5 1 15-1 6-7-1-8 3-2 1 0 3 1 5-11 2 3 11 1 0 0 3 2 1 0 6 1 1 3-1 2 2-4 3-2-1-8 9 1 3 7 6 6-2 4 6 2 10-5 5-2 8 3 1 2 3 1 4 1 1-2 1 1 2 1 1 5-3 3-3-2-4-4 2-1-2 13-9 1 3-1 2 1 1-1 0 0 5 1 0 1 2 1-1 0 2 3 0 2 5-1 0-3 2 0 4 1 0 1-1 6-1-2-4 12 8 1 7-1-1-4 7 3 1 2-3 1 9-2 2-2-1-4 1 1 3 2 1 0 1 5 8 1 12 5 11 25 6-2 17 2 9-3 3 7 12-5 1 1 3-3 1-3-1-3-2-5 1-3-8-4-5-13 9-1 3 1 3-1-1 0 1-1 2 1 0-1 2 1 3 1-1 0 2 2 1 1 3 2 0-3 3 3 1 1-1 0 2-3 2 2 1-3 1 1 1-2 0 0 2-1 0-1 2-2 1 6 11 13-4 3 0 2 6 2-1 2 6 7-1-6 24-8 3 4 4 6 0 3 2-2 4-5 1-2 5 4 2 3-1 6 1 13-4 1 8 5 5 22 13 3-1 6 5 5-2 3 3 5 1-5 5-6 11 0 5 9 6-9 21 19 22 4 9-4 3-1 6-1 4 5 2-3 2-2 5 0 3-1 0-4 6-9 29 3 4 15 8 6-6 35 32 1-1 2-7 4-3-1-5 1 0 2-2 6 6 6 0 5-3 20 9-1 7 12 9 3-1 2 2 5-4 0-3 4-1 4-4 3 1 20-6 27 10 7-9 10-4 0-11 14-17 11-2 7 6 4-2 7 1 3-4 7-5 1-6-2-1 0-7-2 0 5-7-1-2-8-27-3-4 2-2 3-11-11-7 13-12-1-5-5-4-5-2-9-17 0-5-3-2-10-19 52-20 7-1 11-7 14-5-3-51-11-9-6-8 6 0 4-6 3-3 2-2 46 7 0-3 13-3-3-12 13-1 1-3-2-2 0-3 4-1 1-3-8-33 5 0 3-1 16 13 6 1-3-13 4-1-2-7 6-3-2-6-6 2-7-16 20-5 5-2 4-5-12-3-5-7-1-6-7 2-12-47-17-1 8 31-15 3-4-4-3 1-4 0-1 2-7 1-11-4-2-3 3-7 1-15-10-3-10-14 12-11 4-3 9 1-2-12 8-7-3-4-2-6 6-1 7-13-2-1-3 1-2-4 4-3 3-5 5 0 1-4-2-2 0-2-10-2 1-4-3-2 1-6-1 0 1-5 2-1 4 2 2 4 6 2-3 4 5 1 3-12 0-1 1-1-1-5 16-6 3-3 9 0 3 2 6 6 2 1 7 1 5-1 5-2 2-3-5-20 28-8-4-9-11-5 0-6-5-2 0-30 7-2-2-2 4-3-5-4-3 3-11-12-9 8-10-3-3 7-4-2-2 2-8 3-3 3-3-1-5 4-1-5-2-2-3 7-4-6-4 8 4 5-4 9-13-3-4 13-16-4 0-1-3-1-1 1-9-2 1-2-1-2 1-2-13-10-15-3-31-2-1 5 6 6 0 2-7-1-2 12-3 1-5-2 0-2-21-3 2-8-40-5 1-7 7 0 1-7 2-2 6 1 0-2 2-16-9-1-1 10-3 0-3 2 0 1-10-1 0-2 3 0 4-5-3-1-1-1 2-5 3 2 4-1 3-22 0-3-8-4-4 4-6-1 0-4-14-3 2-10-27-3-2-4-4-1-3-2-1-4-7 1-1-2-9-1-4 24z","41":"M1672 966l1-15-1-1-6-4-16-5-5 0-19-7 3-6-2-4-3-4-5-2-3 3-9-1-5 1-1 5-15 2-13-32-9 0-11 3-2-9-19 5 0 2-3 1 3 13-6-1-16-13-3 1-5 0 8 33-1 3-4 1 0 3 2 2-1 3-13 1 3 12-13 3 0 3-46-7-2 2-3 3-4 6-6 0 6 8 11 9 3 51-14 5-11 7-7 1-52 20 10 19 3 2 0 5 9 17 5 2 5 3 0 2 1 4-13 12 11 7-3 11-2 2 3 4 8 27 1 2-5 7 2 0 0 7 2 1-1 6-7 5-3 4-7-1-4 2-7-6-11 2-14 17 0 11-10 4-7 9-27-10-20 6-3-1-4 4-4 1 0 3-5 4-2-2-3 1-12-9 1-7-20-9-5 3-6 0-6-6-2 2-1 0 1 5-4 3-2 7-1 1-35-32-10 11-21 4-10 4-12 3 1-5-18 4-5-2-15 6 3 7-24 8-3 12-3 4-25-14-1 3-6 1-2-2-8 4-1 0-2 4-6 8 5 6 2 9-2 2-6-1 1 6-5 3 1 2-3 0-4 3-1 4 0-2-2 0-2 1 0 19-4-3-10 8-1 1 3 5-16-1-17-9-12 2-3 1-1-2-2-1-2 3-3 0-1 1-1 0-1 3-5 2-2-1 0 1-63 15-10 14 12 7-21 17-6-4-4 3-3 5-2 1-5-3-23 32 6 3 4-1 2-1 3 0 0-3 9 6 0 3-1 3-7 7 1 0-2 7 4 7-3 4 1 4-5 7 1 3 4-2 6 22 0 5 2 7 7-3 1-2 2 0 1-2 1 1 2-1-1-3 3 0 1 1 2-1 0 2 2-2 3 2 2-1 4 3 1 3 3-2 2-6 6-1 6 3 4 11 9-2 0 2 5-4 7 4 2-2 2 2 0 3-3 3 6 3-1 2 20-8 1 5 2 0 2 5 4 0 0-2 3 0-2-11 2-1 0-2-2 0-5-10 0-9-2-7 24-14 6-5 2 5 3 0 0-2 1-1 6 7 1 0 2-2 3 1-2 4 1 2 4 2 5 6-2 3 2 3-3 2 2 4 12 9 3-1 1-4 2 1 1-3 3 1 2-2 1 1-2 6 3 1 1 2 3 0 3 2 2 3-5 5 0 4-5 4 0 2 1 1 1-1 3 1 2-2 0-3 1-1 2 1 1-2 1 2 3-5 2 1 2 3 1-3 2 0 1-3 1 3 1-2 1-1 0 3 1 1 0-2 2 1 3-2 1 2 1-3 3 0-1 1-1 4 2 2 3-1-1 2 3-1 1 2 2-1 4 2 2-1 3 2 4-4 4 0 3 7-1 1 0 3-2 0 8 0 0 1 6 0 0-2 5 2-1 2 5 5-3 1 1 2-1 4 9 4 10 4 3 0 0-3 3-2 0 1 12-1 3-3 2 4-1 1 5 1 3 5-3-1 0 5 3 2 5 0 5 4-2 2 3 4-6 4-1 3 0 3-3 1-5 4-4 1-1-1 0-1-3 0 0-1-4-1 0-1-5-3-3 9 1 0-2 5-2 0 1 3-3 6 2 1 0 3 1 0-2 3 3 0-5 10 4-3 1 0 4 5 5 1 5 8 14-1 13 15 4-1 5 6 0 3 3 1 2 8 3-1 3 2 1-2 13 14 4-5 3 2 43-38-10-11 2 0 0-12-8 0-5-3 4-6-5-2-3 3-4-3 3-4-2-1-10-1 1-2-4-5-1-3 0-4 7-2 5 2 11-2 3-3-9-5 6-16 9 1 0 10 11-6 3 10 14-12 25 30-1 6-3 3 5 7 5 3 11 3 12-10 19 22 1-2-1-2 2-1-1-1 1 0 1-3-2-2 1 0-1-1-1 0 0-1 2-1 0-1 2-1 1-2 3-1 1-2 6 1 2-1 1 0 2-2-1-1 8-7 6 3 4 6 8 0 2 1 20-13 7 0 10-2 40-21 2 1 0 2-1 1 1 1 1 0 0 2 2 0 0 2 1 0 0 3 2 1 0 1 2 1 0 1 2-1 1 2 4 0 1 1 4 1-1-1 2-2 0-2 1-1 2 0-1-3 1-3 4-2 0 2 6-2 1-3-2-3 2-3 5 4 4 0 0-2 0 1 1 0 0-7-1 0 2-2-1-1 0-2-3-2-2-6 6 1 1 0 1-2 2-2 0-1-2-2 0-3-2 0 0-3 10 0 33 8 1-2-2-2 1-1 4-3 2-3 1-3 13-13 9 7 38-45 10 10 10 7 8-3 8 4 10-3 8-6 3 6 8 1 0-2 4 2 3-7 3 2 2 3 4-2 2 2-1 2 0 1-2 2-1 3 3 4 1 6-2 0-2 7-4 0 0 7 6 0 0 2-5 4-4 0-1 5-8-3-2 2 5 4 4 10 11 7 0-2 3-3-1 0-3-3 1-2 2 0 2-2 6 4 5 0 4-2 2 4 2-1-1 7 13-7 3 5 13-8 23-23 19-3 15-5 11-2 4 1 4 0 2 4 4-4-1-5-1 0 2-3 3 0 2 4 2 0 4-3 9-5 3-4 4-12 4-1 0 5 2 0 5 10 4-1 3 5 6-3-3-6-4-14 1-3 5 3 0 9 13 8 2-2-2-2 1-1 0-3 1-1 2-4 2 1 0-2-4-2-1-10 2 0 1-2-2 0-2-2 1-2-1-2 0-1-1-3 1-1 0-8-5-1 0-3 3 0 0-5-2-3-2 2-2-3 1-3 2 0-3-2 2-1 2 1 0-4 2-1 2-8-1-2 2-2-2-1 2-6-1-1 1-3-1-5-4-1 1-1-1 0-2-3 1-2-1-1 1 2-1 0-2-2 0-4-2-2 2-1 1-3-3-1-2-6 3 1 1-2-1-2 3-4-3-4 6 1 1-3 2-2 0-1 3-2-1-3 1 0 0-7 2-4-3-1 0-2-2-2-3-5 2-2-1-3-3-2-1-3 3 0-1-4-1 1-1-1 0-2 2 1 1-1-3-2-2-4 2-2-2 0 0-1 1-2 0-2 3-2 1-5-2-1 2-2-2-2 1-2-2-1 0-1 2 0 0-2 1 1 1 0 2-2-3-2 2-2-1-2-3-1 1-1 1-2 1 0 0 1 1 1 0-3-2 0-1-3 0-4 2 0 0-2-3-1 4-4-1-4 1-10 0-2 0-1-1-2 1-1 0-1 5-3 2 2 1 0-1-1 1 0 0-2 2 0 4-4-1-3-1 0 0-1 2-1 2-1-1-2 1 0-2-2-14-5 7-17-1-11-2-3 2 0 0 1 1-1-6-13 5-4 1-4 2-6 5-3 11-3 0-4 10 0 0-4-1 0 0-7-4 0 2-5 7-9 3 1 0-1-2-2 3-4 2-1-2-2 2-3-5 1-10-8 0 1-4 3 1 1-2 1 0 2-2 4-7-4-5 1-12-2-1 2-6-2 1-6 3 0 2-5 4 0 1-2 2 0-4-5-10-6-2 1 0 3-12 1-1-2-2 0-1-3 5-17-1-3 4-4-3-2 0-1 5-6-2-10-3 0-1-4-2 2 0 2 4 4 0 2-3 3-10-6-3 0-3-5-4 2 2-13-5-2-3 0-2-3 0-1-3-3 0-4-1-2 1-4-1-2-7 1 0-1-7 2-13-1-2 5-5 0 0-4-1-1 0-5-4-15-2-2-11 1-1-6 1 0-10-12 17-18-3-12-4 0-15-6-11 2-1 0 0 5-3 7-1 12-2 5-5 3-4 0 1-5-1-2-6-1 1-3-3-2-5 1-11-3-2 3-9 5 0 5-4 4z","42":"M1948 1411l-28 4-3 0 0 1-10 0 2-7-7 0-2-12-8 2-4 0-2 2-5 2 1 8 2 0 1 7-7 1 2 19-7 1-4-1-7 1 1 7-3 0 1 4 1-1 3 1 0 8-1 1 1 3 0 1 1 2-1 2 2 2 2 0-1 2-2 0 0 8 1 3 4 1 0 2-2-1-2 4-1 1 0 3-1 1 2 2-2 2-13-8 0-9-5-3-1 3 4 14 3 6-6 3-3-5-4 1-5-10-2 0 0-5-4 1-4 12-3 4-9 5-4 3-2 0-2-4-3 0-2 3 1 0 1 5-4 4-2-4-4 0-4-1-11 2-15 5-19 3-23 23-13 8-3-5-13 7 1-7-2 1-2-4-4 2-5 0-6-4-2 2-2 0-1 2 3 3 1 0-3 3 0 2-11-7-4-10-5-4 2-2 8 3 1-5 4 0 5-4 0-2-6 0 0-7 4 0 2-7 2 0-1-6-3-4 1-3 2-2 0-1 1-2-2-2-4 2-2-3-3-2-3 7-4-2 0 2-8-1-3-6-8 6-10 3-8-4-8 3-10-7-10-10-38 45-9-7-13 13-1 3-2 3-4 3-1 1 2 2 0 2-2 1 7 5-12 14 15 15 2 31 5 18 20-7 4-9 5 3 3-2 8 5 0 18-2 5-7 3-2 6 0 3 3 6 0 4 1 1 0 4 16-2 3 10 5 11 8-6 10-1 9-1 0 1 4 0 1 4 3 0 0 2 2 2-2 6 2 2 1 1 1-1 0 2 3-1 2 2-1 3 2 5-4 4-1 0 0 2 3 1 0 2-4 4 2 5 2 1-1 1 1 1-1 2-3 0-1 3 1 3-3 2-2-4-4 1 2 2-1 1-1-1-2 0 1 0 0 2-1 1-1-1 0 1 2 3-2 4-1 0 1 3-3 6 17 0 0 7 2 0 0 4 6 1 7 1 0-5 12 0 1 15 3 1 1-1 2 2 6 0 3 2 1 1-3 0 0 4 6 3 3 7-2 3-1 3 7-5-2 12-6 11 3 0 6-2 3-2 0-3-3-6 5-6 6-1 7 3 5-4 1-14 18-5 1 4 2-1 7-1-5-14 7-3 6 15 23 0 8-2-1 16-1 2-4 22 28 11 15 7-23 33 5 1 4-3 3 2 41 3 5 3 6-20 9-2 14 6 4 7 15-3 3-2-1-1 9 0 8-3 4-6 6-5 7 1 5 4 10-5 3 23-2 0 3 2 0 9-4 6 2 14 8 0 9-2 0-3 6-1 2 10 19-1 4-5 19 2 2-1 7 4 10 2 9-1 4-12 3 0 0 2 17-4 6 0 6-1 18 1-1 2 2 1 6 20-2 2 1 4-3 8 12 6 2 1 1-1 7 0 8-6 11 14 3-5 16-8 8-2 2 7 0 3 53 23 3-6-1-1 4-5 6-1 2 6 11 2-5 26 10 3 11-1 9 3-10 8 9 12-2 7 25 14 11 1 3-4 7 0 0-8 72 1 4-7 22-5 2 0 2-1 2 3-1 2 0 5 12 0 7 1 25-3 4-2 1 3 4 0 2 2 1-1-1-1 1 0 0-1 0-2 3 1 2 2 2 0 6 2-3-3 3-2 2-4 0-3-2-2 1-2 3 1 10-7 5-6 5-2 2-2-1-2 3-4 10-1 5-4 0-3 4 1 5-4 6-3 7-10 6 1 5-2 0-2-4-1 2-5 6 0 1-3 4-1 4-4-1-3-4-8 6 1 2 0 5-12-1-3 6-5-2-2-2-1 1-4 0-2 2-5 0-4-18-4 4-11-14-11-3 0 0-1 1 0 3-3 1-5-4-8-3-16-6 0-1-2-3-1-5 3-3-1-5-5-4-2-3 4 1 8-8 2-4-10-4-1-2-3 0-3 3-2 0-3-8 0 0-3 9-1 3-11-1-1-4 3-4-1-1-1-1 1 0-1-3-3 1-3-2 0 0-2-2 1 0-2-1 0-1-3-4-2-1-1 2-3 4-8 1-10-4-3-1-4-10-16-5-16 9-5-8-12 4-2 0-4-6-10-8-7-5-1-1-7-1-6 7-1 0-1-2-3-3-8 0-3 7-5-4-6 1-4-2-3 5-11-5-30 8-4-1-9-10-4-1-1-18 0 0-4 2-4 6-5 5-1-6-11-4 5-3-5 0-5-8-1 0 2-5 0-3-2-6 1-8-3-2 2-7 0-1-4-8 0-1-21-14 1-8-19-5 9-3 1-7 3-5 6 0 5 5 0 2 8-4 1-1 0-1 8-1 3-33-3-6-7-12 3-8 1-2 1-3-1-5 1-4-1-1-6-5-4-3-13 2-2 0-4 4-5 2-11 0-3 2-1 0-3-4 0 1-5-2-2-2 1-7-4-1 3-6 0-2-1-1 0-3-6 1-3-2-2 0-2-3-2-7 0-1 2-16 2 0 3-26-2 0 12 7 9-1 12-1 3-5-1-3 1 0 6 2 4-6 3 0-1-3 1-8-8-2 1-1-3 2-4 3-1-33-13-2-4-15-4 0-14-3-3-6-8-21-16-9-4-8 0-1-6-4 1-9-9-24 14-3 3-3 0-5 5-3 1-2-2-2-1 2-2-1-6-3 0-2 2-2-2-1 1 4 10-1 3-4 2-9 8-2 1 0-4-3-6-10 1-2-4-3-16 2-2-4-5 1-4-4-6 2-3-4-5 0-2-3 0 6-14-3-6-5 3-3 8-2 1-2 5-6 2-3-3-11 6-4 5z","43":"M2603 1485l-16-38-4-1-3-4-2-4 1-11 3-9-1-10 1-3-3-1-3 1-2 3-8 2-4 5-7 0-4-2-4 3-19 13-13 0-6 0-17 9 2 3-51 21 0 2-2-1-19 8 5 11-44 14-3 6 8 19 14-1 1 21 8 0 1 4 7 0 2-2 8 3 6-1 3 2 5 0 0-2 8 1 0 5 3 5 4-5 6 11-5 1-6 5-2 4 0 4 18 0 1 1 10 4 1 9-8 4 5 30-5 11 2 3-1 4 4 6-7 5 0 3 3 8 2 3 0 1-7 1 1 6 1 7 5 1 8 7 6 10 0 4-4 2 8 12-9 5 5 16 10 16 1 4 4 3-1 10-4 8-2 3 1 1 4 2 1 3 1 0 0 2 2-1 0 2 2 0-1 3 3 3 0 1 1-1 1 1 4 1 5-2-3 11-9 1 0 3 8 0 0 3-3 2 0 3 2 3 4 1 4 10 8-2-1-8 3-4 4 2 5 5 3 1 5-3 3 1 1 2 6 0 3 16 4 8-1 5-3 3-1 0 0 1 3 0 14 11-4 11 18 4 0 4-2 5 0 2-1 4 2 1 2 2-6 5 1 3-5 12-2 0-6-1 4 8 0 4-3 3-4 1-1 3-6 0-2 5 4 1-1 2-4 2-6-1-7 10-6 3-5 4-5 0 1 2 12 16 2 8 5 3-2 2 0 6 2 1 1 1 1-1 1 1-1 3 3 1 0 2 3 2-1 4 1 1 5 3 1 3 2-1 0-2 2-4 20 11 11 9 2-2 41 15 3 12-6 9-1 2 8 5 2-3 13-3 11-24 4-1 1-8-7-2 4-12 22-10-6-31 18-15 0-2 6 0 2-5 6-7 2 0 6-4 9-9 8 9 0-2 3-5 4 1 2-2 3 4 8-5 12-16 2-5 3-18-1-2-2 0 5-5-1-5-1-1 4-1 5 1 1-5 2-1 0-2 2-1 5 2 0 1 3 4 3-5-3-2-3-1-3-3 9-17 9-2 6 0-2-10-1-4 2-1 14 2 2 2 5-2 3-4 9 0 9 6 2 0 19-1 1-5 18 2 2-5 12 3 2-8 12-4-1-4 11-2 6-3 8-9 6-10 4 0 13 7 2-2-1-3 3-5-3-9-2-37 10-5-2-4 4-17 2-4 3 0-2-4 14-7-2-12 8-2-1-9 7-21-4-7-6 0-4 2-3 4-2-2-7-3 0-1-3-3-2-3 1-5-3-10 6-4-1-1 1-1-2-2-2 1-3-4-5 0-4-3 2-8-3-2 2-6 3-4 3 1-1-6-3 0-2-7-6-2-11 2-2-1 0-7-3 0-3 4-2 0-6-7-6 0-1 1-11-5-7-1-1-4 0-9-8-2-2 24-3 3-7-6-9-5-19-6-15-7-2-8 0-7 2-4-33-12-4 0 3 12-1 10-2 13-1 0-5 10-9-5-16-5-1 3 1 2-1 4-6 3-4 8-7 3-9 0-10-3 0-18-21-3-4 12-24 7-9-2-12-4 0-3 2-2-1-4 0-1 3 2 1-1 1-4 4-7 1-5-2-1 0-1 4-3 1-3-1-3 2-3-1-10-13-5-32-52-10 4-3-6-15 6 2 5-8 4-5 2-2-6-7 3-3-7z","44":"M2272 887l3-5-20-11-20 36-7-4-11 16-7-4-2 4-3 0 2 7-4 1-5-3-15 2-33 57-18-7-12 17 4 7 3-1 3 3 0 3 6 1-3 10-1 2 2 2-1 3-3 6-4 4-5 2 1 7-2 2-3 1-4 6-5-2 0-1-5-2 3-7-19-9-1 1-7-3-5 10-5 20-13 24-12 17-16 12-28 42-29-25-2 1-4-1 0-4-3-3 0-2-6-1-1-1-3 1-1-5-2-3-2-1-6 3-4 3-5 8-4 3-6-4 1-3-5-8-7-1-2 0-2 3 2 2-2 1-3 4 2 2 0 1-3-1-7 9-2 5 4 0 0 7 1 0 0 4-10 0 0 4-11 3-5 3-2 6-1 4-5 4 6 13-1 1 0-1-2 0 2 3 1 11-7 17 14 5 2 2-1 0 1 2-2 1-2 1 0 1 1 0 1 3-4 4-2 0 0 2-1 0 1 1-1 0-2-2-5 3 0 1-1 1 1 2 0 1 0 2-1 10 1 4-4 4 3 1 0 2-2 0 0 4 1 3 2 0 0 3-1-1 0-1-1 0-1 2-1 1 3 1 1 2-2 2 3 2-2 2-1 0-1-1 0 2-2 0 0 1 2 1-1 2 2 2-2 2 2 1-2 5-2 2 0 3-1 0 0 2 2 0-2 2 2 4 3 2-3 0 0 2 1 1 1-1 1 4-3 0 1 3 3 2 1 3-2 2 2 3 3 4 0 3 3 0-2 4 0 7-1 0 1 3-3 2 0 1-2 2-1 3-6-1 3 4-3 4 1 2-1 2-3-1 2 6 3 1-1 3-2 1 2 2 0 4 2 2 1 0-1-2 1 1-1 2 2 3 1 0-1 1 4 1 1 5-1 3 1 1-2 6 2 1-2 2 1 2-2 8-2 1 0 4-2-1-2 1 3 2-2 0-1 3 2 4 2-3 1 1 7-1 4 1 7-1-2-19 7-1-1-7-2 0-1-8 5-2 2-2 4 0 8-2 2 12 7 0-2 7 10 0 0-1 3 0 28-4 10 1 4-5 11-6 3 3 6-2 2-5 2-1 3-8 5-3 3 6-6 14 3 0 0 2 4 5-2 3 4 6-1 4 4 5-2 2 3 16 2 4 10-1 3 6 0 4 2-1 9-8 4-2 1-3-4-10 1-1 2 2 2-2 3 0 1 6-2 2 2 1 2 2 3-1 5-5 3 0 3-3 24-14 9 9 4-1 1 6 8 0 9 4 21 16 6 8 3 3 0 14 15 4 2 4 33 13-3 1-2 4 1 3 2-1 8 8 3-1 0 1 6-3-2-4 0-5 3-2 5 1 1-3 1-12-7-9 0-12 26 2 0-3 16-2 1-2 8 0 2 2 0 2 2 2-1 3 3 6 1 0 2 1 6 0 1-3 7 4 2-1 2 2-1 5 4 0 0 3-2 1 0 3-2 11-4 5 0 4-2 2 3 13 5 4 1 6 4 1 5-1 3 1 2-1 8-1 12-3 6 7 33 3 1-3 1-8 1 0 4-1-2-8-5 0 0-5 5-6 7-3 3-1 8-15 44-14-5-11 19-8 2 1 0-2 51-21-2-3 17-9 6 0 13 0 19-13 10-10 2-9 5-8 2 1 1 1 14-37 0-10 3-1 1-13 3-4 1-3 0-1-1 0 0-3-1 1 3-10 10 5 31 11-1-11 5-3 3-5 8 0 7 2 14-1 2 3 6-8 6 0 2-1 3-5-8-18-5-1 1-4-1-24-7-4-1-6 6-13 3 1 1-1 2 1 0-3 4-11 24 3 7-11-6-2 1-10-14-2 1-6-15-3 3-19 4-1 4 2 1-9-2 0 0-1-2-1 0-2 2 1 5-21-13 1 0-9-1 0 0-1-1 0-2-4-9 3-2-3-1-6 4 0 1-6 6 2 1-10-5-12-2-2-3-10-3-4-8-1-13 7-3-1-2-7-3-4-2-12-5 0-2-6-5-36-1-1-2-7 2-6-24 12-1-7-22 11-6 2-1 0-1 1 0 2-1 2 1 3-2 3-12-11-3-1-19 8-5 1-6-11-1 1-6-2-9-1 3-43 9-2-6-19-8-8-17 7-9 1-3 8 3 6-7 8-4-8-11 1-2-5-6-5-19 1-3-4 1-6-3-5-1-6-2-3-5 9-3-4-3 6-3-1-1 1 0 4-10-2-7 7-2 0-4-3-12-2-3-3-12 0 5-19 3-1-6-6-6-4-5-10-4 5-3 7-42-22-4 7z","45":"M1834 455l1 4-6 9 0 3-6 2-4-1-5-8-17 2-1 5-11 3-1-4-15-3-3 11 4 2-4 2 14 10-1 1 5 6-16 9 3 7-3 2-3-4-6 0 0 9-4 0-1 7 14 9-3 0-1 2-3-2-8 5-1 2-1-1-5 0-3 2-3 7 0 4 3 4-7 5-5 2 0 2-2 4-2 0-2 0-2 1-1-1-15 0 4 23-9-1-5-3-3-9-18 1-3 5-8 3-5 4-1 9 4 7 5 2 0 5 2 8 1 10 2 2-10 3-1-3-4 0-1-3-4-3 0-3-17-7-4 4-86 26 5 20-2 3-5 2-5 1-7-1-2-1-6-6-3-2-9 0-3 3-16 6 1 5-1 1 0 1-3 12-5-1 3-4-6-2-2-4-4-2-2 1-1 5 1 0-1 6 3 2-1 4 10 2 0 2 2 2-1 4-5 0-3 5-4 3 2 4 3-1 2 1-7 13-6 1 2 6 3 4-8 7 2 12-9-1-4 3-12 11 10 14 10 3-1 15-3 7 2 3 11 4 7-1 1-2 4 0 3-1 4 4 15-3-8-31 17 1 12 47 7-2 1 6 5 7 12 3-4 5-5 2-20 5 7 16 6-2 2 6-6 3 1 5 19-5 2 9 11-3 9 0 13 32 15-2 1-5 5-1 9 1 3-3 5 2 3 4 2 4-3 6 19 7 5 0 16 5 7 5-1 15 3 5 4-4 0-5 9-5 2-3 11 3 5-1 3 2-1 3 6 1 1 2-1 5 4 0 5-3 2-5 1-12 3-7 0-5 1 0 11-2 15 6 4 0 3 12-17 18 10 12-1 0 1 6 11-1 2 2 4 15 0 5 1 1 0 4 5 0 2-5 13 1 7-2 0 1 7-1 1 2-1 4 1 2 0 4 3 3 0 1 2 3 3 0 5 2-2 13 4-2 3 5 3 0 10 6 3-3 0-2-4-4 0-2 2-2 1 4 3 0 2 10-5 6 0 1 3 2-4 4 1 3-5 17 1 3 2 0 1 2 12-1 0-3 2-1 10 6 4 5-2 0-1 2-4 0-2 5-3 0-1 6 6 2 1-2 12 2 5-1 7 4 2-4 0-2 2-1-1-1 4-3 0-1 10 8 7-1 7 1 5 8-1 3 6 4 4-3 6-9 3-3 6-2 2 1 3 8 3-1 1 1 6 1 0 2 3 3 0 4 4 1 2-1 29 25 28-42 16-12 12-17 13-24 5-20 5-10 7 3 1-1 19 9-3 7 5 2 0 1 5 2 4-6 3-1 1-1 0-8 5-2 4-4 3-6 1-3-2-2 1-2 3-10-6-1 0-3-3-3-3 1-4-7 8-12-25-5 0-2-1 0-1-17-1-3 1 0 6 3 10-2-4-9-10 2 0-3-8-2-1 4-1 0 0-2-1 0-2 4 3 0-6 22-3-1-6 19-5-1 1-5-2 0-5-4-2 1-5-1-9-6-5-1-6-5-3-3-3 0-3-2-1-2-2-1-1-3-2-1 0-3 0-5 3-5 7-4 6-3 3-4 6-3 5-1 0-1 3-1 3 1 9-12-4 0 0-4-8-5 4-2-11-8-1 7-3-2-7 11-3-2-8 7 2 3-6 8-3-3-5-15-3-3-1-1-2 3-6-5-4-5 10-8 6 4 4-3-8-10 3-1 0-4-2-3 13-6-8-6 0-2 1 0 14-20 1 2 1-5 6-8-3-2 1-1-9-7 7-9-5-7 1-3-2-1 0-2 4-2-15-11-3 4-13-9-12-6-1 2-8-5 4-6-11-8 16-21-2-2 0-2 3-4 0-3-5-3 13-18 3-6 3 3 5-7 2 1 3-3-1-1 6-8 13 9 3-3-2-2 2-4-3-2 4-6-2-2-3 1-3 3-4-5 6-10-9-7 1-5 1-3-4-3-2 3 2 1 0 7-9 11-10-7-1 2 2 1-2 2-2 0-3 3-10-8 5-7-6-3 5-6-3-2 2-2-3-2 3-4-8-5-3 4-7-7-18-12 15-19-1-1 2-2-6-4 3-4-12-9 0-1 11-15-2-1 3-2 1-4 5-5 3 0 27-35 2 2 4-5-21-15-2 3-18-14 4-5-3-10-10-5-6-11 9-5-15-10-6 2-1-1 0-5-4-2-12 6-16 2 1 2 2 0 2 3 0 2-19 6-8 8-2-1-2-5-5 5 1 7-5 1-4-14 5-4-1-2-16 5-1-4-6 2 1 3z","46":"M2156 194l-8-1-18-11-70-7 1 2 1 0 0 1-1 0-3 4-5 2-4 3-2-1-2 3-3 0-2 3-1-1-2 1-56 4-32 1-5 3 9 12-8 6 4 15 6 4 0 7-6 5-26 11-29 21 2 7-18 5 2 5-9 2 8 20-6 2 10 32-10 1-10 2 2 8-5 1 5 20 4-1 2 5 2-1 3 8 14-7 17 55 7-2 0-2-2-3-2 0-1-2 16-2 12-6 4 2 0 5 1 1 7-2 14 10-9 5 6 11 10 5 3 10-4 5 18 14 2-3 21 15-4 5-2-2-27 35-3 0-5 5-1 4-3 2 2 1-11 15 0 1 12 9-3 4 6 4-2 2 1 1-15 19 18 12 7 7 3-4 8 5-3 4 3 2-2 2 3 2-5 6 6 3-5 7 10 8 3-3 2 0 2-2-2-1 1-2 10 7 9-11 0-7-2-1 2-3 4 3-1 3-1 5 9 7-6 10 4 5 3-3 3-1 2 2-4 6 3 2-2 4 2 2-3 3-13-9-6 8 1 1-3 3-2-1-5 7-3-3-3 6-13 18 5 3 0 3-3 4 0 2 2 2-16 21 11 8-4 6 8 5 1-2 12 6 13 9 3-4 15 11-4 2 0 2 2 1-1 3 5 7 8 6 2-3-2-1 1-4 3-3 6 4 5-6-3-2 5-2 3-3 4 3 1-2 2 2 3-5 2 2-3 5 7-1 1 1 2-1 9 7-1 2 2 1 7-13 3 2-1 2 1 1-1 3-5 5-1-2-2 3-2-1-3 7 3 1-2 14 4 3 1 17 8 2 3-3 4 3-1 3 2 0 1 3-1 6-1 1-7-1 0 3 2 2-1 1 2 1-2 2 4 2 2-3 5 8 6-2 1-3 8 2 0 4 11 7 3 6 6 5-2 2 1 2 5-1 3 4-2 3 6 6 2 5-10 16 3 3-2 2-2-4-5 0-5-4-4 2-2-2-4 5-3-2-3 5-13-16-2 2-3 1-2 3-1 5 2 0 1 9 3 0 4 9-10 2-6-3-1 0 1 3 1 17 1 0 0 2 25 5 4-5 18 7 33-57 15-2 5 3 4-1-2-7 3 0 2-4 7 4 11-16 7 4 20-36 15 8 17-22-4-14-1-8 7-24-2-1-3 0 0-3-11-8 1-2-8-5 2-2-17-12 7-8 5 5 14-19 2-1 2-6 4 3 10-11-3-3 11-15-4-3 3-4-8-6-7 9-20-16-5 7-11-9 13-16 4 2-1 1 3 2 2-3 5 3 2-2 1 0 2-1 1-1 0-2 4-3 6-7-2-2-3 4-1-1-1-1 2-4-6-5-1 2-3 0-8-8 1-2-3-2 6-7 1 0 1-2 12 2 1-3-5-2 2-7-4-3 12-15 25 19 4-5 13 10 8-10 15 9-9 12 18 14 25-33 27 20 0 1 6 3 2-5 2 2 3 1 3-2 3-3 12 15 0-4 5 1 4-2 8-2 3 2 3-1 10 1 3 5 15-2 4 7 5-3 1-2 6 0 2 3-2 0 2 2 2 1 2 2 0 6 2 2 4-1 1 1 4 0 1 1-2 2 2 1-1 1 3 0 4 3 6-4 2 2-1 2 0 1 2 2 3 1 2-4 17 9 17 4 0-1 1 1 5-2-1 7 6 2 3 0 1-3 4 1 1-7 4 0 0-2 6 0 0 4 4 0 0-4 4 0 0 5 4-2 1 1 2-1 1-3 4-6 0-4 1-2 7-3 4-9 4-3 7-3 1-2 0-10 5-9-1-1 3-2 0 1 3-1 6 0 1-12 1 1-1-3 3-2-5-6-3 2-8-18 10-6-5-7-1 1-3-3-10 7-3-4-1 2-1-2 1-2-11-13 10-4-1-1 1-3 3-1-5-9 5-7-1-2 1-1-2-10-16-10-23-3 4-23-3 0 0-7 2 0 1-12-11 0 1-11-3-6 2-1 1-15 10 0 0 2 8 1 1-11-4-2 1-4-1-2 5 0 0-2-1 0 0-2 4-14-1 0 1-4 1-1-7-1-4 4-1-1 1-2-7 0 0-2-3 0 2-33 2-12 6 0 0 3 27 1 0 2 2 1 2 0-1-2 37 2 1 7 6 13 4 0 2-6 20 4 11 6 4 1 7 0-4-3 3-5 0-4-1-2 0-4 2 0 1-4-2 0-1-5 4 3 4-11 4 1 0-1-1-3 2-2 0-3-15-8-5-6 2-9-45-3 3-30-23-17-3-29-29 0-2 1 0-1-58-2-1-3 1-5-2-3-72 1-13-6-8 0-7 4-9 18-3 10-13-4 1-14-5-1 0-5 3-3 0-6 6-13 0-5 7-9 0-11-14-8-5 4-13 2-17-1-9 1-7 5-37 2-3 2-8 1-16 4-10 7-1 3-12 6-17 6-9 10-9 2-4 5-11 3-8-4-21-2-15-14-10-4-36-6z","47":"M2691 382l-1-7-37-2 1 2-2 0-2-1 0-2-27-1 0-3-6 0-2 9-2 36 3 0 0 2 7 0-1 2 1 1 4-4 7 1-1 1-1 4 1 0-4 14 0 2 1 0 0 2-5 0 1 2-1 4 4 2-1 11-8-1 0-2-10 0-1 15-2 1 3 6-1 11 11 0-1 12-2 0 0 7 3 0-4 23 23 3 16 10 2 10-1 1 1 2-5 7 5 9-3 1-1 3 1 1-10 4 11 13-1 2 1 2 1-2 3 4 10-7 3 3 1-1 5 7-10 6 8 18 3-2 5 6-3 2 1 3-1-1-1 12-6 0-3 1 0-1-3 2 1 1-5 9 1 8-2 4-7 3-5 4-3 8-7 3-1 2 0 4-4 6-1 3-2 1-1-1-4 2 0-5-4 0 0 4-4 0 0-4-6 0 0 2-4 0-1 7-4-1-2 3-8-2 1-7-5 2-1-1 0 1-17-4-17-9-2 4-3-1-2-2 0-1 1-2-2-2-6 4-4-3-3 0 1-1-2-1 2-2-1-1-4 0-1-1-4 1-2-2 0-6-2-2-2-1-2-2 2 0-2-3-6 0-1 2-5 3-4-7-15 2-3-5-10-1-3 1-3-2-8 2-4 2-5-1 0 4-12-15-3 3-3 2-3-1-2-2-2 5-6-3 0-1-27-20-25 33-18-14 9-12-15-9-8 10-13-10-4 5-25-19-12 15 4 3-2 7 5 2-1 3-12-2-1 2-1 0-6 7 3 2-1 2 8 8 3 0 1-2 6 5-2 4 1 1 1 1 3-4 2 2-6 7-4 3 0 2-1 1-2 1-1 0-2 2-5-3-2 3-3-2 1-1-4-2-13 16 11 9 5-7 20 16 7-9 8 6-3 4 4 3-11 15 3 3-10 11-4-3-2 6-2 1-14 19-5-5-7 8 17 12-2 2 8 5-1 2 11 8 0 3 3 0 2 1-7 24 1 8 4 14-17 22 5 3-3 5 18 10 4-7 42 22 3-7 4-5 5 10 6 4 6 6-3 1-5 19 12 0 3 3 12 2 4 3 2 0 7-7 10 2 0-4 1-1 3 1 3-6 3 4 5-9 2 3 1 6 3 5-1 6 3 4 19-1 6 5 2 5 11-1 4 8 7-8-3-6 3-8 9-1 17-7 8 8 6 19-9 2-3 43 9 1 6 2 1-1 6 11 5-1 19-8 3 1 12 11 2-3-1-3 1-2 0-3 8-2 22-11 1 7 26-14-1-7 8 0 37 5-3-10-6-14 27 5-1-19 22-3-1-3 2 0 0-9 21-5-1-5 18-1 3 53 3 2 1 6 16-1 1-8 12 2-2 6 27 1-1-16 14 3 1-9-2-18 15 3 1-15-2-20 3-2 3-2 5 3 5 0 12 3 5-26 4 0 22 4 0-2-3-1 0-1 5-4 11 2 21 7 20 4 1 8 1-1 0-2 13 3 7-36 7-6 18 1 3 30 19-4 3 25 20-6-1 18-9 1-12 5 3 17 109-18 0-2 2-1-1-2 0-7 1-1 3 1 5-5 3-6-6-2-2 4-6-1-1-3-8 5-6 1-4-8 13-31 15 8 21-12-4-18 6-3 1-3 5-2 1-3 10 0 9-25-8-7 1-2-2-1-4-3 2-4 3-2 0-5-7-5 2-5 4 2 1-3 7 3 1-10 0-6 2-4 0-5-12-1 2-5 0-2-7 1-1-7 1-20 1 0 5-7 0-5-1-1 0-1 1-5 12-10 6-3 0-29 31 0 0-1 15-1-3-31-2-11-1 0 0-4-2-2 1-3-1-2 0-6-20 2-4-20-6-43-11 2-2-1-10 23-13 20-39-24-2-5-4 0 15-22 0-11 1-2-4-2-3 1-1-7-1-2-8-1 0-1 3-1 4-5 3-1 2-2 2 0 2-2-5-3-2 3-5-4 2-2-7-5-5 6-12-1-3-8-2 1-6-16-9-1-2-11-2-8-2-19-13-7-2 0-4-12 12-3 6-9 3-15 19-10-3-3-7-1-1-4-1-18 3-18-1-1-17 10-19 5-1 9-5 3-27-5-26-26-11-1-19 11-3-10-6-11-2-11-4-3-8-5-14-4-5 2-11 2-9-3 0 1 4 22-17 3-11 10-14-2-34 16-21 25-19-5-28 8-6-3 1-5 2-3-4-1-4 11-4-3 1 5 2 0-1 4-2 0 0 4 1 2 0 4-3 5 4 3-7 0-4-1-11-6-20-4-2 6-4 0z","48":"M3249 179l-4 5-4 2-8-2-6 2-7-1-4 2-8-4-4 1-4 2-6 0-2 1-1 3 3 9-6 8 0 5 3 6 0 7-3 6-3 1-4 0-2 2-5 6 0 5-1 2-4 2-6-1-6 3-5 12-4 2-1 12 6 15-3 26-13-2-24 10-15 2-13 8 1 1-3 18 1 18 1 4 7 1 3 3-19 10-3 15-6 9-12 3 4 12 2 0 13 7 2 19 2 8 2 11 9 1 6 16 2-1 3 8 12 1 5-6 7 5-2 2 5 4 2-3 5 3-2 2-2 0-2 2-3 1-4 5-3 1 0 1 8 1 1 2 1 7 3-1 4 2-1 2 0 11-15 22 4 0 2 5 39 24 13-20 10-23 2 1 11-2 6 43 4 20 20-2 0 6 1 2-1 3 2 2 0 4 1 0 2 11 3 31-15 1 0 1-31 0 0 29-6 3-11 10-2 5 0 1 1 1 0 5-5 7-1 0-1 20 1 7 7-1 0 2-2 5 12 1 0 5-2 4 0 6-1 10-7-3-1 3-4-2-2 5 7 5 0 5-3 2-2 4 4 3 2 1-1 2 8 7-11 33-2 2 12 9 4-2 4 1 2 18-2 10-2 0 5 6 4 0 4-2 1-8 1-4 2-2 6 0 1-1 1-6 5 0 20-30 1 3 3 0 0 3 6 0-1 8 19 6 7 44-4 2 8 10-4 3-2 6 3 3 0 6 10-3 4 3 1 4-1 12-2 6 0 11 15 19-1 17 3 8-12 14-5 2-2 8-1 7 6 0 1 21-5 0-1 2-4-1-1 2-4 1-9-1-11 3 0 5 3 2-7 9-17 1 1 4 6 4-1 6 3 0 2 4-2 6 1-1 1 3-2 3 0 4 0 2 2 1-2 4 2 4 12-6 6 14-7 0 1 2-6 4 1 6 6 8 8 5 7-7 10 14 12 5 7-6 4 0 0-1 12 10 5 0 8 0 32-20 11 11 4 13 2 4 11-6 3 6 3-2 1-9 0-4-3-7 4-2 7 0 9-2-1-6 24 5 8 8 10-1 23-18 2-4 4-4 6 0 8 5 6 1 4 9 2-2 2 0 6-6 15 8 7 2 0 1 5 0 11 4 8 9 12-5 3 3 2-1 2 5 6-4 1 2-8 10 1 6 5-3 2 5-3 0-3 5 10 26 112-42 8-4-1-1 24-5 17 17 6 4 6 2 9-18-7-1-4-3-2-20 1-2-1-3 22-6 9 5 2 3 7-15 5-8 4 1 4-4 1-5 2-1-1-2 2-1 0-2 3-1-1 0 0-3-1-2 2-2-4-3-1-4 1-7-5-10-8-12-1-1 0-2-3-5-4-4 0-3-10-12-11-9-3-1-9-20-2-1 2-2-2-1-2-3 1-5 4-3-2-1-1-3 1-2 2 1 1-2-2-1 0-2-2 0 1-1 2 1 1-1-3-4 3-2-2 0 0-1 2-1-1-1 2-12 3-6 4-2 1-3 1 1 2-4 3 1 0-2 2-1 0-2-1 1-1-1 2 0 1-2-1-5 2-1-1-3 1 0 2-1-1-3 1 1 0-2 3-1-2-4 2 0 0-1 0-3 1 0 0-9 3-16-3-21-2 0 0-3-3-11 1-11-1-3 1-10 2 0 1-1-3-2-1-9-5-1-4 2-1-3 9-13 1-11-2-21-7-1 0 7-8-1-5 3-1 8 2 9-9-2-7 4-5 7 2 6-4 23-15 2-6-3 0-6-19-11 0 1-10 0-7 4-8-3-5-8-24 9-19 6-4-14-8 7-4-3-12-15-4-2-5-9-7-2-22-3 5-10-3-18 1-5-2-8 8-2 5-19 10-4 7-8 0-9 15-9-2-14-13-8-8-18-3-3-2-1 9-4 17-5 0-2 3-1 4-2-2-1 3-19-8-6 2-8-8 0-1-4-1 0 1-3 8 1 0 3 10 1-2-7 9-1 0-7 4-1 22 7 2-2 4 2 4 4 7-9 7 0 5-5 6-2 6 0 2 2 5-9-2-12-5-2-4-6 0-3-7 6-2-3-3-11 0-7-5-4-6-7-3-1-10-14-3-7 5-3 1 2 1-2 0-17-18-1-7-8-5 0-4-3-2 0-3-3-3-1-4 0-6-2-5 2-5-1-2 2-1-2-3-1-2-3-4-13-2 0-2 2-4 0-1-2 2-2-3-7 1-4-3-3-1-5 1-7 3-5-3-6-2-2-1-3-3 0-1-1 0-3 2-3 3-7-1-9-1-1-6 0 1-2-4-2 6-8 0-1-5-2-1-4 3-5-4-5 1-6-5-3-2 0-5-2 0-2 2-2-2-4-3 0-5 3-2-2-3-1 0-3-4 0-3-2 0-1 1-1-1-5-4-3 0-7 2-5-6-4-7 0-4-5-3-1-5-10-3-3-4-1-2-3-3 0 1-11-3-4-1-4 0-3-1-4 3-9-4-3 3-2-4-10 2-5 0-5 3-1 0-2-2-4 0-5 1-6-1-5-5-5-3 1-4-3-2-5-3-6-5 4-1-1 0-4-2-4-2-6-3-5 1-3-4-4 0-4-4-4 0-4-1-3-2-1-4 2-4-3 1-3-5-5-1-3-2-2 1-4-4-4 0-4 3-3 5-4 1-8 6-7-1-8-8-3-3-7-4 1-3-2-2 2-5 0-1-1 0-3-1-1-5 0-2 1-5-1-5 6 0 4-2 4-6 6-5 0 0 2 1 3-1 9 1 4 4 1 4 3-1 4 2 3-1 2-5 2-7 2-7-2-4 3-1 3-4-1-4 1-1-2 1-1-1-5-1-3-11-6-2 0-3 3-3 0-1 2 1 2 2 0 2 2-1 3 0 3-13 10-2 4-4 2-4-2 0 3-1 2-9-4-1-3-2-1-2 0-3 2-7 0-1 2-5 2-2-1-4 1-8-3-8 3-3 0-2-1-3-3-4 0-2 10 3 5 2 8-4 4z","49":"M3060 1194l1-2 1 0 7-9 10-4-2-8-11 3 0 2 3 3-5-6-3 1-5-4-6 4-7 1 0 5-4-1-1 1-4-4-3 0-4-7-2-1-1 3-3 1-1 3 4 5 0 3-7 2 0 3-2-1-1 2-8-8-2 1-10-10-4 2-3-1 2 7-2 3 3 5 4-2 1 2 11-4 9 9-5 5-22 9 1 6 3 3 2 6-1 5 2 5 1 8-3 0 0 10-7 6 0 3-3 4 0 5-2 0 0 10 6 2 4 4 4 11-1 0 1 9-7 0 2 2-2 0 1 2-2 3 5 21-7 25-4 5 2 11 2 4-4 3-2 6-4 9-2 9 0 12-4 9 2 7-2 7-2 0 2 3-3 1 0 17 6-1-1 9 2 2 6-2 0-2 4-1 1 2 14-3 1 7-10 1 1 4-6 1-1 2 2 5 1 8-5 0 4 23-4 4 2 3 3 1 2-1 2 2 1 5 4-1-1 3 7 10 14-4 7 8 5-1 0 4 3 1 1 7-1 7 9-3 5 2-3 16 4 6 0 2 2-1 3 2-16 8 1 2 0 4 3-1 0-1 10-1 3 1 0 3 8-2 0-2 7-2 1 1 2 0 0 3 2 0 0 3-3 0 1 2 4 0 1 2 1 5-5 0 0 12-3 0 2 10 7-1 1 2 7-3 0 2-13 6 1 4-3 14-6 0 0-9-19-2-5 5 0 5-12 6-5 1 4 7-7 21 1 9-8 2 2 12-14 7 2 4-3 0-2 4-4 17 2 4-10 5 2 37 3 9-1 3 2 2 5 1 0 1 6 2 0 2 6 3 2 1 1-2 3 3-6 6 2 0 5 7-4 5 2 1 5 0 1 1-5 20 5 2-5 13-8 25 9 2 4 3-1 6 11 0 3-7 4 1-1-2 12 2 10 5 18 3 11 5 0-18-3-6-1 0-5-6 7-11 2-11-4-1 3-3 2-5-3-1-1-7 1-3 6 0 1-2 2 1 2-2 2 0-2 13-2 1-1 2 4 4 6-11 2 4 3 2 6-7 6-2 1-10 3-2 8 1 0-4 4-8 3-1 2 1 3-3 7 1 5-1 8 4 1-3 8-5 3-11 1-3 3-2 2-10 9 1-1 4 4 1 4-14 4-5 4-1 2-10 4 0 1 4-2 0 1 4 3 3 0 7-3 2 1 3 4 3 0 2-2 2 13 6-3 5 5 4-2 4 6 4-1 7 4-1 5 2 0 2 3 9-1 1-1-1-1 5 3 3 3 8 3 3 5-1 2 3 12-8 16 10 13-7 0-1 9-2 5 0 4-6 9 10 2-1 1 2 1 0 2 3-1 0 1 1 1 0 1 2 6-1 1 3 2-1 0 7 8-3 5 0 14-7 3-3 1-4 6-5 0-2-4-2 0-2 1-3 4-2 2-2 5-17 3-2 2 0-1-2 1-1-2-3 1-1 1 0 0 2 3 3 4 1-1 3 2 2 1-1 8 0 2 0 1-3 2 0 0-2-2-1 7-6 2-2 5 5 3 1 4-2 1-3 2 0 1-2 4-1 4 5 1 4 1 0 0-1 4 0 2 3-2 1 1 2 1 1 2 0 0 2 4 3 0 2 6 3 1 2 3-1 2-3 1 3 3-2 1 1-1 4 5-2 0-1 4 3-1 1 2 1 0 2 3 2 0 2 3 0 1 1 1 0 2 0 0-2 2 2 2-1 2 1 0-1 5 3 2 0 1 1 1 2 1-1 2 2 1-1 2 3 0-1 3 0 2 3 4 1 6 5 4-1-1 2 1 1 0 1 5 3 4 1 1 3 3 0 0 1 4 0 2-4 6-2 12 3 4 0 3-12 3-4 6 0 1-1 4 2 0-1 8 3 2-7-1-9 3-7-5 0-1-5-3-2-2-4 2-7-4 2-3-2-11-1 1-3 3-1-1-1 1-4-1-6-1-3-2 0-3-2-1-4 0-4-1-3-4-2 7-4 6-1 7 3 10 0 5-2 0-1 4-3 7 1 3-2 1-3 3-2-1-5-3-4-3-2-2-4-4-2 1-3-3-7-4-3-3 0-1-3-10 4-1-4 0-3-8-4-4-5 3 0-1-7 14-9 7-10 9-6 24 8 7 2 2-1 6-10 7-1-1-2 3-1-3-1 2-2-2-1 5-5-2-7-3-1 2-2-1-2 2-3 6-5 2-6 5-2 6-5 4 3 2 0 0 3 7 2 5 3 4-7 8 2 7 8 3 11 7-2 7 7 7 3 14-1 32-9 9-5 34 9 6-30 4-4 11 0 4-5 1-10-8-1-8-4-2 2-3 0-3-2-4 1-1 2-2-1-1-5-3-1 4-14 6 2 3-14-1-9 5-2 7-9 1-11 2-4-5-3-3 2-9-6-8-9 0-5 28-19-1-6 2-8 3-4 3-2 8 1 6 2 2-1 0-5 3-2-13-11 3-9 8-10-13-30 19-10-8-25-2-12 2-8 2-3 4 0 3-5 1-4-1-1 15-9 7 0 4-5 0-1 2-4 0-3 1 1 3 0 1 2 0-1 2 1 0 2 1-1-1 2 1 0 1-2 2 1 0 1 1 1 0-2 2 1 1 3-2 1 1 0 0 2 3 0-1 2 2-2 1 0 7-10 1 0 0-8-7-2 0-6 13-8-5-6 0-3-32-11-4-7 20-25 9 4 4-8-6-3 6-14 7-13-9-5 3-7 3-1 2-3 1-10-6-1 4-8 11-9 8-12-20-8 2-6 4-9-25-10-7 17-21-12-13-16-1-2-18-10 2-5-1-1-4 1 0 3-4 2-4-10-5 4-7 3-9-2-2 1 1 2 0 3 1 0-3 1 0 2-2 1 1 2-2 1-1 5-4 4-4-1-5 8-7 15-2-3-9-5-22 6 1 3-1 2 2 20 4 3 7 1-9 18-6-2-6-4-17-17-24 5 1 1-8 4-112 42-10-26 3-5 3 0-2-5-5 3-1-6 8-10-1-2-6 4-2-5-2 1-3-3-12 5-8-9-11-4-5 0 0-1-7-2-15-8-6 6-2 0-2 2-3-9-2-1-5 0-6-4-5-1-4 1-5 7-23 18-10 1-8-8-24-5 1 6-9 2-7 0-4 2 3 7 0 4-1 9-3 2-3-6-11 6-2-4-4-13-11-11-32 20-13 0-12-10 0 1-4 0-7 6-12-5-10-14-7 7 5 12 2 10-3 12 2 2-2 6 1 4-6 5-1 8 2 1-2 3-5-3-1-2 0-2-11-5-1-1 3-2-4-3 2-1-1-3-11 4-24-12-3-5 1-3-4-5-1-4-3-1-7 4-5-2-1 0 0 10-5-3-3 2 2 6-9 1-7-7-4 1-1 2-2 6-2-2 0-4-2 0 1-2-2-1 0-1-2-6-3 2-1-1-3 4-6-8-10 8 1 1-5 1 0-1 2 0-2-5-9 1 0-5-2 2-1-1-2 1 1 1-7 2 0 3-16 11-15-7 4 0 1-5-12 0 0 5-5 0 0-2z","50":"M3799 519l-20 14-1-2-8-5-6-7-15-6 0-4-2-2-6-13-13-4-4-10-1-7-9-3-4-8-5 0-11 7-13 17-11-1-2 1-4 0-7 3 0 17-1 2-1-2-5 3 3 7 10 14 3 1 6 7 5 4 0 7 3 11 2 3 7-6 0 3 4 6 5 2 2 12-5 9-2-2-6 0-6 2-5 5-7 0-7 9-4-4-4-2-2 2-22-7-4 1 0 7-9 1 2 7-10-1 0-3-8-1-1 3 1 0 1 4 8 0-2 8 8 6-3 19 2 1-4 2-3 1 0 2-17 5-9 4 2 1 3 3 8 18 13 8 2 14-15 9 0 9-7 8-10 4-5 19-8 2 2 8-1 5 3 18-5 10 22 3 7 2 5 9 4 2 12 15 4 3 8-7 4 14 19-6 24-9 5 8 8 3 7-4 10 0 0-1 19 11 0 6 6 3 15-2 4-23-2-6 5-7 7-4 9 2-2-9 1-8 5-3 8 1 0-7 7 1 2 21-1 11-9 13 1 3 4-2 5 1 1 9 3 2-1 1-2 0-1 10 1 3-1 11 3 11 0 3 2 0 3 21-3 16 0 9-1 0 0 3 0 1-2 0 2 4-3 1 0 2-1-1 1 3-2 1-1 0 1 3-2 1 1 5-1 2-2 0 1 1 1-1 0 2-2 1 0 2-3-1-2 4-1-1-1 3-4 2-3 6-2 12 1 1-2 1 0 1 2 0-3 2 3 4-1 1-2-1-1 1 2 0 0 2 2 1-1 2-2-1-1 2 1 3 2 1-4 3-1 5 2 3 2 1-2 2 2 1 9 20 3 1 11 9 10 12 0 3 4 4 3 5 0 2 1 1 13 21-1 8 2 6 3 2 9 2 7-3 5-4 4 10 4-2 0-3 4-1 1 1-2 5 18 10 1 2 13 16 21 12 7-17 22 9 4 2-5 8-2 6 26 10 2-1 8 2 5-18 17 4 4 4 13 6 6-15 3-11 6-6 3 2 0-3 2 0 1 3-3 3 5 3-1 2 2 2 2 0 2-3 1 0 1-1 6 4 2 0 15 7 1-2 2 1 4-4 4-2 2-1-1-4 1-2 5-2 2 1 1-2 9 1 1 4 0 2 2 5 0 7 0 4 1 0-2 5 1 6 3 6 2 0 0 2 4 3 6 1 1 5 0 2-2 2-1-3-4-4-2 3-3 0-2-1 0-3-4 1-1 1 2 4 0 6 4 2 3-1 1 5 1-2 6 2 4-4 2 3 3-1 1 1 2 0 3 5 9 9 1 2 2 1 6 1 17-1 2 10-1 10 1 1 0 3 2 2 1 5 2 0 1 1 0 24 3 6-2 13 4 0 2 23 2-3 5 3 0 1-1 1-1 4 4 1-1 2 1 1 2-1 3 3 4-3 5-14-1-8 21 4 6 4 4 0 6 9 7 6 1-1 3 2 1 5 5 3 2 6 4 2 2 2 3 1 4 6-1 1 13-1 12-9 3-4 5 4 6 10 11 7 3 3 3 1 1 3-22 14 19 23 3 8-1 1-1 2 10-3 17 17 0 18 5 0 0 16 25-3 7-21-19-7-2-10-3-1 2-7-1 0 9-11-5 0 12-9-7-10 3-4 4 0 4-3 0-4-1-1-8-18 2 0 1-4 1-1 0 1 0-3-1 1-5-11 6 1 2-3 8 0-3-1-1-2-5-1 0-1 4 0 2-2 1 0 0-1-2 0 0-1 12-2 1-10 4-1 2-3-2-3 1-6 5-3 1 0 1-3 6 0 2-3-1 0 6-4 1-9 6-2 6 1 0-3-1-4 1-4 9-3 5 1 0-2 4 0 0-6 1 0 2 3 5 3 3-6 1-1 1-4 5-5 2 11 7-1 2 21 29-4 1 15 4 1-3 8 1 2 4 1 14-7 1 1 4 2 7-4 6-1 4 1 0 2 3 0 1 2 1 1 5 0 0-3 3-1 3 2 3-1 4 1 2-1 3 6 5 2 1 2-7 2 2 16 17-2 7 1 5-8 2-1-3-4 1-6 4 0 0-9 1-1 0-3 7-1 4-5-5 0 1-6 2-2-2-2 1-3 2-2 1-4 2 1 6-15 3 1 2-5-11-3 3-13 4 0 3-7 4 0 6-2 3-5 2 1 2-8 1-3 0 1 1 1 0-2 1-3 7-14-2-2 2-4 2-1 1 2 3 1 1-1 3 8 13-10-3-18-5-13-13-17-10-2-2 2-3-2-1 3-1-1-3 2-3-1-1-2-3 1-5 0-3-3-1 0-8-11-11-10-15-14-9-23-23-44 0-2 4-9-6-27-22-31-17-15-9 5-19-17-26-4-9-15-6-4-11-13-5-14-17-30-8-7-8-16 0-13-30-20-9 7-4-4 2-1-6-5 1-2-2-1-1-4-2-2-5 0-1-2 1-3-3-1-2-3-7-1-3-2-1 1-6-5 0 1-7 1 0-1-2-1 1-3-38-13-2-4-5-2-28 1-9-12 9-10-1-12-4-6 0-3-3-3-9 0-4-3-6-10 0-4-3-3-2-9-2-2 0-5-16-6-35-8-7-10-14-9-10-3-6-4-12-1-13-7 0-5-2-2 1-2 7-3 2-8 1-2-5-4 6-23-20-16 7-21-10-8-6 9-13 13-14 0-9-2-19 2-31-8-12-33-13-5-12 4-11 5-2 7-2 15-21 3-22-7 0-8-20-3-9 15-16-6 2-14-44 7z","51":"M4009 1168l-13-6-4-4-17-4-5 18-8-2-2 1-6-2-8 12-11 9-4 8 6 1-1 10-2 3-3 1-3 7 9 5-7 13-6 14 6 3-4 8-9-4-20 25 4 7 32 11 0 3 5 6-13 8 0 6 7 2 0 8-1 0-7 10-1 0-2 2 1-2-3 0 0-2-1 0 2-1-1-3-2-1 0 2-1-1 0-1-2-1-1 2-1 0 1-2-1 1 0-2-2-1 0 1-1-2-3 0-1-1 0 3-2 4 0 1-4 5-7 0-15 9 1 1-1 4-3 5-4 0-2 3-2 8 2 12 8 25-19 10 13 30-8 10-3 9 13 11-3 2 0 5-2 1-6-2-8-1-3 2-3 4-2 8 1 6-28 19 0 5 8 9 9 6 3-2 5 3-2 4-1 11-7 9-5 2 1 9-3 14-6-2-4 14 3 1 1 5 2 1 1-2 4-1 3 2 3 0 2-2 7 3-3-4 2-1 2 1 1 3 4-2 5 2 2-1 2 5 6 2 4 0 16 24-4 17 18 3 2-9 10-7 9-4 1 6 1 1 0 5 4-2 2 0 1 1-1 5 4 4-2 2 10 5 2-1 2 3 13-13 6 2 8 6-2 5 0 7 5 4 3-3 6 3 5-7 9 0 2-4-2-3 4-1 6 2 4 2 6 1 13 4 3 0 3-2 0 1 6-1 4-3 3 2 9 1 0 2 6 8-4 1-2 3 6 2 12-2 1-3 3 0 2-2 7 2 2 1 2-3 3 2-2-6 5 1 3-4 6 0 0 4-3 7 4 7 12-5 0-4 2 0 1 7 2 0 1-1 6 3 5 4 5 3 6 6 1-2 3 5 0 20-1 17-11-1 1 4 2 0 1 1-2 4 3 3-3 2 2 2 3 8-3 2-1-3-3 2-3-3 0-2-3-3 0 2-1 2 1 3 4 1 0 4 0 1-2 0-2-2-4 1 1 3-3 4 1 4-3 2-1-2-1 0 1 3 2 2 1-1 0-3 3-1 4 2 1-2 3 3 4-3 3 0 1 1-3 3-4 7 0 1 2 0 3-6 5-4 5 0 1-1 3-1 3-5 1-2 1-4 4-4 1 1 2-1 20 25 8-6 2-3 2 43 29-1-1-13 4-4-4-4 0-9 2-3 6 6 13-8-7-4 3-3-1-1 5-4-3 0 0-3 6-5 2-4-1-2-1-5-3 1-1-1 2-4-3-4 1-1-2-2 1-2-2-1-1-2 4-3 8-3-3-2 1-1 3 0 3-7 0-4 4-11 1-9 3-7 1 4 7 5 7 2 11 10 8 5 16 4 22-19-1-2 0-4 3-11-4 0-1-2-4 0-1-3 0-1-3 3-1-2-5-3-2-4 2-4 0-2-4 2-2 4-2-2 2-6 0-7-4-10-2-3 0-4 2-2 2 0 2-1-3-3-9 1-2-6-5-2-5-5-3 0-1-2 1-1 20-15 2 2 5 2 4 2 1 2-2 2 1 1 3-2 2 3 3 1 3 4 11 2 6-1 12-7 4-4 4-5 9 8 4 1 4 3 4 10 2 4 2 0 0-2 2 1-1 4 3 5 2-2 9-1 6 4 4 6-2-25-14 1-2-43-13 1-1-4-2-1-2 0 0-2-1-3 2-6 2-3-1-2 1-18 15 0 2-6 0-4-43-1 0-27-11 0 0-29-15 0 0-16 15 1 0-25-5 0 0-18-17-17-10 3 1-2 1-1-3-8-19-23 22-14-1-3-3-1-3-3-11-7-6-10-5-4-3 4-12 9-13 1 1-1-4-6-3-1-2-2-4-2-2-6-5-3-1-5-3-2-1 1-7-6-6-9-4 0-6-4-21-4 1 8-5 14-4 3-3-3-2 1-1-1 1-2-4-1 1-4 1-1 0-1-5-3-2 3-2-23-4 0 2-13-3-6 0-24-1-1-2 0-1-5-2-2 0-3-1-1 1-10-2-10-17 1-6-1-2-1-1-2-9-9-3-5-2 0-1-1-3 1-2-3-4 4-6-2-1 2-1-5-3 1-4-2 0-6-2-4 1-1 4-1 0 3 2 1 3 0 2-3 4 4 1 3 2-2 0-2-1-5-6-1-4-3 0-2-2 0-3-6-1-6 2-5-1 0 0-4 0-7-2-5 0-2-1-4-9-1-1 2-2-1-5 2-1 2 1 4-2 1-4 2-4 4-2-1-1 2-15-7-2 0-6-4-1 1-1 0-2 3-2 0-2-2 1-2-5-3 3-3-1-3-2 0 0 3-3-2-6 6-3 11z","52":"M4650 1218l-3 5-6 2-4 0-3 7-4 0-3 13 11 3-2 5-3-1-6 15-2-1-1 4-2 2-1 3 2 2-2 2-1 6 5 0-4 5-7 1 0 3-1 1 0 9-4 0-1 6 3 4-2 1-5 8-7-1-17 2-2-16 7-2-1-2-5-2-3-6-2 1-4-1-3 1-3-2-3 1 0 3-5 0-1-1-1-2-3 0 0-2-4-1-6 1-7 4-4-2-1-1-14 7-4-1-1-2 3-8-4-1-1-15-29 4-2-21-7 1-2-11-5 5-1 4-1 1-3 6-5-3-2-3-1 0 0 6-4 0 0 2-5-1-9 3-1 4 1 4 0 3-6-1-6 2-1 9-6 4 1 0-2 3-6 0-1 3-1 0-5 3-1 6 2 3-2 3-4 1-1 10-12 2 0 1 2 0 0 1-1 0-2 2-4 0 0 1 5 1 1 2 3 1-8 0-2 3-6-1 5 11 1-1 0 3 0-1-1 1-1 4-2 0 8 18 1 1 0 4-4 3-4 0-3 4 7 10-12 9 5 0-9 11 1 0-2 7 3 1 2 10 19 7-7 21-25 3 0 9-15-1 0 16 15 0 0 29 11 0 0 27 43 1 0 4-2 6-15 0-1 18 1 2-2 3-2 6 1 3 0 2 2 0 2 1 1 4 13-1 2 43 14-1 2 25-4-6-6-4-9 1-2 2-3-5 1-4-2-1 0 2-2 0-2-4-4-10-4-3-4-1-9-8-4 5-4 4-12 7-6 1-11-2-3-4-3-1-2-3-3 2-1-1 2-2-1-2-4-2-5-2-2-2-4 3-17 13 2 2 2 0 5 5 5 2 2 6 9-1 3 3-2 1-2 0-2 2 0 4 2 3 4 10 0 7-2 6 2 2 2-4 4-2 0 2-2 4 2 4 5 3 1 2 3-3 0 1 1 3 4 0 1 2 4 0-3 11 0 4 1 2-22 19-16-4-8-5-11-10-7-2-7-5-1-4-3 7-1 9-4 11 0 4-3 7-3 0-1 1 3 2-8 3-4 3 1 2 2 1-1 2 2 2-1 1 3 4-2 4 1 1 3-1 1 5 1 2-2 4-6 5 0 3 3 0-5 4 1 1-3 3 10 4 5 7 18 12-1 1 0 7 2 4-4 3 4 3 1 1 7 4 3 0 0-2 2 0 1-1 1-10 13 10 1-2-1-14 8 0 1 10 2 0 3 2 3-1 3-4 6-1 1 3 4-1 1 3 7 1 0 2 2-1 6 5 1 4 7-1 3-7 3 0 19-2 5 5 12-20-3 1-2-2-6 3-9 1 4-2-1-2 1-1 7-3 3-3 5 0 2-2 0-1 1-4 2 0-1 3 2 1 2 3 4 3 2-1 2 2 3-4-6 2-1-2 1-5-1-7 3-7-1-3 1-2 0 2 2 0 0 2-2 7 1 10 7-1 5 5 3 0 2 2 8-1 3 5 4 3 4 0 2-4 4-1 4-3 4 2 2-3 3 3 1 3 4 3 4 1 3-3 4 1 2 2 1 7-1 0-2-2-2 3 1 1 0 1-2 2 6 2 2 2-1 4 1 12-1 4 10 6 3 1 9 7 8 3-12 6-1 2-7 12-1 5-3 4 0 1-2 2 1 6 0 1 5 1 1-1 21 5 4-17 3-1 1-2 1-7 2 2 0 4 4-3 3 2 5 1 8-3-2-2 5-7 2 2 1-4 14 18 3 2 4 7 4 3 5 0 0 3 4-3 2 1 9-6 2-5 1 0-1 5 3-1 2 1 5 6 10 0 20 9 2-1-2-5 3-1 1-2-1-2 2-2 4 9 1 4 11-2 6 2 7-8 3 2 6-2 4 2 4 1 1 3 1 0 7 6 6 0-1-5 11 2 9 9 8-1 1 5 6-1 1 1 1 0 1-5 6-9 23 9 8-7 21 5 1-7 1-6 3-2-1-2 8 1 6-1 2 0 0 2 10 7 2-6 10-2-1-3 1-2 25-1 0-4 8-4 9-11-2 0-2-9 7 0 2 2 3 0 2-6-8 0 0-2-4 1-2-4 1-2 4-3 1 3 3-4 0-2 1-5 4 0 1 2 2-1 1 3 0-2 2-3 4 0 2 2-1-4 4-1-1 2 4 1 0-2 3 1 1 3-4 2 0 2 2 2 1-2 1 0 2 0 0 3 2-1 1 3 1-2-2-3 2-3 2 0 2 0 1-1 11-1 7 1 0-1 57-5 4 2 0 2-7 4-2-1-1 1-2 1-5 4 2 5 3-2 1 0 1 5 1 0 0-2 4-1 5-4 1-3 7-2 5 1 5-2 0-2 2-3 2 0 1-6 5-1 2 4 4-1-1-11 24-6 1 2 1 0 6-14-1-18-3-8 1-6-5-2-7 0-2-2-2-6 1-3-11-5-4 2-2-1-2-5-6 1-2 3-4 0-2-3-4 0-6-4-8-1-2 2-11-2-7 2-2 2-7-1-11-11-6 1-3-3-4 0-5-2-3 1-13-11-4 0-2 5-15 1-3 7 0 8-1 0-1-1-5 5-2-3-2 0-2-4 1-7 4-3-3-2-5 5-2 0-3-1-1 0 2 1-1 3 2 4-4 0-1 4-4 1 0 6-4-3-3 1-5-3 1 2-5 3-1-1-2-1 1-2-3-4 1 0 1-1-1-2-3 3-3-1-3 2-2 4-4 0-1 3-2 0 0-3-1-1-6 0-1-3-2-1 0-2-1 1-2-2 1-3-1 1-3-3 0 2-2-1-1 1-1 0-1-1-3 0-1-2-1 1-1-1-2 0 0-1-2 0 0-2-4 3-1 0-2 1-3 0-1-1 0-4-2 1-6-1-1 0-5-2-2 1-2-3-1 0 0-2-2-1-2 1 0-1-3-2-3 1-3-3-1 0 0-1-2 2-1-2-6 3-2-1-2-2-2 0-1 1-2-1-1 2-1-1 0-2-2 1-4-4-2-3-2-3 0-2 4 1 4-4 5 1 7-5 7-4 2-20 5 1 7-6 6 7 7-2 6-14 17-8 20-6-2-12-1 1-2-18 10-5-11-27-4-12-3-3 1-3 4-2 14 7-10-13-6-6 6-14 7-4 0-1-6-21-10-11 1-14-3-6-4-5-6-13 8-22 10-4 3 1 0 2 1 0 2-1 1-2 4 0 3-7 3 1 0-3 1-1 2 0 2-1 2 1 1-2 2-1 1 2 3-1 1-2 0-1 2 0 2-2 0-5-2-2 2-2-1-2 4-2 7-7-1-5 5-2 1-4 3-2-1-3 3-1 2-4 2 1 3 3 4-3-1-2-2-3 1-2 5-3 8-38-4-16 5-69-6-7 1-22-1-11-10-1-19 10-4-3-8 2-6-1-3-3 0-3-12 1-2 2-1-2-3 1-3 3-2-2-3 2-2-1-7 1-2-3-8-1-5-5-1-2 0-5-4 0-5 2-8-3-3-8 1-4-6 0-4-3-2-3-5-4-1 0-2-1-6 0-3-5-9 0-1-2-5-2-9-2-9 3-5-2-1-2-2 0-5 0-8 3-3 3 0 3-3 0-1 1-8-7-1-2-13 10-3-8-1 1-3-1-1-2-4 5 2 2-7 14-1 3 0 2-1-2-1 3-2 8z","53":"M3981 1685l-6-3-3 3-5-4 0-7 2-5-6-5-8-3-13 13-2-3-2 1-10-5 2-2-4-4 1-5-1-1-2 0-4 2 0-5-1-1-1-6-9 4-10 7-2 9-18-3 4-17-16-24-4 0-6-2-2-5-2 1-5-2-4 2-1-3-2-1-2 1 4 5 8 1-1 10-4 5-11 0-4 4-6 30-34-9-9 5-23 7-9 2-14 1-7-3-7-7-7 2-3-11-7-8-8-2-4 7-5-3-7-2 0-3-2 0-4-3-6 5-5 2-2 6-6 5-2 3 1 2-2 2 3 1 2 7-5 5 2 1-2 2 3 1-3 1 1 2-7 1-6 10-2 1-7-2-24-8-9 6-7 10-14 9 1 7-3 0 3 5 9 4 0 3 1 4 10-4 1 3 6 2 4 8-1 3 4 2 2 4 3 2 4 7-4 7-3 2-7-1-4 3 0 1-5 2-10 0-7-3-6 1-7 4 4 2 1 3 0 4 1 4 3 2 2 0 1 3 1 6-1 4 1 1-3 1-1 3 11 1 3 2 4-2-2 7 2 4 3 2 1 5 5 0-3 7 1 9-2 7 29 11 1 0-2 2 0 5 2 2 1-7 8-4-1-5 4-1 3-2 4-2 3 0 1-2 2 0 1 2 2-2 1 3 2 1 3-1 0-2 0 2 4-1 2-3 1 2-3 7-3 15-3 22-4 1-4 8-10 14 6 8 8 6 3 6 18-2 11-6 2 1 4 3 8 9 3 17 3-1-1-3 7-2 4 2 1 3-3 2 0 1 7 0 2-4 1 0 5 2-1 1 6 2-1 5-6-1-2-3-5-1 0 2-7 0-4 3 4 4-13 9 4 14-3 3 0 3-2 1-3 2-3-1-1-1-9 7-1-1-1 3-12 8-21 3 0 7 2 0-2 3 0 3 3 1 1 2 2 0 1 4-5 6-3 0 0 5-1 2-7 0 3 6 2 11-12 11 7 8-1 5-7 10 8 10 5-4-1-5 2-2 5 0 0 3 3 2 9 2 2-1 8 0 2-2 4-2 6 1-1 3 2 1 0 3 3 0 0 1 2 0 2 2 3 0 4 10-2 5-2 2 3 11 7 4 2 6-1 1 0 2-3 0-2 2-1 5-12 3 7 19 4-2 46-5 19 1 6 12 10 4 8 5 10-2 5-2 29 5 4-10 8 1 0-4 1-1 6 1 2 3 13 6 7-2 9 1 6-2 3 1 5-2 2-2 2 0 1 1 9-1 6-2 3 1 2-2 7-2 2-4 1 2 9 3 8-2 7 1 3 3 0 5 4 4 7 1-1 7 1 2 3 3 3 0 6 6 4 5 0 3 8 4 7 0 1-2 6 5 2 6 0 5 1 3 3 1 0 4 1 2 1-1 0 4 5 2 6-1 5 2 1 2 15 4 1 2-5 5-1 2 2 3 3 3 6-1 3-3 1 2 6 1 1 0 0-1 4 2 8-1 2 22 15-2 0 1 5 16-2-1-1 4-2-2-3 0-7 5-1 3-3-1-5 2-2 3 4 2-8 4 2 3-1 3-4-3 0 2-4 3 0 2-1 2-1-2-1 1 1 4-2 0-3 3 5 3 2-1 1 3-2 3-3 0 0 6-5 4 1 8 2 3-2 5 2 7-1 3 7 4 6 0 3 4 3 1 3-2 4 0 7-3 5 0 6 2 1 16 3 7 5 3-1 22 7 8 7 2 2 0 3-2 2-3 7-3 4-4 2-1 3 1 1 14-2 6-2 17 1 19 2 3 9 6 14-1 5-7 1-11 4-7-4-6-1-12 1-4 3-5 3-2 4 0 4-2 1-4 5-2 0-3 2 0 0-1 1 0 3-2 0-6 1 0 1-2 1 2 3-2 0-2-3 0 0-4 4-3 3 1 1-1 0-1 1-1 0-5 5 0 2-3 3-1 2-4 3-1 3-6 1 1 1-2 5-3 1-7 3-6 1-1-2-1 1-2-3-5 2-2 1-6 2-3-6-1 4-12 17-4 2-5 3-5 5 1 17 7 6-4 2-4 8-2 15-13-1-1 10-5 4 1 3-4 11-4 2 2 4-6 6 0 0 9 28 13 5-1 7 2 16 0 5 2 2-3-10-6 2-4 15-2 0-2 7-3-7-13 3-3 1-4-1-3 29-3 8-12-1-10-2-3 4-1 6 1 6 4 4 1 2-1 4-5 8-3 1-2 13-1 4 2 5-1 0 4 2-1 1-1 7-3 5-4 7-2 1-23 7-2-1-3 6-7 2-9 4-3 3-9 7-9-2-1 2-1-1-7-3 0 1-7 6-1 0-7-7-2-1-1 1-9 2 0 6-8 4 0 10 5 3-5-4-6 3-1 5-4-10-11-6-11-3 1-5-8 1 0-9-8-4-5 1-3 26-21 35-6 4-2 1-3 4-1-1-3-7-1 0-2 2 0 0-2 16-1 5-2-4-2 1-4-2-6 5-2 2 2 7-3 1 2 8-2 4-4 0-2 11 2 2-1 11 6 4 7 4-2 1 2-1 4-1 1 0 2 4 4 4-3 2 0 1-2 5-2 2-1-1-2 2 0 3 0-2 3 2 4 6-6 0-1 5 2 9 7 9 3 6-6 3 12 14-14 2-16 8-7 4 3 19-14 20 26 1-1 1 0 1-1 1 1 2 0 1-4 2 1 0 2 2 1 1 0 2-2 0-2 1 0 0-2 2 0 0-2 1 1 4 0 0-3 4 3 2-1 2 1 13-8 3 0 21 11 12-9 1 1 7-4 3-6 7-3 9 6 4 1 7-4 2-11-1-7 14 6 10-8-2-7-2-3-4 3-4-5-4 4-6-15-3-2 1-10-2-3 16-12 6 7 4-3 3-7 18-12-4-34 4-7 1-1 0-3 3-1 0-3 3-1 4-5 0-3-1 1-2-5 5-4 2-1 1-1 2 1 7-4 0-2-4-2-57 5 0 1-7-1-16 2-2 4 2 2-1 2-1-3-2 1 0-3-2 0-1 0-1 2-2-2 0-2 4-2-1-3-3-1 0 2-4-1 1-2-4 1 1 4-2-2-4 0-2 3 0 2-1-3-2 1-1-2-4 0-1 5 0 2-3 4-1-3-4 3-1 2 2 4 4-1 0 2 8 0-2 6-3 0-2-2-7 0 2 9 2 0-9 11-8 4 0 4-25 1-1 2 1 3-10 2-2 6-10-7 0-2-2 0-6 1-8-1 1 2-3 2-1 6-1 7-21-5-8 7-23-9-6 9-1 5-1 0-1-1-6 1-1-5-8 1-9-9-11-2 1 5-6 0-7-6-1 0-1-3-4-1-4-2-6 2-3-2-7 8-6-2-11 2-1-4-4-9-2 2 1 2-1 2-3 1 2 5-2 1-20-9-10 0-5-6-2-1-3 1 1-5-1 0-2 5-9 6-2-1-4 3 0-3-5 0-4-3-4-7-3-2-14-18-1 4-2-2-5 7 2 2-8 3-5-1-3-2-4 3 0-4-2-2-1 7-1 2-3 1-4 17-1 0-20-5-1 1-5-1 0-1-1-6 2-2 0-1 3-4 1-5 7-12 1-2 12-6-8-3-9-7-3-1-10-6 1-4-1-12 1-4-2-2-6-2 2-2 0-1-1-1 2-3 2 2 1 0 0-5-2-4-5-1-3 3-4-1-4-3-1-3-3-3-2 3-4-2-4 3-4 1-2 4-4 0-4-3-3-5-8 1-2-2-3 0-5-5-7 1-1-10 2-7 0-2-2 0 0-2-1 2 1 3-3 7 1 7-1 5 1 2 6-2-3 4-2-2-2 1-4-3-2-3-2-1 1-4-3 3 0 4-2 1-5 0-3 3-7 3-1 1 1 2-4 2 9-1 6-3 2 2 3-1-12 20-5-5-19 2-3 0-3 7-7 1-1-4-6-5-2 1 0-2-7-1-1-3-4 1-1-3-6 1-3 4-3 1-3-2-2 0-1-10-4 0-4 0 1 14-1 2-13-10-1 10-1 1-2 0 0 2-3 0-7-4-1-1-4-3 4-3-2-4 0-7 1-1-18-12-5-7-4-1 1 1-1 1-12 7-6-6-2 3 0 9 4 4-4 4 1 13-29 1-2-43-2 3-8 6-20-25-2 1-1-1-4 4-1 4-1 2-3 5-3 1-1 1-5 0-5 4-3 6-2 0 0-1 4-7 3-3-1-1-3 0-4 3-3-3-1 2-4-2-3 1 0 3-1 1-2-2-1-3 2 2 3-2-1-4 3-4-1-3 4-1 2 2 2 0 0-1 0-4-4-1-1-3 1-2 0-2 3 3 0 2 3 3 3-2 1 3 3-2-3-8-2-2 3-2-3-3 2-4-1-1-2 0-1-4 11 1 1-17 0-20-3-5-1 2-6-6-5-3-5-4-6-3-1 1-2 0-1-7-2 0 0 4-12 5-4-7 3-7 0-4-6 0-3 4-5-1 2 6-3-2-2 3-2-1-7-2-2 2-3 0-1 3-12 2-6-2 2-3 4-1-6-8 0-2-9-1-3-2-4 3-6 1 0-1-3 2-3 0-13-4-6-1-4-2-6-2-4 1 2 3-2 4-9 0z","54":"M2114 2840l5-4 6 1 3-1 0-1-1-3 2-3 0-2 4 1 4-3 0-3-8-1 0-5 2-2-1-3-1 0-2 4-2 0 0-2 6-8 2-1 2-5 4 0 2-1 0-4-4-4 2-2 3 0-1-3 0-5 2-3 3-4-5-4-1-4 1-3-1-2-2 3 1-5-1-4 1-3 4 1 1-1-4-3 1-2-5-1-2-8 2-3-1-2-5-1-1-3-3 4-3-1-1 2-2 0-2-2-2-1-1-3-6 0 0-3-2 1-2-2-4 0 0-2 2-1-1-4-4-3-4-1-2 3 2 2-3 2 4 1-2 3-1 18-9 11-15-3-6 21-5 14-9 42 4 2-28 46-1 6 5 2-5 13 13 4 17 2 1 5 5 5 3-3 2 0 1 2 1 0 3 1 2-1-1 2-7 4-11-1-5 5 3 2 2 0 0 2 7 6 6 3 2 6 0 5 15 1 0 2 3 2 3-4 1 0 3 3 2 8-7 1-1 1 1 0-4 3-1 5-1 0-2 1 8 0 1-3 2-1 6 1-1-4 1-2 6-1-1-2 6-3 2 0 2 2 0 4 3 1 0-9-3 0 1-6 2-5 3 4 0-12 3 3 3-3 1 1 5 1 0-2 1-6-1-3-1 0 0-21 8-8-1-5-2-2-3 2-1 0 4-9-13-1-6 0 1-3-7 0-2-2 3-3 0-3-4-1-1 2-1-2 2-5 5-2 7 0 4 2 2-3 4-3-1-2-1 0-2-1 3-6-4-2-4-1-2 0-1 1 1 0-1 1-1-2z","55":"M3610 2429l-6-2-6 0-2-4-17-2-1-3-2-1-14-2-1 1 0-1-3 1-2-4 0 4-3 4-1 5-3 2-1-1-25 1-1-3 2-3-5-7-8 4-5 6-4 3-1 0-2 1-3-2-2-5-3 5-6 3 1 8 3 0 2 6 0 3-4 8-5 1-5-7-4 2-5-6-3 4-4 1-1-8-7-5-11-2 0-1-1 2-3 1-1-1 0-2-5-1 0-1 2-3-3-1-20 16-3-1-4-5-1 1-4-2-11 3-5 11 1 9 0 2 7 4 2 6-2 8 5 5 6 2 6-4 8-1 8 4 5 7 0 3-2 5-1 1-5-2-3 2-1 8-4 6-1 6 5 23-3 7 0 6 1 5 2 2 4 0 2 4 10 2 3-2 1-6 5-7-2-15 1-8 4-5 9 0 13 4 12 7 2 3 4 1 3 3 2 5-3 6-2 2-10 4-8 9-5 8-4 3-1 3 2 5 5 2 1 5 2 1 6-3 8 4 6 8 3 10 3 2 8 2 6 6 0 2-2 1-11 3-4 2-2 6 2 6 4 2 6-2 5 3 2 0 5-5 7-1 3-2 3-1 4 4 1 5-9 7-2 4 1 4 3 2 9 2 3 0 5-4 3 0 5 3 5-1 11 8 5 10 5 4 0 6-4 14 1 5 2 4 6 2 2 8 24 12 4 0 6-2 11-10 6 0 6 3 3 0 4-2 3 2 4 10 6 1 5-2 11-15-3-3-2-8-3-6 0-7-2-3-6 4-3 1 0 1-11-6-2 1-2 4-4 3-2-1 1-2-4 0-4 1-2 3-1-2-1 0-7-4-4 0-1 1-14-5 2-4 2 1 6-7 11 4 1-3 6 3 0-2 4 0-1-2 2-3 4 1 3-2 1-3 3-2-5-15 4-2 2-6 6 3 6 4 1-2 10 7 5 1 1 3-1 2 1 4 2-1 5 1 2 3 1-6 1 1 1-2-1-3 1 0-1-9 1-2 3-1-1-26-3 2-2-1-5 5 2 8-4 0-7-5-5-7 4-1-1-1-2 1-3-4 0-9 6 1 1 6 6-3-2-4 4-2 2-4 3 5 5-8 9 14 3-6 1-3 9 3 1-6 4 1-1 3 2 0 1-4 3 1 2-4 0-4 5-4-1-2 17-9-2-4 0-2 4 0 1 2 1 0 0 2 3 0 1-2 7 1-1-6-8 1 1-24 4-1 2-3 5 2 2-4-2 0 1-2 0-1-2 0 0-3 2 1 1-6-2-5 1-1 4 0 0-4-2 1-2-3-2 2-2-2 2-11-2-1 1-1-2-1 0-1 5 1 3-7 4 0 3 3 1-2 2 0 1-4 7-4 5 7 0 2 1-1 3 1-1-1 1 0 1 1-1 0 4 2 2 2 2 0 1 3-12 5 0 1 3 0 0 2 2 0 1 3-1 1 1 3 1 1 2 2 4-2 12 3 1-4-2-4 1-1 5 13 3 0 1-5-1-6-3-8 1-3 3-5 7-5 5-9 1-7-1-5 1-4-1-6 1-4 7-4 1-4 4-4 10-5 9 0 10 3 5-2 1-4-6-4 1-3-5-6 5-5-1-3 2-2-1-2-2 0-1-2-2 0-5-5-1 1-1-2-6 7-7-5 0-11 7-2 7-10 3 1 2-1 5 3 6-1 7-5 10-11 4-4 6-2 0-1-1-3 1-7 0-2 6-3 1-8-5-4-17-5 7-18-5-15-10-20-4 4-10-7 3-8-13 2-1-1-10-3-2 4-2-2-4-4 2-4-2-17 0-2 2-2 5 1 1-1 3 1 3-2 0-8 3-1 0-4 7-2 3 2 3-6 1-5-3-7 1-8 7-12-17-8-3-3-6-1-1 1 0 4-8-1-4 10-29-5-5 2-10 2-8-5-10-4-6-12-19-1-47 5-33 15 6 16 2 0 1 9-1 2 2 2 2 27-2 8-5 6 4 9-4 3-1 5-3-1-1 2 2 3 3-1 8 2 0 1 4 1-1 6-5 3-1 5-3 5-2-1-2-3-3 2-5 1-1-5-4-3-3 0-4-2-6-1-1-1-11 40-9 5 10 42 9 14-3 2-3-1-6 3-5-6-17-4-5 7 13 14-3 8-5-1z","56":"M3698 2994l-6-5-13 12-8 12-2 9-1 1-14 5-8 10-5 9-5 4-1-11-5 0-1-1 3-13-1-3-2 1-1-1 4-4 2-7-3 5-2 1-5 0-3 2-4-1-1 1 0 4-8 2-1-4-4-1-15 15 0 1-4 3-13 2 1 7-4 2 5 18-3 3 0 1-2-1-2 2-1-1 0 1-2 0 1 1-4 0 1 1-1-1-1 2-3-1 0 1-17 5-13 2 5 28-14 3 7 37-20 4 4 20-34 5-1-1-10 2-17 5 3 19-14 2 5 29-5 1 1 3 2-1 1 2 2 0 2 2 2-1 3 3-5 15 10 47-45 2-3 5-3 2 1 2 0 5 12 13-6 2-15 1-1 5-6 2 0 19-12-1 0 2-1 1-2-2-4 6-9-4-2 7 1 1 0 5-4 0-1-5-5 0 0 4 2 20-23-2-1 3-1 5-2 3-7-1-1-3-14 9 5 4 2 0 0 2-4 0 0 30 7 0 1 13 1-2 5 2 2-1-1-5 6 0 6 2 5 3 4-1 7 10 1-1 5-1 2 20 4-1 2 2-7 8 5 7-1 2 4 1 9 22 9-1 8-4 4 1 1 3 2 1 13-5 13-9 6 0 6-5 3 0 6-1 1-3 4-5 3-1 3 2 14-8 3 0 3-3 4 5 5-3 7 7 5 9-4 2 5 5 2 9 7 8 11 2 8 8 12 1 22-1 8 4 5 2 4-4 2-10 2-2 7-1 3-2 3-7 12-14 6-10 9-8 11-17 4-1 2-4 11-4 3-3-1-6 0-6 11-6 7-7 2 0 3-1 3-4 3-3 2-2-1-1 0-3 5-5 2-5 0-9 1-5 0-6 1-2 5-2 1-3 1-10-1-2 2-1-1-2 2-2-2 0 2-1-2-3 2-2 15-9 6 10 8 8 16-36 2 2 2 0 1 2 1 1 0 1-1 0 1 2 2 0 1 2 3 1 0 2 3 1 1 4 2 2 2 0 2-1 2 2 1-1 2 1 8-1 9 0 11-4 2-3 1 2 1-2 1 1 0 1 2 1 3 3 0-2 1 0 6 0 5-5 5-6 6-3 3 1 4-8 12 6 1-3 1 1 7-6 4-12 8-2 12-10 9-1 0-3 10 0-2 10 5 1 4-2 1 1 1 2 1 0 1-5 8-1 0-1 2-1 1-11 11 1 5 3-3-6 0-8 0-1 5 2 1-2 9 3-3 10 3 5 1 6 1 3 3 17 3-1 5 3 8 1 4 4 12 4 5-2 2 6-5 6-2 0-4 1 2 4 5 0 2 1 1 9 3-1 4 8-4 1 2 8 12 18 4 1 1 2-1 10-4-1-7 2-3-7-2 1-2-2-2 0 0-3-1-1-5 7-10 0 2 10-2 0 8 7 3-2 2 1 2 5 1 10-3 12-3 2-2 4-10 5-2 2-2 1-1-2-14 7-5 1-2 7-2 2 2 1-3 6 4 0 3 11 2 2 2 2 3-4 3 3-1 2 1 9 3 0 0 4 12 5 6 10 6-5 2-3 19 7 13 1-1 5 6 2 4 0 9-3 4 2-4 4 3 4 3 2 1 3-2 4 9 5 1-5 8 3 4-9 8-9 6-1 3 1 3-1 3-1 3 2 4-11-2-10 11-5 6-8-1-5-4-3 2 0 6-1 7 3 4 2 1 5 10 2-1 7 4 1 1-8 21 4 1-2 5 0 0-2 2-1 1 1 1 0 1 2 4 0-2 1 1 2-2-1 1 1-1 2 1 2-1-1 0 2 3-2 1 3 1-1 3-16-4 1-1-5-3 0 0-15-8-8 6-7 0-2 3-6-3-7 1-2-5-8-4-2-4-3-4-2 0-5-2-2-4-2 3-2-4-8 16-7-1-2 16-8-1-7-4 2-5-1-3-6-12-16 0-4-6-10 1-1-4-6 4-3-6-8-3 3-3-4-2 1-5-3-3 3-4-4-7 7-12-14 8-7-7-8 9-9-2-3 1 0-4-5 1-2-18-24-6-7-13 3-17 17-6-9-4-2-3 1-6 10-27-8-1-9-30 11-5-14 3-1 1-2-3-9-10 0-4-10 0-5 21-1 5-35 8-3 19-11-1-1-1-9-4-7-1-7 4-15 5 7 8 0 11-19 9-12 4-9-2-2-4-14-2-9-2-1 0-10 1-1-3-4 2 0 2-3 3-1-1-2 1-1-1-1-8-5-4 5-5-1-4-6 8-4 1-2 5-4 2-3 8-3 6 1 2-3 2-5-3-2 3-4 2-6 5-7 4-15 2-15 22-42 14-10 3-4 1 2 10-7 17-15 10-5 3-3 0-5 8-9-3-2 6-2-4-6 3-3-2-5 0-7-4-3 2-3-1-2 0-4 1-1 1-2-2-7 0-4-3-3 4-14-5-8-3-1-1-2 2-4-4-4 4-9-2-3-9-45-32 6 4 3-6 0-5-9 2-4-11-16-12 20-10 7-3 1-1 2-7-1-1 6-2 1-4 0 0-3-2-1 0-3-2-1 1 6-2 3-5-1 0-4 2-4-4-2-1 1-2-1-5 2-4 6-10-3-1-3-1 0-3 2-1 2-9 3-3 10-18-2-6-4 0 10-15-1-13 6-4 8-9 16-15-1 0 3-5-1-1 3 6 0-6 9-11-4-2 5-12 15 10 4-3 5 0 4 2 6 2 2 5-7 5 3-3 2 9 7 0 9-5 1-5 3 5 10 0 5-7 5 3 5-9 4 1 3-1 2-27 0-3-8-10 1-10-6-6 11-11-7-4 3-3 0-1-1-1 2-4 1 2 4 2 0 3 12 1 7 3 1-12 0-1 7-12-1 0-2-5-1-5-1-1 2-12-5-3 0-2 1-2-2-2 0-2 3-6 1-4 6-3 0-2 3-6 3-1 2-3 1-4 0-2-3-5 0-7 2-2-1-4 8-6 16 2 20-7 0-6 2z","57":"M3933 2189l-7 2-2 2-3-1-6 2-12 0-2 2-5 2-3-1-6 2-9-1-6 2 4 2-7 12-1 8 3 7-1 5-3 6-3-2-7 2 0 4-3 1 0 8-3 2-3-1-1 1-4-1-3 3 1 12 1 6-2 3 2 4 4 3 2-4 10 3 1 1 13-2-3 8 10 7 4-4 10 20 5 15-7 18 17 5 5 4-1 8-6 3 0 2-1 7 1 3 0 1-6 2-4 4-10 11-7 5-6 1-5-3-2 1-3-1-7 10-7 2 0 11 7 5 6-7 1 2 1-1 5 5 2 0 1 2 2 0 1 2-2 2 1 3-5 5 5 6-1 3 6 4 0 4-6 2-10-3-9 0-10 5-4 4-1 4-7 3-1 5 1 6-1 4 1 5-1 7-7 11 1 1-7 6-1 2 2 5 14 1 0 15 27 1-1 2 7 0 0 7 33-4 1 6-4 86-2 0-4-4-3-1-2 3 0 3-10 2 1 4-2 1 0 8-6 2 0 1-5 0 0 5-4 2 0 8 4-1 0 8 1 2 11 4 2-2-1-2-2-1 2-5 2 3 3 0 6 9 10 4 5-1 1-3 2 1 2-2 2 6-2 2 0 2-3 8 4-1 0 3 6 0 6-2 2 5-1 0 1 9-1 2-4 1-3-4-2-1-4 1-2 3-4-2-7 3-4 5 5 6-4 3-7 1-1 2-5-4-2 4-3-2-4-1-2-2-3-1-2-5-3 1 1 7-5 1 0 8-3 3-12 2-4 4-2 11-8 14-6 6-1 6-33-14-1 4-2-1 0 11 0 12 1 2 4-2 2 7-7 2 1 11 8 12-8 5 1 4-8 2 1 10-4 2-1-1-2 2 3 4-8 3-4 4-1-1-3 2 4 7-1 2 3 3 2-2 4-2 2 0 1 9 1 1 5 0-2 29 0 6 15 5 1-2 6 1 4 1 0 2 12 1 1-7 12 1-3-2-1-7-3-12-2 0-2-4 4-1 1-2 1 1 3 0 4-3 11 7 6-11 10 6 10-1 3 8 25 1 3-3-1-3 9-4-3-5 7-5 0-5-5-10 5-3 5-1 0-9-9-7 3-2-5-3-5 7-2-2-2-6 0-4 3-5-10-4 12-15 2-5 11 4 6-9-6 0 1-3 5 1 0-3 15 1 9-16 4-8 13-6 15 1 0-10 6 4 18 2 3-10 9-3 1-2 3-2 1 0 1 3 10 3 4-6 5-2 2 1 1-1 4 2-2 4 0 4 5 1 2-3-1-6 2 1 0 3 2 1 0 3 4 0 2-1 1-6 7 1 1-2 3-1 10-7 12-20 11 16-2 4 5 9 6 0-4-3 32-6-2-11 1-1-4-7 1-4 2 0 4 1 1-2-2-7-2-16 6-11 2-10 2-27-1-30 2-8 2-9-9-21-1-10-3-16 0-5-1-2 0-3 7-10 1-9 4-4 3-9-6-4-1-7-1-14 2-17 2-6-1-8 0-5-2-2-3 1-4 4-7 3-2 3-3 2-2 0-7-2-7-8 1-22-5-3-3-7-1-16-6-2-5 0-7 3-4 0-3 2-3-1-3-4-6 0-7-4 1-3-2-7 2-5-2-3-1-8 5-5 0-4 3-1 2-4-1-2-2 1-5-3 3-3 2 0-1-4 1-1 1 2 1-2 0-2 4-3 0-2 4 3 1-3-2-3 8-4-4-2 2-3 5-2 3 1 1-3 7-5 3 0 2 2 1-4 2 1-5-16 0-1-15 2-2-22-8 1-4-2 0 1-1 0-6-1-1-2-3 3-6 1-3-3-2-3 1-2 5-5-1-2-15-4-1-2-5-2-6 1-5-2 0-4-1 1-1-2 0-4-3-1-1-3 0-5-2-6-6-5-1 2-7 0-8-4 0-3-4-5-6-6-3 0-3-3-1-2 1-7-7-1-4-4 0-5-2-3-8-1-8 2-9-3-1-2z","58":"M3413 2553l4-9-2-8-3-11 0-5 1-5 4-6 1-8 3-2 5 2 1-1 2-5 0-3-5-7-7-3-9 0-4 3-3 1-5-1-4-4-2-4 3-6-2-6-5-3-6-3-3-2 3-18-3-7-9-2-2-3 0-5-2-1-2 1-4 4-1 1-2-1-1-3-6-2-1-2-10 13-3 1-4 0 0-8-2 0-1 3 1 1 0 4-4 0 0-9-4 0-2 5 4 6-4 1-1-4-3 5-7-4-9 2 2 5 4 2-6 1 10 70-2 0 0 2-6-1-1-1 4-3-3-3-2 2-4 3 1 6-2 3-3-4 1-2-1-1-4 5-6-4-1 1 2 0 0 4-2 0 1 4-2 2-5-4-4 2-5 0-3 1 10 9 17 7-1 5 1 5-1 1 2 10-1 8 7 1 2 3 3 1 5 6-4 6-13-9-14 29 5 2-4 9 5 5-3 1-13-10-4 1 0 1 1 0 0 3 2 1-2 4 1 1-3 3 2 2-1 5-4-5-3-1-1-2-6-3-3 5 1 1-2 0 0 3-2 3 1 6-2-2-4 0-1 2 2 0 2 3-1 2 1 4 4-1 0-2 1-1 5 0-3 8 1 2 2 0 0-2 2 3-1 1 1 6 4 3 0 1-5 2 2 3-3 0-2-3-3-1-3 2-3 1-2 3-2-6-1 6-5-2 1-4-2-2 0-3-2-2 2-3-2 0 2-4 2 0 1 2 2-1-1-4 2-1-1-5 1-2-3-2-2 3 2 1-2 3-1 0 1-1-1-2-2-1-4 2 1 1 1-2 0 3-2-1-2 1 0 1-2 0-2-1 0-4-3-3-1-4 1-2-1-1 1-1 1-3-3 0-3-7-17 1 0 5 3 0 2 17-2 2-4 0-3 6 2 4 6 3-2 2-4-1-4 8 4 5 4 8-2 7-11 8-4-2-13-2-4 3 4 9-1 2-1 2-7 1 1 8-4 2 4 7-9 1 3 10 6 11 3 1 3 2 0 5 1 2 3-1 2 1 1-1 2 3 5 0 1 3 3-1 2 2 2-1 4 2 1-1 2 3-8 2-5-1-1 2-4 1-1 3-4 0-1 1-1 0-4-2-2 3-6 3-5-4-2-2-2-1-2 3-3-1 1-2-6-5-5 4-5-5-15-1-9-10-11 15-6 5-6-1-4 2 0 1-2 0-3 2 0 2-9 3 2 8-14 7 4 2 2-1 7 1 4 5 1 7 2 3-6 3 13 16-3 5-3 1-2-2-5-1-3-6-4 3-3 5-1 5 1 0-2 3 1 1-3 4 6 4 2 1 2-1 3 3-7 5-6-2-4 0-8-4 3 0 2-3 1 0 0-3 1 1 1-2-5-2-1 0-1 3-3 2-2-1 2 7-1 2-1 0-3-4-2-9-5 0-2 2 3 4-1 5-3 3 2 15-8 14 5 12-1 7-1 17 2 2-6 16-1-1 0 6-4 4-2-1-1 4 7 2 0 3-4 1-4 2 2 4 6 2 1 2 3 0 1-2 4 3-7 3-6 0 0 10 7 0 1 22-12 4-2 6-7 0 6 14 14 0 15 15 1 7-2 3 0 3 4 5-12 13-6 11-1 14 7 1 0-3 3-1 2 2 2-1-2-3 0-2 2 2 3-1-3-3 1 0 1-2 1 1-1 3 1 1 0 5 1 3 1-4 8 5 3 1 21 0 3 2 5 1 14-3 2-2-1-4 37-3-5 10-1 2 1 0 0 7 17 8-1-10 11 1-1 5 3 0 0 5 9-3 1-7-2-2 2-3 1-15 9 5 9-7 5 0 3-5-3-2 5-6 21 4 1-2 9 1 2-11 2 1 3-2 4-1 11 11-1 2 2 1-1 1 1 3 3-1 3 6 2 1 4-1 2 2 5-3 4 3 8 2 2 1 0 25-7 0-5 6 0 6 4 9-1 2 1 4 5 2 1 4 2 1 0 2 5-7 3 0 1-9 2-6 3-3 8 12 2-3 46-9 1 10 21-3 1 4 14 0-3-12 10-3-1-8 2-1 2 5 9-1 0-2 4-4 26-5 0 2 1 0 0 6 2 2 0 3 4 0 4-9 2-1-1-2 4-11 16-8 1 4 3-1 2-2 4 0 1-4 7-3 12 5 3-3 7-6 3 0 1 3 12-2 3-4 8-3 0-4 13-2 17-5 0-1 3 1 1-2 1 1-1-1 4 0-1-1 2 0 0-1 1 1 2-2 2 1 0-1 3-3-5-18 4-2-1-7 13-2 4-3 0-1 15-15 4 1 1 4 8-2 0-4 1-1 4 1 3-2 5 0 3-2 4-8 1-7-1-9 3-7-5-12 19-8 1-1-2-1 0-6 3-5 0-5-5-4 1-4-19 3 0-11-9-3-1 4-2 0-1 3-8-2-10-8 0-2 4-4-2-2 4-2-11-10-6-2-2 9-3-1-4 13-37-2-3-4-7-1 4-7 9-13 18-23 12-23-2-2-1-9-3-5-5-14-35-6 13-10 5 0-1-3 5 1 0-1 8-1-1-4 6 0-1-3 6 0 4-3 1-1-8-4 0-2 6 0 0-9-1 0 0-8 12-1 2-1 17 1 1-4-1-1-5-2 1-3 5-2-14 3-7 0-6-4 0-3 1-1-5-3-2-5 0-2-1 0 1-6-1-1 0-3-2-2 1-1-1-2-1-10 3 0-1-7 4-12 0-3 0-3-5-4-5-9-11-9-5 1-5-3-3 0-5 4-3 0-9-2-3-2-1-4 2-4 9-7-1-5-4-4-3 1-3 2-7 1-5 5-2 0-5-3-7 2-4-4-1-4 3-6 4-3 10-2 2-1 0-2-6-6-8-2-3-2-3-10-6-8-8-4-6 3-2-1-1-5-5-2-2-5 1-3 4-3 5-8 8-9 10-4 2-2 3-6-3-6-6-3-2-3-12-7-13-4-5 0-2-1-3 1-3 4-1 7 1 18-4 6-1 6-3 2-10-2-2-4-4 0-2-2z","59":"M3002 2285l-78 12 3 7-78 35-12-27-11 6 1 7-1 5-7-1 1-7-48 24 10 6-9 4-7 9 5 6-1 2-13-4-14 9-4 4-3 1 3 4 0 3 2 0 1 3 0 12 10 2 10 7 4 6 2 13 6 8 3 2 22 8 11 8 2 3 13 28 10 9 14 7 7 6 5 2 2 4 1 4-1 9-4 8 2 1-3 4-20 6-4 0-10-3-11-8-9-8-9-5-9-1-12 4-3 3-2 9 1 11 0 14 1 4 10 13 2 6-1 7-2 5-8 7-4 18-7 9-7 6-3 5-5 4-6 10-7 25-8 14 0 13 3 8 8 8 23 6 4 4 4-2 2 0 6-5 1-5 6-2 2-1 0-5 2-1-1-3 2-1 0-6 4-4 1 0 5 5 6 1 7 5 6 2 1 3 17 3 0 4 7 1-3 15 22 10 6-14 18-1 11 9 6-10 2 0 2 12 17 0 3-18 13 0-1 2 4 1-2 2 0 5 9 3 3-1 3 1 0 3 5 0 1-2 8 3 0 3 6 1 3 0 1-1 2 0-5 21 2 4 6-2 3 2 13 4 11 5 7 4 10 11 12 8 20-11-2-8 9-3 0-2 3-2 2 0 0-1 4-2 6 1 5-4 12-16 9 10 15 1 5 5 5-4 6 5-1 2 3 1 2-3 2 1 2 2 5 4 6-3 2-3 4 2 1 0 1-1 4 0 1-3 4-1 1-2 2 0 1 1 9-1 1-1-2-3-1 1-4-2-2 1-2-2-3 1-1-3-5 0-2-3-1 1-2-1-3 1-1-2 0-5-3-2-3-1-6-11-3-10 9-1-4-7 4-2-1-8 7-1 1-2 1-2-4-9 4-3 13 2 4 2 11-8 2-7-4-8-4-5 4-8 4 1 2-2-6-3-2-4 3-6 4 0 2-2-2-17-3 0 0-5 17-1 3 7 3 0-1 3-1 1 1 1-1 2 1 4 3 3 0 4 2 1 2 0 0-1 2-1 2 1 0-3-1 2-1-1 4-2 2 1 1 2-1 1 1 0 2-3-2-1 2-3 3 2-1 2 1 5-2 1 1 4-2 1-1-2-2 0-2 4 2 0-2 3 2 2 0 3 2 2-1 4 5 2 1-6 2 6 2-3 3-1 3-2 3 1 2 3 3 0-2-3 5-2 0-1-4-3-1-6 1-1-2-3 0 2-2 0-1-2 3-8-5 0-1 1 0 2-4 1-1-4 1-2-2-3-2 0 1-2 4 0 2 2-1-6 2-3 0-3 2 0-1-1 3-5 6 3 1 2 3 1 4 5 1-5-2-2 3-3-1-1 2-4-2-1 0-3-1 0 0-1 4-1 13 10 3-1-5-5 4-9-5-2 14-29 13 9 4-6-5-6-3-1-2-3-7-1 1-8-2-10 1-1-1-5 1-5-17-7-10-9 3-1 5 0 4-2 5 4 2-2-1-4 2 0 0-4-2 0 1-1 6 4 4-5 1 1-1 2 3 4 2-3-1-6 4-3 2-2 3 3-4 3 1 1 6 1 0-2 2 0-10-70 6-1-4-2-2-5 9-2 7 4 3-5 1 4 4-1-4-6 2-5 4 0 0 9 4 0 0-4-1-1 1-3 2 0 0 8 4 0 3-1 10-13 1-5-2-8 2-11-3-3-4 0-2-1-1-7-2-1-6-1-9-7-12-3-3-3-1-8-11-9-4 0-10 1-6-2-6 0-8 5-6-1-5 4-4 1-1-3 0-8-5-7 1-5-3-4-11-9-5-2-10 1-5-6-6-1-1-5-6-4 1-7-1-2-5-1-1-6-2-2-3-1-4 1-7 1-8 2-13-2-2-7-4-4-4-7-13-8-3-2-1-3-3-2-6-13-5-3-5-10-13 1-5 1-9-2-4 1-8-6-4 1-4-2-7-1-2-4-5-4-1-5-4 1 0 3-1-1-1 1 0 3 2 1 0 3-3 4 1 2-1-1 0 2-2 0 1 2-7 2 0 2 2 0-1 0 1 2-2 1 0 2-1 0-1 4-3 2 0-2-2 1 1 1 0 1 2 0 0 6 2-1 1 1-2 1 0 6 3 1 0 2 2 0 2 1-1 3 3 3-4 2 2 4-2 1 2 0-1 2 1 0 0 1 1 0-2 1-3-6-6-1z","60":"M2911 1847l-18-2-1 5-19 1-2 0-9-6-9 0-3 4-5 2-2-2-14-2-2 1 1 4 2 10-6 0-9 2-9 17 3 3 3 1 3 2-3 5-3-4 0-1-5-2-2 1 0 2-2 1-1 5-5-1-4 1 1 1 1 5-5 5 2 0 1 2-3 18-2 5-12 16-8 5-3-4-2 2-4-1-3 5 0 2-8-9-9 9-6 4-2 0-6 7-2 5-6 0 0 2-18 15 6 31-22 10-4 12 7 2-1 8-4 1-12 24 2 2 0 7 4 3 0 2 2 2 12-8 2-6 5-3 8 2 2 5-1 5 4 0 2-3 6 0 1 1 5-3 5 4 2 0 4 3-3 5 1 5-5 20-11 17-7 6 31 18 9 9-6 2-6-6-4 3 1 1-7 5 2 4-17 2 1 15-1 0 0 12 14 5 15 7 3 0 4 4 2 0 2 4-1 4-8 7 0 13-1 6-6 11-6 5 3 5 5 5 27-1 3 6-5 7-9 6 0 4 11-1-14 27 1-1 0 1 4-6 19 21 48-24-1 7 7 1 1-5-1-7 11-6 12 27 78-35-3-7 78-12 19-11 6 1 3 6 2-1-1 0 0-1-1 0 1-2-2 0 2-1-2-4 4-2-3-3 1-3-2-1-2 0 0-2-3-1 0-6 2-1-1-1-2 1 0-6-2 0 0-1-1-1 2-1 0 2 3-2 1-4 1 0 0-2 2-1-1-2 1 0-2 0 0-2 7-2-1-2 2 0 0-2 1 1-1-2 3-4 0-3-2-1 0-3 1-1 1 1 0-3 4-1 1 5 4 3 4 6 14 1 8 6 4-1 9 2 5-1 13-1 5 10 5 3 6 13 3 2 1 3 3 2 2 1 2-3 3 0-2-3 3-3-3-5 1-2 3-2-2-3 24-13-1-6 0-2 3-1-4-14 19-2 0-1 12-1 0-5 2 0-1-4-6-1-2-3 8-5-1-3 11 2 0-2 3-3 6-4-2-3-3-1-1-1-4 4-1-1-2-4 0-3-3-1 2-3 2 2 1-1-1-6-3-1 1-3 0-1-5-1 0-2-8-9 1-3-3 0-5 2-4-1 0-1 1-2-1-2-4 2-2 2-2 1-1-2 1-4 4-5-5-1-3 3-2-1 1-7 4-3 1-4-2-2-4-1 0-2-3-3 3-7-4-1 1-2-2-1 3-2 1-3-2-2-2 1-1-2 1-2 2-1-1-2-4 0-7-4 0 1 2 4-4-1-4 0-1 2 3 2-3 3-3 0 1-4-1-1-1 0 0-6-2 0-5-6-2-1 2-8-2-4-4 3-2-3 3-3-5-7-6 4-10-15 4 0 11-7-1-4 7-9-1-2-2 0-2-3-13 4-11-4-5-5 0-6-2-11-8-13 0-5-4-3 1 0 1-3-1-3 4 0 0-2-5-5-2 1-1-9 20-34-11-5-18-3-10-5-12-2 1 2-4-1-3 7-11 0 1-6-4-3-9-2 8-25 5-13-5-2 5-20-1-1-5 0-2-1 4-5-5-7-2 0 6-6-3-3-1 2-2-1-6-3 0-2-6-2 0-1-5-1-2-2-2 2 1 3-2 2-13-7-4 0-6 10-8 9-6 3-11 2 1 4-12 4-2 8-12-3z","61":"M3308 1852l-10 2 0 1-13 7-16-10-12 8-2-3-5 1-3-3-3-8-3-3 1-5 1 1 1-1-3-9 0-2-5-2-4 1 1-7-6-4 2-4-5-4 3-5-13-6 2-2 0-2-4-3-1-3 3-2 0-7-3-3-1-4 2 0-1-4-4 0-2 10-4 1-4 5-4 14-4-1 1-4-9-1-2 10-3 2-1 3-3 11-8 5-1 3-8-4-5 1-7-1-3 3-2-1-3 1-4 8 0 4-8-1-3 2-1 10-6 2-6 7-3-2-2-4-6 11-4-4 1-2 2-1 2-13-2 0-2 2-2-1-1 2-6 0-1 3 1 7 3 1-2 5-3 3 4 1-2 11-7 11 5 6 1 0 3 6 0 18-20 34 1 9 2-1 5 5 0 2-4 0 1 3-1 3-1 0 4 3 0 5 8 13 2 11 0 6 5 5 11 4 13-4 2 3 2 0 1 2-7 9 1 4-11 7-4 0 1 1 9 14 6-4 5 7-3 3 2 3 4-3 2 4-2 8 2 1 5 6 2 0 0 6 1 0 1 1-1 4 3 0 3-3-3-2 1-2 4 0 4 1-2-4 0-1 7 4 4 0 1 2-2 1-1 2 1 2 2-1 2 2-1 3-3 2 2 1-1 2 4 1-3 7 3 3 0 2 4 1 2 2-1 4-4 3-1 7 2 1 3-3 5 1-4 5-1 4 1 2 2-1 2-2 4-2 1 2-1 2 0 1 4 1 5-2 3 0-1 3 8 9 0 2 5 1 0 1-1 3 3 1 1 6-1 1-2-2-2 3 3 1 0 3 2 4 1 1 4-4 1 1 3 1 2 3-8 6-1 3-11-2 1 3-8 5 2 3 6 1 1 4-2 0 0 5-12 1 0 1-19 2 4 14-3 1 0 2 1 6-24 13 2 3-3 2-1 2 3 5-3 3 2 3-3 0-3 3 12 7 4 7 4 4 2 7 13 2 8-2 7-1 4-1 3 1 2 2 1 6 5 1 1 2-1 7 6 4 1 5 6 1 5 6 10-1 5 2 11 9 3 4-1 5 5 7 0 8 1 3 4-1 5-4 6 1 8-5 6 0 6 2 12-1 7 3 5 5 2 9 3 3 12 3 9 7 6 1 2 1 1 7 2 1 4 0 3 3-2 11 2 8-1 4 1 3 5 2 2 3 2 1 1-1 4-4 2-1 2 1 0 5 2 3 9 1 1 2 2 10-2 3 1 5-2 6 2 1 4 3 1-2-1-2 0-8 5-10 11-3 4 2 1-1 4 5 3 1 20-16 3 1-2 3 0 1 5 1 0 2 1 1 3-1 1-2 0 1 11 2 7 5 1 8 4-1 3-4 5 6 4-2 5 7 5-1 4-8 0-3-2-6-3 0-1-8 6-3 3-5 2 5 3 2 2-1 1 0 4-3 5-6 8-4 5 7-2 3 1 3 25-1 1 1 3-2 1-5 3-4 0-4 2 4 3-1 0 1 1-1 14 2 2 1 1 3 17 2 2 4 6 0 6 2 1-5 5 1 3-8-13-14 5-7 17 4 5 6 6-3 3 1 3-2-9-14-10-42 9-5 11-40 1 1 6 1 4 2 3 0 4 3 1 5 5-1 3-2 2 3 2 1 3-5 1-5 5-3 1-6-4-1 0-1-8-2-3 1-2-3 1-2 3 1 1-5 4-3-4-9 5-6 2-8-2-27-2-2 1-2-1-9-2 0-6-16 30-13-7-19 12-3 1-5 2-2 3 0 0-2 1-1-2-6-7-4-3-11 2-2 2-5-4-10-3 0-2-2-2 0 0-1-3 0 0-3-2-1 1-3-6-1-4 2-2 2-8 0-2 1-9-2-3-2 0-3-5 0-2 2 1 5-5 4-8-10 7-10 1-5-7-8 12-11-2-11-3-6 7 0 1-2 0-5 3 0 5-6-1-4-2 0-1-2-3-1 0-3 2-3-2 0 0-7 21-3 12-8 1-3 1 1 9-7 1 1 3 1 3-2 2-1 0-3 3-3-4-14 13-9-4-4 4-3 7 0 0-2 5 1 2 3 6 1 1-5-6-2 1-1-5-2-1 0-2 4-7 0 0-1 3-2-1-3-4-2-7 2 1 3-3 1-3-17-8-9-4-3-2-1-11 6-18 2-3-6-8-6-6-8 10-14 4-8 4-1 3-22 3-15 3-7-1-2-2 3-4 1 0-2 0 2-3 1-2-1-1-3-2 2-1-2-2 0-1 2-3 0-4 2-3 2-4 1 1 5-8 4-1 7-2-2 0-5 2-2-1 0-37-14 0 1-4-2-1 1-6 0-3 4-3 12-4 0-12-3-6 2-1 4-3 1-2-2-3 0-1-3-6-2-4-4 1-2-4 1-6-5-4-1-2-3-3 0 0 1-2-3-1 1-2-2-1 1-1-2-1-1-2 0-5-3 0 1-2-1-2 1-2-2 0 2-2 0-1 0-1-1-3 0 0-2-3-2 0-2-2-1 1-1-4-3 0 1-5 2 1-4-1-1-3 2-1-3-2 3-3 1-1-2-6-3 0-2-4-3 0-2-2 0-1-1-1-2 2-1-2-3-4 0 0 1-1 0-1-4-4-5-4 1-1 2-2 0-1 3-4 2-3-1-5-5-2 2-7 6 2 1 0 2-2 0-1 3-2 0-8 0-1 1-2-2 1-3-4-1-3-3 0-2-1 0-1 1 2 3-1 1 1 2-2 0-3 2-5 17-2 2-4 2-1 3 0 2 4 2 0 2-6 5-3 6-8 4-4 3-5 2-3-1-8 3 0-7-2 1-1-3-6 1-1-2-1 0-1-1 1 0-2-3-1 0-1-2-2 1-9-10-4 6z","62":"M845 1812l-2-7-11 4 1 4-5 6-3 6 1 1-8 6-5 13 2 4 5 8 0 4 3 15 4 5 2 0 12 12-5 4-2 4 3 4-4 15-1 7-5 18-34-12-12-3 6-9-9-8-5-1-10-6-2-1-2 4-6 5-12-8 0 3-15-2-11 4-4 6 6 8-2 2-1-1-3 5-3 0-3 2-3 0 1 0-18-1 1 2-9-2 0 10-8 9-1-1-2-1-10 1-4 19 4 1 1 3 1 1 0 3-7 1-4-1-5 0 2 1-1 2 5 5 11 13 14 7 23 21 3 7 0 11 2 4 2 2 16 5 17 10 17 6 8 1 13-2 9 1 7 6 18 23 6 5 25 5 27 17 13 5 22 3 8 4 3 0 4-2 9-11 3-2 13-4 10 0 16 3 4 2 5 5 0 9-1 9-6 16 0 8 2 9 7 13 6 6 15 9 13 4 17 0 15-4 6-8 4-16 3-6 18-11 3-2 23 3 6-1 18-8 6-1 26-1 17-4 17-1 17 4 34 1 36 12 19-1 10 0 8 4 14 8 12 3 12-2 6-2 52-29 22-6 11 0 4 0 10 7 14 7 9 10 5 2 9 5 10 1 10-2 15-7 22-5 24-2 8-4 14-12 6-6 4-2 8-2 8 2 14-1 19-13 15-6 20-1 5 1 14 8 31 1 8-1 14-5 17-10 27-11 33-6 15 1 33 14 20 6 12 3 25-2 11 2 11 3 30 12 25 3 54 15 10 1 15-4 23-9 25 2 9-7 2-3 4-2 2-4 6 1 2 0 1-6-1-5 4-6 3-2 1-5 4-8 5-5 2-5 5 0 3-3 2-5-1-6 6-7-1-7 2-9-2-6 4-8-1-1-4-1 0-2 3-6-2-5 1-13 3-5-1-3 4-4 1-7 3-6 1-7 9-12-53-23 0-3-2-7-8 2-16 8-3 5-11-14-9 6-6 0-1 1-5-2-9-5 3-8-1-4 2-2-6-20-2-1 1-2-18-1-6 1-6 0-17 4 0-2-3 0-4 12-9 1-10-2-7-4-2 1-19-2-4 5-19 1-2-10-6 1 0 3-9 2-8 0-2-14 4-6 0-9-3-2 2 0-3-23-10 5-5-4-7-1-6 5-4 6-8 3-9 0 1 1-3 2-15 3-4-7-14-6-9 2-6 20-5-3-41-3-3-2-4 3-5-1 23-33-15-7-28-11 4-22 1-2 1-16-8 2-23 0-6-15-7 3 5 14-7 1-2 1-1-4-18 5-1 14-5 4-7-3-6 1-5 6 3 6 0 3-3 2-6 2-3 0 6-11 2-12-7 5 1-3 2-3-3-7-6-3 0-4 3 0-1-1-3-2-6 0-2-2-1 1-3-1-1-15-12 0 0 5-7-1-6-1 0-4-2 0 0-7-17 0 3-6-1-3 1 0 2-4-2-3 0-1 1 1 1-1 0-2-1 0 4 0-2-2 4-1 2 4 3-2-1-3 1-3 3 0 1-2-1-1 1-1-2-1-2-5 4-4 0-2-3-1 0-2 1 0 4-4-2-5 1-3-2-2-3 1 0-2-1 1-1-1-2-2 2-6-2-2 0-2-3 0-1-4-7-1-15 2-9 6-5-11-3-10-16 2 0-4-1-1 0-4-3-6 2-9 7-3 2-4 0-19-8-5-3 2-5-3-4 9-20 7-5-18-2-31-15-15-7 7-9 7 2 3-24 27-21 2 1 4-1 1 3 3 1 3-2 1-1-1 0 3-2 1-3-4-3 1-1-4-2 1 0 2-3 1 2 4 2 1 1 2-1 4-3 1-5-3 0-1 1-2-2-2-4 9-5-1-1 1 1 2-5 0 1 3 1 2 0 1-8 5 1 2 6-1 17 1 0 8 2 3 5 1 7 3 6 9-10 7 7 11-2 2-7-3 2 18 12 4 3-1 2 2 1 0-3 2 1 3-1 2 3 5 2 3-1 1 2 2 1 6 3 4 1 5-1 2 0 3-2 3 2 1 1-2 0 2 1-1 1 1 1-1 2 1 3 11 0 2-3 2 0 2 7-3 4 1-5 12-3-2-21 2-12 0-1-3-6 0 0 5-5 1 0-3-17 2-17-4-4 6-1 8-3 1-6-3-2 2 5 5 3 8-4 4-3-1-2 4 7 3 1 6 1 2-25-4 0 5-1 7-5 0 0-2-2 0 0 9-5 0-1 3-5 1-3-4 1-1-4-1-12 4-1 8 5 7-3 0 2 6-6 0 0 3-5 0-3 10-4 4-1 7-6-2 1-5-3-2 0-3-6-1-1-3-10 2-3 5 0 2-4 2 0 3-3 2 0 3-2 1-2 1-3-2-4 4-3 2-2-2 0-3-5 7-5-5-12 3-2-3-4 4 1 0 1 6-1 4 0 2 1 1 2 10 4 6-3 2 1 3-3 2-4-1-2-4-1 0-1-3-3 1-1 0-1 6-2 2 3 5-4 0 0 4-5 3 1 1 6-1 5 9 3 0 1 1 1-1 2 3-2 3-3 2-1 0 0 1-3-1 1 2 1 0 4 5 0 18-5 0-2-3-1 2-3-1 1 1-4 5 0 35-33 9-3-6-1-4-13 0-1 2-1 0 0-3-5 0 0 1-4-1 1-2-2-2-6 6-6 2-3-5 0-2-2-2-9 0-6 3-1-3-2-1 0-1-21 3-8-13-13-16-4-2-3 0-4-3-1 6-4 1 1 7-14-1-4-2-1 1-7 0-7 6-6 4-5 2-1-1-2 6-12 7-9-4-12 2-1-9 4-4-2-2 5-7-1-5-8-12-2-2-4-16-5-12-8-34-4-5 8-7 2-8-5-6-3 0-19-11-8-2-4-2-3 3-2-3-8-3-9-10 1-1-11-4 0-1-19-8-14-2-7 0-7-6-7-3-5-1-4 2-3-4 13-18z","63":"M2067 2939l-2-6-6-3-7-6 0-2-2 0-3-2 5-5 11 1 7-4 1-2-2 1-3-1-1 0-1-2-2 0-3 3-5-5-1-5-17-2-13-4 5-13-5-2 0 6-5 7-19-11-7-5-16 0-18 7 0 17-4 19 9 7 6 3 5 4 3 4-16 41 3 7-15-1-3-3-4 1 1 8-3 2 0 4-5-2-5 18-1 5-9 3 0 6-2-2-22-3-2 4-5 1 2 4 0 14-19 29-23-2 0 4-21-3-1 9-32 2-3-1-2 12-1 20 6 0-3 21 9 2 0 3 14 3 0 5-13-1-2 26 6 2-13 31 13 9 15 6 18 4 9 6 4 7-11 11-4 9-3 17 43 26 6-1 6-7 29-18 7 2 1 2 9 6-5 18 13 4 6 6 22 3 3 8 5 8 10 9 9 17 4 1 9 5 9-4 19-2 6 5 7 3 3-1 18 4 1-25 7 0 0-12-16-28 27-18 1-3-5-11 0-9-2-5 1-2 7-5 0-5-1-5 2-12 8 3 2 0 8-10-2-4 0-8 23-5 6-8 39 3-2-7-4-11 1-9 2-4-3-4 3-2 1-3-2-4-5-3-2-6 13 1 2 3 4 0 0-3 29-21 10-1 0 1 3 1 4 0 0-1 27 2 4-3 15-11 0-2 4 0-2 27 28-1 0 12 2 4-15 1 4 38 0 1-20-1 0 45 34 1 22-19 5-1 2 12 20-2-1 2 2 2 5 11 0 1 1 0 1 3 3 2 2 6-1 1 4 4 7-3 8-5 24-12 12 6 2 5 7 0 3 5 2 1 1 3 2 1 3 11 9 9 5 2 3 3 5 6 0 2 3 3 2 3 2 1 2 2 0 4 2 0 4-2 10 0 5 4 1 1-1 4 1 8 6 8 3 2 2-1 4-6 3-8 1 2 2 0 3 2 18 1 33-5 18 39 9 0 1 9 4-2 8-13 20 13 8-8 6-5 1-13-2-9-2-6-1-5-5-11 0-7 1-4 3-2 9-4 17 0 7 2 4-2 1-3 2-5-1-2-9-6-1-5 2-11 4-10 1-20-4-16-14-10-5-11-4-3 0 3-2 0 1 4-14-4 8-18 8-3 0-3-4-1-1-7-18-3-3 2-4-3-9 2 6-6 17-14 4 0 5-3 1-2 4 1 4-13-4-13 1 0-1-4 5-16 0-3-2-1-1-2 1-1-4-4-5 2 1-2 1 0 0-2-2 1-1-5-4 2 1-6-1 1-2-2-4 1 0 1-1 0 0 3-3-1-2 1-2-2-13 6-1-2-6 2-1 2-11-19-4 3-7-7-1 0-1-2-4-2-4-6-4 4 2 3-2 2-23 9-16 5 0-3-2-1 1-6 9 0 2-9-30-4-6 3-21-3-5-6-3 2-1 2-1 1 3 4-3 4 2 3-3 3 0 2-2 0-1-4-5-3-3 5-4 3-3-2-3 0-3-5-1-6-6-1-3-2 5-13 2 0 7-4 13-14 1-3-3-7 5-6 4-1 1-2-8-12-7-4-4-8-10-11-3-18 0-5-1-4-4-8-24 7 1 4-16 3-1-1-8-22-2-4-4-2-5 1-20-35 1-2 10-4 19-6 5-3 0-1-5-8-15-27-7 4-15 0-11 1 10-12-1-4-15 4-4-11 41-16-1-1-17-9-16 3-4-3-2-4-2 0 0 1-1 1-5-4-10-1-2 2 0-1-3 2-4-1-7 5-2-2-3 0 0-3-4 2 1 2-3 2-5 1-4 3-4-3-1 0-1 3-2 1 1 5-9 11-4-6 4-5-19-31-7 2 0-1-3-7 0-5 6-2-2-6-21-3-7-33 4-12-4 0-1-2-2 1-1 0 0 1-2-1-1 3 1-3-2 0-2-3-1 2-7-2-5 18-16-2-2-8-5 0-8 1 0 4-2 1-5 7-9 2-18-14 1-3-21 4-3 12 1 1-1 1-1-1 3 3 1 4-2 2 4 1 2 2 2-1 0 3 6 0 1 3 5 3 1 0 1-2 3 1 3-4 1 3 5 1 1 1-2 4 2 8 5 1-1 2 4 3-1 1-4-1-1 3 1 4-1 5 2-3 1 2-1 3 1 4 5 4-3 4-2 3 0 5 1 3-3 0-2 2 4 4 0 4-2 1-4 0-2 5-2 1-6 8 0 2 2 0 2-4 1 0 1 3-2 2 0 5 8 1 0 3-4 3-4-1 0 2-2 3 1 3 0 1-3 1-6-1-5 4 0 3 1 2 1-1-1 0 3-1 4 1 4 2-3 6 2 1 1 0 1 2-4 3-2 3-4-2-7 0-5 2-2 5 1 2 1-2 4 1 0 3-3 3 2 2 7 0-1 3 6 0 13 1-4 9 1 0 3-2 2 2 1 5-8 8 0 21 1 0 1 3-1 6 0 2-5-1-1-1-3 3-3-3 0 12-3-4-2 5-1 6 3 0 0 9-3-1 0-4-2-2-2 0-6 3 1 2-6 1-1 2 1 4-6-1-2 1-1 3-8 0 3-1 1-5 4-3-1 0 1-1 7-1-2-7-3-4-1 0-3 4-3-2 0-2-15-1-1-1z","64":"M1840 2093l-32 6-27 11-17 10-14 5-8 1-31-1-14-8-5-1-20 1-15 6-19 13-14 1-8-2-8 2-4 2-6 6-14 12-8 4-24 2-22 5-15 7-6 1-9 0-8-1-11-6-9-10-14-7-10-7-2 0 2 15-1 9 4 8-1 1 3 3 0 13-2 5 0 3 2 7-1 2 1 4 4 5 0 5 1 5 9 1 1 4 9 9 3 9-2 4 7 8 2 8 2 1 2-1 1 1 1 3-2 5 1 5-1 5 7 9 4 2 2-5 2 2 1 3 2 1 1-1 4-7-4-2 1-5-2-5-3-3 0-3 5-7 5-3 6 1 3 2 5 8 1 9 2 5 2 1 3 0 3-4 6 0 3 2 2 6 11 7 3 6-1 7 5 11 6 4 0 5 1 3 5 2 12 0 4 4 0 4-10 5-4 6-1 3 4 3 1 4 6 3 6-10 7-3 5 1 5 8-1 4 0 5 1 3-1 5 6 7 4 1 3-5 7-7 4-2 4 0 5 8 8 4 0 8 5-1 5 4 0 10 4 0 3 3 0 3-6 7-2 6-2 3 0 5-3 5-1 6 3 5 5 0 6 4 3 1 3 2 2 4 4 1 0 5-4 2-1 4-3 3-1 8 5 4 6 1 4 3 3 12-2 4-3-1-1 0-1 5 1 1 5 1 2 4 3 1 2 3-2 3-4-1-2 1-4 9 2 7-3 4 0 2 2 2 3 3 1 2-1 2-4 3-3 0 1 2 1 0-1 1 0 2 3 2-3 4 1 2 1 0 2 2 2-1-1 2 13-3 1-3 10-5 1 2 35 10 11-15 15-5 22 2 8-2 3 24 1 17 5-2 4 2 8 1 6 2 2 3 3 1 6-3 2 7 2 1 2-3 1 2 2 0 3 4 1 4 7 4 2-1 2 4 3 1 3-1 3-4 7-2 3 1 3-1 6 2 1 6 5 5 2-1 2-2 4 3 8 1 6 0 1 3 4 2-2 6 1 5 2 0 1 2-3 4 1 2 2-2 7-5 8 4 3 2 4-5 2 0 2 2 1-1-1-1 3 1 4 0 1-3 2 2 2-4 2 0-2-2 0-1 1 1 1-2 2 2 1-3 1 2 1-1 2 0 0-1-1 0 1-2 1 3 2 0 0-1 4-1-2-1 2-1-1-2 2-2 1 0 0 3 3-4 2 0 1-1 1 2 3-1-1 2 3-1 1 1 3 0-1-2 3 0-1-1 1 0 0-1 2 0 1-2 0 1 0-2 2 2 1-3 1 1-1-2 2 1 1-2 2 0 0-1 4-1 0-1 2-1-1-2 1-2 2 0 0-2 1-1 2 2 0-3 1 1 1-2 0 2 2 1-1-2 3 0 0 1 1-1 0-1 2 1 1-2 2 1 1-1 0 12-2 1 0 28-4 0-1 16 3 0-4 14 1 1-2 1 0 3 4 4 3-3 1 0-1 3 3-1 0 2 4 2 0 1 2 1 0 3 4-2 5 1-1-3 1-1 3 3 5 1 2 3 3-2 1 2 8 1 0 1-2 2 2 2 4-2 3 2 1 3 3 3 2-1-2 0 1-1 2-1-2-2 2-3 6 2 0-2 3-12 6-2 7 0 8-2-1 3 18 14 9-2 5-7 2-1 0-4 8-1 5 0 2 8 16 2 5-18 7 2 1-2 2 3 2 0-1 3 1-3 2 1 0-1 1 0 2-1 1 2 4 0-4 12 7 33 21 3 2 6-6 2 0 5 3 7 0 1 7-2 19 31-4 5 4 6 9-11-1-5 2-1 1-3 1 0 4 3 4-3 5-1 3-2-1-2 4-2 0 3 3 0 2 2 7-5 4 1 3-2 0 1 2-2 10 1 5 4 1-1 0-1 2 0 2 4 4 3 15-3 5 1 2-7-2-5 6-5 8-1 1-4-1-3-5-1 1-5-6-24-13-23-3-7-2 1-1-2 1-1-6-10 12-8 1-1 2 0 10-6-22-39 9-20-1-9-2-4 1-1-8 0-11 3-8 8-8 2 1-2-1 0-16 0 1-8 7 0 3 2 4-1 0-4 5-4 4-1 4-2 5-11 1 0 6-10-7-3-2-2 0-8 4-1 4 2 9-14-20-19 0-3-5-3-4-3 12-20 5 3 9-3 10-15 4-13 5-5 9-3 5-4 5-1 10-3 1 2 2 0-1-3 0-4-1-7 1-3 4-2 1-3-2-4 2-5-6-7 1-1 2-1-2-6-3-4 2-3 3 0-2-2 0-2 1-1-2-4-5-3 1-2-2-2-1-1-1 1-3-1-4-3 1-4 3-1 3-3 1 1 7-5-2-6 7 0-2-1 0-4 7-3 9-2 1 1-2 2 1 1 5 0 5-3 8-1 1-3-16-5-4 0-12 2-24 9-10 1-14-4-4-2-9-8-6-8 3-1-7-11-9-10-3-13-3-4 2-1-2 0 0-11-3-25-7-21-2 0-4-10 4-11 1-6-1-4-6-10-11-6-12-5-17-3-9 2-22-2-16-6-13-6-23-23-9-5-5-1-33-3-23 9-15 4-10-1-54-15-25-3-30-12-11-3-11-2-25 2-12-3-20-6-33-14z","65":"M2278 2006l-9-12 10-8-9-3-11 1-10-3 5-26-11-2-2-6-7 1-1 3-2 2 1 1-2 5-10 13-1 7-3 6-1 7-4 4 1 3-3 5-1 13 2 5-3 6 0 2 4 1 1 1-4 8 2 6-2 9 1 7-6 7 1 6-2 5-3 3-5 0-2 5-5 5-4 8-1 5-3 2-4 6 1 5-1 6-2 0-6-1-2 4-4 2-2 3-9 7 13 2 9 5 23 23 13 6 16 6 22 2 7-2 19 3 12 5 11 6 6 8 1 4-1 8-4 10 0 2 4 9 2 0 7 21 3 25 0 11 2 0-2 1 3 4 2 10 3 5 2 1 5 7 7 11-3 1 2 3 4 5 9 8 9 4 9 2 5-1 34-10 11-1 16 5-1 2 4 2 1 0 2 1 3 0 8-2 4 0 13 5 3 3 3 1 4-5 2 2 3-13 0-8 2-10 4-13 0 5 7 13 14-4 1 10 22 0 1 1 7-5 2-4 7 0 3-1-1-2 2-6 2-1 4-2 3 6 5-5 4 4 11-12 4 2 3-2 4 4 8-2 13-2 3 1 0 2 7 7 7 2 7 1 15-6 3-4 1-8 1-2 22-21 17-1 6 1 9-5 18-4-1-1 4-3 3-4 5-9 1-6 0-13 8-7 0-5-1-3-2 0-4-4-3 0-15-7-14-5 0-12 1 0-1-15 17-2-2-4 7-5-1-1 4-3 6 6 6-2-9-9-31-18 7-6 11-17 5-20-1-5 3-5-4-3-2 0-5-4-5 3-1-1-6 0-2 3-4 0 1-5-2-5-8-2-5 3-2 6-12 8-2-2 0-2-4-3 0-7-1-2-13 3-2 3-7-4 0-3 6-9-3-12-41-15-2 2-11-9-20-11-2 4 0 2-2 1-1-3-5-3-1-1 1-4-3-2 0-2-3-1 1-3-1-1-1 1-1-1-2-1 0-6 2-2-5-3-2-8-12-16-5 4-10 1-3 4 1 2-2 2-5 2-5 6-10 7-3-1-1 2 2 2 0 3-2 4-3 2 3 3-6-2-2 0-2-2-3-1 0 2 0 1-1 0 1 1-1 1-2-2-4 0-1-3-4 2-25 3-7-1-12 0 0-5 1-2-2-3-2 1-2 0-22 5-4 7-72-1 0 8-7 0-3 4-5-1-8-1-23-13z","66":"M2501 2415l7-9 3-7-11-3 2-5-7-1-7-2-10-9-9-5-18-16-6-3-2-1-6 0-7-3 0 1-8 1-6 3-5-1 2-2-1-1-9 2-7 3 0 4 2 1-7 0 2 6-7 5-1-1-3 3-3 1-1 4 4 3 3 1 1-1 1 1 2 2-1 2 5 3 2 4-1 1 0 2 2 2-3 0-2 3 3 4 2 6-2 1-1 1 6 7-2 5 2 4-1 3-4 2-1 3 1 7 0 4 1 3-2 0-1-2-10 3-21 10-3 3-4 13-10 15-9 3-5-3-12 20 4 3 5 3 0 3 30 29 8-11 2 1 2-5 1 0 4-5 14 3-2-2 1-2 4 4 10 2 2-1 3 1 8 7-2 3 20-1 19 2 4 23 5-3 1 1-1 1 2 1-1 2 0 2-4 1 6 8-5 5 2 7 4 7 20 8 3-2 9 11 10 8-8 8-3-1-3 2 2 6 4 2 3 1 1-5 2-1 1 2 2 5-3 2-1 7 3 2 0 6 2 3-3 4 4-2 1-8 5-5 4 1 0-4 2 1 1-1 2 2 2 1 1 3 3 0 1-4-2-1 5-6 0-3-1-3 2-3 3 1 5 1 3-6 17 6 4-13 3 0 7-2 8-4-4-8 3 0 1 3 5-3 2 3 2-1 4 0 3 2 3 7 3 3 4-3 3-4 29-10 5 2 11-6 10-29 5 6 9 5 2 4 3-1 10 5 3 0 5 3 0 3 2 3 6 7 3 6 8 11 13-7 0-3 9-2 2 1 2 7 9 8 8-9 3-16 2-3 4-2 3-4 3-8 0-5-3-7-9-11-1-4 0-14-1-6 0-8 1-5 3-4 13-4 9 1 9 5 17 14 13 5 9-1 8-3 5-1 5-5-2-1 4-8 1-9-1-4-2-4-5-2-7-6-14-7-6-6-4-3-7-15-6-13-2-3-11-8-22-8-3-2-6-8-2-13-4-6-10-7-10-2 0-12-1-3-2 0 0-3-3-3 0-1 2 0-6-4-10 0-10 5-5 4-4 10-7 3-29 62-1 2 4 5 6 0 6 3 2 2-3 1 9 8-2 2-1-1-10 12-14-11-11 4-3 3-3 1 0 2-3 3-4-1 1-1-7-1-6-12-2 4-7 7-12 7-2 3-1-1 0 1-3 6-13 8 10-9 2-6-1-13-2-6-1-1-3-11-2 1-1-1-2 2-5-1-1-1-1-2-2 0 0-1-15-2-8-3-4 15-14-3 3-8-9-5-6 4-6 6-7-17 13 0 9-3 1 3 1-1 2 1 2-1 5-9-3-5 0-5 1-1-1-1-9 4-4 0 0-1-1 0-3 1-4-5-8-8-1-5-10 3-1-1 2-7z","67":"M2458 2590l5-5-6-8 4-1 0-2 1-2-2-1 1-1-1-1-5 3-4-23-19-2-20 1 2-3-9-7-4 0-10-2-4-4-1 2 2 2-14-3-4 5-1 0-2 5-2-1-8 11-10-10-9 14-4-2-4 1 0 8 2 2 7 3-6 10-1 0-5 11-4 2-4 1-5 4 0 4-4 1-3-2-7 0-1 8 16 0 1 0-1 2 8-2 8-8 11-3 8 0-1 1 2 4 1 9-9 20 22 39-10 6-2 0-1 1-12 8 6 10-1 1 1 2 2-1 3 7 13 23 6 24-1 5 5 1 0 7-8 1-6 5 2 5-2 7 13 8 1 1-41 16 4 11 15-4 1 4-10 12 11-1 15 0 7-4 15 27 5 8 0 1-5 3-19 6-10 4-1 2 20 35 5-1 4 2 2 4 7 21 2 2 16-3-1-4 24-7 4 8 1 4 0 5 3 18 10 11 4 8 7 4 8 12-1 2-4 1-5 6 3 7-1 3-13 14-7 4-2 0-5 13 3 2 7 1 0 6 3 5 7 2 6-8 5 3 1 4 2 0 0-2 3-3-2-3 3-4-3-4 1-1 1-2 3-2 5 6 21 3 6-3 30 4-2 9-9 0-1 6 2 1 0 3 16-5 23-9 2-2-2-3 4-4 4 6 4 2 1 2 1 0 7 7 4-3 11 19 1-2 6-2 1 2 13-6 2 2 2-1 3 1 0-3 1 0 0-1 4-1 2 2 1-1-1 6 4-2 1 5 2-1 0 2-1 0-1 2 5-2 4 4-1 1 3 5 2 0 0-2 2 0 4 1-1 4 3-1 0-1 4-1 1 5 8 0 1 1 4 2-1 2 2 2 5-3 0-2 2-3 5 0 1-2 1 0 0 3 3-1 0-2 10-1-2 6-4 5-4 2-6 1-4 2 9 4 3-1 0-1 6-1 2-2 2-3 10 0 3 0 3 3 2 1-2 0 0 2 11 3 3-4 4-2 2 5 0 4 8 0 4-2 23-1 2 4 7-4 0-2 5 0 3 14 5-1 3 2 2-2 3-1 11 4 6-2-2-4 5 0 6 8 8 1 8 5 3 0 2 2 5-1 10 4 3-5 17 7 3 3 5 1 2-1 2 1-1 2 2-1 1 1 0 5 2 3 0 1 5 2 0 2 0-3-2-4 2-1-1-2 2-3 13-3-1-2 16-4 0-1 2-1 1 2 5-1-1-2 3-1 0 2 4 0 6-19 1-1 2 1 7-9 3 1 5-1-1 4 2 2-1 1 2 1 1 1 0-1 3 0 2-3 1 1-4 7 5 0 5-1 4-8 1 1 1-1 1-14 1-2 5-9 12-13-4-5 0-3 2-3-1-7-15-15-14 0-6-14 7 0 2-6 12-4-1-22-7 0 0-10 6 0 7-3-4-3-1 2-3 0-1-2-6-2-2-4 4-2 4-1 0-3-7-2 1-4 2 1 4-4 0-6 1 1 6-16-2-2 1-17 1-7-5-12 8-14-2-15 3-3 1-5-3-4 2-2 5 0 2 9 3 4 1 0 1-2-2-7 2 1 3-2 1-3 1 0 5 2-1 2-1-1 0 3-1 0-2 3-3 0 8 4 4 0 6 2 7-5-3-3-2 1-2-1-6-4 3-4-1-1 2-3-1 0 1-5 3-5 4-3 3 6 5 1 2 2 3-1 3-5-13-16 6-3-2-3-1-7-4-5-7-1-2 1-4-2-6 4-12-8-10-11-7-4-11-5-13-4-3-2-6 2-2-4 5-21-2 0-1 1-3 0-6-1 0-3-8-3-1 2-5 0 0-3-3-1-3 1-9-3 0-5 2-2-4-1 1-2-13 0-3 18-17 0-2-12-2 0-6 10-11-9-18 1-6 14-22-10 3-15-7-1 0-4-17-3-1-3-6-2-7-5-6-1-5-5-1 0-4 4 0 6-2 1 1 3-2 1 0 5-2 1-6 2-1 5-6 5-2 0-4 2-4-4-23-6-6-5-4-6-2-11 1-7 8-14 6-21 3-6 12-17 6-6-9-8-2-7-2-1-9 2 0 3-13 7-8-11-3-6-6-7-2-3 0-3-5-3-3 0-10-5-3 1-2-4-9-5-5-6-10 29-11 6-5-2-29 10-3 4-4 3-3-3-3-7-3-2-4 0-2 1-2-3-5 3-1-3-3 0 4 8-8 4-7 2-3 0-4 13-17-6-3 6-5-1-3-1-2 3 1 3 0 3-5 6 2 1-1 4-3 0-1-3-2-1-2-2-1 1-2-1 0 4-4-1-5 5-1 8-4 2 3-4-2-3 0-6-3-2 1-7 3-2-2-5-1-2-2 1-1 5-3-1-4-2-2-6 3-2 3 1 8-8-10-8-9-11-3 2-19-7-5-8z","68":"M1693 2581l-2 1-2-2-1 0-1-2 3-4-3-2 0-2 1-1-1 0 0-2-8 1-5-3-1 0-2 4-3 2 0 1 6 6 3 5 0 2-9 3 0 3 1 2-2 1-3 6-3-3-6-1-3 1-3 7-4-4-7 0-1 6-3 4-1 6-2 2 1 1 7-4 1 2-3 5-4-2-1 1 0 3-1 2 2 2-2 1-1-3-1 1 1 1-4 1-1-2 2-2-2-1-1-1 2-3-3 1-2-1 0 1-1-2 0 2-1 0 0-2-2 3-3 1 0 2-2 0 0 1-2-2-2 0 0-2-2 1-2 0 1 2 2 2-3 1-1 3 1 1-3 7-2-1 0 3-1 0 0 2-2-1-1 1 1 2-2 0-1 2-2 0 0-1-1 3-2 0 0 2-2 0-2 0 1 2-1 1-1-2-1 1-1-1-3 1 0 1 1 1-2 3 1 2-4 1 1 2-1 5 1 1-2 1 2 3-1 2 2 0-2 1 1 1 2 0-1 1 1 1 1 3 2-1 2 1-1 2 1 1 1 5-4 1 1 1-3 3-4 0 2 3-2 0 0 1 0 2 2 0-1 1-2 1-2-3-1 0 1 2-2 0 0 2-2-1 1 2-1 0-1 2 1 1-1 1 1 2-2 1 0 1 1 0-3 2 0 2 2-1 0 3-2 0-1 2 3 2-1 4 3 0-1 5 2 0 2-1 1-2 1 2 2-1 0 5 2 3 1 2-3 1 0 1 2 1-1 1-8 2 0 1 1 0 1 2-1 1 6 3 0 2-1 1 5 7 2 0 3 3 2-1 1 2 1-1 4 5-2 8-8 0-3 7 7 6 0 3-2 2 1 6-1 0-1 3-1 0-1 1 1 3-7 1-5 4-2-1-2 2-1 6-2-1-2 4 1 3-2 12-12 6-5 6-2 6-10 6-2 7 0 4 2 4 7 5 2 1 4 0 0 3-1 8 7 7 5 1-6 6-1 4-2 5-8 5-1 5-1 8-6 4-3 6-1 3 3 6-2 8 3 8 5 6 1 5 2 2 4 4-3 4 2 17-1 6 5 20 0 8 2 4-2 19-1 3 30 16 26 87 3 1 2 4 4 12 6 9 7 6 16-11 5-14 17-40 11-1 4-5 11 3 14-1 4 0-1 14 10-1 3 2 28 5 12 5 14 3 16 2 1 7 15 1 2-26 13 1 0-5-14-3 0-3-9-2 3-21-6 0 1-20 2-12 3 1 32-2 1-9 21 3 0-4 23 2 19-29 0-14-2-4 5-1 2-4 22 3 2 2 0-6 9-3 1-5 5-18 5 2 0-4 3-2-1-8 4-1 3 3 15 1-3-7 16-41-3-4-5-4-6-3-9-7 4-19 0-17 18-7 16 0 7 5 19 11 5-7 1-12 28-46-4-2 9-42 5-14 6-21 15 3 9-11 1-18 2-3-2-1-2 1-1 0-2-5-4-3-5 1 0-2 1-1-1-1-7-1-1-2-3 2-2-3-5-1-3-3-1 1 1 3-5-1-3 0-1 2 0-3-2-1 0-1-4-2 0-2-3 1 1-3-1 0-3 3-4-4 0-3 2-1-1-1 4-14-3 0 1-16 4 0 0-28 2-1 0-12-1 1-2-1-1 2-2-1 0 1-1 1 0-1-3 0 1 2-2-1 0-2-1 2-1-1 0 3-2-2-1 1 0 2-2 0 0 1-1 1 1 2-2 1 0 1-4 1 0 1-2 0-1 2-2-1 1 2-1-1-1 3-2-2 0 2 0-1-1 2-2 0 0 1-1 0 1 1-3 0 1 2-3 0-1-1-3 1 1-2-3 1-1-2-1 1-2 0-3 4 0-3-1 0-2 2 1 2-2 1 2 1-4 1 0 1-2 0-1-3-1 2 1 0 0 1-2 0-1 1-1-2-1 3-2-2-1 2-1-1 0 1 2 2-2 0-2 4-2-2-1 3-4 0-3-1 1 1-1 1-2-2-2 0-4 5-3-2-8-4-7 5-2 2-1-2 3-4-1-2-2 0-1-5 2-6-4-2-1-3-6 0-8-1-4-3-2 2-2 1-5-5-1-6-6-2-3 1-3-1-7 2-3 4-3 1-3-1-2-4-2 1-7-4-1-4-3-4-2 0-1-2-2 3-2-1-2-7-6 3-3-1-2-3-6-2-8-1-4-2-5 2-1-17-3-24-8 2-22-2-15 5-11 15-35-10-1-2-10 5-1 3-13 3z","69":"M2671 3136l3-3 2 2 1-1 10 11 4-3-2-2 2-1-1-1 3 0 2 3 8 9 5 3 8 1 7 5 1 1-1 1 8 9-1 14 4 10-2 4-3-2-3-4-9-6-9 19-13-9-6-7-10-6-13-1-4 3-2 4 0 4 5 11 14 10 4 19-1 17-6 19 0 5 2 3 8 4 1 3-2 6-4 3-8-1-15-1-9 4-5 3-1 6 0 5 5 11 1 5 2 6 2 9 0 12-11 11-2 1-2 2 2 2-10 6-7 22 0 28-3 8-1 12-4 6-5 12 2 6 5 11 4 5 8 5 7 0 6 10 3 2 3-1 4 5 4 3-7 6-3 30 7 8-3 0-3 1 0-1-2 0 0 5-13 0 0-2-7 1 0 3 4 2 7 0 0 1 6 2-1 3-14-1-2 5-5 4 3 3-2 3 3 3-1 8 8 0 0-1 14-5 5-10 19 10 0 3-2 3 1 4 7-1 0 2 2 2 0 3 0-2-2 0 1 7 2 3 2 1-5 4-6-4-9 21 20 13 5-12 10-4 3 2 13 9 7 3 12 1 16 5 8 1 11 5 5 1 12-4 4-3 6-7 2 2 2-1 1 0 1 2 0 3 2 2 1 1 1 1 2 0 1 2 5 1 3-2 3 0 3-1 5 0 1 24 1 1-2 2 5 72-12 1 9 43 13 19-4 4-1 7 7 4 4 1 1-2 7 5 7-9 4 3 3 0 1-2 0-4 8 5-2 10 5 4 0 6 9 1 11 20 17-8 2 0 1 2-1 6-5 4 1 5 1 3 6 4 1 3 2 2 6 0 4 5 2 0 19 12 17-6 15-4 38-2 1 5 2 0 0-2 2 0 0 2 4-5 3 1 2-3 2 0 1-3 2-1 0-1 1 0-2-2 2 0 1-2-1-1 2-3-1-1 1-1-1-3 1-2 1 1 2-3 1 1 0-2 2 0-1-2 2 0 0-1 2-3 1-1-1-1 2-2-1-1 1 0 0-2 2-3 3 1 0-2 4 1-1-2 5-2 0-3 2 0 1-1 2-1 0-3 3-2 0-3 1 0 1-1 2 0 2-2-1-1 1-1 1-2 1 0 0-2 2-1-1-2 2-1-2-1 2-2-2-10 3-3 3 0 2-6 10 1 5-5 3-1 2-2 0-1 3 1 0-3 1 1 2 0-1-3 2 0 0-1 2-1 1 1 0-1 1 0 3-2 2 0-1-1 2-1 1-3 1 0 1-3 3-2 0-2 2-1 2 1 0-2 2-1 0-1 3 3 3-2 0-1 3 0 0-2 1 0 1-2 1 1 0-1 5 1 2-4 2 1 0-1 1 1 3-2-2-8 3 0 1-3 1 2 2 0 2-4 0-4 7-6 4 0 2-3 4 7 11-4 0 4 7-1 7 2 3-4-2-1 10-12 3 1 6-3 4 0 8 1 7 11-4 10-1 12-5 6-2 13 2 13-4 9-3 1-1 8 14-6 5 3 17-4 10 1 2-4-8-7 18-19 3-5 2-1-3-4-4-3 5-5-1-2 2-1 3 2 0 4 5 5 2 4 2-2 1-3 4-1 2-2 4 1 1-4 7-4 6 5 7 3 1-2 5 0 3-3-9-6 0-4 4 0 6-11 3-2 7 1 0-5 2-1 4-7-2-3-1-4-3-2 18-4 1 2 3-3 4 6 4-4 2-3 2-5-7-7-6 3 1 3-8 2-6 0-6-8-6-5-4-1 0-3-1-1 1-2 1-8 2-2 0-2-3-2 1-2-1-2 0-4-3-10-4-7-6-14-8-14-4-2-2-4-5-1-5-5-2-6-1-6-2-3 2-2-3-6 1-4 6-2 5 7 6-1 32-26-15-18 12-3 1-4 5 2 1-2 0-3-7-15-4-1 1-2-5-7 7-8-2-2-4 1-2-20-5 1-1 1-7-10-4 1-5-3-6-2-6 0 1 5-2 1-5-2-1 2-1-13-7 0 0-30 4 0 0-2-2 0-5-4 14-9 1 3 7 1 2-3 1-5 1-3 23 2-2-20 0-4 5 0 1 5 4 0 0-5-1-1 2-7 9 4 4-6 2 2 1-1 0-2 12 1 0-19 6-2 1-5 15-1 6-2-12-13 0-5-1-2 3-2 3-5 45-2-10-47 5-15-3-3-2 1-2-2-2 0-1-2-2 1-1-3 5-1-5-29 14-2-3-19 17-5 10-2 1 1 34-5-4-20 20-4-7-37 14-3-5-24-8 3-3 4-12 2-1-3-3 0-7 6-3 3-12-5-7 3-1 4-4 0-2 2-3 1-1-4-15 8-5 11 1 2-2 1-4 9-4 0 0-3-2-2 0-6-1 0 0-2-26 5-4 4 0 2-9 1-2-5-2 1 1 8-10 3 3 12-14 0-1-4-21 3-1-10-46 9-2 3-8-12-3 3-2 6-1 9-3 0-5 7 0-2-2-1-1-4-5-2-1-4 1-2-4-9 0-6 5-6 7 0 0-25-2-1-8-2-4-3-5 3-2-2-4 1-2-1-3-6-3 1-1-3 1-1-2-1 1-2-11-11-4 1-3 2-2-1-2 11-9-1-1 2-21-4-5 6 3 2-3 5-5 0-9 7-9-5-1 15-2 3 2 2-1 7-9 3 0-5-3 0 1-5-11-1 1 10-17-8 0-7-1 0 1-2 5-10-37 3 1 4-2 2-14 3-5-1-3-2-21 0-3-1-8-5-1 4-1-3 0-5-1-1 1-3-1-1-1 2-1 0 3 3-3 1-2-2 0 2 2 3-2 1-2-2-3 1 0 3-2-1-7 0-4 8-6 1-4 0 4-7-1-1-2 3-3 0 0 1-1-1-2-1 1-1-2-2 1-4-5 1-3-1-7 9-2-1-1 1-6 19-4 0 0-2-3 1 1 2-5 1-1-2-2 1 0 1-16 4 1 2-13 3-2 3 1 2-2 1 2 4 0 3 0-2-5-2 0-1-2-3 0-5-1-1-2 1 1-2-2-1-2 1-5-1-3-3-17-7-3 5-10-4-5 1-2-2-3 0-8-5-8-1-6-8-5 0 2 4-6 2-11-4-3 1-2 2-3-2-5 1-3-14-5 0 0 2-7 4-2-4-23 1-4 2-8 0 0-4-2-5-4 2-3 4-11-3 0-2 2 0-2-1-3-3-3 0-10 0-2 3-2 2-6 1 0 1-3 1-9-4 4-2 6-1 4-2 4-5 2-6-10 1 0 2-3 1 0-3-1 0-1 2-5 0-2 3 0 2-5 3-2-2 1-2-4-2-1-1-8 0-1-5-4 1 0 1-3 1 1-4-4-1-4 2-5 17 1 4-1 0 4 13-4 13-4-1-1 2-5 3-4 0-17 14-6 6 9-2 4 3 3-2 18 3-2-3 0-2-3 0 2-1-2-2 3 0 1-1 2 0 0-4 1 0 0 1 1-1 2-7-1 0 0-2-3 0 2-2 1-1 2 1 6-6 4 6z","70":"M2300 3196l-4-39 15-1-2-4 0-12-28 1 2-27-4 0 0 2-15 11-4 3-27-2 0 1-4 0-3-1 0-1-10 1-29 21 0 3-4 0-2-3-13-1 2 6 5 3 2 4-1 3-3 2 3 4-2 4-1 9 4 11 2 7-39-3-6 8-23 5 0 8 2 4-9 10-9-3-2 12 1 5 0 5-7 5-1 2 2 5 0 9 5 11-1 3-27 18 16 28 0 12-7 0-1 25 14 2 9 9 8 19 3 3 4 2 7-1 2 3 4 0 2 4 3 2-1 8 1 2 6 2 2 4 1 10 5 8 3 8 4 5 7 3 0 6 4 15 13 0 10 2 7 1 2 11 7 6 5 1-2 8 8 7 3 0 3 13 1 14 4 4-3 23 4 6 5 1 4 20 9 14 1 17 2 7 3 2 3 10-2 14 1 5 0 9-3 14 2 7-1 3-7 4-1 4-3 6 1 6-3 5-1 4-6 6 2 1 0 1-3 0 0-1-2-1 0-1-1 2 1 2-2 0-2-2-2 3 0 2 1 0-1 1-4 3 0 1-2 1 0 1-2-1-1 3 2 1 0 4 1 0 1 3-1 2-1 0 0 3 2 0 0 2-1 1 2 1-1 2 1 0-1 1 2 2 0 2 2-1-2 2 1 1-2 2 2 0-2 1 3 2-1 1 1 0 0 3 1 0 0 1 1 1 1-1 1 2 1-1 1 2 1 0 0 3-2 1 1 2 4-1 1 1-2 1 3 1 0-1 1 2 2 0-1 2 3 1 0 2 3 1-2 1 4 2 0 1-1 1 2 2-2 2 3 0-1 2 3 1 0-2 2 1 0-1 1 0 1-1 2 0 0 3 2-1 1 2-3 0 1 3 1 1 1 0 0 1 1 0 1 2-1 2 1 0 2 2 0 1 2 1-1 0 1 4 1-1 1 2 1-2-1 1 0-2 1 1 1 0 2 0-1-1 1 0 1 1 0-2 1 0 0 1 1-2 2 4 1-2 4 1 0 2 1-1 0 2 1-1 0 1 2 2 2-1-1-4 2 2 0-2 1 1 1-2 1 1 0-1 1 0 0-2 1 2 1-1 1 1 1 2 1-1 2 2 4-2-1 1 2 1-1 0 1 2-1 2 1 1 2-1-1 2 2 1 2-2 2 1 2 3 1-2 1 1-2 1 1 2 2-1-1-1 1-2 2 1 1 0 0 3-2 0 2 2 0 3-1-1-1 3 1 1 1-1 1 2 3 0 4 5 4-4 14-1 4-4 14-6 5 0 8 5 3 0 1-3 3-2 2 1 1 3 3 0 3-2 4 1 5-4 3 0 3 2 0-1 5-3-1-3 1-1 3 3 5 2 2-1 3 4 3 1 1-1-1 2 3 1-1 2 1 1 4 1 1-2 1 1 1 2 1 0 3 2 2 1 0-2 1 2 1 0 2-2 1 1 0 2 1-2 1 0 1 3 5 0 0 2 2-1 3 6-2 2 1 3 5 4 2 3-1 2 4-1 2 1-4 8-1 0-1 4 1 5 3 2 4-3 9 2 4-1 7-10 7-3 3-4 0-6-2-5-3-5-10-6-2-3-1-7 2-4 15-10 7-9 11-10 4-2 5 0 11 4 7 9 5 5 5 1 5-1 5-5 9-5 4-5 0-4 1-9-2-5 5-6 10 5-2 4 12 8 4 3 7-4 11 7 8 20 1 12-6-2 3 12 4-1 8 5 103-25 2-6-2-9 6-5 2-4 2-2 3 4 12 0 9 2 10-11 6 1 10-2 1-1 7-5 9 0 7-6-9-43 12-1-5-72 2-2-1-1-1-24-5 0-3 1-3 0-3 2-5-1-1-2-2 0-1-1-1-1-2-2 0-3-1-2-1 0-2 1-2-2-6 7-4 3-12 4-5-1-11-5-8-1-16-5-12-1-7-3-13-9-3-2-10 4-5 12-20-13 9-21 6 4 5-4-2-1-2-3-1-7 2 0 0 2 0-3-2-2 0-2-7 1-1-4 2-3 0-3-19-10-5 10-14 5 0 1-8 0 1-8-3-3 2-3-3-3 5-4 2-5 14 1 1-3-6-2 0-1-7 0-4-2 0-3 7-1 0 2 13 0 0-5 2 0 0 1 3-1 3 0-7-8 3-30 7-6-4-3-4-5-3 1-3-2-6-10-8-1-8-5-6-9-4-12 5-12 5-8 0-10 3-8 0-28 6-20 1-2 10-6-22-15-8 13-4 2-1-9-9 0-18-39-33 5-18-1-3-2-2 0-1-2-2 6-5 8-2 1-2-1-7-9-1-8 1-4-1-1-5-4-10 0-4 2-2 0 0-4-2-2-2-1-2-3-3-3 0-2-5-6-3-3-5-2-9-9-3-11-2-1-1-3-2-1-3-5-7 0-2-5-12-6-24 12-8 5-7 3-4-4 1-1-2-6-3-2-1-3-1 0 0-1-5-11-2-2 1-2-20 2-2-12-5 1-22 19-34-1 0-45z"},"presets":{"all":[0,0,5091,3915],"vilnius":[3481,2483,534,410],"kaunas":[2426,2253,373,287],"klaipeda":[-366,1017,1113,856]}};
+(function(){
+  var ORDER = ['LSDP','LVZS','DSVL','LP','LS','IND','TS','LLRA','NS','PPNA','LLP','DP','LKDP','ZP','LRP','LZP','TTS','PLT'];
+  var LABEL = {}; PARTIES.forEach(function(p){LABEL[p.id]=p.short}); LABEL.IND='Independent'; LABEL.DP='DP'; LABEL.LKDP='LKDP'; LABEL.ZP='ŽP';
+  var COLOR = {}; PARTIES.forEach(function(p){COLOR[p.id]=p.color}); COLOR.IND=IND.color;
+  var NAME = {}; PARTIES.forEach(function(p){NAME[p.id]=p.name}); NAME.IND=IND.name;
+  var $ = function(id){return document.getElementById(id)};
+  var esc = function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
+  var fmt = function(x,n){return Number(x).toFixed(n==null?2:n)};
+  var sign = function(x,n){var v=Number(x); if(Math.abs(v)<0.005) return '0.00'; return (v>0?'+':'−')+Math.abs(v).toFixed(n==null?2:n)};
+  var cls = function(x){return Math.abs(x)<0.005?'zero':(x>0?'pos':'neg')};
+  var keyOf = function(code){return code==='IND'?'IND':(SWING_ALIAS[code]||code)};
+
+  // 2024 first-round votes in the 71 constituencies (VRK): 1,197,729 valid.
+  var CONS_VOTES = {LSDP:225638,TS:231394,PPNA:129641,DSVL:105330,LS:108493,LVZS:115083,LP:54356,LLRA:51057,NS:24080,LLP:5223,DP:16055,LKDP:7667,ZP:3080,LRP:40008,LZP:22182,TTS:21914,PLT:10484,IND:26044};
+  var CONS_TOTAL = 1197729;
+  function consShare(id, res){ return res.consNat[id]; }
+
+  var state = {}, filter = 'all', last = null, picked = {};
+  function renderCoalition(res){
+    var ids=ORDER.filter(function(id){return (res.seats[id]||0)>0}).sort(function(a,b){return res.seats[b]-res.seats[a]});
+    Object.keys(picked).forEach(function(id){ if(ids.indexOf(id)<0) delete picked[id]; });
+    $('picks').innerHTML = ids.map(function(id){
+      var nm = LABEL[id];
+      return '<button type="button" class="pick" data-id="'+id+'" aria-pressed="'+(picked[id]?'true':'false')+'"><i class="chip" style="background:'+COLOR[id]+'"></i>'+esc(nm)+' <small>'+res.seats[id]+'</small></button>';
+    }).join('');
+    document.querySelectorAll('#picks button').forEach(function(b){
+      b.addEventListener('click',function(){ var id=b.getAttribute('data-id'); if(picked[id]) delete picked[id]; else picked[id]=true; renderCoalition(last); });
+    });
+    var total=0, segs='';
+    ids.forEach(function(id){ if(picked[id]){ total+=res.seats[id]; segs+='<div class="seg" title="'+esc(LABEL[id])+' '+res.seats[id]+'" style="width:'+(res.seats[id]/141*100)+'%;background:'+COLOR[id]+'"></div>'; } });
+    $('cbar').innerHTML = segs + '<div class="maj" aria-hidden="true"></div>';
+    $('cbar').setAttribute('aria-label','Coalition seats: '+total+' of 141');
+    var n=Object.keys(picked).length, msg;
+    if(!n) msg='';
+    else if(total>=71) msg='<b>'+total+'</b> of 141 seats: a majority, '+(total-71)+' above the 71 needed.';
+    else msg='<b>'+total+'</b> of 141 seats: '+(71-total)+' short of a majority.';
+    $('cstat').innerHTML = msg;
+    $('btnClear').disabled = !n;
+  }
+
+  var act2024 = actual2024Constituencies();
+
+  // ----- self-check
+  var bt = backtest();
+  var ok = bt.constituencyMatch===bt.total && bt.prOK && bt.mismatchSeats.length===0;
+  var chk = $('check');
+  if(ok){ chk.style.display='none'; }
+  else { chk.className='check fail'; chk.innerHTML='<b>Self-check failed.</b> The engine does not reproduce 2024 ('+bt.constituencyMatch+'/'+bt.total+' constituencies). Treat results with caution.'; }
+
+  // ----- inputs
+  function resetInputs(){ PARTIES.forEach(function(p){ state[p.id] = BASE_PCT[p.id].toFixed(1); }); }
+  function buildInputs(){
+    var h='';
+    PARTIES.forEach(function(p){
+      var nm = p.short;
+      h += '<tr><td><label for="in_'+p.id+'" class="pname" ><span class="chip" style="background:'+p.color+'"></span><span>'+esc(nm)+'<small>'+esc(p.name)+'</small></span></label></td>'+
+           '<td class="slc"><input type="range" id="sl_'+p.id+'" min="0" max="40" step="0.1" style="--c:'+p.color+'" aria-label="'+esc(p.name)+' share, slider"></td>'+
+           '<td class="num"><input id="in_'+p.id+'" data-id="'+p.id+'" type="number" step="0.1" min="0" max="100" inputmode="decimal"></td></tr>';
+    });
+    h += '<tr><td><span class="pname"><span class="chip" style="background:var(--line)"></span><span>Others</span></span></td><td></td><td class="num" id="others"></td></tr>';
+    $('inputRows').innerHTML = h;
+    PARTIES.forEach(function(p){
+      var el=$('in_'+p.id), sl=$('sl_'+p.id); el.value=state[p.id]; sl.value=state[p.id]; setPct(sl);
+      el.addEventListener('input',function(){ state[p.id]=el.value; sl.value=el.value; setPct(sl); run(); });
+      sl.addEventListener('input',function(){
+        var nv=parseFloat(sl.value), prev=parseFloat(state[p.id]); if(!isFinite(prev)) prev=0;
+        // clamp: a slider cannot be raised once everything else adds up to 100%
+        var others=0; if(last) PARTIES.forEach(function(q){ if(q.id!==p.id) others+=last.shares[q.id]; });
+        var limit=Math.max(0,Math.floor((100-others)*10+1e-9)/10);
+        if(nv>limit) nv = prev>limit ? Math.min(prev,nv) : limit;
+        state[p.id]=nv.toFixed(1); sl.value=state[p.id]; el.value=state[p.id]; setPct(sl); run();
+      });
+    });
+  }
+  function setPct(sl){ var v=parseFloat(sl.value); if(!isFinite(v)) v=0; sl.style.setProperty('--p', Math.max(0,Math.min(100,v/40*100))+'%'); }
+  function syncInputs(){ PARTIES.forEach(function(p){ $('in_'+p.id).value=state[p.id]; var s=$('sl_'+p.id); s.value=state[p.id]; setPct(s); }); }
+  function numeric(){
+    var o={}; PARTIES.forEach(function(p){ var v=parseFloat(state[p.id]); o[p.id]=isFinite(v)&&v>0?v:0; }); return o;
+  }
+
+  // ----- hemicycle
+  function layout(n){
+    var rows=7, r0=0.40, radii=[], i;
+    for(i=0;i<rows;i++) radii.push(r0+(1-r0)*i/(rows-1));
+    var tot=radii.reduce(function(a,b){return a+b},0), counts=radii.map(function(r){return Math.round(n*r/tot)});
+    var diff=n-counts.reduce(function(a,b){return a+b},0), k=rows-1;
+    while(diff!==0){ counts[k]+=diff>0?1:-1; diff+=diff>0?-1:1; k=(k-1+rows)%rows; }
+    var pts=[];
+    radii.forEach(function(r,ri){ for(var j=0;j<counts[ri];j++){ var a=Math.PI*(1-(counts[ri]===1?0.5:j/(counts[ri]-1))); pts.push({a:a,r:r,x:360+300*r*Math.cos(a),y:355-300*r*Math.sin(a)}); } });
+    pts.sort(function(p,q){return q.a-p.a || p.r-q.r});
+    return pts;
+  }
+  var SEATS = layout(141);
+  function drawHemi(res){
+    var tokens=[];
+    ORDER.forEach(function(id){
+      var c=res.con[id]||0, l=(res.pr.seats[id]||0);
+      for(var i=0;i<c;i++) tokens.push({id:id,t:'c'});
+      for(var j=0;j<l;j++) tokens.push({id:id,t:'l'});
+    });
+    var s='', txt=[];
+    SEATS.forEach(function(p,i){
+      var t=tokens[i]; if(!t){ s+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="11" fill="none" stroke="var(--line)"/>'; return; }
+      var col=COLOR[t.id];
+      s += '<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="11.5" fill="'+col+'"/>';
+    });
+    // majority marker at top
+    var h=$('hemi'); h.innerHTML='<title id="hemiTitle">Projected seats: '+ORDER.filter(function(id){return res.seats[id]}).map(function(id){return LABEL[id]+' '+res.seats[id]}).join(', ')+'</title>'+s;
+    $('legend').innerHTML = ORDER.filter(function(id){return res.seats[id]>0}).sort(function(a,b){return res.seats[b]-res.seats[a]})
+      .map(function(id){return '<span><i class="chip" style="background:'+COLOR[id]+'"></i>'+esc(LABEL[id])+'</span>'}).join('');
+  }
+
+  // ----- party table
+  function partyTable(res, shares){
+    var ids = PARTIES.map(function(p){return p.id}).concat('IND');
+    var rows = ids.filter(function(id){ return (res.seats[id]||0)>0 || (id!=='IND' && shares[id]>=1) || (id!=='IND' && Math.abs(res.deltas[id])>=0.005 && shares[id]>0.4); })
+      .sort(function(a,b){return (res.seats[b]-res.seats[a]) || ((shares[b]||0)-(shares[a]||0))});
+    var h='', totL=0,totC=0,totT=0;
+    rows.forEach(function(id){
+      var isInd=id==='IND', l=res.pr.seats[id]||0, c=res.con[id]||0, t=res.seats[id]||0, a=ACTUAL_2024[id]||0;
+      totL+=l; totC+=c; totT+=t;
+      var below = !isInd && res.pr.eligible.indexOf(id)<0 && shares[id]>0;
+      h += '<tr><td><span class="pname"><span class="chip" style="background:'+COLOR[id]+'"></span><span>'+esc(LABEL[id])+'<small>'+esc(NAME[id])+'</small></span></span></td>'+
+        '<td class="num">'+fmt(consShare(id,res),1)+'</td>'+
+        '<td class="num">'+c+'</td>'+
+        '<td class="num">'+(isInd?'–':fmt(res.shares[id],1))+'</td>'+
+        '<td class="num">'+(isInd?'–':l)+'</td><td class="num tot">'+t+'</td>'+
+        '<td class="d '+cls(t-a)+'">'+(t-a===0?'0':((t-a>0?'+':'−')+Math.abs(t-a)))+'</td></tr>';
+    });
+    document.querySelector('#partyTable tbody').innerHTML=h;
+    document.querySelector('#partyTable tfoot').innerHTML='<tr><td>Total</td><td></td><td class="num">'+totC+'</td><td></td><td class="num">'+totL+'</td><td class="num">'+totT+'</td><td></td></tr>';
+  }
+
+  // ----- constituency table
+  function how(r){
+    var w=LABEL[r.winner];
+    if(r.stage==='R1') return {tag:'<span class="tag">Round 1</span>', note:esc(w)+' leads on '+fmt(r.lead.proj,1)+'%, '+fmt(r.detail,1)+' points above the one-fifth-of-electorate line.'};
+    if(r.stage==='R2same') return {tag:'<span class="tag">Runoff</span>', note:'Same finalists as 2024 ('+esc(LABEL[r.fin[0]])+' and '+esc(LABEL[r.fin[1]])+'). Swing applied to the real runoff: '+esc(w)+' ahead by '+fmt(r.detail,1)+' points.'};
+    if(r.stage==='R2new'){
+      var dis=r.displaced.map(function(p){return LABEL[p]}).join(' and ');
+      return {tag:'<span class="tag md">Runoff, finalists changed</span>', note:esc(LABEL[r.fin[0]])+' v '+esc(LABEL[r.fin[1]])+' (no longer '+esc(dis)+'). National preference flows from 2024: '+esc(w)+' ahead by about '+fmt(r.detail,1)+' points. If the 2024 pairing had held: '+esc(LABEL[r.alt])+'.'};
+    }
+    return {tag:'<span class="tag md">Runoff, no 2024 baseline</span>', note:'No runoff was needed here in 2024, so there is nothing to swing. '+esc(LABEL[r.fin[0]])+' v '+esc(LABEL[r.fin[1]])+' decided by national preference flows: '+esc(w)+' ahead by about '+fmt(r.detail,1)+' points.'};
+  }
+  // ----- map
+  var POP=null, OVERSEAS=71, mapApi={};
+  function buildMap(){
+    var g='';
+    Object.keys(MAP.paths).forEach(function(no){ g+='<path data-no="'+no+'" d="'+MAP.paths[no]+'" fill="#ccc"><title></title></path>'; });
+    $('cmapG').innerHTML=g;
+    document.querySelectorAll('#cmapG path').forEach(function(pa){
+      var no=+pa.getAttribute('data-no');
+      pa.addEventListener('mouseenter',function(){ if(!POP && !dragging) setHL(no,false); });
+      pa.addEventListener('click',function(e){
+        if(moved) return; e.stopPropagation();
+        var wr=document.querySelector('.mapwrap').getBoundingClientRect();
+        openPop(no,e.clientX-wr.left,e.clientY-wr.top); 
+      });
+    });
+    $('cmap').addEventListener('mouseleave',function(){ if(!POP) clearHL(); });
+    $('cmap').addEventListener('click',function(){ if(!moved) closePop(); });
+    document.addEventListener('click',function(e){ if(POP && !e.target.closest('.mapwrap') ) closePop(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape' && POP) closePop(); });
+    var dot=$('abroadG');
+    dot.addEventListener('mouseenter',function(){ if(!POP && !dragging) setHL(OVERSEAS,false); });
+    dot.addEventListener('mouseleave',function(){ if(!POP) clearHL(); });
+    function openAbroad(){
+      closePop();
+      var wr=document.querySelector('.mapwrap').getBoundingClientRect(), br=dot.getBoundingClientRect();
+      openPop(OVERSEAS,br.right-wr.left,br.top-wr.top);
+    }
+    dot.addEventListener('click',function(e){ if(moved) return; e.stopPropagation(); openAbroad(); });
+    dot.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openAbroad(); } });
+    initZoom();
+  }
+
+  // ----- zoom and pan (viewBox)
+  var vb={x:0,y:0,w:0,h:0}, moved=false, dragging=false;
+  function initZoom(){
+    var svg=$('cmap'), FW=MAP.W*1.14, FH=MAP.H*1.14, FX=-MAP.W*0.07, FY=-MAP.H*0.07, ratio=FW/FH, MAXZ=40;
+    vb={x:FX,y:FY,w:FW,h:FH};
+    function apply(){
+      vb.w=Math.max(FW/MAXZ,Math.min(FW,vb.w)); vb.h=vb.w/ratio;
+      // keep the view inside the map so zooming out always restores the whole country
+      vb.x=Math.max(FX,Math.min(FX+FW-vb.w,vb.x)); vb.y=Math.max(FY,Math.min(FY+FH-vb.h,vb.y));
+      svg.setAttribute('viewBox',[vb.x,vb.y,vb.w,vb.h].map(function(n){return n.toFixed(1)}).join(' '));
+      svg.classList.toggle('zoomed', vb.w<FW-1);
+      closePop();
+    }
+    mapApi.centre=function(cx,cy){ vb.x=cx-vb.w/2; vb.y=cy-vb.h/2; apply(); };
+    mapApi.toScreen=function(cx,cy){ var r=svg.getBoundingClientRect(), wr=document.querySelector('.mapwrap').getBoundingClientRect(); return [(cx-vb.x)/vb.w*r.width+(r.left-wr.left),(cy-vb.y)/vb.h*r.height+(r.top-wr.top)]; };
+    function zoomAt(f,cx,cy){
+      var nw=Math.max(FW/MAXZ,Math.min(FW,vb.w/f)), k=nw/vb.w;
+      vb.x=cx-(cx-vb.x)*k; vb.y=cy-(cy-vb.y)*k; vb.w=nw; apply();
+    }
+    function toSvg(cx,cy){ var r=svg.getBoundingClientRect(); return [vb.x+(cx-r.left)/r.width*vb.w, vb.y+(cy-r.top)/r.height*vb.h]; }
+    $('zIn').addEventListener('click',function(){ zoomAt(1.6,vb.x+vb.w/2,vb.y+vb.h/2); });
+    $('zOut').addEventListener('click',function(){ zoomAt(1/1.6,vb.x+vb.w/2,vb.y+vb.h/2); });
+    $('zReset').addEventListener('click',function(){ vb={x:FX,y:FY,w:FW,h:FH}; apply(); });
+    svg.addEventListener('wheel',function(e){
+      e.preventDefault();
+      var dy=e.deltaMode===1?e.deltaY*16:e.deltaY, p=toSvg(e.clientX,e.clientY);
+      zoomAt(Math.exp(-dy*0.0015),p[0],p[1]);
+    },{passive:false});
+    var ptrs={}, start=null, pinchD=0;
+    function count(){ return Object.keys(ptrs).length; }
+    svg.addEventListener('pointerdown',function(e){
+      ptrs[e.pointerId]={x:e.clientX,y:e.clientY};
+      if(count()===1){ start={x:e.clientX,y:e.clientY,vx:vb.x,vy:vb.y}; moved=false; }
+      if(count()===2){ var a=Object.keys(ptrs).map(function(k){return ptrs[k]}); pinchD=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y); moved=true; }
+    });
+    window.addEventListener('pointermove',function(e){
+      if(!ptrs[e.pointerId]) return;
+      ptrs[e.pointerId]={x:e.clientX,y:e.clientY};
+      if(count()===2){
+        var a=Object.keys(ptrs).map(function(k){return ptrs[k]}), d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
+        if(pinchD>0 && d>0){ var m=toSvg((a[0].x+a[1].x)/2,(a[0].y+a[1].y)/2); zoomAt(d/pinchD,m[0],m[1]); pinchD=d; }
+        return;
+      }
+      if(count()===1 && start && svg.classList.contains('zoomed')){
+        var r=svg.getBoundingClientRect(), dx=e.clientX-start.x, dy=e.clientY-start.y;
+        if(!moved && Math.hypot(dx,dy)>4){ moved=true; dragging=true; svg.classList.add('panning'); }
+        if(moved){ vb.x=start.vx-dx/r.width*vb.w; vb.y=start.vy-dy/r.height*vb.h; apply(); }
+      }
+    });
+    function up(e){
+      delete ptrs[e.pointerId];
+      if(count()===0){ start=null; dragging=false; svg.classList.remove('panning'); setTimeout(function(){ moved=false; },0); }
+    }
+    window.addEventListener('pointerup',up); window.addEventListener('pointercancel',up);
+    svg.addEventListener('dragstart',function(e){ e.preventDefault(); });
+  }
+  // selected / hovered constituency: shade its fill (darker; lighter for very dark party colours)
+  var hlPath=null, dotLit=false;
+  function lumOf(hex){ var n=parseInt(hex.slice(1),16); return (0.299*(n>>16&255)+0.587*(n>>8&255)+0.114*(n&255))/255; }
+  function shade(hex,f){
+    var n=parseInt(hex.slice(1),16), r=n>>16&255, g=n>>8&255, b=n&255;
+    var tgt = lumOf(hex)<0.22 ? 255 : 0;
+    function m(c){ return Math.round(c+(tgt-c)*f); }
+    return 'rgb('+m(r)+','+m(g)+','+m(b)+')';
+  }
+  function clearHL(){
+    if(hlPath){ hlPath.setAttribute('fill',hlPath.getAttribute('data-base')); hlPath=null; }
+    if(dotLit){ var c=$('abroadC'); c.setAttribute('fill',c.getAttribute('data-base')); dotLit=false; }
+  }
+  function setHL(no,strong){
+    clearHL();
+    if(no===OVERSEAS){ var c=$('abroadC'); c.setAttribute('fill',shade(c.getAttribute('data-base'),strong?0.4:0.18)); dotLit=true; return; }
+    var pa=document.querySelector('#cmapG path[data-no="'+no+'"]'); if(!pa) return;
+    hlPath=pa; pa.setAttribute('fill',shade(pa.getAttribute('data-base'),strong?0.4:0.18));
+  }
+  function closePop(){ var el=$('mpop'); if(el) el.remove(); if(POP){ POP=null; clearHL(); } }
+  function openPop(no,x,y){ POP={no:no,x:x,y:y}; setHL(no,true); renderPop(); }
+  function renderPop(){
+    var old=$('mpop'); if(old) old.remove();
+    if(!POP||!last) return;
+    var no=POP.no, r=last.cons[no-1], was=act2024[no-1], changed=keyOf(was)!==keyOf(r.winner);
+    var r2={}; (r.r2||[]).forEach(function(x){ r2[x.i]=x.s; });
+    var winIdx = r.r2 ? r.r2[0].i : r.cands[0].i;
+    var shownC=r.cands.filter(function(c){ return c.proj>=0.5 || r2[c.i]!=null; });
+    var hidden=r.cands.filter(function(c){ return !(c.proj>=0.5 || r2[c.i]!=null); }).reduce(function(a,c){ return a+c.proj; },0);
+    var rows=shownC.map(function(c){
+      return '<tr'+(c.i===winIdx?' class="win"':'')+'><td><span class="pname" style="display:inline-flex"><span class="chip" style="background:'+COLOR[c.p]+'"></span>'+esc(LABEL[c.p])+'</span></td>'+
+             '<td>'+fmt(c.proj,1)+'%</td><td>'+(r2[c.i]!=null?fmt(r2[c.i],1)+'%':'–')+'</td></tr>';
+    }).join('');
+    // The rest of each round's 100%: candidates under 0.5%, and spoiled or blank ballots (their share is held at the 2024 level)
+    var spoiled1=Math.max(0,100-r.S0), r2sum=r.r2?(r.r2[0].s+r.r2[1].s):0, spoiled2=r.r2?Math.max(0,100-r2sum):0;
+    if(hidden>=0.05) rows+='<tr class="rest"><td>Candidates under 0.5%</td><td>'+fmt(hidden,1)+'%</td><td>–</td></tr>';
+    rows+='<tr class="rest"><td>Spoiled or blank ballots</td><td>'+fmt(spoiled1,1)+'%</td><td>'+(r.r2?fmt(spoiled2,1)+'%':'–')+'</td></tr>';
+    rows+='<tr class="tot"><td>Total</td><td>100.0%</td><td>'+(r.r2?'100.0%':'–')+'</td></tr>';
+    var note;
+    if(r.stage==='R1') note='Won outright in round 1 (leader above the one-fifth-of-electorate line), so there is no runoff.';
+    else if(r.stage==='R2same') note='';
+    else if(r.stage==='R2new') note='Round 2 is estimated: the finalists differ from 2024, so shares come from national preference flows fitted on the 2024 runoffs. If the 2024 pairing had held: '+esc(LABEL[r.alt])+'.';
+    else note='Round 2 is estimated from national preference flows, because no runoff was needed here in 2024.';
+    var el=document.createElement('div');
+    el.id='mpop'; el.className='mpop'; el.setAttribute('role','dialog'); el.setAttribute('aria-label',no+'. '+r.name);
+    el.innerHTML='<button type="button" class="x" aria-label="Close">×</button>'+
+      '<div class="mt">'+no+'. '+esc(r.name)+'</div>'+
+      '<div class="ms"><span class="pname" style="display:inline-flex"><span class="chip" style="background:'+COLOR[r.winner]+'"></span><b>'+esc(LABEL[r.winner])+'</b></span> projected'+
+        (changed?', changing hands from '+esc(LABEL[was])+' in 2024':', as in 2024')+'</div>'+
+      '<table><thead><tr><th scope="col">Party</th><th scope="col">Round 1</th><th scope="col">Round 2</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+      (note?'<div class="pn">'+note+'</div>':'');
+    var wrap=document.querySelector('.mapwrap'); wrap.appendChild(el);
+    el.addEventListener('click',function(e){ e.stopPropagation(); });
+    el.querySelector('.x').addEventListener('click',closePop);
+    var W=wrap.clientWidth, H=wrap.clientHeight;
+    el.style.maxHeight=Math.max(120,H-16)+'px';
+    var pw=el.offsetWidth, ph=el.offsetHeight;
+    var left=Math.max(8,Math.min(POP.x+12,W-pw-8)), top=POP.y+12;
+    if(top+ph>H-8) top=POP.y-ph-12;
+    if(top<8) top=8;
+    el.style.left=left+'px'; el.style.top=top+'px';
+  }
+  // ----- map colouring modes
+  var mapMode='winner', mapParty='LSDP';
+  function lightEnd(){ var v=''; try{ v=(getComputedStyle(document.documentElement).getPropertyValue('--surface2')||'').trim(); }catch(err){} return /^#[0-9a-f]{6}$/i.test(v)?v:'#F1F4EE'; }
+  function mix(h1,h2,tt){
+    var a=parseInt(h1.slice(1),16), b=parseInt(h2.slice(1),16);
+    function ch(sh){ return Math.round(((a>>sh)&255)*tt+((b>>sh)&255)*(1-tt)); }
+    return '#'+[16,8,0].map(function(sh){ return ('0'+ch(sh).toString(16)).slice(-2); }).join('');
+  }
+  function partyShare(r,pid){ var s=null; r.cands.forEach(function(c){ if(keyOf(c.p)===pid) s=(s||0)+c.proj; }); return s; }
+  function partyName(id){ return LABEL[id]; }
+  function renderMap(res){
+    var win={}, cnt={}, le=lightEnd(), neutral=mix('#8E9992',le,0.5);
+    hlPath=null; dotLit=false;
+    var max=0;
+    if(mapMode==='strength') res.cons.forEach(function(r){ var s=partyShare(r,mapParty); if(s!=null && s>max) max=s; });
+    var gain={}, loss={}, flips=0;
+    res.cons.forEach(function(r,i){
+      win[r.no]=r.winner; var k=keyOf(r.winner); cnt[k]=(cnt[k]||0)+1;
+      var was=act2024[i], flipped=keyOf(was)!==k, col, tip;
+      if(flipped){ flips++; gain[k]=(gain[k]||0)+1; var wk=keyOf(was); loss[wk]=(loss[wk]||0)+1; }
+      if(mapMode==='strength'){
+        var sh=partyShare(r,mapParty);
+        if(sh==null){ col=neutral; tip='not standing'; }
+        else { col=mix(COLOR[mapParty], le, 0.1+0.9*(max>0?sh/max:0)); tip=fmt(sh,1)+'%'; }
+      } else if(mapMode==='flip'){
+        if(flipped){ col=COLOR[r.winner]; tip=LABEL[was]+' → '+LABEL[r.winner]; }
+        else { col=neutral; tip='no change ('+LABEL[r.winner]+')'; }
+      } else { col=COLOR[r.winner]; tip=LABEL[r.winner]; }
+      var label=r.no+'. '+r.name+': '+tip;
+      if(r.no===OVERSEAS){
+        var c=$('abroadC'), ink=lumOf(col)<0.55?'#fff':'#111'; c.setAttribute('data-base',col); c.setAttribute('fill',col); $('abroadT1').setAttribute('fill',ink); $('abroadT2').setAttribute('fill',ink); $('abroadG').firstChild.textContent=label;
+      } else {
+        var pa=document.querySelector('#cmapG path[data-no="'+r.no+'"]');
+        if(pa){ pa.setAttribute('data-base',col); pa.setAttribute('fill',col); pa.firstChild.textContent=label; }
+      }
+    });
+    var lg='';
+    if(mapMode==='strength'){
+      lg='<span>0%<i class="grad" style="background:linear-gradient(to right,'+mix(COLOR[mapParty],le,0.1)+','+COLOR[mapParty]+')"></i>'+fmt(max,1)+'% of the vote in '+esc(partyName(mapParty))+'’s strongest constituency</span>';
+    } else if(mapMode==='flip'){
+      var ids=ORDER.filter(function(id){ return (gain[id]||0)>0 || (loss[id]||0)>0; });
+      lg='<span><b>'+flips+' of 71</b> constituencies change hands</span>'+
+         '<span><i class="chip" style="background:'+neutral+'"></i>No change</span>'+
+         ids.map(function(id){ var net=(gain[id]||0)-(loss[id]||0), g=gain[id]||0, l=loss[id]||0;
+           return '<span><i class="chip" style="background:'+COLOR[id]+'"></i>'+esc(partyName(id))+' '+(g?'+'+g:'')+(g&&l?' / ':'')+(l?'−'+l:'')+'</span>'; }).join('');
+    } else {
+      var ids2=ORDER.filter(function(id){return cnt[id]>0}).sort(function(a,b){return cnt[b]-cnt[a]});
+      lg=ids2.map(function(id){ return '<span><i class="chip" style="background:'+COLOR[id]+'"></i>'+esc(partyName(id))+'</span>'; }).join('');
+    }
+    $('mlegend').innerHTML=lg;
+    if(POP){ setHL(POP.no,true); renderPop(); }
+  }
+  function initModes(){
+    var o=''; PARTIES.forEach(function(p){ o+='<option value="'+p.id+'">'+esc(partyName(p.id))+'</option>'; });
+    $('mpsel').innerHTML=o; $('mpsel').value=mapParty;
+    $('mpsel').addEventListener('change',function(){ mapParty=this.value; if(last) renderMap(last); });
+    document.querySelectorAll('.mapmode button').forEach(function(b){
+      b.addEventListener('click',function(){
+        mapMode=b.getAttribute('data-m');
+        document.querySelectorAll('.mapmode button').forEach(function(x){ x.setAttribute('aria-pressed', x===b?'true':'false'); });
+        $('mparty').hidden = mapMode!=='strength';
+        if(last) renderMap(last);
+      });
+    });
+    if(window.matchMedia){ var mq=window.matchMedia('(prefers-color-scheme: dark)'); var f=function(){ if(last) renderMap(last); };
+      if(mq.addEventListener) mq.addEventListener('change',f); else if(mq.addListener) mq.addListener(f); }
+  }
+
+  // ----- run
+  function run(){
+    var nums=numeric(), invalid=INVALID_RATE_2024;
+    var res=project(nums,{invalidRate:invalid}); last=res;
+    var sum=0; PARTIES.forEach(function(p){ sum+=res.shares[p.id]; });
+    var oth=100-sum;
+    $('others').textContent=fmt(Math.max(0,oth));
+    var box=$('sumBox');
+    if(oth<-0.05){ box.style.display=''; box.className='sum err'; box.textContent='Total '+fmt(sum)+'%, which is over 100%. Lower one or more figures.'; }
+    else { box.style.display='none'; box.textContent=''; }
+
+    drawHemi(res); partyTable(res, res.shares); renderMap(res); renderCoalition(res);
+  }
+
+  $('btnClear').addEventListener('click',function(){ picked={}; if(last) renderCoalition(last); });
+  $('btnReset').addEventListener('click',function(){ resetInputs(); syncInputs(); run(); });
+  buildMap(); initModes();
+  resetInputs(); buildInputs(); run();
+})();
+</script>
+</body>
+</html>
+
+        <!-- ============================================================= -->
+        <!-- END PASTING HERE -->
+        <!-- ============================================================= -->
+
+    </div>
+
+    <!-- 3. Dynamic Injection Engine Script -->
+    <script>
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('global-nav').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading navigation:', error));
+    </script>
+
+</body>
+</html>
