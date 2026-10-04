@@ -87,92 +87,90 @@
         <!-- START PASTING HERE -->
         <!-- ============================================================= -->
         
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Malacca State Assembly Seat Projection</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;padding:1.5rem;max-width:960px;margin:0 auto;}
-h1{font-size:32px;font-weight:700;letter-spacing:-0.02em;text-align:center;margin:0.5rem 0 2rem;line-height:1.2;}
-.section{margin-bottom:1.5rem;}
-.inputs-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:1rem;}
-.input-card{background:#fff;border:0.5px solid #ddddd5;border-radius:12px;padding:0.6rem 1rem;display:flex;align-items:center;gap:18px;}
-.reset-btn{font-size:12px;font-weight:500;color:#1a1a18;background:#fff;border:0.5px solid #b4b2a9;border-radius:8px;padding:5px 14px;cursor:pointer;white-space:nowrap;transition:background 0.15s,color 0.15s,border-color 0.15s;}
-.reset-btn:hover{border-color:#8f8d84;}
-.input-card label{display:block;flex:0 0 230px;font-size:12px;font-weight:500;color:#5f5e5a;margin:0;}
-.input-row{display:flex;align-items:center;gap:6px;order:3;flex:0 0 96px;}
-.input-row input[type=number]{flex:1;min-width:0;font-size:14px;border:0.5px solid #ddddd5;border-radius:6px;padding:5px 8px;outline:none;background:#fff;color:#1a1a18;}
-.input-row input[type=number]:focus{border-color:#888780;}
-.pct{font-size:13px;color:#888780;}
-.pdot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;}
-.total-warn{font-size:12px;margin-bottom:1rem;padding:7px 12px;border-radius:8px;border:0.5px solid #ddddd5;color:#5f5e5a;background:#f1efe8;}
-.total-warn.bad{color:#a32d2d;background:#fcebeb;border-color:#f09595;}
-.results-grid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(76px,1fr);gap:8px;margin-bottom:1rem;overflow-x:auto;}
-.result-card{background:#f1efe8;border-radius:8px;padding:0.75rem 0.6rem;min-width:0;display:flex;flex-direction:column;}
-.result-card .pname{font-size:11px;color:#5f5e5a;margin-bottom:3px;display:flex;align-items:flex-start;flex:1 1 auto;}
-.result-card .pname .pdot{margin-top:3px;}
-.result-card .seats{font-size:24px;font-weight:500;color:#1a1a18;}
-.result-card .chg{font-size:11px;margin-top:1px;}
-.chg.pos{color:#3b6d11;}.chg.neg{color:#a32d2d;}.chg.neu{color:#888780;}
-.parl-bar{display:flex;height:22px;border-radius:8px;overflow:hidden;margin-bottom:6px;}
-.bar-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px;font-size:11px;color:#5f5e5a;margin-bottom:1rem;}
-.bar-legend span{display:flex;align-items:center;gap:3px;}
-.divider{border:none;border-top:0.5px solid #ddddd5;margin:1.5rem 0;}
-.coalition-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;}
-.coalition-header h3{font-size:14px;font-weight:500;color:#1a1a18;}
-.coalition-checks{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:0.75rem;}
-.coalition-checks label{display:flex;align-items:center;gap:5px;font-size:12px;color:#1a1a18;background:#fff;border:0.5px solid #b4b2a9;border-radius:8px;padding:4px 10px;cursor:pointer;user-select:none;}
-.coalition-checks label:hover{background:#f1efe8;}
-.coalition-checks input[type=checkbox]{width:13px;height:13px;}
-.coalition-result{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;background:#f1efe8;margin-bottom:0.75rem;flex-wrap:wrap;}
-.coalition-seats{font-size:22px;font-weight:500;color:#1a1a18;}
-.coalition-label{font-size:12px;color:#5f5e5a;}
-.coalition-status{font-size:12px;font-weight:500;padding:3px 10px;border-radius:8px;}
-.status-maj{background:#eaf3de;color:#3b6d11;}
-.status-short{background:#faeeda;color:#854f0b;}
-.status-none{background:#f1efe8;color:#888780;}
-.parl-grid{display:grid;grid-template-columns:repeat(14,1fr);gap:2px;margin-bottom:8px;}
-.sq{width:100%;aspect-ratio:1;border-radius:1px;transition:opacity 0.1s;}
-.grid-legend{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:#5f5e5a;margin-bottom:1.5rem;}
-.grid-legend span{display:flex;align-items:center;gap:4px;}
-.grid-legend .swatch{width:10px;height:10px;border-radius:2px;display:inline-block;}
-.map-tooltip{position:absolute;z-index:20;background:#fff;border:0.5px solid #b4b2a9;border-radius:10px;padding:10px 12px;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:11px;min-width:170px;max-width:220px;pointer-events:none;}
-.map-tooltip .mt-title{font-size:12px;font-weight:600;color:#1a1a18;margin-bottom:6px;}
-.map-tooltip .mt-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;color:#5f5e5a;}
-.map-tooltip .mt-row .mt-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;}
-.map-tooltip .mt-seats{color:#b4b2a9;font-size:10px;margin-left:4px;}
-.sec-title{font-size:20px;font-weight:500;color:#1a1a18;text-align:center;margin-bottom:1rem;}
-.sec-title.sub{font-size:14px;margin-bottom:0.75rem;}
-.vs-slider{-webkit-appearance:none;appearance:none;display:block;order:2;flex:1 1 auto;min-width:0;width:auto;height:6px;margin:0;border-radius:3px;outline:none;cursor:pointer;background:linear-gradient(to right,var(--c,#888780) var(--p,0%),#e3e1da var(--p,0%));}
-.vs-slider::-webkit-slider-runnable-track{background:transparent;height:6px;}
-.vs-slider::-moz-range-track{background:transparent;height:6px;}
-.vs-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;margin-top:-5px;border-radius:50%;background:var(--c,#888780);border:2px solid #fff;box-shadow:0 0 0 0.5px #888780;}
-.vs-slider::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--c,#888780);border:2px solid #fff;box-shadow:0 0 0 0.5px #888780;}
-.map-controls{display:flex;flex-direction:column;gap:12px;margin-bottom:1rem;padding:12px 14px;background:#fff;border:0.5px solid #ddddd5;border-radius:12px;}
-.map-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.mode-card{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px;border:0.5px solid #b4b2a9;border-radius:10px;background:#fff;cursor:pointer;text-align:left;font-family:inherit;}
-.mode-card strong{font-size:13px;font-weight:600;color:#1a1a18;}
-.mode-card span{font-size:11px;color:#888780;line-height:1.3;}
-.mode-card:hover{background:#f1efe8;}
-.mode-card.on{background:#1a1a18;border-color:#1a1a18;}
-.mode-card.on strong{color:#fff;}
-.mode-card.on span{color:#c9c7bd;}
-.map-options{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;padding-top:12px;border-top:0.5px solid #ddddd5;}
-.map-ctl{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:500;color:#5f5e5a;}
-.seg{display:inline-flex;border:0.5px solid #b4b2a9;border-radius:8px;overflow:hidden;}
-.seg button{font-size:13px;font-weight:500;padding:7px 16px;border:none;background:#fff;color:#1a1a18;cursor:pointer;white-space:nowrap;}
-.seg button+button{border-left:0.5px solid #b4b2a9;}
-.seg button:hover{background:#f1efe8;}
-.seg button.on{background:#1a1a18;color:#fff;}
-.map-select{font-size:13px;font-weight:500;padding:7px 12px;border:0.5px solid #b4b2a9;border-radius:8px;background:#fff;color:#1a1a18;cursor:pointer;max-width:240px;}
-@media(max-width:600px){.map-modes{grid-template-columns:1fr;}.input-card{flex-wrap:wrap;gap:8px 12px;}.input-card label{flex:1 0 100%;}.vs-slider{flex:1 1 140px;}}
-.note{font-size:11px;color:#888780;margin-top:1.5rem;padding-top:1rem;border-top:0.5px solid #ddddd5;line-height:1.6;}
+#md-app *{box-sizing:border-box;margin:0;padding:0;}
+#md-app{all:initial;display:block;box-sizing:border-box;line-height:normal;text-align:left;font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;padding:1.5rem;max-width:960px;margin:0 auto;}
+#md-app h1{font-size:32px;font-weight:700;letter-spacing:-0.02em;text-align:center;margin:0.5rem 0 2rem;line-height:1.2;}
+#md-app .section{margin-bottom:1.5rem;}
+#md-app .inputs-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:1rem;}
+#md-app .input-card{background:#fff;border:0.5px solid #ddddd5;border-radius:12px;padding:0.6rem 1rem;display:flex;align-items:center;gap:18px;}
+#md-app .reset-btn{font-size:12px;font-weight:500;color:#1a1a18;background:#fff;border:0.5px solid #b4b2a9;border-radius:8px;padding:5px 14px;cursor:pointer;white-space:nowrap;transition:background 0.15s,color 0.15s,border-color 0.15s;}
+#md-app .reset-btn:hover{border-color:#8f8d84;}
+#md-app .input-card label{display:block;flex:0 0 230px;font-size:12px;font-weight:500;color:#5f5e5a;margin:0;}
+#md-app .input-row{display:flex;align-items:center;gap:6px;order:3;flex:0 0 96px;}
+#md-app .input-row input[type=number]{flex:1;min-width:0;font-size:14px;border:0.5px solid #ddddd5;border-radius:6px;padding:5px 8px;outline:none;background:#fff;color:#1a1a18;}
+#md-app .input-row input[type=number]:focus{border-color:#888780;}
+#md-app .pct{font-size:13px;color:#888780;}
+#md-app .pdot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;}
+#md-app .total-warn{font-size:12px;margin-bottom:1rem;padding:7px 12px;border-radius:8px;border:0.5px solid #ddddd5;color:#5f5e5a;background:#f1efe8;}
+#md-app .total-warn.bad{color:#a32d2d;background:#fcebeb;border-color:#f09595;}
+#md-app .results-grid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(76px,1fr);gap:8px;margin-bottom:1rem;overflow-x:auto;}
+#md-app .result-card{background:#f1efe8;border-radius:8px;padding:0.75rem 0.6rem;min-width:0;display:flex;flex-direction:column;}
+#md-app .result-card .pname{font-size:11px;color:#5f5e5a;margin-bottom:3px;display:flex;align-items:flex-start;flex:1 1 auto;}
+#md-app .result-card .pname .pdot{margin-top:3px;}
+#md-app .result-card .seats{font-size:24px;font-weight:500;color:#1a1a18;}
+#md-app .result-card .chg{font-size:11px;margin-top:1px;}
+#md-app .chg.pos{color:#3b6d11;}
+#md-app .chg.neg{color:#a32d2d;}
+#md-app .chg.neu{color:#888780;}
+#md-app .parl-bar{display:flex;height:22px;border-radius:8px;overflow:hidden;margin-bottom:6px;}
+#md-app .bar-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px;font-size:11px;color:#5f5e5a;margin-bottom:1rem;}
+#md-app .bar-legend span{display:flex;align-items:center;gap:3px;}
+#md-app .divider{border:none;border-top:0.5px solid #ddddd5;margin:1.5rem 0;}
+#md-app .coalition-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;}
+#md-app .coalition-header h3{font-size:14px;font-weight:500;color:#1a1a18;}
+#md-app .coalition-checks{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:0.75rem;}
+#md-app .coalition-checks label{display:flex;align-items:center;gap:5px;font-size:12px;color:#1a1a18;background:#fff;border:0.5px solid #b4b2a9;border-radius:8px;padding:4px 10px;cursor:pointer;user-select:none;}
+#md-app .coalition-checks label:hover{background:#f1efe8;}
+#md-app .coalition-checks input[type=checkbox]{width:13px;height:13px;}
+#md-app .coalition-result{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;background:#f1efe8;margin-bottom:0.75rem;flex-wrap:wrap;}
+#md-app .coalition-seats{font-size:22px;font-weight:500;color:#1a1a18;}
+#md-app .coalition-label{font-size:12px;color:#5f5e5a;}
+#md-app .coalition-status{font-size:12px;font-weight:500;padding:3px 10px;border-radius:8px;}
+#md-app .status-maj{background:#eaf3de;color:#3b6d11;}
+#md-app .status-short{background:#faeeda;color:#854f0b;}
+#md-app .status-none{background:#f1efe8;color:#888780;}
+#md-app .parl-grid{display:grid;grid-template-columns:repeat(14,1fr);gap:2px;margin-bottom:8px;}
+#md-app .sq{width:100%;aspect-ratio:1;border-radius:1px;transition:opacity 0.1s;}
+#md-app .grid-legend{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:#5f5e5a;margin-bottom:1.5rem;}
+#md-app .grid-legend span{display:flex;align-items:center;gap:4px;}
+#md-app .grid-legend .swatch{width:10px;height:10px;border-radius:2px;display:inline-block;}
+#md-app .map-tooltip{position:absolute;z-index:20;background:#fff;border:0.5px solid #b4b2a9;border-radius:10px;padding:10px 12px;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:11px;min-width:170px;max-width:220px;pointer-events:none;}
+#md-app .map-tooltip .mt-title{font-size:12px;font-weight:600;color:#1a1a18;margin-bottom:6px;}
+#md-app .map-tooltip .mt-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;color:#5f5e5a;}
+#md-app .map-tooltip .mt-row .mt-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;}
+#md-app .map-tooltip .mt-seats{color:#b4b2a9;font-size:10px;margin-left:4px;}
+#md-app .sec-title{font-size:20px;font-weight:500;color:#1a1a18;text-align:center;margin-bottom:1rem;}
+#md-app .sec-title.sub{font-size:14px;margin-bottom:0.75rem;}
+#md-app .vs-slider{-webkit-appearance:none;appearance:none;display:block;order:2;flex:1 1 auto;min-width:0;width:auto;height:6px;margin:0;border-radius:3px;outline:none;cursor:pointer;background:linear-gradient(to right,var(--c,#888780) var(--p,0%),#e3e1da var(--p,0%));}
+#md-app .vs-slider::-webkit-slider-runnable-track{background:transparent;height:6px;}
+#md-app .vs-slider::-moz-range-track{background:transparent;height:6px;}
+#md-app .vs-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;margin-top:-5px;border-radius:50%;background:var(--c,#888780);border:2px solid #fff;box-shadow:0 0 0 0.5px #888780;}
+#md-app .vs-slider::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--c,#888780);border:2px solid #fff;box-shadow:0 0 0 0.5px #888780;}
+#md-app .map-controls{display:flex;flex-direction:column;gap:12px;margin-bottom:1rem;padding:12px 14px;background:#fff;border:0.5px solid #ddddd5;border-radius:12px;}
+#md-app .map-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+#md-app .mode-card{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px;border:0.5px solid #b4b2a9;border-radius:10px;background:#fff;cursor:pointer;text-align:left;font-family:inherit;}
+#md-app .mode-card strong{font-size:13px;font-weight:600;color:#1a1a18;}
+#md-app .mode-card span{font-size:11px;color:#888780;line-height:1.3;}
+#md-app .mode-card:hover{background:#f1efe8;}
+#md-app .mode-card.on{background:#1a1a18;border-color:#1a1a18;}
+#md-app .mode-card.on strong{color:#fff;}
+#md-app .mode-card.on span{color:#c9c7bd;}
+#md-app .map-options{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;padding-top:12px;border-top:0.5px solid #ddddd5;}
+#md-app .map-ctl{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:500;color:#5f5e5a;}
+#md-app .seg{display:inline-flex;border:0.5px solid #b4b2a9;border-radius:8px;overflow:hidden;}
+#md-app .seg button{font-size:13px;font-weight:500;padding:7px 16px;border:none;background:#fff;color:#1a1a18;cursor:pointer;white-space:nowrap;}
+#md-app .seg button+button{border-left:0.5px solid #b4b2a9;}
+#md-app .seg button:hover{background:#f1efe8;}
+#md-app .seg button.on{background:#1a1a18;color:#fff;}
+#md-app .map-select{font-size:13px;font-weight:500;padding:7px 12px;border:0.5px solid #b4b2a9;border-radius:8px;background:#fff;color:#1a1a18;cursor:pointer;max-width:240px;}
+@media(max-width:600px){#md-app .map-modes{grid-template-columns:1fr;}
+#md-app .input-card{flex-wrap:wrap;gap:8px 12px;}
+#md-app .input-card label{flex:1 0 100%;}
+#md-app .vs-slider{flex:1 1 140px;}}
+#md-app .note{font-size:11px;color:#888780;margin-top:1.5rem;padding-top:1rem;border-top:0.5px solid #ddddd5;line-height:1.6;}
 </style>
-</head>
-<body>
+<div id="md-app">
 <h1>Malacca State Assembly Seat Projection</h1>
 <div class="section" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
   <button class="reset-btn" id="modeStdBtn" onclick="setMode('standard')" style="background:#1a1a18;color:#fff;border-color:#1a1a18;">Standard (BN / PH / PN)</button>
@@ -251,6 +249,7 @@ h1{font-size:32px;font-weight:700;letter-spacing:-0.02em;text-align:center;margi
   </div>
   <div class="grid-legend" id="constMapLegend" style="margin-top:8px;justify-content:center;"></div>
 </div>
+</div>
 <script>
 const PARTIES_STD=[
   {id:'BN', label:'Barisan Nasional',  color:'#1a5ea8',ge:38.39},
@@ -259,7 +258,6 @@ const PARTIES_STD=[
   {id:'BP', label:'MUDA-PSM',          color:'#2b2b2b',ge:0.00},
   {id:'BERSAMA',label:'BERSAMA',       color:'#4047c4',ge:0.00},
 ];
-
 const MINOR_COLORS={OTH:'#888780',IND:'#888780'};
 const COMP_COLORS={
   UMNO:'#c00000',MCA:'#1a5ea8',MIC:'#8bc34a',
@@ -268,23 +266,19 @@ const COMP_COLORS={
   MUDA:'#2b2b2b',PSM:'#7b241c',BERSAMA:'#4047c4',
   OTH:'#888780',IND:'#888780',
 };
-
 // All parties contest all seats (BP and BERSAMA assumed per model spec)
 const BP_CONTEST=new Set(['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20','N21','N22','N23','N24','N25','N26','N27','N28']);
 const BERSAMA_CONTEST=new Set(['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20','N21','N22','N23','N24','N25','N26','N27','N28']);
 // PN contests all seats
 const PN_CONTEST=new Set(['N01','N02','N03','N04','N05','N06','N07','N08','N09','N10','N11','N12','N13','N14','N15','N16','N17','N18','N19','N20','N21','N22','N23','N24','N25','N26','N27','N28']);
-
 const GS_STD={BN:21,PH:5,PN:2,BP:0,BERSAMA:0,OTHERS:0};
 const GN_STD={BN:38.39,PH:35.84,PN:24.31,BP:0,BERSAMA:0};
-
 // MODE toggles between the standard GE (separate BN/PH/PN) and the "unity
 // collapse" scenario (BN+PN merged, BERSATU detached as BERSATU+) -- same pattern
 // as the Malaysia national model. PARTIES/GN/GS always point at whichever
 // set is active; everything downstream reads through them.
 let MODE='standard';
 let PARTIES=PARTIES_STD, GN=GN_STD, GS=GS_STD;
-
 const W21={
   'N01':'BN','N02':'BN','N03':'BN','N04':'BN','N05':'BN',
   'N06':'BN','N07':'BN','N08':'BN','N09':'BN','N10':'BN',
@@ -293,14 +287,12 @@ const W21={
   'N21':'BN','N22':'PH','N23':'BN','N24':'PN','N25':'BN',
   'N26':'BN','N27':'BN','N28':'BN',
 };
-
 // The party that actually won each seat in 2021 (BERSATU took both PN seats: N11 and N24).
 const W21_PARTY={
   N01:'UMNO',N02:'UMNO',N03:'UMNO',N04:'UMNO',N05:'UMNO',N06:'UMNO',N07:'MIC',N08:'MCA',N09:'UMNO',N10:'UMNO',
   N11:'BERSATU',N12:'UMNO',N13:'UMNO',N14:'MCA',N15:'UMNO',N16:'DAP',N17:'AMANAH',N18:'UMNO',N19:'DAP',N20:'DAP',
   N21:'UMNO',N22:'DAP',N23:'UMNO',N24:'BERSATU',N25:'UMNO',N26:'UMNO',N27:'UMNO',N28:'UMNO',
 };
-
 // 2026 candidate data — which component party each coalition fields
 const SEAT_CANDIDATES={
   'N01':{BN:'UMNO', PH:'AMANAH',PN:'PAS'},
@@ -332,7 +324,6 @@ const SEAT_CANDIDATES={
   'N27':{BN:'UMNO', PH:'AMANAH',PN:'PAS'},
   'N28':{BN:'UMNO', PH:'PKR',   PN:'BERSATU'},
 };
-
 // SEATS: [id, name, bn, ph, pn, bp, total, {minorVotes}]
 // All 2021 vote counts; OTH = independents/minor parties
 const SEATS=[
@@ -365,7 +356,6 @@ const SEATS=[
   ['N27','Merlimau',       5633, 2385, 1622,   0,  9640,{}],
   ['N28','Sungai Rambai',  3801, 1356, 2664,   0,  7905,{OTH:84}],
 ];
-
 // ── Unity-collapse mode: BN+PN merged, BERSATU detached as BERSATU+ ─────────────
 // Held seats = the two seats BERSATU actually won in 2021 (N11 and N24; both MLAs have
 // since moved to WAWASAN, but the votes were won on BERSATU's 2021 ticket).
@@ -373,7 +363,6 @@ const SEATS=[
 const IPR_HELD=new Set(['N11','N24']);
 const CARVE_HELD=0.60, CARVE_DEFAULT=0.20;
 const FOLDED_MINORS_G=new Set(['OTH','IND']);
-
 const SEAT_BASE_UNITY={};
 const GN_UNITY={PH:0,BNPN:0,IPR:0,BP:0,BERSAMA:0};
 const GS_UNITY={PH:0,BNPN:0,IPR:0,BP:0,BERSAMA:0,OTHERS:0};
@@ -419,7 +408,6 @@ const GS_UNITY={PH:0,BNPN:0,IPR:0,BP:0,BERSAMA:0,OTHERS:0};
   }
   GN_UNITY.PH=GN_STD.PH;
   GN_UNITY.BP=GN_STD.BP;
-
   SEATS.forEach(s=>{
     const id=s[0];
     const w=W21[id];
@@ -431,7 +419,6 @@ const GS_UNITY={PH:0,BNPN:0,IPR:0,BP:0,BERSAMA:0,OTHERS:0};
     GS_UNITY[bloc]=(GS_UNITY[bloc]||0)+1;
   });
 })();
-
 const PARTIES_UNITY=[
   {id:'PH', label:'Pakatan Harapan',   color:'#e84c4c',ge:GN_UNITY.PH},
   {id:'BNPN', label:'BN + PN',         color:'#1a5ea8',ge:GN_UNITY.BNPN},
@@ -439,7 +426,6 @@ const PARTIES_UNITY=[
   {id:'BP', label:'MUDA-PSM',          color:'#2b2b2b',ge:0.00},
   {id:'BERSAMA',label:'BERSAMA',       color:'#4047c4',ge:0.00},
 ];
-
 // Maps a component's ORIGINAL standard-mode coalition (BN/PN) onto whichever
 // bloc it belongs to under the active mode. Identity in standard mode.
 function mapCoal(origCoal,party){
@@ -448,7 +434,6 @@ function mapCoal(origCoal,party){
   if(origCoal==='PN')return party==='BERSATU'?'IPR':'BNPN';
   return origCoal;
 }
-
 // Real 2026 component for a coalition in a seat, in the active mode. PH/BP/
 // BERSAMA are identical in both modes. BNPN's nominee is whichever real 2026
 // party stands there -- PAS/GERAKAN/WAWASAN keep their own identity (they
@@ -466,7 +451,6 @@ function resolveComponentParty(coal,id){
   if(coal==='BNPN')return (cands.PN&&cands.PN!=='BERSATU')?cands.PN:(cands.BN||'BN');
   return coal;
 }
-
 let curDetails=[];
 let inputEls={},sliderEls={};
 let selConst=null;
@@ -503,7 +487,6 @@ function resetInputs(){
   });
   project();
 }
-
 function taper(id,v){
   const base=GN[id]||0;
   if(base===0)return 1;
@@ -511,7 +494,6 @@ function taper(id,v){
   if(v>=t)return 1;
   return Math.max(0,v/t);
 }
-
 function buildInputsAndChecks(){
   const ig=document.getElementById('inputsGrid');ig.innerHTML='';
   inputEls={};sliderEls={};
@@ -533,7 +515,6 @@ function buildInputsAndChecks(){
       rng.value=c2;num.value=c2.toFixed(1);fill();project();
     });
   });
-
   const cc=document.getElementById('coalitionChecks');cc.innerHTML='';
   PARTIES.forEach(p=>{
     const lbl=document.createElement('label');
@@ -542,7 +523,6 @@ function buildInputsAndChecks(){
     cc.appendChild(lbl);
   });
 }
-
 function setMode(mode){
   if(mode===MODE)return;
   MODE=mode;
@@ -556,7 +536,6 @@ function setMode(mode){
   buildInputsAndChecks();
   project();
 }
-
 // ── Parliament hemicycle ────────────────────────────────────────────────
 // Lays every seat out as a dot in concentric arcs, ordered left-to-right so
 // blocs sit contiguously the way they would in a real chamber. Row count and
@@ -608,7 +587,6 @@ function renderHemicycle(entries){
   svg+='</svg>';
   wrap.innerHTML=svg;
 }
-
 // ── Constituency map ──────────────────────────────────────────────────
 // Real DUN boundaries from Malaysia's Department of Statistics
 // (github.com/dosm-malaysia/data-open), same source and method as the NS
@@ -619,7 +597,6 @@ let constMapClickBound=false;
 let mapColorMode='alliance'; // 'alliance' | 'party'
 let constMapZoom={scale:1,tx:0,ty:0};
 let constMapDragging=false, constMapDragStart=null, constMapDragMoved=false;
-
 function applyConstMapTransform(){
   const wrap=document.getElementById('constMapWrap');
   wrap.style.transform=`translate(${constMapZoom.tx}px,${constMapZoom.ty}px) scale(${constMapZoom.scale})`;
@@ -645,7 +622,6 @@ function resetConstMapZoom(){
   constMapZoom={scale:1,tx:0,ty:0};
   applyConstMapTransform();
 }
-
 function setMapColorMode(mode){
   if(mode===mapColorMode)return;
   mapColorMode=mode;
@@ -781,7 +757,6 @@ function neutralWinnerMap(){
   }
   return NEUTRAL_W[MODE];
 }
-
 function showConstSeatTooltip(id, evt){
   const d=curDetails.find(x=>x.id===id);
   const tip=document.getElementById('constMapTooltip');
@@ -810,7 +785,6 @@ function showConstSeatTooltip(id, evt){
   tip.style.left=Math.max(4,x)+'px';
   tip.style.top=Math.max(4,y)+'px';
 }
-
 function renderConstituencyMap(){
   const wrap=document.getElementById('constMapWrap');
   const AS=activeStrength();
@@ -853,7 +827,6 @@ function renderConstituencyMap(){
   wrap.innerHTML=svg;
   applyMapHighlight(wrap,'data-seat',selConst,1.6);
   applyConstMapTransform();
-
   if(!constMapClickBound){
     wrap.addEventListener('click',(evt)=>{
       if(constMapDragMoved){constMapDragMoved=false;return;}
@@ -902,7 +875,6 @@ function renderConstituencyMap(){
     document.getElementById('constMapZoomReset').addEventListener('click',resetConstMapZoom);
     constMapClickBound=true;
   }
-
   const legend=document.getElementById('constMapLegend');
   if(SHOW){
     const colOf=c=>((PARTIES.find(p=>p.id===c)||{}).color)||'#888780';
@@ -932,12 +904,10 @@ function renderConstituencyMap(){
     }).join('');
   }
 }
-
-window.addEventListener('DOMContentLoaded',()=>{
-  buildInputsAndChecks();
-  project();
-});
-
+(function(){
+  const start=()=>{buildInputsAndChecks();project();};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
 function renderComponentBreakdown(){
   const div=document.getElementById('componentBreakdown');div.innerHTML='';
   const partyMap={};
@@ -983,7 +953,6 @@ function renderComponentBreakdown(){
     div.appendChild(card);
   });
 }
-
 function renderVoteShareBreakdown(){
   // Split by seat-count ratio (each coalition's input % divided among its
   // components by how many seats each one contests), not baseline-vote
@@ -1017,7 +986,6 @@ function renderVoteShareBreakdown(){
   });
   div.appendChild(container);
 }
-
 // One seat's projection -- shared by the live projection and the neutral (baseline) projection.
 function projectSeat(s,sw,sc){
   const[id,name,bn,ph,pn,bp,tot2,minorVotes]=s;
@@ -1041,7 +1009,6 @@ function projectSeat(s,sw,sc){
   }
   const minorPct={};
   Object.entries(minorVotes||{}).forEach(([k,v])=>{if(!FOLDED_MINORS_G.has(k)){minorPct[k]=v/tot2*100;}});
-
   const raw={};PARTIES.forEach(p=>{raw[p.id]=Math.max(0,base[p.id]+sw[p.id]);});
   const tap={};PARTIES.forEach(p=>{tap[p.id]=raw[p.id]*sc[p.id];});
   const tOut=PARTIES.reduce((a,p)=>a+(raw[p.id]-tap[p.id]),0);
@@ -1072,7 +1039,6 @@ function neutralSeats(){
   }
   return NEUTRAL[MODE];
 }
-
 function project(){
   const ns={};PARTIES.forEach(p=>{ns[p.id]=readInput(p.id);});
   const tot=Object.values(ns).reduce((a,b)=>a+b,0);
@@ -1082,10 +1048,8 @@ function project(){
     ?`<span class="pdot" style="background:#888780;margin-right:4px;"></span>Others/Independents: <strong>${left.toFixed(1)}% left</strong>`
     :`<strong>${Math.abs(left).toFixed(1)}% over 100%</strong>`);
   w.className='total-warn'+(Math.abs(tot-100)>5?' bad':'');
-
   const sw={},sc={};
   PARTIES.forEach(p=>{sw[p.id]=ns[p.id]-(GN[p.id]||0);sc[p.id]=taper(p.id,ns[p.id]);});
-
   const det=[];
   SEATS.forEach(s=>{
     if(!s[6])return;
@@ -1093,11 +1057,9 @@ function project(){
     det.push({id:r.id,name:r.name,w21:W21[r.id]||'OTHERS',projW:r.winner,coalW:r.coalW,proj:r.proj,base:r.base,minors:r.minors,tot2:r.tot2});
   });
   curDetails=det;
-
   const tally={};
   PARTIES.forEach(p=>{tally[p.id]=0;});tally.OTHERS=0;
   det.forEach(d=>{tally[d.coalW]=(tally[d.coalW]||0)+1;});
-
   const baseSeats=(MODE==='unity')?neutralSeats():GS;
   const rg=document.getElementById('resultsGrid');rg.innerHTML='';
   PARTIES.forEach(p=>{
@@ -1110,18 +1072,15 @@ function project(){
     card.innerHTML=`<div class="pname"><span class="pdot" style="background:${p.color}"></span>${p.label}</div><div class="seats">${n}</div><div class="chg ${chgCls}">${chgStr} vs 2021</div>`;
     rg.appendChild(card);
   });
-
   renderHemicycle(PARTIES.filter(p=>(tally[p.id]||0)>0).map(p=>({color:p.color,count:tally[p.id]})));
   document.getElementById('barLegend').innerHTML=
     PARTIES.filter(p=>tally[p.id]>0).map(p=>`<span><span style="width:10px;height:10px;border-radius:50%;background:${p.color};display:inline-block;"></span>${LEGEND_ACRONYM[p.id]||p.id}</span>`).join('');
-
   renderComponentBreakdown();
   renderVoteShareBreakdown();
   refreshMapOptions();
   renderConstituencyMap();
   updateCoalition();
 }
-
 function updateCoalition(){
   const selected=PARTIES.filter(p=>document.getElementById('chk_'+p.id)?.checked).map(p=>p.id);
   const total=selected.reduce((a,p)=>a+(curDetails.filter(d=>d.coalW===p).length),0);
@@ -1132,7 +1091,6 @@ function updateCoalition(){
   if(selected.length===0){labelEl.textContent='seats — select coalitions above';statusEl.className='coalition-status status-none';statusEl.textContent='-';}
   else if(total>=maj){labelEl.textContent=`seats — majority government`;statusEl.className='coalition-status status-maj';statusEl.textContent='Majority';}
   else{labelEl.textContent=`seats — ${maj-total} short of majority`;statusEl.className='coalition-status status-short';statusEl.textContent='Short';}
-
   // Assembling bar: ticked coalitions stack up from the left at full colour; every seat
   // outside the coalition stays as the grey track, with a marker at the majority line.
   const bar=document.getElementById('coalBar');bar.innerHTML='';
@@ -1162,8 +1120,6 @@ function updateCoalition(){
   });
 }
 </script>
-</body>
-</html>
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
