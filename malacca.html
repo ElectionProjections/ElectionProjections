@@ -151,7 +151,16 @@ h1{font-size:32px;font-weight:700;letter-spacing:-0.02em;text-align:center;margi
 .vs-slider::-moz-range-track{background:transparent;height:6px;}
 .vs-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;margin-top:-5px;border-radius:50%;background:var(--c,#888780);border:2px solid #fff;box-shadow:0 0 0 0.5px #888780;}
 .vs-slider::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--c,#888780);border:2px solid #fff;box-shadow:0 0 0 0.5px #888780;}
-.map-controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;margin-bottom:1rem;padding:10px 14px;background:#fff;border:0.5px solid #ddddd5;border-radius:12px;}
+.map-controls{display:flex;flex-direction:column;gap:12px;margin-bottom:1rem;padding:12px 14px;background:#fff;border:0.5px solid #ddddd5;border-radius:12px;}
+.map-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.mode-card{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px;border:0.5px solid #b4b2a9;border-radius:10px;background:#fff;cursor:pointer;text-align:left;font-family:inherit;}
+.mode-card strong{font-size:13px;font-weight:600;color:#1a1a18;}
+.mode-card span{font-size:11px;color:#888780;line-height:1.3;}
+.mode-card:hover{background:#f1efe8;}
+.mode-card.on{background:#1a1a18;border-color:#1a1a18;}
+.mode-card.on strong{color:#fff;}
+.mode-card.on span{color:#c9c7bd;}
+.map-options{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;padding-top:12px;border-top:0.5px solid #ddddd5;}
 .map-ctl{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:500;color:#5f5e5a;}
 .seg{display:inline-flex;border:0.5px solid #b4b2a9;border-radius:8px;overflow:hidden;}
 .seg button{font-size:13px;font-weight:500;padding:7px 16px;border:none;background:#fff;color:#1a1a18;cursor:pointer;white-space:nowrap;}
@@ -159,7 +168,7 @@ h1{font-size:32px;font-weight:700;letter-spacing:-0.02em;text-align:center;margi
 .seg button:hover{background:#f1efe8;}
 .seg button.on{background:#1a1a18;color:#fff;}
 .map-select{font-size:13px;font-weight:500;padding:7px 12px;border:0.5px solid #b4b2a9;border-radius:8px;background:#fff;color:#1a1a18;cursor:pointer;max-width:240px;}
-@media(max-width:600px){.input-card{flex-wrap:wrap;gap:8px 12px;}.input-card label{flex:1 0 100%;}.vs-slider{flex:1 1 140px;}}
+@media(max-width:600px){.map-modes{grid-template-columns:1fr;}.input-card{flex-wrap:wrap;gap:8px 12px;}.input-card label{flex:1 0 100%;}.vs-slider{flex:1 1 140px;}}
 .note{font-size:11px;color:#888780;margin-top:1.5rem;padding-top:1rem;border-top:0.5px solid #ddddd5;line-height:1.6;}
 </style>
 </head>
@@ -209,14 +218,24 @@ h1{font-size:32px;font-weight:700;letter-spacing:-0.02em;text-align:center;margi
 <div class="section">
   <h3 class="sec-title">Projected results map</h3>
   <div class="map-controls">
-    <div class="map-ctl"><span>Colour by</span>
-      <div class="seg">
-        <button class="on" id="mapColorAllianceBtn" onclick="setMapColor('alliance')">Alliance</button>
-        <button id="mapColorPartyBtn" onclick="setMapColor('party')">Party</button>
-      </div>
+    <div class="map-modes">
+      <button class="mode-card on" id="mapModeWinnersBtn" onclick="setMapMode('winners')"><strong>Winners</strong><span>Who wins each seat</span></button>
+      <button class="mode-card" id="mapModeStrengthBtn" onclick="setMapMode('strength')"><strong>Strength</strong><span>Where a party or alliance polls best</span></button>
+      <button class="mode-card" id="mapModeFlippedBtn" onclick="setMapMode('flipped')"><strong>Flipped</strong><span>Which seats change hands</span></button>
     </div>
-    <div class="map-ctl"><span>Filter by</span>
-      <select id="mapFilterSel" class="map-select" onchange="setMapFilter(this.value)"><option value="">None — show winners</option></select>
+    <div class="map-options">
+      <div class="map-ctl" id="optColor"><span>Colour by</span>
+        <div class="seg">
+          <button class="on" id="mapColorAllianceBtn" onclick="setMapColor('alliance')">Alliance</button>
+          <button id="mapColorPartyBtn" onclick="setMapColor('party')">Party</button>
+        </div>
+      </div>
+      <div class="map-ctl" id="optStrength" style="display:none;"><span>Show strength of</span>
+        <select id="mapStrengthSel" class="map-select" onchange="setStrength(this.value)"></select>
+      </div>
+      <div class="map-ctl" id="optFocus" style="display:none;"><span>Focus on</span>
+        <select id="mapFocusSel" class="map-select" onchange="setFlipFocus(this.value)"></select>
+      </div>
     </div>
   </div>
   <div style="max-width:560px;margin:0 auto;position:relative;">
@@ -450,7 +469,11 @@ function resolveComponentParty(coal,id){
 
 let curDetails=[];
 let inputEls={},sliderEls={};
-let selConst=null,mapFilterKey='';
+let selConst=null;
+// The map has three views, one at a time: Winners, Strength, Flipped.
+let mapMode='winners';      // 'winners' | 'strength' | 'flipped'
+let strengthSel=null;       // {type:'alliance'|'party', key} -- what the Strength view shades by
+let flipFocus='';           // '' = all flips, or 'gain:PH' / 'lose:PH'
 const SLIDER_MAX=70;
 function maxShare(id){return SLIDER_MAX;}
 const LEGEND_ACRONYM={BN:'BN',PH:'PH',PN:'PN',BP:'MUDA-PSM',BERSAMA:'BERSAMA',BNPN:'BN+PN',IPR:'BERSATU+',OTHERS:'Others'};
@@ -628,14 +651,52 @@ function setMapColorMode(mode){
   mapColorMode=mode;
   renderConstituencyMap();
 }
-// One colour toggle drives the map; the filter list depends on the mode, so it resets.
+// Colour by Alliance | Party (used by the Winners and Flipped views).
 function setMapColor(mode){
   if(mode===mapColorMode)return;
   document.getElementById('mapColorAllianceBtn').classList.toggle('on',mode==='alliance');
   document.getElementById('mapColorPartyBtn').classList.toggle('on',mode==='party');
-  mapFilterKey='';
   setMapColorMode(mode);
-  refreshMapFilter();
+}
+function activeStrength(){return (mapMode==='strength'&&strengthSel)?strengthSel:null;}
+// Does a seat that moved from `was` to `now` fall inside the chosen focus?
+function flipMatches(was,now){
+  if(!flipFocus)return true;
+  const[kind,key]=flipFocus.split(':');
+  return kind==='gain'?now===key:was===key;
+}
+function flipFocusLabel(){
+  if(!flipFocus)return '';
+  const[kind,key]=flipFocus.split(':');
+  return (kind==='gain'?'gained by ':'lost by ')+(LEGEND_ACRONYM[key]||key);
+}
+// Shows only the options that belong to the chosen view.
+function syncMapControls(){
+  [['winners','Winners'],['strength','Strength'],['flipped','Flipped']].forEach(([m,n])=>document.getElementById('mapMode'+n+'Btn').classList.toggle('on',mapMode===m));
+  document.getElementById('optColor').style.display=(mapMode==='strength')?'none':'flex';
+  document.getElementById('optStrength').style.display=(mapMode==='strength')?'flex':'none';
+  document.getElementById('optFocus').style.display=(mapMode==='flipped')?'flex':'none';
+}
+function setMapMode(m){
+  if(m===mapMode)return;
+  mapMode=m;
+  document.getElementById('constMapTooltip').style.display='none';
+  selConst=null;
+  syncMapControls();
+  renderConstituencyMap();
+}
+function setStrength(v){
+  const[t,k]=String(v).split(':');
+  strengthSel={type:t==='p'?'party':'alliance',key:k};
+  document.getElementById('constMapTooltip').style.display='none';
+  selConst=null;
+  renderConstituencyMap();
+}
+function setFlipFocus(v){
+  flipFocus=v||'';
+  document.getElementById('constMapTooltip').style.display='none';
+  selConst=null;
+  renderConstituencyMap();
 }
 // Darken a hex colour (#rgb or #rrggbb) by multiplying each channel by f (<1).
 function darkenHex(hex,f){
@@ -650,13 +711,12 @@ function hexAlpha(hex,a){
   const n=parseInt(h,16);
   return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';
 }
-// Highlights the clicked seat in a darker shade of its own colour with a dark outline, and
-// restores the previous one. Works on the live DOM so the map never re-renders mid-click.
+// Highlights the clicked seat in a darker shade of its own colour, and restores the previous one. Works on the live DOM so the map never re-renders mid-click.
 function applyMapHighlight(wrap,attr,id,selStroke){
   wrap.querySelectorAll('path.sel').forEach(el=>{
     el.classList.remove('sel');
     el.setAttribute('fill',el.getAttribute('data-fill'));
-    el.setAttribute('stroke','#fff');
+    el.setAttribute('stroke',el.getAttribute('data-stroke')||'#fff');
     el.setAttribute('stroke-width',el.getAttribute('data-sw'));
     el.setAttribute('fill-opacity',el.getAttribute('data-fo'));
   });
@@ -665,10 +725,7 @@ function applyMapHighlight(wrap,attr,id,selStroke){
   if(!el)return;
   el.classList.add('sel');
   el.setAttribute('fill',darkenHex(el.getAttribute('data-fill'),0.6));
-  el.setAttribute('stroke','#1a1a18');
-  el.setAttribute('stroke-width',selStroke);
-  el.setAttribute('fill-opacity','1');
-  el.parentNode.appendChild(el); // paint last so neighbours don't cover its outline
+  el.setAttribute('fill-opacity','1');   // darker shade only: no extra border on the clicked area
 }
 // ---- strength filter: shade every seat by one alliance's/party's projected vote share ----
 function filterLabel(key,mode){return mode==='party'?key:((PARTIES.find(p=>p.id===key)||{}).label||key);}
@@ -685,29 +742,44 @@ function seatShareFor(d,key,mode){
 function filterLegendHtml(key,mode,color,max){
   return `<span style="display:inline-flex;align-items:center;gap:8px;"><span>0%</span><span style="width:170px;height:10px;border-radius:5px;background:linear-gradient(to right,${hexAlpha(color,0.15)},${hexAlpha(color,1)});display:inline-block;"></span><span>${max.toFixed(1)}%</span><span style="margin-left:6px;color:#5f5e5a;">${filterLabel(key,mode)} projected vote share</span></span>`;
 }
-function refreshMapFilter(){
-  const sel=document.getElementById('mapFilterSel');
-  if(!sel)return;
-  const mode=mapColorMode;
-  const tot={};let grand=0;
+// Rebuilds the two drop-downs: what Strength can shade by, and what Flipped can focus on.
+function refreshMapOptions(){
+  const ssel=document.getElementById('mapStrengthSel'),fsel=document.getElementById('mapFocusSel');
+  if(!ssel||!fsel)return;
+  const aTot={},pTot={};let grand=0;
   curDetails.forEach(d=>{
     grand+=d.tot2;
     Object.entries(d.proj).forEach(([coal,v])=>{
-      if(v<=0.05)return;
-      const key=mode==='party'?resolveComponentParty(coal,d.id):coal;
-      tot[key]=(tot[key]||0)+v/100*d.tot2;
+      if(v<=0.05||coal==='OTHERS')return;
+      aTot[coal]=(aTot[coal]||0)+v/100*d.tot2;
+      const party=resolveComponentParty(coal,d.id);
+      pTot[party]=(pTot[party]||0)+v/100*d.tot2;
     });
   });
-  const keys=Object.keys(tot).filter(k=>k!=='OTHERS'&&grand>0&&tot[k]/grand>=0.0015).sort((a,b)=>tot[b]-tot[a]);
-  if(mapFilterKey&&!keys.includes(mapFilterKey))mapFilterKey='';
-  sel.innerHTML='<option value="">None — show winners</option>'+keys.map(k=>`<option value="${k}">${filterLabel(k,mode)}</option>`).join('');
-  sel.value=mapFilterKey;
+  const keep=t=>Object.keys(t).filter(k=>grand>0&&t[k]/grand>=0.0015).sort((a,b)=>t[b]-t[a]);
+  const aKeys=keep(aTot),pKeys=keep(pTot);
+  ssel.innerHTML='<optgroup label="Alliances">'+aKeys.map(k=>`<option value="a:${k}">${filterLabel(k,'alliance')}</option>`).join('')+'</optgroup>'
+    +'<optgroup label="Parties">'+pKeys.map(k=>`<option value="p:${k}">${k}</option>`).join('')+'</optgroup>';
+  const valid=strengthSel&&(strengthSel.type==='party'?pKeys:aKeys).includes(strengthSel.key);
+  if(!valid)strengthSel=aKeys.length?{type:'alliance',key:aKeys[0]}:null;
+  ssel.value=strengthSel?((strengthSel.type==='party'?'p:':'a:')+strengthSel.key):'';
+  fsel.innerHTML='<option value="">All flips</option>'
+    +'<optgroup label="Gained by">'+PARTIES.map(p=>`<option value="gain:${p.id}">${p.label}</option>`).join('')+'</optgroup>'
+    +'<optgroup label="Lost by">'+PARTIES.map(p=>`<option value="lose:${p.id}">${p.label}</option>`).join('')+'</optgroup>';
+  if(flipFocus&&![...fsel.options].some(o=>o.value===flipFocus))flipFocus='';
+  fsel.value=flipFocus;
 }
-function setMapFilter(v){
-  mapFilterKey=v||'';
-  document.getElementById('constMapTooltip').style.display='none';
-  selConst=null;
-  renderConstituencyMap();
+// Winner of every seat when all parties sit exactly on their baseline (the reference for "flipped").
+// In standard mode this is the actual 2021 result; in merged mode it is the merged-bloc baseline.
+const NEUTRAL_W={};
+function neutralWinnerMap(){
+  if(!NEUTRAL_W[MODE]){
+    const sw={},sc={};PARTIES.forEach(p=>{sw[p.id]=0;sc[p.id]=1;});
+    const m={};
+    SEATS.forEach(s=>{if(!s[6])return;m[s[0]]=projectSeat(s,sw,sc).coalW;});
+    NEUTRAL_W[MODE]=m;
+  }
+  return NEUTRAL_W[MODE];
 }
 
 function showConstSeatTooltip(id, evt){
@@ -716,6 +788,10 @@ function showConstSeatTooltip(id, evt){
   if(!d){tip.style.display='none';return;}
   const ranked=Object.entries(d.proj).filter(([,v])=>v>0.05).sort((a,b)=>b[1]-a[1]);
   let html=`<div class="mt-title">${d.name} <span class="mt-seats">${id}</span></div>`;
+  if(mapMode==='flipped'){
+    const was=neutralWinnerMap()[id],AC=c=>LEGEND_ACRONYM[c]||c;
+    html+=`<div style="margin:-2px 0 6px;font-size:11px;font-weight:600;color:${was!==d.coalW?'#854f0b':'#888780'};">${was!==d.coalW?`Flipped: ${AC(was)} → ${AC(d.coalW)}`:`Held by ${AC(d.coalW)}`}</div>`;
+  }
   ranked.forEach(([coal,v])=>{
     const party=PARTIES.find(p=>p.id===coal);
     if(mapColorMode==='party'){
@@ -737,9 +813,13 @@ function showConstSeatTooltip(id, evt){
 
 function renderConstituencyMap(){
   const wrap=document.getElementById('constMapWrap');
-  const FK=mapFilterKey,FM=mapColorMode,fColor=FK?filterColor(FK,FM):null;
+  const AS=activeStrength();
+  const FK=AS?AS.key:'',FM=AS?AS.type:'alliance',fColor=FK?filterColor(FK,FM):null;
   const fShare={};let fMax=0;
   if(FK)curDetails.forEach(d=>{const v=seatShareFor(d,FK,FM);fShare[d.id]=v;if(v>fMax)fMax=v;});
+  const SHOW=(mapMode==='flipped'),nwMap=SHOW?neutralWinnerMap():null;
+  const AC=c=>LEGEND_ACRONYM[c]||c;
+  const flips=[];
   let svg=`<svg viewBox="${MEL_MAP_VIEWBOX}" style="width:100%;height:100%;display:block;">`;
   Object.entries(MEL_MAP_PATHS).forEach(([id,d])=>{
     const det=curDetails.find(x=>x.id===id);
@@ -757,7 +837,17 @@ function renderConstituencyMap(){
     }
     let fo=0.9;
     if(FK){const v=fShare[id]||0;if(v>0.05&&fMax>0){color=fColor;fo=(0.15+0.85*(v/fMax)).toFixed(3);}else{color='#e3e1da';fo=1;}title=`${det?det.name:id} (${id}): ${filterLabel(FK,FM)} ${v.toFixed(1)}% — click for full breakdown`;}
-    svg+=`<path data-seat="${id}" data-fill="${color}" data-sw="0.8" data-fo="${fo}" d="${d}" fill="${color}" stroke="#fff" stroke-width="0.8" fill-opacity="${fo}" style="cursor:pointer;"><title>${title}</title></path>`;
+    if(SHOW&&det){
+      const was=nwMap[id],now=det.coalW;
+      if(now!==was&&flipMatches(was,now)){
+        fo=1;flips.push({from:was,to:now});
+        title=`${det.name} (${id}): flipped ${AC(was)} → ${AC(now)} — click for full breakdown`;
+      }else{
+        color='#e3e1da';fo=1;
+        title=`${det.name} (${id}): ${now!==was?'flipped, outside the chosen focus':'held by '+AC(now)} — click for full breakdown`;
+      }
+    }
+    svg+=`<path data-seat="${id}" data-fill="${color}" data-sw="0.4" data-fo="${fo}" d="${d}" fill="${color}" stroke="#fff" stroke-width="0.4" fill-opacity="${fo}" style="cursor:pointer;"><title>${title}</title></path>`;
   });
   svg+='</svg>';
   wrap.innerHTML=svg;
@@ -814,7 +904,21 @@ function renderConstituencyMap(){
   }
 
   const legend=document.getElementById('constMapLegend');
-  if(FK){legend.innerHTML=filterLegendHtml(FK,FM,fColor,fMax);return;}
+  if(SHOW){
+    const colOf=c=>((PARTIES.find(p=>p.id===c)||{}).color)||'#888780';
+    const tally={};flips.forEach(f=>{const k=f.from+'>'+f.to;tally[k]=(tally[k]||0)+1;});
+    const items=Object.entries(tally).sort((a,b)=>b[1]-a[1]).map(([k,n])=>{
+      const[a,b]=k.split('>');
+      return `<span><span class="swatch" style="background:${colOf(a)};"></span>→<span class="swatch" style="background:${colOf(b)};"></span>${AC(a)} → ${AC(b)} <strong>${n}</strong></span>`;
+    });
+    const focus=flipFocusLabel();
+    legend.innerHTML=`<span><strong>${flips.length}</strong> of ${curDetails.length} seats flipped${focus?' · '+focus:''}</span>`+items.join('')+`<span><span class="swatch" style="background:#e3e1da;"></span>${focus?'Other seats':'Unchanged'}</span>`;
+    return;
+  }
+  if(FK){
+    legend.innerHTML=filterLegendHtml(FK,FM,fColor,fMax);
+    return;
+  }
   if(mapColorMode==='party'){
     const usedParties=[...new Set(curDetails.map(d=>resolveComponentParty(d.coalW,d.id)))];
     legend.innerHTML=usedParties.map(comp=>
@@ -1013,7 +1117,7 @@ function project(){
 
   renderComponentBreakdown();
   renderVoteShareBreakdown();
-  refreshMapFilter();
+  refreshMapOptions();
   renderConstituencyMap();
   updateCoalition();
 }
