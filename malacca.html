@@ -92,35 +92,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Malacca DUN Seat Projector</title>
+<title>Malacca State Assembly Seat Projection</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;margin:0;}
-.page-container{max-width:960px;margin:0 auto;padding:1.5rem;}
-h1{font-size:18px;font-weight:500;margin-bottom:1.5rem;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f3;color:#1a1a18;padding:1.5rem;max-width:960px;margin:0 auto;}
+h1{font-size:32px;font-weight:700;letter-spacing:-0.02em;text-align:center;margin:0.5rem 0 2rem;line-height:1.2;}
 .section{margin-bottom:1.5rem;}
-.inputs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px;margin-bottom:1rem;}
-.input-card{background:#fff;border:0.5px solid #ddddd5;border-radius:12px;padding:0.75rem 1rem;}
+.inputs-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:1rem;}
+.input-card{background:#fff;border:0.5px solid #ddddd5;border-radius:12px;padding:0.6rem 1rem;display:flex;align-items:center;gap:18px;}
 .reset-btn{font-size:12px;font-weight:500;color:#1a1a18;background:#fff;border:0.5px solid #b4b2a9;border-radius:8px;padding:5px 14px;cursor:pointer;white-space:nowrap;transition:background 0.15s,color 0.15s,border-color 0.15s;}
 .reset-btn:hover{border-color:#8f8d84;}
-.input-card label{display:block;font-size:12px;font-weight:500;color:#5f5e5a;margin-bottom:5px;}
-.input-row{display:flex;align-items:center;gap:6px;}
+.input-card label{display:block;flex:0 0 230px;font-size:12px;font-weight:500;color:#5f5e5a;margin:0;}
+.input-row{display:flex;align-items:center;gap:6px;order:3;flex:0 0 96px;}
 .input-row input[type=number]{flex:1;min-width:0;font-size:14px;border:0.5px solid #ddddd5;border-radius:6px;padding:5px 8px;outline:none;background:#fff;color:#1a1a18;}
 .input-row input[type=number]:focus{border-color:#888780;}
 .pct{font-size:13px;color:#888780;}
 .pdot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;}
 .total-warn{font-size:12px;margin-bottom:1rem;padding:7px 12px;border-radius:8px;border:0.5px solid #ddddd5;color:#5f5e5a;background:#f1efe8;}
 .total-warn.bad{color:#a32d2d;background:#fcebeb;border-color:#f09595;}
-.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:1rem;}
-.result-card{background:#f1efe8;border-radius:8px;padding:0.75rem 1rem;}
-.result-card .pname{font-size:11px;color:#5f5e5a;margin-bottom:3px;display:flex;align-items:center;}
+.results-grid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(76px,1fr);gap:8px;margin-bottom:1rem;overflow-x:auto;}
+.result-card{background:#f1efe8;border-radius:8px;padding:0.75rem 0.6rem;min-width:0;display:flex;flex-direction:column;}
+.result-card .pname{font-size:11px;color:#5f5e5a;margin-bottom:3px;display:flex;align-items:flex-start;flex:1 1 auto;}
+.result-card .pname .pdot{margin-top:3px;}
 .result-card .seats{font-size:24px;font-weight:500;color:#1a1a18;}
 .result-card .chg{font-size:11px;margin-top:1px;}
 .chg.pos{color:#3b6d11;}.chg.neg{color:#a32d2d;}.chg.neu{color:#888780;}
 .parl-bar{display:flex;height:22px;border-radius:8px;overflow:hidden;margin-bottom:6px;}
-.bar-legend{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:#5f5e5a;margin-bottom:1rem;}
+.bar-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px;font-size:11px;color:#5f5e5a;margin-bottom:1rem;}
 .bar-legend span{display:flex;align-items:center;gap:3px;}
-.majority-line{font-size:12px;color:#5f5e5a;margin-bottom:1.25rem;padding:7px 12px;background:#f1efe8;border-radius:8px;border-left:3px solid #b4b2a9;}
 .divider{border:none;border-top:0.5px solid #ddddd5;margin:1.5rem 0;}
 .coalition-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:8px;}
 .coalition-header h3{font-size:14px;font-weight:500;color:#1a1a18;}
@@ -140,81 +139,88 @@ h1{font-size:18px;font-weight:500;margin-bottom:1.5rem;}
 .grid-legend{display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:#5f5e5a;margin-bottom:1.5rem;}
 .grid-legend span{display:flex;align-items:center;gap:4px;}
 .grid-legend .swatch{width:10px;height:10px;border-radius:2px;display:inline-block;}
-details summary{cursor:pointer;font-size:12px;color:#5f5e5a;padding:5px 0;user-select:none;}
-details summary:hover{color:#1a1a18;}
-.seats-table{width:100%;border-collapse:collapse;font-size:11px;}
-.seats-table th{text-align:left;padding:5px 7px;color:#5f5e5a;font-weight:500;border-bottom:0.5px solid #ddddd5;white-space:nowrap;cursor:pointer;user-select:none;}
-.seats-table th:hover{color:#1a1a18;}
-.seats-table th.sort-asc::after{content:' ↑';font-size:10px;}
-.seats-table th.sort-desc::after{content:' ↓';font-size:10px;}
-.seats-table td{padding:4px 7px;border-bottom:0.5px solid #ddddd5;color:#1a1a18;white-space:nowrap;}
-.seats-table tr:last-child td{border-bottom:none;}
-.flip-tag{font-size:10px;padding:1px 5px;border-radius:3px;background:#faeeda;color:#854f0b;margin-left:3px;}
-.minor-cell{color:#888780;font-size:10px;}
 .map-tooltip{position:absolute;z-index:20;background:#fff;border:0.5px solid #b4b2a9;border-radius:10px;padding:10px 12px;box-shadow:0 4px 16px rgba(0,0,0,0.15);font-size:11px;min-width:170px;max-width:220px;pointer-events:none;}
 .map-tooltip .mt-title{font-size:12px;font-weight:600;color:#1a1a18;margin-bottom:6px;}
 .map-tooltip .mt-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;color:#5f5e5a;}
 .map-tooltip .mt-row .mt-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px;flex-shrink:0;}
 .map-tooltip .mt-seats{color:#b4b2a9;font-size:10px;margin-left:4px;}
+.sec-title{font-size:20px;font-weight:500;color:#1a1a18;text-align:center;margin-bottom:1rem;}
+.sec-title.sub{font-size:14px;margin-bottom:0.75rem;}
+.vs-slider{-webkit-appearance:none;appearance:none;display:block;order:2;flex:1 1 auto;min-width:0;width:auto;height:6px;margin:0;border-radius:3px;outline:none;cursor:pointer;background:linear-gradient(to right,var(--c,#888780) var(--p,0%),#e3e1da var(--p,0%));}
+.vs-slider::-webkit-slider-runnable-track{background:transparent;height:6px;}
+.vs-slider::-moz-range-track{background:transparent;height:6px;}
+.vs-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;margin-top:-5px;border-radius:50%;background:var(--c,#888780);border:2px solid #fff;box-shadow:0 0 0 0.5px #888780;}
+.vs-slider::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:var(--c,#888780);border:2px solid #fff;box-shadow:0 0 0 0.5px #888780;}
+.map-controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;margin-bottom:1rem;padding:10px 14px;background:#fff;border:0.5px solid #ddddd5;border-radius:12px;}
+.map-ctl{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:500;color:#5f5e5a;}
+.seg{display:inline-flex;border:0.5px solid #b4b2a9;border-radius:8px;overflow:hidden;}
+.seg button{font-size:13px;font-weight:500;padding:7px 16px;border:none;background:#fff;color:#1a1a18;cursor:pointer;white-space:nowrap;}
+.seg button+button{border-left:0.5px solid #b4b2a9;}
+.seg button:hover{background:#f1efe8;}
+.seg button.on{background:#1a1a18;color:#fff;}
+.map-select{font-size:13px;font-weight:500;padding:7px 12px;border:0.5px solid #b4b2a9;border-radius:8px;background:#fff;color:#1a1a18;cursor:pointer;max-width:240px;}
+@media(max-width:600px){.input-card{flex-wrap:wrap;gap:8px 12px;}.input-card label{flex:1 0 100%;}.vs-slider{flex:1 1 140px;}}
 .note{font-size:11px;color:#888780;margin-top:1.5rem;padding-top:1rem;border-top:0.5px solid #ddddd5;line-height:1.6;}
 </style>
 </head>
 <body>
-<div class="page-container">
-<h1>Malacca DUN seat projector — 2026 election (2021 baseline)</h1>
+<h1>Malacca State Assembly Seat Projection</h1>
 <div class="section" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
   <button class="reset-btn" id="modeStdBtn" onclick="setMode('standard')" style="background:#1a1a18;color:#fff;border-color:#1a1a18;">Standard (BN / PH / PN)</button>
   <button class="reset-btn" id="modeUnityBtn" onclick="setMode('unity')">BN + PN merged, BERSATU detached</button>
 </div>
-<div class="majority-line" id="modeNote" style="display:none;">
-  <strong>Unity-collapse scenario:</strong> BN and PN's 2021 votes are merged into one bloc in every seat, then BERSATU is carved back out as BERSATU+ — 60% of the merged total in N11 (the one seat BERSATU actually won in 2021), 20% everywhere else. BERSATU+ stands in all 28 seats, matching PN's full 2021 footprint. There's no real "BN+PN merged" or standalone BERSATU 2021 result to check these baselines against, so retune the carve if you have a better estimate.
-</div>
 <div class="section">
+  <h3 class="sec-title">Vote share input</h3>
+  <div style="display:flex;justify-content:flex-end;margin-bottom:8px;"><button class="reset-btn" onclick="resetInputs()" title="Return every vote share to its 2021 baseline">↺ Reset to baseline</button></div>
   <div class="inputs-grid" id="inputsGrid"></div>
   <div class="total-warn" id="totalWarn"></div>
-  <div class="results-grid" id="resultsGrid"></div>
+  <h3 class="sec-title" style="margin-top:0.5rem;">Projected results</h3>
   <div id="hemicycle" style="max-width:460px;margin:0.5rem auto 0;"></div>
   <div class="bar-legend" id="barLegend"></div>
-  <div class="majority-line" id="majorityLine"></div>
+  <div class="results-grid" id="resultsGrid"></div>
 </div>
 <hr class="divider">
 <div class="section">
-  <h3 style="font-size:14px;font-weight:500;color:#1a1a18;margin-bottom:0.75rem;">Component party breakdown</h3>
+  <h3 class="sec-title sub">Component party breakdown</h3>
   <div id="componentBreakdown" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;"></div>
 </div>
 <hr class="divider">
 <div class="section">
-  <h3 style="font-size:14px;font-weight:500;color:#1a1a18;margin-bottom:0.75rem;">Projected statewide vote share by component party</h3>
+  <h3 class="sec-title sub">Projected statewide vote share by component party</h3>
   <div id="voteShareBreakdown"></div>
 </div>
 <hr class="divider">
 <div class="section">
-  <div class="coalition-header">
-    <h3>Coalition assembler</h3>
-    <span style="font-size:11px;color:#888780;">Tick coalitions to form a government</span>
-  </div>
+  <h3 class="sec-title" style="margin-bottom:0.25rem;">Build a coalition</h3>
+  <p style="font-size:11px;color:#888780;text-align:center;margin-bottom:0.75rem;">Tick coalitions to form a government</p>
   <div class="coalition-checks" id="coalitionChecks"></div>
-  <div class="coalition-result">
+  <div id="coalBarWrap" style="margin-top:0.75rem;">
+    <div id="coalBar" style="position:relative;display:flex;height:26px;border-radius:6px;overflow:hidden;"></div>
+    <div id="coalBarMarker" style="position:relative;height:14px;"></div>
+  </div>
+  <div class="coalition-result" style="margin-top:0.5rem;">
     <span class="coalition-seats" id="coalSeats">0</span>
     <span class="coalition-label" id="coalLabel">seats — select coalitions above</span>
     <span class="coalition-status status-none" id="coalStatus">-</span>
-  </div>
-  <div id="coalBarWrap" style="margin-top:0.75rem;">
-    <div id="coalBar" style="position:relative;display:flex;height:26px;border-radius:6px;overflow:hidden;background:#eeece5;"></div>
-    <div id="coalBarMarker" style="position:relative;height:14px;"></div>
   </div>
   <div class="grid-legend" id="gridLegend"></div>
 </div>
 <hr class="divider">
 <div class="section">
-  <h3>Constituency map</h3>
-  <p style="font-size:11px;color:#888780;margin-bottom:0.5rem;">Each seat shaded by its projected winner. Real boundaries from Malaysia's Department of Statistics. Hover for a quick read, click for the full breakdown. Scroll or use the buttons to zoom, drag to pan.</p>
-  <div style="display:flex;gap:8px;margin-bottom:0.75rem;">
-    <button class="reset-btn" id="constMapModeAllianceBtn" onclick="setMapColorMode('alliance')" style="background:#1a1a18;color:#fff;border-color:#1a1a18;margin-bottom:0;">By alliance</button>
-    <button class="reset-btn" id="constMapModePartyBtn" onclick="setMapColorMode('party')" style="margin-bottom:0;">By winning party</button>
+  <h3 class="sec-title">Projected results map</h3>
+  <div class="map-controls">
+    <div class="map-ctl"><span>Colour by</span>
+      <div class="seg">
+        <button class="on" id="mapColorAllianceBtn" onclick="setMapColor('alliance')">Alliance</button>
+        <button id="mapColorPartyBtn" onclick="setMapColor('party')">Party</button>
+      </div>
+    </div>
+    <div class="map-ctl"><span>Filter by</span>
+      <select id="mapFilterSel" class="map-select" onchange="setMapFilter(this.value)"><option value="">None — show winners</option></select>
+    </div>
   </div>
-  <div style="max-width:500px;margin:0 auto;position:relative;">
-    <div id="constMapViewport" style="position:relative;overflow:hidden;aspect-ratio:600/500;border:0.5px solid #ddddd5;border-radius:8px;cursor:grab;background:#fafaf8;">
+  <div style="max-width:560px;margin:0 auto;position:relative;">
+    <div id="constMapViewport" style="position:relative;overflow:hidden;aspect-ratio:600/560;border:0.5px solid #ddddd5;border-radius:8px;cursor:grab;background:#fafaf8;">
       <div id="constMapWrap" style="transform-origin:0 0;position:absolute;top:0;left:0;width:100%;height:100%;"></div>
     </div>
     <div id="constMapTooltip" class="map-tooltip" style="display:none;"></div>
@@ -226,22 +232,21 @@ details summary:hover{color:#1a1a18;}
   </div>
   <div class="grid-legend" id="constMapLegend" style="margin-top:8px;justify-content:center;"></div>
 </div>
-<p class="note" id="methodNote"></p>
 <script>
 const PARTIES_STD=[
   {id:'BN', label:'Barisan Nasional',  color:'#1a5ea8',ge:38.39},
   {id:'PH', label:'Pakatan Harapan',   color:'#e84c4c',ge:35.84},
-  {id:'PN', label:'Perikatan Nasional',color:'#2a8c2a',ge:24.31},
-  {id:'BP', label:'MUDA-PSM',          color:'#e67e22',ge:0.00},
-  {id:'BERSAMA',label:'BERSAMA',       color:'#8e44ad',ge:0.00},
+  {id:'PN', label:'Perikatan Nasional',color:'#16224f',ge:24.31},
+  {id:'BP', label:'MUDA-PSM',          color:'#2b2b2b',ge:0.00},
+  {id:'BERSAMA',label:'BERSAMA',       color:'#4047c4',ge:0.00},
 ];
 
 const MINOR_COLORS={OTH:'#888780',IND:'#888780'};
 const COMP_COLORS={
-  UMNO:'#1a5ea8',MCA:'#3498db',MIC:'#5dade2',
-  PKR:'#c0392b',DAP:'#e84c4c',AMANAH:'#e8a84c',
-  PAS:'#2a8c2a',BERSATU:'#27ae60',GERAKAN:'#16a34a',WAWASAN:'#5499c7',
-  MUDA:'#e67e22',PSM:'#ca6f1e',BERSAMA:'#8e44ad',
+  UMNO:'#c00000',MCA:'#1a5ea8',MIC:'#8bc34a',
+  PKR:'#00adef',DAP:'#e84c4c',AMANAH:'#f28c28',
+  PAS:'#2a8c2a',BERSATU:'#f18a8f',GERAKAN:'#16a34a',WAWASAN:'#5b6ee1',
+  MUDA:'#2b2b2b',PSM:'#7b241c',BERSAMA:'#4047c4',
   OTH:'#888780',IND:'#888780',
 };
 
@@ -268,6 +273,13 @@ const W21={
   'N16':'PH','N17':'PH','N18':'BN','N19':'PH','N20':'PH',
   'N21':'BN','N22':'PH','N23':'BN','N24':'PN','N25':'BN',
   'N26':'BN','N27':'BN','N28':'BN',
+};
+
+// The party that actually won each seat in 2021 (BERSATU took both PN seats: N11 and N24).
+const W21_PARTY={
+  N01:'UMNO',N02:'UMNO',N03:'UMNO',N04:'UMNO',N05:'UMNO',N06:'UMNO',N07:'MIC',N08:'MCA',N09:'UMNO',N10:'UMNO',
+  N11:'BERSATU',N12:'UMNO',N13:'UMNO',N14:'MCA',N15:'UMNO',N16:'DAP',N17:'AMANAH',N18:'UMNO',N19:'DAP',N20:'DAP',
+  N21:'UMNO',N22:'DAP',N23:'UMNO',N24:'BERSATU',N25:'UMNO',N26:'UMNO',N27:'UMNO',N28:'UMNO',
 };
 
 // 2026 candidate data — which component party each coalition fields
@@ -309,7 +321,7 @@ const SEATS=[
   ['N02','Tanjung Bidara', 3559,  489, 3195,   0,  7243,{}],
   ['N03','Ayer Limau',     3838,  798, 2753,   0,  7389,{}],
   ['N04','Lendu',          4486, 1155, 1382,   0,  7023,{}],
-  ['N05','Taboh Naning',   3170, 1155, 1345,   0,  5670,{}],
+  ['N05','Taboh Naning',   3170, 1024, 1345,   0,  5539,{}],
   ['N06','Rembia',         4224, 3364, 2433,   0, 10152,{OTH:131}],
   ['N07','Gadek',          3022, 2463, 2041,   0,  7677,{OTH:151}],
   ['N08','Machap Jaya',    3732, 2794, 1202,   0,  7996,{OTH:268}],
@@ -336,12 +348,10 @@ const SEATS=[
 ];
 
 // ── Unity-collapse mode: BN+PN merged, BERSATU detached as BERSATU+ ─────────────
-// Held seat = the one seat BERSATU actually won in 2021 (N11). PN's other
-// 2021 win, N24, went to WAWASAN, not BERSATU, so it isn't a held seat here.
-// Carve fractions: 60% held / 20% default.
-// reused as a sensible starting point -- easy to retune if a better estimate
-// turns up.
-const IPR_HELD=new Set(['N11']);
+// Held seats = the two seats BERSATU actually won in 2021 (N11 and N24; both MLAs have
+// since moved to WAWASAN, but the votes were won on BERSATU's 2021 ticket).
+// Carve fractions: 60% held / 20% default, easy to retune if a better estimate turns up.
+const IPR_HELD=new Set(['N11','N24']);
 const CARVE_HELD=0.60, CARVE_DEFAULT=0.20;
 const FOLDED_MINORS_G=new Set(['OTH','IND']);
 
@@ -397,8 +407,7 @@ const GS_UNITY={PH:0,BNPN:0,IPR:0,BP:0,BERSAMA:0,OTHERS:0};
     let bloc=w;
     if(w==='BN')bloc='BNPN';
     else if(w==='PN'){
-      const comp=(SEAT_CANDIDATES[id]||{}).PN;
-      bloc=(comp==='BERSATU')?'IPR':'BNPN';
+      bloc=(W21_PARTY[id]==='BERSATU')?'IPR':'BNPN';
     }
     GS_UNITY[bloc]=(GS_UNITY[bloc]||0)+1;
   });
@@ -407,9 +416,9 @@ const GS_UNITY={PH:0,BNPN:0,IPR:0,BP:0,BERSAMA:0,OTHERS:0};
 const PARTIES_UNITY=[
   {id:'PH', label:'Pakatan Harapan',   color:'#e84c4c',ge:GN_UNITY.PH},
   {id:'BNPN', label:'BN + PN',         color:'#1a5ea8',ge:GN_UNITY.BNPN},
-  {id:'IPR', label:'BERSATU+',color:'#27ae60',ge:GN_UNITY.IPR},
-  {id:'BP', label:'MUDA-PSM',          color:'#e67e22',ge:0.00},
-  {id:'BERSAMA',label:'BERSAMA',       color:'#8e44ad',ge:0.00},
+  {id:'IPR', label:'BERSATU+',color:'#f18a8f',ge:GN_UNITY.IPR},
+  {id:'BP', label:'MUDA-PSM',          color:'#2b2b2b',ge:0.00},
+  {id:'BERSAMA',label:'BERSAMA',       color:'#4047c4',ge:0.00},
 ];
 
 // Maps a component's ORIGINAL standard-mode coalition (BN/PN) onto whichever
@@ -440,8 +449,37 @@ function resolveComponentParty(coal,id){
 }
 
 let curDetails=[];
-let inputEls={};
-let sortCol='id';let sortDir=1;
+let inputEls={},sliderEls={};
+let selConst=null,mapFilterKey='';
+const SLIDER_MAX=70;
+function maxShare(id){return SLIDER_MAX;}
+const LEGEND_ACRONYM={BN:'BN',PH:'PH',PN:'PN',BP:'MUDA-PSM',BERSAMA:'BERSAMA',BNPN:'BN+PN',IPR:'BERSATU+',OTHERS:'Others'};
+// Reads an input box; a value equal to the displayed baseline resolves to the exact baseline.
+function readInput(id){
+  const el=inputEls[id];if(!el)return 0;
+  const v=parseFloat(el.value);if(isNaN(v))return 0;
+  const ex=parseFloat(el.dataset.exact);
+  if(!isNaN(ex)&&Math.abs(v-parseFloat(ex.toFixed(2)))<1e-9)return ex;
+  return v;
+}
+// A party can only go as high as the room left once every other party's share is counted:
+// named parties can never total more than 100%, so the minor-party remainder bottoms out at 0%.
+function clampToRoom(id,v){
+  let others=0;
+  PARTIES.forEach(q=>{if(q.id!==id)others+=readInput(q.id);});
+  const room=Math.max(0,Math.floor((100-others)*10+1e-6)/10);
+  return Math.min(Math.max(0,v),room,maxShare(id));
+}
+// Puts every input and slider back on its baseline.
+function resetInputs(){
+  PARTIES.forEach(p=>{
+    const el=inputEls[p.id],r=sliderEls[p.id],b=GN[p.id]||0;
+    if(!el)return;
+    el.value=b.toFixed(2);
+    if(r){r.value=b;r.style.setProperty('--p',(Math.min(maxShare(p.id),Math.max(0,b))/maxShare(p.id)*100)+'%');}
+  });
+  project();
+}
 
 function taper(id,v){
   const base=GN[id]||0;
@@ -453,33 +491,25 @@ function taper(id,v){
 
 function buildInputsAndChecks(){
   const ig=document.getElementById('inputsGrid');ig.innerHTML='';
-  inputEls={};
-  PARTIES.forEach(p=>{
+  inputEls={};sliderEls={};
+  // Rows are listed largest-baseline first (stable sort, so ties keep their usual order)
+  [...PARTIES].sort((a,b)=>b.ge-a.ge).forEach(p=>{
     const c=document.createElement('div');c.className='input-card';
-    const el=document.createElement('input');
-    el.type='number';el.min=0;el.max=100;el.step=0.1;
-    el.value=p.ge.toFixed(2);
-    el.id='inp_'+p.id;
-    inputEls[p.id]=el;
-    el.addEventListener('input',project);
-    c.innerHTML=`<label><span class="pdot" style="background:${p.color}"></span>${p.label}</label>`;
-    const row=document.createElement('div');row.className='input-row';
-    row.appendChild(el);
-    const pct=document.createElement('span');pct.className='pct';pct.textContent='%';
-    row.appendChild(pct);
-    c.appendChild(row);
-    if(p.id==='BERSAMA'||p.id==='BP'){
-      const note=document.createElement('div');
-      note.style.cssText='font-size:10px;color:#888780;padding-top:4px;';
-      note.textContent='Assumed contesting all seats';
-      c.appendChild(note);
-    }
+    c.innerHTML=`<label><span class="pdot" style="background:${p.color}"></span>${p.label}</label><div class="input-row"><input type="number" min="0" max="100" step="0.1" id="inp_${p.id}" value="${p.ge.toFixed(2)}"/><span class="pct">%</span></div><input type="range" class="vs-slider" min="0" max="${maxShare(p.id)}" step="0.1" value="${p.ge.toFixed(1)}" style="--c:${p.color};--p:${(p.ge/maxShare(p.id)*100).toFixed(1)}%;" aria-label="${p.label} vote share"/>`;
     ig.appendChild(c);
+    const num=c.querySelector('input[type=number]'),rng=c.querySelector('input[type=range]');
+    inputEls[p.id]=num;sliderEls[p.id]=rng;num.dataset.exact=String(p.ge);
+    const fill=()=>rng.style.setProperty('--p',(Math.min(maxShare(p.id),Math.max(0,parseFloat(rng.value)||0))/maxShare(p.id)*100)+'%');
+    num.addEventListener('input',()=>{
+      const raw=parseFloat(num.value);
+      if(!isNaN(raw)){const c2=clampToRoom(p.id,raw);if(c2!==raw)num.value=c2.toFixed(1);}
+      rng.value=num.value;fill();project();
+    });
+    rng.addEventListener('input',()=>{
+      const c2=clampToRoom(p.id,parseFloat(rng.value)||0);
+      rng.value=c2;num.value=c2.toFixed(1);fill();project();
+    });
   });
-
-  const oc=document.createElement('div');oc.className='input-card';
-  oc.innerHTML=`<label><span class="pdot" style="background:#888780"></span>Minor parties <span style="color:#888780;font-size:11px;">(redistributed)</span></label><div style="font-size:12px;color:#888780;padding-top:4px;">2021 IND/minor votes redistributed proportionally among contesting coalitions.</div>`;
-  ig.appendChild(oc);
 
   const cc=document.getElementById('coalitionChecks');cc.innerHTML='';
   PARTIES.forEach(p=>{
@@ -500,7 +530,6 @@ function setMode(mode){
   const active='background:#1a1a18;color:#fff;border-color:#1a1a18;';
   stdBtn.style.cssText=(mode==='standard')?active:'';
   unityBtn.style.cssText=(mode==='unity')?active:'';
-  document.getElementById('modeNote').style.display=(mode==='unity')?'block':'none';
   buildInputsAndChecks();
   project();
 }
@@ -514,7 +543,7 @@ function renderHemicycle(entries){
   const wrap=document.getElementById('hemicycle');
   const total=entries.reduce((a,e)=>a+e.count,0);
   if(!total){wrap.innerHTML='';return;}
-  const rIn=0.48,rOut=1.0;
+  const rIn=0.40,rOut=1.0;
   // Pick the row count from actual packing density rather than a guess: work
   // out the even spacing that would fit `total` dots across the semi-annulus,
   // then use however many rows that spacing implies. This keeps the gaps
@@ -597,10 +626,87 @@ function resetConstMapZoom(){
 function setMapColorMode(mode){
   if(mode===mapColorMode)return;
   mapColorMode=mode;
-  const allianceBtn=document.getElementById('constMapModeAllianceBtn'),partyBtn=document.getElementById('constMapModePartyBtn');
-  const active='background:#1a1a18;color:#fff;border-color:#1a1a18;margin-bottom:0;';
-  allianceBtn.style.cssText=(mode==='alliance')?active:'margin-bottom:0;';
-  partyBtn.style.cssText=(mode==='party')?active:'margin-bottom:0;';
+  renderConstituencyMap();
+}
+// One colour toggle drives the map; the filter list depends on the mode, so it resets.
+function setMapColor(mode){
+  if(mode===mapColorMode)return;
+  document.getElementById('mapColorAllianceBtn').classList.toggle('on',mode==='alliance');
+  document.getElementById('mapColorPartyBtn').classList.toggle('on',mode==='party');
+  mapFilterKey='';
+  setMapColorMode(mode);
+  refreshMapFilter();
+}
+// Darken a hex colour (#rgb or #rrggbb) by multiplying each channel by f (<1).
+function darkenHex(hex,f){
+  let h=String(hex||'#ccc').replace('#','');
+  if(h.length===3)h=h.split('').map(c=>c+c).join('');
+  const n=parseInt(h,16);
+  return '#'+[(n>>16)&255,(n>>8)&255,n&255].map(v=>Math.round(v*f).toString(16).padStart(2,'0')).join('');
+}
+function hexAlpha(hex,a){
+  let h=String(hex||'#888780').replace('#','');
+  if(h.length===3)h=h.split('').map(c=>c+c).join('');
+  const n=parseInt(h,16);
+  return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';
+}
+// Highlights the clicked seat in a darker shade of its own colour with a dark outline, and
+// restores the previous one. Works on the live DOM so the map never re-renders mid-click.
+function applyMapHighlight(wrap,attr,id,selStroke){
+  wrap.querySelectorAll('path.sel').forEach(el=>{
+    el.classList.remove('sel');
+    el.setAttribute('fill',el.getAttribute('data-fill'));
+    el.setAttribute('stroke','#fff');
+    el.setAttribute('stroke-width',el.getAttribute('data-sw'));
+    el.setAttribute('fill-opacity',el.getAttribute('data-fo'));
+  });
+  if(!id)return;
+  const el=wrap.querySelector('path['+attr+'="'+id+'"]');
+  if(!el)return;
+  el.classList.add('sel');
+  el.setAttribute('fill',darkenHex(el.getAttribute('data-fill'),0.6));
+  el.setAttribute('stroke','#1a1a18');
+  el.setAttribute('stroke-width',selStroke);
+  el.setAttribute('fill-opacity','1');
+  el.parentNode.appendChild(el); // paint last so neighbours don't cover its outline
+}
+// ---- strength filter: shade every seat by one alliance's/party's projected vote share ----
+function filterLabel(key,mode){return mode==='party'?key:((PARTIES.find(p=>p.id===key)||{}).label||key);}
+function filterColor(key,mode){return mode==='party'?(COMP_COLORS[key]||'#888780'):((PARTIES.find(p=>p.id===key)||{}).color||'#888780');}
+function seatShareFor(d,key,mode){
+  let sh=0;
+  Object.entries(d.proj).forEach(([coal,v])=>{
+    if(v<=0)return;
+    if(mode==='party'){if(resolveComponentParty(coal,d.id)===key)sh+=v;}
+    else if(coal===key)sh+=v;
+  });
+  return sh;
+}
+function filterLegendHtml(key,mode,color,max){
+  return `<span style="display:inline-flex;align-items:center;gap:8px;"><span>0%</span><span style="width:170px;height:10px;border-radius:5px;background:linear-gradient(to right,${hexAlpha(color,0.15)},${hexAlpha(color,1)});display:inline-block;"></span><span>${max.toFixed(1)}%</span><span style="margin-left:6px;color:#5f5e5a;">${filterLabel(key,mode)} projected vote share</span></span>`;
+}
+function refreshMapFilter(){
+  const sel=document.getElementById('mapFilterSel');
+  if(!sel)return;
+  const mode=mapColorMode;
+  const tot={};let grand=0;
+  curDetails.forEach(d=>{
+    grand+=d.tot2;
+    Object.entries(d.proj).forEach(([coal,v])=>{
+      if(v<=0.05)return;
+      const key=mode==='party'?resolveComponentParty(coal,d.id):coal;
+      tot[key]=(tot[key]||0)+v/100*d.tot2;
+    });
+  });
+  const keys=Object.keys(tot).filter(k=>k!=='OTHERS'&&grand>0&&tot[k]/grand>=0.0015).sort((a,b)=>tot[b]-tot[a]);
+  if(mapFilterKey&&!keys.includes(mapFilterKey))mapFilterKey='';
+  sel.innerHTML='<option value="">None — show winners</option>'+keys.map(k=>`<option value="${k}">${filterLabel(k,mode)}</option>`).join('');
+  sel.value=mapFilterKey;
+}
+function setMapFilter(v){
+  mapFilterKey=v||'';
+  document.getElementById('constMapTooltip').style.display='none';
+  selConst=null;
   renderConstituencyMap();
 }
 
@@ -631,7 +737,10 @@ function showConstSeatTooltip(id, evt){
 
 function renderConstituencyMap(){
   const wrap=document.getElementById('constMapWrap');
-  let svg=`<svg viewBox="${MEL_MAP_VIEWBOX}" style="width:100%;height:auto;">`;
+  const FK=mapFilterKey,FM=mapColorMode,fColor=FK?filterColor(FK,FM):null;
+  const fShare={};let fMax=0;
+  if(FK)curDetails.forEach(d=>{const v=seatShareFor(d,FK,FM);fShare[d.id]=v;if(v>fMax)fMax=v;});
+  let svg=`<svg viewBox="${MEL_MAP_VIEWBOX}" style="width:100%;height:100%;display:block;">`;
   Object.entries(MEL_MAP_PATHS).forEach(([id,d])=>{
     const det=curDetails.find(x=>x.id===id);
     let color='#ccc', title=id;
@@ -646,23 +755,28 @@ function renderConstituencyMap(){
         title=`${det.name} (${id}): ${party?party.label:det.coalW} (${det.proj[det.coalW].toFixed(1)}%) — click for full breakdown`;
       }
     }
-    svg+=`<path data-seat="${id}" d="${d}" fill="${color}" stroke="#fff" stroke-width="0.8" fill-opacity="0.9" style="cursor:pointer;"><title>${title}</title></path>`;
+    let fo=0.9;
+    if(FK){const v=fShare[id]||0;if(v>0.05&&fMax>0){color=fColor;fo=(0.15+0.85*(v/fMax)).toFixed(3);}else{color='#e3e1da';fo=1;}title=`${det?det.name:id} (${id}): ${filterLabel(FK,FM)} ${v.toFixed(1)}% — click for full breakdown`;}
+    svg+=`<path data-seat="${id}" data-fill="${color}" data-sw="0.8" data-fo="${fo}" d="${d}" fill="${color}" stroke="#fff" stroke-width="0.8" fill-opacity="${fo}" style="cursor:pointer;"><title>${title}</title></path>`;
   });
   svg+='</svg>';
   wrap.innerHTML=svg;
+  applyMapHighlight(wrap,'data-seat',selConst,1.6);
   applyConstMapTransform();
 
   if(!constMapClickBound){
     wrap.addEventListener('click',(evt)=>{
       if(constMapDragMoved){constMapDragMoved=false;return;}
       const path=evt.target.closest && evt.target.closest('path[data-seat]');
-      if(!path){document.getElementById('constMapTooltip').style.display='none';return;}
-      showConstSeatTooltip(path.getAttribute('data-seat'), evt);
+      if(!path){document.getElementById('constMapTooltip').style.display='none';selConst=null;applyMapHighlight(wrap,'data-seat',null,1.6);return;}
+      selConst=path.getAttribute('data-seat');
+      applyMapHighlight(wrap,'data-seat',selConst,1.6);
+      showConstSeatTooltip(selConst, evt);
     });
     document.addEventListener('click',(evt)=>{
       const tip=document.getElementById('constMapTooltip');
       const inMap=evt.target.closest && (evt.target.closest('#constMapWrap')||evt.target.closest('#constMapTooltip'));
-      if(!inMap)tip.style.display='none';
+      if(!inMap){tip.style.display='none';selConst=null;applyMapHighlight(document.getElementById('constMapWrap'),'data-seat',null,1.6);}
     });
     const viewport=document.getElementById('constMapViewport');
     viewport.addEventListener('wheel',(evt)=>{
@@ -700,6 +814,7 @@ function renderConstituencyMap(){
   }
 
   const legend=document.getElementById('constMapLegend');
+  if(FK){legend.innerHTML=filterLegendHtml(FK,FM,fColor,fMax);return;}
   if(mapColorMode==='party'){
     const usedParties=[...new Set(curDetails.map(d=>resolveComponentParty(d.coalW,d.id)))];
     legend.innerHTML=usedParties.map(comp=>
@@ -724,7 +839,7 @@ function renderComponentBreakdown(){
   const partyMap={};
   // Base: 2021 winners, mapped onto the active mode's bloc structure
   Object.entries(W21).forEach(([sid,origCoal])=>{
-    const origComp=(SEAT_CANDIDATES[sid]||{})[origCoal]||origCoal;
+    const origComp=W21_PARTY[sid]||origCoal;
     const coal=mapCoal(origCoal,origComp);
     // Historical fact: the real 2021 winning party at this seat, whichever
     // coalition (BN or PN) actually won it -- NOT the forward-looking
@@ -772,7 +887,7 @@ function renderVoteShareBreakdown(){
   // always sums to exactly the input regardless of taper or clamping --
   // same fix applied to the NS and Malaysia models.
   const div=document.getElementById('voteShareBreakdown');div.innerHTML='';
-  const ns={};PARTIES.forEach(p=>{ns[p.id]=parseFloat(inputEls[p.id].value)||0;});
+  const ns={};PARTIES.forEach(p=>{ns[p.id]=readInput(p.id);});
   const coalOrder=(MODE==='unity')?['PH','BNPN','IPR','BP','BERSAMA']:['BN','PH','PN','BP','BERSAMA'];
   const container=document.createElement('div');
   container.style.cssText='display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;';
@@ -799,174 +914,91 @@ function renderVoteShareBreakdown(){
   div.appendChild(container);
 }
 
-function renderTable(){
-  const thead=document.getElementById('seatsHead');thead.innerHTML='';
-  const tbody=document.getElementById('seatsBody');tbody.innerHTML='';
-  const cols=(MODE==='unity')?[
-    {key:'id',label:'Seat'},{key:'name',label:'Name'},
-    {key:'w21',label:'2021'},{key:'projW',label:'Proj.'},
-    {key:'bnpn',label:'BN+PN%'},{key:'ph',label:'PH%'},
-    {key:'ipr',label:'BERSATU+%'},{key:'bp',label:'MUDA%'},
-    {key:'bersama',label:'BERSAMA%'},{key:'minors',label:'Others'},
-  ]:[
-    {key:'id',label:'Seat'},{key:'name',label:'Name'},
-    {key:'w21',label:'2021'},{key:'projW',label:'Proj.'},
-    {key:'bn',label:'BN%'},{key:'ph',label:'PH%'},
-    {key:'pn',label:'PN%'},{key:'bp',label:'MUDA%'},
-    {key:'bersama',label:'BERSAMA%'},{key:'minors',label:'Others'},
-  ];
-  const tr=document.createElement('tr');
-  cols.forEach(c=>{
-    const th=document.createElement('th');
-    th.textContent=c.label;
-    if(c.key===sortCol)th.className=sortDir===1?'sort-asc':'sort-desc';
-    th.addEventListener('click',()=>{
-      if(sortCol===c.key)sortDir*=-1;else{sortCol=c.key;sortDir=1;}
-      renderTable();
-    });
-    tr.appendChild(th);
-  });
-  thead.appendChild(tr);
-  const sortKey=(sortCol==='bnpn'||sortCol==='ipr')?sortCol:sortCol;
-  const sorted=[...curDetails].sort((a,b)=>{
-    let av=a[sortKey],bv=b[sortKey];
-    if(av==null)av='';if(bv==null)bv='';
-    if(typeof av==='string')return sortDir*String(av).localeCompare(String(bv));
-    return sortDir*(av-bv);
-  });
-  sorted.forEach(d=>{
-    const tr=document.createElement('tr');
-    // Map the fixed-historical 2021 winner onto the active mode's bloc for a fair flip comparison.
-    const w21Comp0=(SEAT_CANDIDATES[d.id]||{})[d.w21]||d.w21;
-    const w21Mapped=mapCoal(d.w21,w21Comp0);
-    const isFlip=d.coalW!==w21Mapped;
-    const winParty=PARTIES.find(p=>p.id===d.coalW);
-    const winColor=winParty?winParty.color:'#888780';
-    const w21Party=PARTIES.find(p=>p.id===w21Mapped);
-    const w21Color=w21Party?w21Party.color:'#888780';
-    const projComp=resolveComponentParty(d.coalW,d.id);
-    const w21Comp=(MODE==='unity')?resolveComponentParty(w21Mapped,d.id):w21Comp0;
-    const cells=(MODE==='unity')?[
-      {v:d.proj.BNPN!=null?d.proj.BNPN.toFixed(1):'—'},
-      {v:d.proj.PH!=null?d.proj.PH.toFixed(1):'—'},
-      {v:d.proj.IPR!=null?d.proj.IPR.toFixed(1):'—'},
-      {v:d.proj.BP!=null&&d.proj.BP>0?d.proj.BP.toFixed(1):'—'},
-      {v:d.proj.BERSAMA!=null&&d.proj.BERSAMA>0?d.proj.BERSAMA.toFixed(1):'—'},
-    ]:[
-      {v:d.proj.BN!=null?d.proj.BN.toFixed(1):'—'},
-      {v:d.proj.PH!=null?d.proj.PH.toFixed(1):'—'},
-      {v:d.proj.PN!=null?d.proj.PN.toFixed(1):'—'},
-      {v:d.proj.BP!=null&&d.proj.BP>0?d.proj.BP.toFixed(1):'—'},
-      {v:d.proj.BERSAMA!=null&&d.proj.BERSAMA>0?d.proj.BERSAMA.toFixed(1):'—'},
-    ];
-    [
-      {v:d.id},{v:d.name},
-      {v:`<span style="color:${w21Color};font-weight:500;">${w21Mapped}</span> <span style="color:#888780;font-size:10px;">(${w21Comp})</span>`},
-      {v:`<span style="color:${winColor};font-weight:500;">${d.coalW}</span> <span style="color:#888780;font-size:10px;">(${projComp})</span>${isFlip?'<span class="flip-tag">flip</span>':''}`},
-      ...cells,
-    ].forEach(cell=>{
-      const td=document.createElement('td');
-      td.innerHTML=cell.v;
-      tr.appendChild(td);
-    });
-    const tdm=document.createElement('td');tdm.className='minor-cell';
-    const minorParts=Object.entries(d.minors||{}).filter(([,v])=>v>0.1).map(([party,pct])=>{
-      const col=MINOR_COLORS[party]||'#888780';
-      return `<span style="color:${col};font-size:10px;">${party} ${pct.toFixed(1)}%</span>`;
-    });
-    tdm.innerHTML=minorParts.join('<span style="color:#ddddd5;"> · </span>')||'<span style="color:#ddddd5;">--</span>';
-    tr.appendChild(tdm);
-    tbody.appendChild(tr);
-  });
+// One seat's projection -- shared by the live projection and the neutral (baseline) projection.
+function projectSeat(s,sw,sc){
+  const[id,name,bn,ph,pn,bp,tot2,minorVotes]=s;
+  let base;
+  if(MODE==='unity'){
+    base=SEAT_BASE_UNITY[id];
+  } else {
+    let baseBN=bn/tot2*100, basePH=ph/tot2*100, basePN=pn/tot2*100, baseBP=bp/tot2*100;
+    let absentTotal=0;
+    Object.entries(minorVotes||{}).forEach(([k,v])=>{if(FOLDED_MINORS_G.has(k))absentTotal+=v/tot2*100;});
+    if(absentTotal>0){
+      const contestBase=baseBN+basePH+basePN+baseBP;
+      if(contestBase>0){
+        baseBN+=absentTotal*(baseBN/contestBase);
+        basePH+=absentTotal*(basePH/contestBase);
+        basePN+=absentTotal*(basePN/contestBase);
+        baseBP+=absentTotal*(baseBP/contestBase);
+      }
+    }
+    base={BN:baseBN,PH:basePH,PN:basePN,BP:baseBP,BERSAMA:0};
+  }
+  const minorPct={};
+  Object.entries(minorVotes||{}).forEach(([k,v])=>{if(!FOLDED_MINORS_G.has(k)){minorPct[k]=v/tot2*100;}});
+
+  const raw={};PARTIES.forEach(p=>{raw[p.id]=Math.max(0,base[p.id]+sw[p.id]);});
+  const tap={};PARTIES.forEach(p=>{tap[p.id]=raw[p.id]*sc[p.id];});
+  const tOut=PARTIES.reduce((a,p)=>a+(raw[p.id]-tap[p.id]),0);
+  const tTot=PARTIES.reduce((a,p)=>a+tap[p.id],0);
+  const proj={};
+  if(tTot>0&&tOut>0){PARTIES.forEach(p=>{proj[p.id]=tap[p.id]+tOut*(tap[p.id]/tTot);});}
+  else{PARTIES.forEach(p=>{proj[p.id]=tap[p.id];});}
+  // Rescale so every seat sums to exactly 100 (one positive constant, so rankings are unchanged).
+  const projTotal=PARTIES.reduce((a,p)=>a+proj[p.id],0);
+  if(projTotal>0&&Math.abs(projTotal-100)>0.001){
+    PARTIES.forEach(p=>{proj[p.id]=proj[p.id]/projTotal*100;});
+  }
+  const allCands={...proj};
+  Object.entries(minorPct).forEach(([k,v])=>{allCands[k]=v;});
+  const winner=Object.entries(allCands).sort((a,b)=>b[1]-a[1])[0][0];
+  const coalW=PARTIES.find(p=>p.id===winner)?winner:'OTHERS';
+  return {id,name,proj,base,minors:minorPct,winner,coalW,tot2};
+}
+// Seats if every party holds exactly its baseline share (the reference for "change" in merged mode).
+const NEUTRAL={};
+function neutralSeats(){
+  if(!NEUTRAL[MODE]){
+    const sw={},sc={};
+    PARTIES.forEach(p=>{sw[p.id]=0;sc[p.id]=1;});
+    const t={};PARTIES.forEach(p=>{t[p.id]=0;});t.OTHERS=0;
+    SEATS.forEach(s=>{if(!s[6])return;const r=projectSeat(s,sw,sc);t[r.coalW]=(t[r.coalW]||0)+1;});
+    NEUTRAL[MODE]=t;
+  }
+  return NEUTRAL[MODE];
 }
 
 function project(){
-  const ns={};PARTIES.forEach(p=>{ns[p.id]=parseFloat(inputEls[p.id].value)||0;});
+  const ns={};PARTIES.forEach(p=>{ns[p.id]=readInput(p.id);});
   const tot=Object.values(ns).reduce((a,b)=>a+b,0);
   const w=document.getElementById('totalWarn');
-  w.textContent=`Total: ${tot.toFixed(1)}% — ideally ~100%`;
+  const left=100-tot;
+  w.innerHTML=`Total: <strong>${tot.toFixed(1)}%</strong> &nbsp;·&nbsp; `+(left>=0
+    ?`<span class="pdot" style="background:#888780;margin-right:4px;"></span>Others/Independents: <strong>${left.toFixed(1)}% left</strong>`
+    :`<strong>${Math.abs(left).toFixed(1)}% over 100%</strong>`);
   w.className='total-warn'+(Math.abs(tot-100)>5?' bad':'');
 
   const sw={},sc={};
   PARTIES.forEach(p=>{sw[p.id]=ns[p.id]-(GN[p.id]||0);sc[p.id]=taper(p.id,ns[p.id]);});
 
-  const FOLDED_MINORS=new Set(['OTH','IND']);
   const det=[];
-
   SEATS.forEach(s=>{
-    const[id,name,bn,ph,pn,bp,tot2,minorVotes]=s;
-    if(!tot2)return;
-
-    let base;
-    if(MODE==='unity'){
-      base=SEAT_BASE_UNITY[id];
-    } else {
-      let baseBN=bn/tot2*100, basePH=ph/tot2*100, basePN=pn/tot2*100, baseBP=bp/tot2*100;
-      let absentTotal=0;
-      Object.entries(minorVotes||{}).forEach(([k,v])=>{if(FOLDED_MINORS.has(k))absentTotal+=v/tot2*100;});
-      if(absentTotal>0){
-        const contestBase=baseBN+basePH+basePN+baseBP;
-        if(contestBase>0){
-          baseBN+=absentTotal*(baseBN/contestBase);
-          basePH+=absentTotal*(basePH/contestBase);
-          basePN+=absentTotal*(basePN/contestBase);
-          baseBP+=absentTotal*(baseBP/contestBase);
-        }
-      }
-      base={BN:baseBN,PH:basePH,PN:basePN,BP:baseBP,BERSAMA:0};
-    }
-    const minorPct={};
-    Object.entries(minorVotes||{}).forEach(([k,v])=>{if(!FOLDED_MINORS.has(k)){minorPct[k]=v/tot2*100;}});
-
-    const raw={};PARTIES.forEach(p=>{raw[p.id]=Math.max(0,base[p.id]+sw[p.id]);});
-    const tap={};PARTIES.forEach(p=>{tap[p.id]=raw[p.id]*sc[p.id];});
-    const tOut=PARTIES.reduce((a,p)=>a+(raw[p.id]-tap[p.id]),0);
-    const tTot=PARTIES.reduce((a,p)=>a+tap[p.id],0);
-    const proj={};
-    if(tTot>0&&tOut>0){
-      PARTIES.forEach(p=>{proj[p.id]=tap[p.id]+tOut*(tap[p.id]/tTot);});
-    } else {
-      PARTIES.forEach(p=>{proj[p.id]=tap[p.id];});
-    }
-
-    // Proportionally rescale so every seat sums to exactly 100 -- handles
-    // inputs summing to more than/less than 100, and the zero-floor on
-    // negative swings leaving some seats short. Scaling by a single positive
-    // constant preserves each party's relative ranking within the seat, so
-    // it can't change who wins or flip a margin comparison. Same fix applied
-    // to the NS and Malaysia national models.
-    const projTotal=PARTIES.reduce((a,p)=>a+proj[p.id],0);
-    if(projTotal>0 && Math.abs(projTotal-100)>0.001){
-      PARTIES.forEach(p=>{proj[p.id]=proj[p.id]/projTotal*100;});
-    }
-
-    const allCands={...proj};
-    Object.entries(minorPct).forEach(([k,v])=>{allCands[k]=v;});
-    const winner=Object.entries(allCands).sort((a,b)=>b[1]-a[1])[0][0];
-    const coalW=PARTIES.find(p=>p.id===winner)?winner:'OTHERS';
-
-    det.push({
-      id,name,
-      w21:W21[id]||'OTHERS',
-      projW:winner,coalW,
-      proj,base,
-      bn:proj.BN,ph:proj.PH,pn:proj.PN,bp:proj.BP,bersama:proj.BERSAMA,
-      bnpn:proj.BNPN,ipr:proj.IPR,
-      minors:minorPct,
-      tot2,
-    });
+    if(!s[6])return;
+    const r=projectSeat(s,sw,sc);
+    det.push({id:r.id,name:r.name,w21:W21[r.id]||'OTHERS',projW:r.winner,coalW:r.coalW,proj:r.proj,base:r.base,minors:r.minors,tot2:r.tot2});
   });
-
   curDetails=det;
 
   const tally={};
   PARTIES.forEach(p=>{tally[p.id]=0;});tally.OTHERS=0;
   det.forEach(d=>{tally[d.coalW]=(tally[d.coalW]||0)+1;});
 
+  const baseSeats=(MODE==='unity')?neutralSeats():GS;
   const rg=document.getElementById('resultsGrid');rg.innerHTML='';
   PARTIES.forEach(p=>{
     const n=tally[p.id]||0;
-    const base=GS[p.id]||0;
+    const base=baseSeats[p.id]||0;
     const delta=n-base;
     const chgStr=delta>0?`+${delta}`:delta<0?`${delta}`:'—';
     const chgCls=delta>0?'pos':delta<0?'neg':'neu';
@@ -977,19 +1009,13 @@ function project(){
 
   renderHemicycle(PARTIES.filter(p=>(tally[p.id]||0)>0).map(p=>({color:p.color,count:tally[p.id]})));
   document.getElementById('barLegend').innerHTML=
-    PARTIES.filter(p=>tally[p.id]>0).map(p=>`<span><span style="width:10px;height:10px;border-radius:50%;background:${p.color};display:inline-block;"></span>${p.label}: ${tally[p.id]}</span>`).join('');
-
-  const maj=15;
-  document.getElementById('majorityLine').textContent=`Majority: 15 of 28 seats.`;
+    PARTIES.filter(p=>tally[p.id]>0).map(p=>`<span><span style="width:10px;height:10px;border-radius:50%;background:${p.color};display:inline-block;"></span>${LEGEND_ACRONYM[p.id]||p.id}</span>`).join('');
 
   renderComponentBreakdown();
   renderVoteShareBreakdown();
+  refreshMapFilter();
   renderConstituencyMap();
   updateCoalition();
-
-  document.getElementById('methodNote').textContent=
-    'Methodology: Universal national swing (UNS) from 2021 Malacca state election results. All three main coalitions (BN, PH, PN) contested independently in 2021, so seat-level vote counts are used directly as baselines. 2021 statewide shares: BN 38.4%, PH 35.8%, PN 24.3% (real raw results, before the model redistributes the 1.5% minor/independent vote). Independents and minor party votes redistributed proportionally among the three main coalitions before swing is applied. Taper scalar applied below 50% of each party\'s 2021 share. BP (MUDA-PSM) and BERSAMA are assumed to contest all 28 seats with no 2021 baseline. PN contests all seats — no PN non-contest redistribution applied. Every seat\'s projected shares are proportionally rescaled to sum to exactly 100%. Majority: 15 of 28 seats.'
-    + (MODE==='unity' ? ' Unity-collapse mode: BN+PN merged, BERSATU carved back out as BERSATU+ (60% in N11, 20% elsewhere), standing in all 28 seats.' : '');
 }
 
 function updateCoalition(){
@@ -1003,20 +1029,19 @@ function updateCoalition(){
   else if(total>=maj){labelEl.textContent=`seats — majority government`;statusEl.className='coalition-status status-maj';statusEl.textContent='Majority';}
   else{labelEl.textContent=`seats — ${maj-total} short of majority`;statusEl.className='coalition-status status-short';statusEl.textContent='Short';}
 
-  // Assembling bar: selected coalitions stack up from the left at full colour,
-  // everyone else fades out to the right, with a marker at the majority line
-  // so you can see at a glance how far past (or short of) it the bloc lands.
+  // Assembling bar: ticked coalitions stack up from the left at full colour; every seat
+  // outside the coalition stays as the grey track, with a marker at the majority line.
   const bar=document.getElementById('coalBar');bar.innerHTML='';
+  bar.style.background='#e3e1da';
   const gl=document.getElementById('gridLegend');gl.innerHTML='';
   const inCoal=new Set(selected);
   const seatsOf=p=>curDetails.filter(d=>d.coalW===p.id).length;
   const totalSeats=PARTIES.reduce((a,p)=>a+seatsOf(p),0)||1;
-  const ordered=[...PARTIES.filter(p=>inCoal.has(p.id)),...PARTIES.filter(p=>!inCoal.has(p.id))];
-  ordered.forEach(p=>{
+  PARTIES.filter(p=>inCoal.has(p.id)).forEach(p=>{
     const n=seatsOf(p);
     if(!n)return;
     const seg=document.createElement('div');
-    seg.style.cssText=`width:${n/totalSeats*100}%;background:${p.color};opacity:${inCoal.size===0?1:(inCoal.has(p.id)?1:0.22)};display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600;`;
+    seg.style.cssText=`width:${n/totalSeats*100}%;background:${p.color};display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:600;`;
     seg.title=`${p.label}: ${n}`;
     if(n/totalSeats>0.07)seg.textContent=n;
     bar.appendChild(seg);
@@ -1033,7 +1058,6 @@ function updateCoalition(){
   });
 }
 </script>
-</div>
 </body>
 </html>
         <!-- ============================================================= -->
