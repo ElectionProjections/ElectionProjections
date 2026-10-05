@@ -352,24 +352,23 @@
     stroke:#ffffff;
     stroke-width:1px;
   }
-  .hemicycle-total{
-    font-family:Georgia,"Times New Roman",serif;
-    font-size:26px;
-    font-weight:700;
-    color:var(--navy);
-    text-align:center;
-    margin-top:-6px;
+  .hemicycle-legend{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:8px 18px;
+    margin-top:10px;
+    max-width:560px;
+    font-size:12.5px;
   }
-  .hemicycle-total span{
-    display:block;
-    font-family:"SFMono-Regular",Menlo,Consolas,monospace;
-    font-size:11px;
-    font-weight:600;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    color:#6a6e78;
-    margin-top:2px;
+  .hemicycle-legend .leg-item{
+    display:flex;
+    align-items:center;
+    gap:7px;
   }
+  .hemicycle-legend .swatch{width:11px;height:11px;flex:0 0 11px;}
+  .hemicycle-legend .leg-abbr{font-weight:700;}
+  .hemicycle-legend .leg-name{color:#6a6e78;}
 
   table{
     width:100%;
@@ -468,6 +467,7 @@
     gap:28px;
   }
   .map-mode-toggle{
+    flex-wrap:wrap;
     display:flex;
     justify-content:center;
     gap:8px;
@@ -487,6 +487,13 @@
   .map-mode-btn.active{
     background:var(--navy);
     color:var(--paper);
+  }
+  .map-controls-slot{
+    min-height:56px;
+    margin-bottom:16px;
+  }
+  .map-controls-slot .map-strength-controls{
+    margin-bottom:0;
   }
   .map-strength-controls{
     display:flex;
@@ -721,9 +728,8 @@
 
 <header class="top">
   <div class="wrap">
-    <div class="eyebrow">Riksdag &middot; 349 seats &middot; modified Sainte-Laguë</div>
     <h1>Swedish Riksdag Seat Projection</h1>
-    <p>Enter national vote shares and this tool projects Riksdag seats using the real allocation method: the 4% national / 12% constituency thresholds, the modified Sainte-Laguë divisor sequence, and a uniform swing applied to actual 2022 constituency-level results across all 29 valkretsar.</p>
+    <p>Enter national vote shares and this tool projects Riksdag seats using the real allocation method: the 4% national / 12% constituency thresholds and the modified Sainte-Laguë divisor sequence.</p>
   </div>
 </header>
 
@@ -742,7 +748,7 @@
         <span id="totalCheck"></span>
       </div>
       <div class="btn-row">
-        <button class="secondary" id="resetBtn">Reset to 2022 result</button>
+        <button class="secondary" id="resetBtn">Reset to 2026 result</button>
         <button class="secondary" id="evenBtn">Clear all to 0%</button>
       </div>
     </div>
@@ -753,11 +759,11 @@
     <div class="panel">
       <div class="hemicycle-wrap">
         <svg id="hemicycle" viewBox="0 0 620 340" xmlns="http://www.w3.org/2000/svg"></svg>
-        <div class="hemicycle-total" id="hemicycleTotal">349<span>seats</span></div>
+        <div class="hemicycle-legend" id="hemicycleLegend"></div>
       </div>
       <table id="resultsTable">
         <thead>
-          <tr><th>Party</th><th>Vote share</th><th>Seats</th><th>+/&minus; 2022</th></tr>
+          <tr><th>Party</th><th>Vote share</th><th>Seats</th><th>+/&minus; 2026</th></tr>
         </thead>
         <tbody id="resultsBody"></tbody>
       </table>
@@ -787,7 +793,9 @@
         <button type="button" class="map-mode-btn active" data-mode="party">By leading party</button>
         <button type="button" class="map-mode-btn" data-mode="bloc">By leading bloc</button>
         <button type="button" class="map-mode-btn" data-mode="strength">By party strength</button>
+        <button type="button" class="map-mode-btn" data-mode="blocstrength">By bloc strength</button>
       </div>
+      <div class="map-controls-slot">
       <div class="map-strength-controls" id="strengthControls" style="display:none;">
         <div class="strength-select-row">
           <label for="strengthPartySelect">Show strength of</label>
@@ -798,6 +806,21 @@
           <div class="strength-legend-bar" id="strengthLegendBar"></div>
           <span id="strengthLegendMax">40%+</span>
         </div>
+      </div>
+      <div class="map-strength-controls" id="blocStrengthControls" style="display:none;">
+        <div class="strength-select-row">
+          <label for="blocStrengthSelect">Show strength of</label>
+          <select id="blocStrengthSelect">
+            <option value="left">Left bloc (S, V, C, MP)</option>
+            <option value="right">Right bloc (M, SD, KD, L)</option>
+          </select>
+        </div>
+        <div class="strength-legend">
+          <span id="blocLegendMin">0%</span>
+          <div class="strength-legend-bar" id="blocLegendBar"></div>
+          <span id="blocLegendMax">60%+</span>
+        </div>
+      </div>
       </div>
       <div class="map-layout">
         <div class="map-wrap">
@@ -822,40 +845,40 @@ const PARTY_COLOR = {
   KD:"var(--kd)", MP:"var(--mp)", L:"var(--l)", Other:"var(--other)"
 };
 
-const NATIONAL_2022 = {S:30.33, M:19.10, SD:20.54, V:6.75, C:6.71, KD:5.34, MP:5.08, L:4.61, Other:1.54};
-const SEATS_2022 = {S:107, M:68, SD:73, V:24, C:24, KD:19, MP:18, L:16};
+const NATIONAL_2026 = {S:28.02, M:19.85, SD:17.48, V:8.40, C:7.03, KD:6.17, MP:6.12, L:5.34, Other:1.58};
+const SEATS_2026 = {S:99, M:70, SD:62, V:30, C:25, KD:22, MP:22, L:19};
 
-// name, total seats (fixed+levelling, 2022 final), total votes, % per party (S,SD,M,V,C,KD,MP,L,Other)
+// 2026 result (Valmyndigheten, final): name, total seats (310 fixed + 39 levelling, 2026 allocation), valid votes, % per party
 const CONSTITUENCIES = [
- ["Blekinge",5,103580,{S:31.1,SD:28.5,M:17.9,V:4.4,C:4.8,KD:5.5,MP:2.9,L:3.5,Other:1.2}],
- ["Dalarna",11,186598,{S:31.7,SD:25.7,M:16.4,V:5.3,C:6.5,KD:6.0,MP:3.8,L:3.1,Other:1.5}],
- ["Gothenburg",18,347101,{S:27.7,SD:14.7,M:18.5,V:12.8,C:5.9,KD:4.4,MP:7.9,L:5.9,Other:2.3}],
- ["Gotland",2,41459,{S:34.6,SD:15.7,M:16.8,V:6.4,C:11.7,KD:4.0,MP:6.5,L:2.8,Other:1.5}],
- ["Gävleborg",11,182587,{S:34.7,SD:24.1,M:16.2,V:5.9,C:6.2,KD:5.1,MP:3.5,L:3.0,Other:1.2}],
- ["Halland",12,221675,{S:28.3,SD:22.6,M:22.5,V:4.0,C:7.0,KD:6.0,MP:3.6,L:4.8,Other:1.1}],
- ["Jämtland",4,85024,{S:36.1,SD:20.1,M:14.8,V:5.6,C:9.1,KD:5.4,MP:5.0,L:2.6,Other:1.3}],
- ["Jönköping",13,229125,{S:29.1,SD:23.3,M:18.7,V:4.0,C:7.5,KD:9.3,MP:3.2,L:3.7,Other:1.3}],
- ["Kalmar",8,161267,{S:31.7,SD:24.5,M:17.8,V:4.6,C:6.5,KD:7.0,MP:3.4,L:3.2,Other:1.3}],
- ["Kronoberg",6,124992,{S:31.0,SD:23.6,M:19.5,V:5.0,C:6.0,KD:6.8,MP:3.5,L:3.1,Other:1.5}],
- ["Malmö",11,192043,{S:29.6,SD:16.4,M:17.9,V:12.5,C:5.5,KD:3.0,MP:7.5,L:4.5,Other:3.2}],
- ["Norrbotten",8,161455,{S:41.6,SD:20.3,M:13.6,V:7.0,C:5.3,KD:5.1,MP:3.4,L:2.5,Other:1.1}],
- ["Skåne NE",10,202890,{S:25.2,SD:32.2,M:19.5,V:3.9,C:4.9,KD:6.2,MP:3.0,L:3.8,Other:1.3}],
- ["Skåne S",14,259333,{S:25.4,SD:23.4,M:22.1,V:5.0,C:6.6,KD:4.8,MP:5.5,L:6.2,Other:1.2}],
- ["Skåne W",10,191655,{S:27.3,SD:28.8,M:19.8,V:4.6,C:5.0,KD:4.7,MP:3.5,L:4.5,Other:1.8}],
- ["Stockholm (municipality)",34,606751,{S:28.1,SD:10.7,M:19.1,V:11.7,C:8.5,KD:3.2,MP:10.0,L:6.9,Other:1.9}],
- ["Stockholm County",43,822510,{S:27.1,SD:17.5,M:24.0,V:6.3,C:7.4,KD:4.9,MP:5.1,L:6.0,Other:1.7}],
- ["Södermanland",11,184880,{S:32.9,SD:23.0,M:19.2,V:5.2,C:5.9,KD:4.7,MP:4.0,L:3.6,Other:1.4}],
- ["Uppsala",13,248888,{S:29.1,SD:18.2,M:18.3,V:7.9,C:7.2,KD:5.9,MP:6.7,L:5.0,Other:1.7}],
- ["Värmland",11,182231,{S:34.6,SD:22.8,M:17.0,V:5.0,C:6.3,KD:5.8,MP:3.6,L:3.7,Other:1.0}],
- ["Västerbotten",9,177543,{S:40.7,SD:14.5,M:14.1,V:8.5,C:7.8,KD:4.7,MP:5.4,L:3.1,Other:1.1}],
- ["Västernorrland",9,158721,{S:39.4,SD:20.7,M:14.0,V:5.7,C:7.4,KD:5.4,MP:3.4,L:2.7,Other:1.2}],
- ["Västmanland",8,170749,{S:32.0,SD:23.7,M:19.1,V:6.1,C:5.4,KD:5.0,MP:3.2,L:4.2,Other:1.3}],
- ["Västra Götaland E",9,176526,{S:31.4,SD:24.1,M:18.6,V:4.5,C:6.6,KD:7.0,MP:3.3,L:3.4,Other:1.3}],
- ["Västra Götaland N",8,173655,{S:31.3,SD:25.4,M:17.5,V:5.2,C:5.7,KD:6.2,MP:3.6,L:3.6,Other:1.5}],
- ["Västra Götaland S",8,141906,{S:29.1,SD:23.6,M:18.9,V:5.3,C:7.1,KD:7.0,MP:3.6,L:3.8,Other:1.6}],
- ["Västra Götaland W",14,247863,{S:28.0,SD:21.2,M:20.5,V:5.7,C:6.4,KD:6.3,MP:5.2,L:5.4,Other:1.3}],
- ["Örebro",12,194187,{S:33.2,SD:22.1,M:16.7,V:6.1,C:6.3,KD:5.3,MP:4.1,L:4.5,Other:1.6}],
- ["Östergötland",17,300600,{S:30.6,SD:21.2,M:19.8,V:5.6,C:6.5,KD:6.0,MP:4.6,L:4.4,Other:1.3}]
+ ["Blekinge",5,104309,{S:28.66,SD:24.41,M:18.30,V:5.86,C:5.44,KD:7.29,MP:3.82,L:4.86,Other:1.36}],
+ ["Dalarna",11,187850,{S:29.52,SD:22.29,M:18.35,V:5.76,C:6.49,KD:7.08,MP:4.74,L:4.03,Other:1.73}],
+ ["Gothenburg",18,380417,{S:27.14,SD:11.83,M:18.18,V:15.12,C:6.51,KD:4.85,MP:9.05,L:5.94,Other:1.39}],
+ ["Gotland",2,41526,{S:31.11,SD:13.49,M:18.30,V:6.74,C:10.73,KD:5.24,MP:7.88,L:5.28,Other:1.22}],
+ ["Gävleborg",10,184537,{S:31.82,SD:21.53,M:17.73,V:6.76,C:6.06,KD:6.18,MP:4.22,L:4.03,Other:1.68}],
+ ["Halland",13,230235,{S:25.58,SD:19.57,M:23.33,V:5.25,C:7.54,KD:7.05,MP:4.40,L:5.95,Other:1.32}],
+ ["Jämtland",4,86814,{S:31.50,SD:17.59,M:17.45,V:6.02,C:10.07,KD:5.46,MP:6.64,L:3.54,Other:1.74}],
+ ["Jönköping",13,236678,{S:26.58,SD:20.58,M:19.75,V:5.96,C:7.00,KD:10.24,MP:3.82,L:4.59,Other:1.49}],
+ ["Kalmar",8,161796,{S:29.03,SD:21.36,M:18.74,V:6.14,C:6.41,KD:8.39,MP:4.13,L:4.26,Other:1.54}],
+ ["Kronoberg",6,128547,{S:27.67,SD:20.34,M:19.96,V:7.62,C:6.23,KD:7.98,MP:4.45,L:4.38,Other:1.38}],
+ ["Malmö",11,212965,{S:28.98,SD:13.20,M:16.47,V:17.17,C:5.86,KD:3.25,MP:9.28,L:4.61,Other:1.18}],
+ ["Norrbotten",8,160359,{S:37.52,SD:18.11,M:16.37,V:6.86,C:5.14,KD:6.45,MP:4.55,L:3.35,Other:1.65}],
+ ["Skåne NE",12,206399,{S:23.24,SD:27.28,M:20.85,V:5.95,C:5.31,KD:6.86,MP:3.65,L:5.50,Other:1.38}],
+ ["Skåne S",13,271168,{S:22.77,SD:19.78,M:23.25,V:6.03,C:7.97,KD:5.34,MP:7.24,L:6.51,Other:1.12}],
+ ["Skåne W",12,200979,{S:26.05,SD:24.06,M:20.13,V:7.82,C:5.32,KD:5.24,MP:4.38,L:5.72,Other:1.28}],
+ ["Stockholm (municipality)",34,652543,{S:26.34,SD:8.35,M:19.10,V:13.04,C:9.79,KD:3.90,MP:11.14,L:7.10,Other:1.24}],
+ ["Stockholm County",43,887078,{S:25.83,SD:14.92,M:23.80,V:8.10,C:7.81,KD:5.71,MP:5.71,L:6.63,Other:1.48}],
+ ["Södermanland",11,190962,{S:30.54,SD:20.18,M:19.57,V:7.33,C:5.58,KD:5.75,MP:4.85,L:4.53,Other:1.66}],
+ ["Uppsala",13,265992,{S:27.07,SD:15.61,M:18.36,V:9.69,C:7.73,KD:6.64,MP:8.35,L:4.98,Other:1.58}],
+ ["Värmland",10,184781,{S:31.06,SD:19.71,M:20.10,V:5.81,C:6.05,KD:6.86,MP:4.36,L:4.44,Other:1.60}],
+ ["Västerbotten",9,181055,{S:36.94,SD:12.75,M:15.39,V:9.34,C:7.19,KD:5.91,MP:7.49,L:3.50,Other:1.50}],
+ ["Västernorrland",8,158985,{S:34.38,SD:19.17,M:16.24,V:6.34,C:6.91,KD:7.02,MP:4.60,L:3.69,Other:1.66}],
+ ["Västmanland",9,176628,{S:30.47,SD:20.38,M:19.73,V:7.98,C:5.30,KD:5.60,MP:3.74,L:5.03,Other:1.77}],
+ ["Västra Götaland E",9,179042,{S:28.07,SD:21.42,M:19.95,V:5.80,C:6.51,KD:8.02,MP:4.07,L:4.43,Other:1.73}],
+ ["Västra Götaland N",10,176511,{S:28.57,SD:21.59,M:19.06,V:7.10,C:5.79,KD:6.94,MP:4.51,L:4.92,Other:1.52}],
+ ["Västra Götaland S",7,146081,{S:27.31,SD:20.74,M:19.55,V:7.10,C:6.70,KD:7.87,MP:4.31,L:4.66,Other:1.76}],
+ ["Västra Götaland W",13,258972,{S:25.30,SD:18.20,M:21.50,V:6.34,C:7.37,KD:7.22,MP:6.30,L:6.32,Other:1.44}],
+ ["Örebro",12,203013,{S:30.35,SD:17.76,M:17.63,V:7.82,C:5.72,KD:6.20,MP:4.88,L:4.43,Other:5.21}],
+ ["Östergötland",15,311207,{S:28.36,SD:18.48,M:20.55,V:7.06,C:6.82,KD:6.60,MP:5.63,L:4.92,Other:1.59}]
 ];
 
 // ---------- CONSTITUENCY MAP GEOMETRY (simplified from municipality-level geodata) ----------
@@ -1080,6 +1103,12 @@ function renderHemicycle(nationalSeats){
       svg.appendChild(circle);
     }
   });
+  const legend = document.getElementById("hemicycleLegend");
+  if(legend){
+    legend.innerHTML = ordered.map(p =>
+      `<span class="leg-item"><span class="swatch" style="background:${PARTY_COLOR[p]}"></span><span class="leg-abbr">${p}</span><span class="leg-name">${PARTY_NAMES[p] || ""}</span></span>`
+    ).join("");
+  }
   // any leftover positions (e.g. unallocated seats when fewer than 349 qualify) render as empty slots
   for(; cursor < positions.length; cursor++){
     const pos = positions[cursor];
@@ -1106,9 +1135,9 @@ function buildPartyRow(p, isCustom){
       <span class="swatch" style="background:${PARTY_COLOR[p]}"></span>
       <label>${p}<span class="full-name">${PARTY_NAMES[p]}</span></label>
     </span>
-    <input type="range" min="0" max="50" step="0.1" id="slider_${p}" value="${NATIONAL_2022[p].toFixed(1)}">
+    <input type="range" min="0" max="50" step="0.1" id="slider_${p}" value="${NATIONAL_2026[p].toFixed(1)}">
     <span class="pct-wrap">
-      <input type="number" step="0.1" min="0" max="100" id="in_${p}" value="${NATIONAL_2022[p].toFixed(1)}">
+      <input type="number" step="0.1" min="0" max="100" id="in_${p}" value="${NATIONAL_2026[p].toFixed(1)}">
       <span class="pct">%</span>
     </span>
     ${isCustom ? `<button type="button" class="remove-btn" id="remove_${p}" title="Remove party">&times;</button>` : ""}
@@ -1206,7 +1235,7 @@ function syncControlsFromValues(){
 }
 
 document.getElementById("resetBtn").addEventListener("click", () => {
-  PARTIES.forEach(p => document.getElementById("in_"+p).value = NATIONAL_2022[p].toFixed(1));
+  PARTIES.forEach(p => document.getElementById("in_"+p).value = NATIONAL_2026[p].toFixed(1));
   syncControlsFromValues();
   onInputsChanged();
 });
@@ -1236,7 +1265,7 @@ function addCustomParty(rawName){
 
   PARTIES.push(id);
   CUSTOM_PARTIES.push(id);
-  NATIONAL_2022[id] = 0;
+  NATIONAL_2026[id] = 0;
   PARTY_NAMES[id] = name;
   PARTY_COLOR[id] = EXTRA_COLORS[extraColorIndex % EXTRA_COLORS.length];
   extraColorIndex++;
@@ -1258,10 +1287,10 @@ function removeCustomParty(id){
   const cIdx = CUSTOM_PARTIES.indexOf(id);
   if(cIdx > -1) CUSTOM_PARTIES.splice(cIdx, 1);
   coalitionSelection.delete(id);
-  delete NATIONAL_2022[id];
+  delete NATIONAL_2026[id];
   delete PARTY_NAMES[id];
   delete PARTY_COLOR[id];
-  delete SEATS_2022[id];
+  delete SEATS_2026[id];
   document.getElementById("row_"+id)?.remove();
   document.getElementById("chip_"+id)?.remove();
   onInputsChanged();
@@ -1291,9 +1320,9 @@ function runProjection(){
   const other = Math.max(0, 100 - sum);
   const newNational = Object.assign({}, inputs, {Other: other});
 
-  // swing per party (percentage points), relative to 2022 national baseline
+  // swing per party (percentage points), relative to 2026 national baseline
   const swing = {};
-  PARTIES.concat(["Other"]).forEach(p => swing[p] = newNational[p] - NATIONAL_2022[p]);
+  PARTIES.concat(["Other"]).forEach(p => swing[p] = newNational[p] - NATIONAL_2026[p]);
 
   // --- national qualifying parties (>=4%) ---
   const nationalQualifying = PARTIES.filter(p => newNational[p] >= 4);
@@ -1304,12 +1333,12 @@ function runProjection(){
 
   // --- constituency-level swung shares + 12% flag + per-constituency seats ---
   const flags = [];
-  const constituencyResults = CONSTITUENCIES.map(([name, seats, votes, pct2022]) => {
+  const constituencyResults = CONSTITUENCIES.map(([name, seats, votes, pct2026]) => {
     // apply swing
     let swung = {};
     let localSum = 0;
     PARTIES.concat(["Other"]).forEach(p => {
-      let v = (pct2022[p] || 0) + swing[p];
+      let v = (pct2026[p] || 0) + swing[p];
       if(v < 0) v = 0;
       swung[p] = v;
       localSum += v;
@@ -1351,7 +1380,7 @@ function renderNational(newNational, nationalSeats){
   const byVotesOrder = [...PARTIES].sort((a,b) => newNational[b] - newNational[a]);
   byVotesOrder.forEach(p => {
     const seats = nationalSeats[p] || 0;
-    const delta = seats - (SEATS_2022[p] || 0);
+    const delta = seats - (SEATS_2026[p] || 0);
     const deltaStr = delta === 0 ? "±0" : (delta > 0 ? "+"+delta : delta);
     const deltaClass = delta > 0 ? "delta-pos" : (delta < 0 ? "delta-neg" : "");
     const qualifies = newNational[p] >= 4;
@@ -1412,7 +1441,7 @@ function buildTooltipContent(name){
   const info = latestConstituencyByName[name];
   if(!info) return "";
 
-  const isBlocMode = mapColorMode === "bloc";
+  const isBlocMode = mapColorMode === "bloc" || mapColorMode === "blocstrength";
 
   const entries = PARTIES
     .map(p => [p, info.swung[p] || 0, info.localSeats[p] || 0])
@@ -1453,12 +1482,12 @@ function buildTooltipContent(name){
     const leftSeats = LEFT_BLOC.reduce((a,p) => a + (info.localSeats[p]||0), 0);
     const rightSeats = RIGHT_BLOC.reduce((a,p) => a + (info.localSeats[p]||0), 0);
     blocBlock = `
-      <div class="tt-row tt-bloc-row">
+      <div class="tt-row tt-bloc-row${(mapColorMode === "blocstrength" && selectedBloc === "left") ? " tt-row-highlight" : ""}">
         <span><span class="tt-dot" style="background:var(--bloc-left)"></span>Left bloc</span>
         <span class="tt-pct">${leftPct.toFixed(1)}%</span>
         <span class="tt-seats-figure">${leftSeats} seat${leftSeats===1?"":"s"}</span>
       </div>
-      <div class="tt-row tt-bloc-row">
+      <div class="tt-row tt-bloc-row${(mapColorMode === "blocstrength" && selectedBloc === "right") ? " tt-row-highlight" : ""}">
         <span><span class="tt-dot" style="background:var(--bloc-right)"></span>Right bloc</span>
         <span class="tt-pct">${rightPct.toFixed(1)}%</span>
         <span class="tt-seats-figure">${rightSeats} seat${rightSeats===1?"":"s"}</span>
@@ -1575,6 +1604,41 @@ function updateStrengthLegend(){
   if(minLabel) minLabel.textContent = strengthDomain.lo + "%";
   if(maxLabel) maxLabel.textContent = strengthDomain.hi + "%";
 }
+// ---- bloc-strength helpers ----
+let selectedBloc = "left";
+let blocDomain = {lo: 0, hi: 60};
+function blocMembers(b){ return b === "right" ? RIGHT_BLOC : LEFT_BLOC; }
+function blocShare(r, b){ return blocMembers(b).reduce((a,p) => a + (r.swung[p]||0), 0); }
+function blocStrengthColor(b, pct, domain){
+  const hex = resolvePartyColor(b === "right" ? "var(--bloc-right)" : "var(--bloc-left)");
+  if(!hex || hex[0] !== "#") return "#ccc";
+  const [r,g,bl] = hexToRgb(hex);
+  const t = Math.max(0, Math.min(1, (pct - domain.lo) / (domain.hi - domain.lo)));
+  const mix = (c0,c1) => Math.round(c0 + (c1-c0)*t);
+  return `rgb(${mix(STRENGTH_BG[0],r)},${mix(STRENGTH_BG[1],g)},${mix(STRENGTH_BG[2],bl)})`;
+}
+function computeBlocDomain(results, b){
+  if(!results.length) return {lo: 0, hi: 60};
+  const vals = results.map(r => blocShare(r, b));
+  let lo = Math.floor(Math.min(...vals) / 10) * 10;
+  let hi = Math.ceil(Math.max(...vals) / 10) * 10;
+  if(hi <= lo) hi = lo + 10;
+  return {lo, hi};
+}
+function updateBlocLegend(){
+  const bar = document.getElementById("blocLegendBar");
+  if(!bar) return;
+  const full = selectedBloc === "right" ? "var(--bloc-right)" : "var(--bloc-left)";
+  bar.style.background = `linear-gradient(to right, ${blocStrengthColor(selectedBloc, blocDomain.lo, blocDomain)}, ${full})`;
+  document.getElementById("blocLegendMin").textContent = blocDomain.lo + "%";
+  document.getElementById("blocLegendMax").textContent = blocDomain.hi + "%";
+}
+document.getElementById("blocStrengthSelect").addEventListener("change", (e) => {
+  selectedBloc = e.target.value;
+  renderMap(Object.values(latestConstituencyByName));
+  if(activeConstituencyName) refreshOpenTooltip();
+});
+
 function refreshStrengthPartySelect(){
   const sel = document.getElementById("strengthPartySelect");
   if(!sel) return;
@@ -1594,12 +1658,12 @@ refreshStrengthPartySelect();
 function updateMapLegend(results){
   const legend = document.getElementById("mapLegend");
   if(!legend) return;
-  if(mapColorMode === "strength"){
-    legend.style.display = "none";
+  if(mapColorMode === "strength" || mapColorMode === "blocstrength"){
+    legend.style.visibility = "hidden";
     legend.innerHTML = "";
     return;
   }
-  legend.style.display = "flex";
+  legend.style.visibility = "visible";
   if(mapColorMode === "bloc"){
     const hasTie = results.some(r => {
       const leftPct = LEFT_BLOC.reduce((a,p) => a + (r.swung[p]||0), 0);
@@ -1630,11 +1694,18 @@ function renderMap(results){
     updateStrengthLegend();
   }
 
+  if(mapColorMode === "blocstrength"){
+    blocDomain = computeBlocDomain(results, selectedBloc);
+    updateBlocLegend();
+  }
+
   results.forEach(r => {
     const pathEl = mapPathEls[r.name];
     if(!pathEl) return;
 
-    if(mapColorMode === "bloc"){
+    if(mapColorMode === "blocstrength"){
+      pathEl.setAttribute("fill", blocStrengthColor(selectedBloc, blocShare(r, selectedBloc), blocDomain));
+    } else if(mapColorMode === "bloc"){
       const leftPct = LEFT_BLOC.reduce((a,p) => a + (r.swung[p]||0), 0);
       const rightPct = RIGHT_BLOC.reduce((a,p) => a + (r.swung[p]||0), 0);
       let fill = "var(--bloc-none)";
@@ -1667,6 +1738,7 @@ document.querySelectorAll(".map-mode-btn").forEach(btn => {
     mapColorMode = btn.dataset.mode;
     document.querySelectorAll(".map-mode-btn").forEach(b => b.classList.toggle("active", b === btn));
     document.getElementById("strengthControls").style.display = mapColorMode === "strength" ? "flex" : "none";
+    document.getElementById("blocStrengthControls").style.display = mapColorMode === "blocstrength" ? "flex" : "none";
     renderMap(Object.values(latestConstituencyByName));
   });
 });
@@ -1682,7 +1754,7 @@ function renderFlags(flags){
   area.innerHTML = html;
 }
 
-// initial run with 2022 baseline
+// initial run with 2026 baseline
 updateOtherAndTotal();
 runProjection();
 </script>
