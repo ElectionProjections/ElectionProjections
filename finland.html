@@ -91,10 +91,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Finland Parliamentary Seat Projector</title>
 <style>
   html, body { margin: 0; padding: 0; background: #F4F6F8; }
+  :root { box-sizing: border-box; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
   #root { min-height: 100vh; }
 </style>
 </head>
@@ -699,13 +700,13 @@ const CONSTITUENCY_BASELINE_2023 = {
     SFP: 0.3,
     KD: 1.1,
     LIIK: 0.7,
-    MUUT: 1.4
+    MUUT: 2.6
   }
 };
 
 // ---------------------------------------------------------------------------
 // Geographic map data — 13 electoral-district boundaries (WGS84 lon/lat),
-// dissolved from 311 municipality shapes (National Land Survey of Finland
+// dissolved from 309 municipality shapes (National Land Survey of Finland
 // open data) and grouped into constituencies using Statistics Finland's
 // current municipality-to-constituency mapping, cross-checked against its
 // published boundary-change log (as of Jan 2026) — four municipalities
@@ -840,15 +841,15 @@ const FI_PATH_GEN = d3.geoPath(FI_PROJECTION);
 const FI_PATHS = Object.fromEntries(FI_GEO.features.map(f => [f.properties.constituency, FI_PATH_GEN(f.geometry)]));
 
 // ---------------------------------------------------------------------------
-// Municipality-level map data — all 311 individual municipality boundaries
+// Municipality-level map data — all 309 individual municipality boundaries
 // (same National Land Survey of Finland source as the constituency map,
 // kept undissolved this time) paired with real 2023 municipality-level vote
 // shares from the same Statistics Finland export (StatFin table 13sw).
-// 308 of 311 have direct 2023 rows; Helsinki (single-municipality
-// constituency) is filled from its constituency-level figure, and Honkajoki
-// / Valtimo (merged into Kankaanpää / Nurmes before the 2023 election, so
-// they no longer existed as separate municipalities by polling day) are
-// filled from the municipality that absorbed them.
+// Helsinki (a single-municipality constituency) is filled from its
+// constituency-level figure. Honkajoki and Valtimo were merged into
+// Kankaanpää and Nurmes in 2021, so their shapes are dissolved into those
+// municipalities. Lapland's rows omit its "Non-Aligned Joint List" in the
+// source export, so that unlisted share is added to "Other" (MUUT).
 // ---------------------------------------------------------------------------
 const MUNI_GEO = {
   "type": "FeatureCollection",
@@ -1201,16 +1202,6 @@ const MUNI_GEO = {
     "geometry": {
       "type": "MultiPolygon",
       "coordinates": [[[[25.279, 61.098], [25.354, 61.115], [25.409, 61.107], [25.477, 61.123], [25.538, 61.151], [25.562, 61.115], [25.627, 61.114], [25.678, 61.102], [25.775, 61.107], [25.783, 61.096], [25.746, 61.085], [25.721, 61.066], [25.822, 61.051], [25.808, 61.041], [25.751, 61.032], [25.666, 61.026], [25.599, 61.034], [25.573, 61.002], [25.541, 60.998], [25.571, 60.96], [25.556, 60.934], [25.623, 60.93], [25.658, 60.906], [25.644, 60.881], [25.605, 60.87], [25.571, 60.884], [25.54, 60.868], [25.518, 60.895], [25.478, 60.872], [25.402, 60.854], [25.37, 60.88], [25.331, 60.888], [25.328, 60.911], [25.309, 60.923], [25.313, 60.944], [25.288, 60.973], [25.262, 60.982], [25.188, 60.951], [25.17, 60.926], [25.134, 60.905], [25.108, 60.865], [25.094, 60.919], [25.027, 60.928], [25.026, 60.962], [25.06, 60.986], [25.027, 60.994], [25.046, 61.017], [25.029, 61.031], [25.057, 61.05], [25.198, 61.076], [25.212, 61.103], [25.24, 61.115], [25.279, 61.098]]]]
-    }
-  }, {
-    "type": "Feature",
-    "id": "099",
-    "properties": {
-      "code": "099"
-    },
-    "geometry": {
-      "type": "MultiPolygon",
-      "coordinates": [[[[21.975, 61.98], [22.108, 62.032], [22.199, 62.103], [22.32, 62.103], [22.373, 62.143], [22.429, 62.11], [22.411, 62.086], [22.42, 62.051], [22.45, 62.032], [22.378, 62.028], [22.384, 62.018], [22.433, 62.013], [22.355, 62.002], [22.324, 61.957], [22.266, 61.952], [22.278, 61.933], [22.251, 61.916], [22.204, 61.908], [22.181, 61.923], [22.137, 61.914], [22.138, 61.896], [22.097, 61.924], [22.01, 61.934], [21.98, 61.955], [21.975, 61.98]]]]
     }
   }, {
     "type": "Feature",
@@ -1600,7 +1591,7 @@ const MUNI_GEO = {
     },
     "geometry": {
       "type": "MultiPolygon",
-      "coordinates": [[[[22.138, 61.896], [22.137, 61.914], [22.181, 61.923], [22.204, 61.908], [22.251, 61.916], [22.278, 61.933], [22.266, 61.952], [22.324, 61.957], [22.355, 62.002], [22.433, 62.013], [22.511, 62.012], [22.523, 61.998], [22.595, 61.974], [22.655, 61.965], [22.646, 61.952], [22.56, 61.928], [22.517, 61.898], [22.55, 61.885], [22.562, 61.84], [22.544, 61.802], [22.674, 61.768], [22.662, 61.745], [22.694, 61.738], [22.679, 61.726], [22.691, 61.703], [22.556, 61.686], [22.383, 61.709], [22.318, 61.749], [22.228, 61.756], [22.202, 61.703], [22.181, 61.707], [22.193, 61.743], [22.173, 61.745], [22.164, 61.772], [22.088, 61.783], [22.035, 61.804], [22.072, 61.839], [22.107, 61.842], [22.176, 61.879], [22.138, 61.896]]]]
+      "coordinates": [[[[21.975, 61.98], [22.108, 62.032], [22.199, 62.103], [22.32, 62.103], [22.373, 62.143], [22.429, 62.11], [22.411, 62.086], [22.42, 62.051], [22.45, 62.032], [22.378, 62.028], [22.384, 62.018], [22.433, 62.013], [22.511, 62.012], [22.523, 61.998], [22.595, 61.974], [22.655, 61.965], [22.646, 61.952], [22.56, 61.928], [22.517, 61.898], [22.55, 61.885], [22.562, 61.84], [22.544, 61.802], [22.674, 61.768], [22.662, 61.745], [22.694, 61.738], [22.679, 61.726], [22.691, 61.703], [22.556, 61.686], [22.383, 61.709], [22.318, 61.749], [22.228, 61.756], [22.202, 61.703], [22.181, 61.707], [22.193, 61.743], [22.173, 61.745], [22.164, 61.772], [22.088, 61.783], [22.035, 61.804], [22.072, 61.839], [22.107, 61.842], [22.176, 61.879], [22.138, 61.896], [22.097, 61.924], [22.01, 61.934], [21.98, 61.955], [21.975, 61.98]]]]
     }
   }, {
     "type": "Feature",
@@ -2580,7 +2571,7 @@ const MUNI_GEO = {
     },
     "geometry": {
       "type": "MultiPolygon",
-      "coordinates": [[[[28.668, 63.561], [28.68, 63.581], [28.77, 63.59], [28.851, 63.565], [28.999, 63.612], [28.939, 63.657], [28.941, 63.685], [28.984, 63.726], [29.097, 63.742], [29.141, 63.738], [29.137, 63.765], [29.192, 63.757], [29.186, 63.781], [29.128, 63.804], [29.112, 63.846], [29.683, 63.879], [29.723, 63.748], [29.776, 63.703], [29.682, 63.673], [29.653, 63.681], [29.542, 63.615], [29.523, 63.485], [29.567, 63.464], [29.566, 63.433], [29.537, 63.407], [29.522, 63.369], [29.467, 63.348], [29.331, 63.361], [29.183, 63.444], [29.149, 63.435], [29.107, 63.45], [29, 63.435], [28.821, 63.394], [28.827, 63.366], [28.666, 63.423], [28.649, 63.472], [28.603, 63.528], [28.651, 63.54], [28.668, 63.561]]]]
+      "coordinates": [[[[29.112, 63.846], [29.683, 63.879], [29.723, 63.748], [29.776, 63.703], [29.682, 63.673], [29.653, 63.681], [29.542, 63.615], [29.523, 63.485], [29.567, 63.464], [29.566, 63.433], [29.537, 63.407], [29.522, 63.369], [29.467, 63.348], [29.331, 63.361], [29.183, 63.444], [29.149, 63.435], [29.107, 63.45], [29, 63.435], [28.821, 63.394], [28.827, 63.366], [28.666, 63.423], [28.649, 63.472], [28.603, 63.528], [28.651, 63.54], [28.668, 63.561], [28.607, 63.576], [28.586, 63.659], [28.606, 63.675], [28.551, 63.701], [28.461, 63.699], [28.424, 63.726], [28.36, 63.755], [28.474, 63.858], [28.46, 63.871], [28.501, 63.882], [28.885, 63.836], [29.112, 63.846]]]]
     }
   }, {
     "type": "Feature",
@@ -3664,16 +3655,6 @@ const MUNI_GEO = {
     }
   }, {
     "type": "Feature",
-    "id": "911",
-    "properties": {
-      "code": "911"
-    },
-    "geometry": {
-      "type": "MultiPolygon",
-      "coordinates": [[[[29.112, 63.846], [29.128, 63.804], [29.186, 63.781], [29.192, 63.757], [29.137, 63.765], [29.141, 63.738], [29.097, 63.742], [28.984, 63.726], [28.941, 63.685], [28.939, 63.657], [28.999, 63.612], [28.851, 63.565], [28.77, 63.59], [28.68, 63.581], [28.668, 63.561], [28.607, 63.576], [28.586, 63.659], [28.606, 63.675], [28.551, 63.701], [28.461, 63.699], [28.424, 63.726], [28.36, 63.755], [28.474, 63.858], [28.46, 63.871], [28.501, 63.882], [28.885, 63.836], [29.112, 63.846]]]]
-    }
-  }, {
-    "type": "Feature",
     "id": "915",
     "properties": {
       "code": "915"
@@ -3980,7 +3961,7 @@ const MUNI_DATA = {
   '035': ['ald', 'Brändö', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
   '043': ['ald', 'Eckerö', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
   '046': ['sef', 'Enonkoski', 9.2, 14.1, 24.3, 31.8, 2.4, 1.5, 0.3, 4.9, 9.3, 2.2],
-  '047': ['lap', 'Enontekiö', 16.9, 25.3, 21.4, 22.5, 3.3, 3.3, 1.8, 1.6, 0.9, 1.3],
+  '047': ['lap', 'Enontekiö', 16.9, 25.3, 21.4, 22.5, 3.3, 3.3, 1.8, 1.6, 0.9, 3.0],
   '049': ['uus', 'Espoo', 36.8, 12.5, 16.9, 2.7, 3.6, 10.8, 7.5, 3.1, 2.9, 2.9],
   '050': ['sat', 'Eura', 11.1, 24.0, 27.2, 22.8, 7.6, 1.4, 0.2, 2.9, 0.9, 1.8],
   '051': ['sat', 'Eurajoki', 17.3, 22.5, 24.1, 23.1, 4.3, 1.8, 0.3, 3.4, 1.3, 1.7],
@@ -4006,7 +3987,6 @@ const MUNI_DATA = {
   '092': ['uus', 'Vantaa', 24.5, 20.0, 23.7, 3.7, 6.0, 8.1, 2.6, 3.8, 4.3, 3.1],
   '097': ['sef', 'Hirvensalmi', 22.8, 21.6, 14.4, 29.8, 0.8, 2.4, 0.0, 1.4, 2.3, 4.4],
   '098': ['hme', 'Hollola', 26.2, 25.6, 18.3, 10.4, 3.9, 4.7, 0.2, 6.5, 2.2, 2.1],
-  '099': ['sat', 'Honkajoki', 6.0, 39.5, 18.6, 25.5, 4.3, 1.4, 0.1, 3.0, 0.6, 0.9],
   '102': ['sat', 'Huittinen', 12.4, 36.9, 13.6, 24.7, 4.6, 1.5, 0.2, 2.9, 1.7, 1.4],
   '103': ['hme', 'Humppila', 13.4, 31.5, 20.4, 18.5, 6.0, 2.5, 0.0, 4.5, 1.4, 1.8],
   '105': ['oul', 'Hyrynsalmi', 4.9, 30.6, 8.8, 33.7, 13.3, 1.2, 0.1, 6.4, 0.4, 0.6],
@@ -4020,7 +4000,7 @@ const MUNI_DATA = {
   '143': ['pir', 'Ikaalinen', 13.7, 25.1, 19.8, 21.3, 3.6, 2.0, 0.1, 10.5, 1.0, 3.0],
   '145': ['vaa', 'Ilmajoki', 18.6, 33.5, 9.4, 25.2, 1.4, 2.3, 0.4, 5.3, 1.5, 2.2],
   '146': ['sav', 'Ilomantsi', 4.1, 17.8, 30.2, 36.1, 3.3, 1.6, 0.0, 4.7, 0.8, 1.4],
-  '148': ['lap', 'Inari', 15.3, 27.9, 22.8, 16.1, 7.4, 5.3, 1.5, 1.4, 0.7, 1.3],
+  '148': ['lap', 'Inari', 15.3, 27.9, 22.8, 16.1, 7.4, 5.3, 1.5, 1.4, 0.7, 1.6],
   '149': ['uus', 'Inkoo', 11.0, 10.7, 11.0, 0.9, 1.9, 3.3, 56.0, 1.9, 1.3, 1.9],
   '151': ['vaa', 'Isojoki', 14.0, 35.2, 7.7, 34.7, 1.3, 0.9, 0.7, 2.9, 1.3, 1.4],
   '152': ['vaa', 'Isokyrö', 19.2, 28.1, 10.9, 28.3, 1.7, 1.4, 0.8, 5.5, 2.1, 1.9],
@@ -4057,8 +4037,8 @@ const MUNI_DATA = {
   '235': ['uus', 'Kauniainen', 39.3, 7.9, 8.1, 1.7, 1.7, 5.7, 29.8, 2.5, 1.8, 1.5],
   '236': ['vaa', 'Kaustinen', 8.2, 30.1, 8.2, 40.5, 1.1, 1.5, 1.3, 5.4, 1.7, 1.9],
   '239': ['sav', 'Keitele', 9.1, 23.1, 14.9, 28.2, 4.3, 3.1, 0.1, 15.2, 0.9, 1.3],
-  '240': ['lap', 'Kemi', 8.9, 26.3, 27.2, 14.4, 18.1, 1.4, 0.1, 0.7, 0.4, 1.7],
-  '241': ['lap', 'Keminmaa', 8.0, 31.5, 13.1, 29.9, 9.0, 1.5, 0.0, 0.7, 0.4, 1.8],
+  '240': ['lap', 'Kemi', 8.9, 26.3, 27.2, 14.4, 18.1, 1.4, 0.1, 0.7, 0.4, 2.5],
+  '241': ['lap', 'Keminmaa', 8.0, 31.5, 13.1, 29.9, 9.0, 1.5, 0.0, 0.7, 0.4, 5.9],
   '244': ['oul', 'Kempele', 20.2, 24.8, 15.2, 24.6, 5.7, 3.6, 0.2, 2.3, 1.1, 2.4],
   '245': ['uus', 'Kerava', 22.5, 21.8, 22.3, 5.8, 8.2, 7.5, 1.4, 3.8, 3.9, 2.8],
   '249': ['csf', 'Keuruu', 15.8, 24.2, 22.0, 21.6, 2.7, 3.7, 0.1, 7.5, 0.9, 1.6],
@@ -4066,12 +4046,12 @@ const MUNI_DATA = {
   '256': ['csf', 'Kinnula', 5.3, 23.0, 13.4, 50.6, 2.0, 0.4, 0.1, 1.8, 0.4, 2.8],
   '257': ['uus', 'Kirkkonummi', 24.2, 18.1, 15.0, 2.8, 3.1, 10.3, 17.7, 2.8, 3.3, 2.5],
   '260': ['sav', 'Kitee', 10.9, 21.8, 19.7, 28.3, 1.7, 2.8, 0.0, 10.2, 3.0, 1.6],
-  '261': ['lap', 'Kittilä', 13.9, 25.6, 14.3, 21.6, 8.9, 6.0, 0.4, 0.8, 1.4, 1.4],
+  '261': ['lap', 'Kittilä', 13.9, 25.6, 14.3, 21.6, 8.9, 6.0, 0.4, 0.8, 1.4, 7.1],
   '263': ['sav', 'Kiuruvesi', 6.0, 21.8, 4.5, 40.9, 9.6, 1.3, 0.0, 9.5, 4.7, 1.5],
   '265': ['csf', 'Kivijärvi', 6.4, 23.5, 15.4, 48.9, 0.5, 0.8, 0.2, 1.8, 0.5, 2.0],
   '271': ['sat', 'Kokemäki', 12.5, 32.1, 19.9, 21.0, 7.7, 1.2, 0.3, 2.6, 1.0, 1.7],
   '272': ['vaa', 'Kokkola', 14.2, 20.9, 18.1, 19.9, 3.7, 2.9, 7.6, 9.3, 1.1, 2.4],
-  '273': ['lap', 'Kolari', 8.1, 17.9, 13.7, 22.7, 15.3, 7.4, 0.3, 0.7, 1.2, 2.3],
+  '273': ['lap', 'Kolari', 8.1, 17.9, 13.7, 22.7, 15.3, 7.4, 0.3, 0.7, 1.2, 12.7],
   '275': ['csf', 'Konnevesi', 11.3, 24.1, 16.9, 31.9, 4.8, 2.4, 0.1, 6.1, 1.0, 1.6],
   '276': ['sav', 'Kontiolahti', 13.6, 24.8, 21.9, 20.7, 2.4, 5.3, 0.0, 7.5, 2.3, 1.6],
   '280': ['vaa', 'Korsnäs', 0.4, 1.8, 5.9, 0.1, 0.6, 0.4, 87.9, 2.0, 0.4, 0.6],
@@ -4093,7 +4073,7 @@ const MUNI_DATA = {
   '316': ['hme', 'Kärkölä', 22.9, 29.2, 22.1, 10.1, 4.6, 2.0, 0.6, 3.5, 2.4, 2.6],
   '317': ['oul', 'Kärsämäki', 3.4, 32.2, 7.8, 47.7, 3.1, 0.9, 0.1, 2.3, 0.7, 1.8],
   '318': ['ald', 'Kökar', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-  '320': ['lap', 'Kemijärvi', 8.7, 28.0, 13.2, 34.5, 10.9, 1.7, 0.0, 1.4, 0.4, 1.0],
+  '320': ['lap', 'Kemijärvi', 8.7, 28.0, 13.2, 34.5, 10.9, 1.7, 0.0, 1.4, 0.4, 1.2],
   '322': ['vsf', 'Kemiönsaari', 6.0, 9.0, 13.1, 4.2, 9.0, 2.4, 52.8, 1.2, 1.1, 1.1],
   '398': ['hme', 'Lahti', 22.6, 23.2, 25.5, 5.2, 6.2, 5.4, 0.4, 5.9, 3.2, 2.5],
   '399': ['vaa', 'Laihia', 18.4, 34.4, 12.3, 18.7, 3.7, 2.1, 2.0, 4.2, 1.8, 2.6],
@@ -4133,7 +4113,7 @@ const MUNI_DATA = {
   '491': ['sef', 'Mikkeli', 27.4, 21.7, 18.9, 16.5, 1.7, 5.9, 0.1, 3.3, 2.7, 1.8],
   '494': ['oul', 'Muhos', 9.0, 35.9, 10.9, 26.3, 9.3, 3.0, 0.0, 1.7, 0.8, 3.1],
   '495': ['csf', 'Multia', 8.3, 24.4, 14.3, 37.5, 4.8, 2.7, 1.4, 4.8, 0.9, 0.9],
-  '498': ['lap', 'Muonio', 18.7, 23.1, 19.9, 21.3, 6.5, 4.4, 0.4, 1.8, 0.9, 1.7],
+  '498': ['lap', 'Muonio', 18.7, 23.1, 19.9, 21.3, 6.5, 4.4, 0.4, 1.8, 0.9, 3.0],
   '499': ['vaa', 'Mustasaari', 5.2, 9.0, 9.6, 1.3, 1.1, 2.5, 64.2, 4.2, 1.2, 1.7],
   '500': ['csf', 'Muurame', 24.9, 18.5, 23.5, 15.3, 3.9, 5.8, 0.1, 5.1, 1.2, 1.6],
   '503': ['vsf', 'Mynämäki', 15.6, 29.0, 15.3, 17.8, 9.6, 3.3, 0.7, 4.4, 2.5, 1.9],
@@ -4159,7 +4139,7 @@ const MUNI_DATA = {
   '578': ['oul', 'Paltamo', 12.1, 25.8, 9.8, 30.3, 11.8, 2.7, 0.1, 5.4, 0.4, 1.4],
   '580': ['sef', 'Parikkala', 12.6, 22.6, 16.9, 33.4, 1.8, 2.4, 0.0, 5.4, 3.1, 1.8],
   '581': ['pir', 'Parkano', 7.1, 26.6, 12.8, 9.8, 2.0, 0.8, 0.0, 37.6, 0.6, 2.9],
-  '583': ['lap', 'Pelkosenniemi', 10.8, 19.6, 11.7, 38.6, 7.4, 9.3, 0.0, 0.5, 0.4, 1.6],
+  '583': ['lap', 'Pelkosenniemi', 10.8, 19.6, 11.7, 38.6, 7.4, 9.3, 0.0, 0.5, 0.4, 1.7],
   '584': ['vaa', 'Perho', 7.5, 31.1, 16.6, 33.2, 1.4, 0.3, 0.4, 5.6, 0.6, 3.3],
   '588': ['sef', 'Pertunmaa', 24.3, 22.9, 11.5, 30.3, 2.1, 2.7, 0.1, 3.9, 0.6, 1.4],
   '592': ['csf', 'Petäjävesi', 10.1, 25.2, 24.8, 20.6, 3.2, 5.1, 0.3, 7.6, 1.5, 1.5],
@@ -4173,7 +4153,7 @@ const MUNI_DATA = {
   '608': ['sat', 'Pomarkku', 10.9, 36.0, 17.5, 22.2, 5.6, 0.9, 0.3, 3.9, 1.1, 1.6],
   '609': ['sat', 'Pori', 19.8, 25.4, 23.6, 7.6, 11.5, 3.7, 0.4, 3.6, 2.6, 1.6],
   '611': ['uus', 'Pornainen', 17.3, 32.6, 19.0, 12.6, 2.7, 3.7, 1.5, 3.2, 4.8, 2.6],
-  '614': ['lap', 'Posio', 5.1, 25.4, 13.2, 47.3, 4.5, 1.8, 0.2, 0.9, 0.3, 1.1],
+  '614': ['lap', 'Posio', 5.1, 25.4, 13.2, 47.3, 4.5, 1.8, 0.2, 0.9, 0.3, 1.3],
   '615': ['oul', 'Pudasjärvi', 4.6, 25.2, 7.4, 50.5, 5.3, 1.4, 0.1, 2.0, 1.4, 2.1],
   '616': ['uus', 'Pukkila', 18.6, 31.3, 12.3, 22.1, 2.3, 3.6, 1.1, 1.6, 4.2, 2.9],
   '619': ['pir', 'Punkalaidun', 17.0, 19.2, 16.2, 38.4, 2.9, 1.1, 0.2, 2.1, 0.7, 2.3],
@@ -4190,7 +4170,7 @@ const MUNI_DATA = {
   '678': ['oul', 'Raahe', 8.2, 29.4, 13.9, 28.3, 12.0, 2.3, 0.1, 2.7, 0.7, 2.3],
   '680': ['vsf', 'Raisio', 24.2, 23.4, 22.7, 4.7, 10.4, 5.9, 1.3, 3.5, 2.3, 1.6],
   '681': ['sef', 'Rantasalmi', 13.2, 17.2, 19.7, 35.5, 2.9, 2.5, 0.1, 2.9, 5.0, 1.1],
-  '683': ['lap', 'Ranua', 10.3, 27.9, 9.4, 45.8, 1.8, 0.9, 0.2, 0.8, 0.4, 1.6],
+  '683': ['lap', 'Ranua', 10.3, 27.9, 9.4, 45.8, 1.8, 0.9, 0.2, 0.8, 0.4, 2.5],
   '684': ['sat', 'Rauma', 21.9, 20.6, 34.3, 9.0, 5.2, 3.3, 0.4, 2.7, 1.3, 1.2],
   '686': ['sav', 'Rautalampi', 13.8, 19.6, 14.5, 23.9, 4.3, 6.7, 0.1, 14.1, 1.3, 1.7],
   '687': ['sav', 'Rautavaara', 6.7, 27.0, 13.9, 22.4, 10.9, 1.6, 0.1, 15.7, 1.2, 0.5],
@@ -4198,29 +4178,29 @@ const MUNI_DATA = {
   '691': ['oul', 'Reisjärvi', 4.3, 25.5, 6.0, 51.5, 4.7, 1.0, 0.1, 1.1, 1.1, 4.8],
   '694': ['hme', 'Riihimäki', 19.5, 22.0, 23.9, 3.6, 11.3, 5.0, 0.4, 6.9, 5.0, 2.3],
   '697': ['oul', 'Ristijärvi', 7.3, 25.7, 7.6, 41.5, 7.9, 2.3, 0.3, 5.8, 0.3, 1.3],
-  '698': ['lap', 'Rovaniemi', 16.6, 26.1, 21.1, 18.5, 8.4, 5.3, 0.2, 1.3, 0.8, 1.4],
+  '698': ['lap', 'Rovaniemi', 16.6, 26.1, 21.1, 18.5, 8.4, 5.3, 0.2, 1.3, 0.8, 1.7],
   '700': ['sef', 'Ruokolahti', 16.3, 25.8, 25.6, 19.8, 2.4, 2.6, 0.1, 3.6, 2.5, 1.3],
   '702': ['pir', 'Ruovesi', 14.3, 25.0, 21.7, 23.4, 6.1, 1.6, 0.1, 4.1, 1.5, 2.1],
   '704': ['vsf', 'Rusko', 24.2, 26.2, 16.6, 11.1, 8.2, 4.6, 1.0, 3.5, 3.0, 1.8],
   '707': ['sav', 'Rääkkylä', 17.8, 21.7, 12.0, 31.6, 2.3, 2.5, 0.0, 9.3, 0.5, 2.4],
   '710': ['uus', 'Raasepori', 6.5, 7.8, 25.9, 1.2, 3.3, 3.6, 45.8, 1.3, 2.5, 2.1],
   '729': ['csf', 'Saarijärvi', 7.7, 25.9, 16.6, 36.5, 2.7, 2.2, 0.1, 5.5, 0.8, 2.0],
-  '732': ['lap', 'Salla', 6.9, 24.3, 11.8, 41.5, 10.6, 1.7, 0.1, 1.0, 0.2, 1.5],
+  '732': ['lap', 'Salla', 6.9, 24.3, 11.8, 41.5, 10.6, 1.7, 0.1, 1.0, 0.2, 1.9],
   '734': ['vsf', 'Salo', 19.7, 24.6, 24.1, 11.6, 7.0, 3.8, 1.0, 2.7, 3.7, 1.7],
   '736': ['ald', 'Saltvik', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
   '738': ['vsf', 'Sauvo', 20.5, 24.8, 14.0, 19.2, 7.7, 5.3, 1.5, 3.0, 2.9, 1.3],
   '739': ['sef', 'Savitaipale', 21.4, 21.5, 15.8, 27.9, 1.1, 4.6, 0.1, 4.6, 1.6, 1.6],
   '740': ['sef', 'Savonlinna', 10.5, 14.4, 25.1, 17.3, 3.5, 3.4, 0.1, 5.2, 18.8, 1.8],
-  '742': ['lap', 'Savukoski', 14.6, 30.8, 7.9, 37.6, 4.7, 1.3, 0.5, 0.8, 0.2, 1.5],
+  '742': ['lap', 'Savukoski', 14.6, 30.8, 7.9, 37.6, 4.7, 1.3, 0.5, 0.8, 0.2, 1.6],
   '743': ['vaa', 'Seinäjoki', 23.6, 23.8, 11.2, 22.3, 2.8, 4.1, 0.6, 5.6, 3.1, 2.8],
   '746': ['oul', 'Sievi', 5.5, 38.9, 4.7, 37.3, 4.4, 1.4, 0.0, 2.6, 2.6, 2.6],
   '747': ['sat', 'Siikainen', 5.0, 36.5, 17.3, 32.2, 3.8, 0.7, 0.0, 3.8, 0.3, 0.6],
   '748': ['oul', 'Siikajoki', 6.3, 30.9, 8.5, 40.6, 5.9, 1.7, 0.2, 2.1, 0.9, 2.9],
   '749': ['sav', 'Siilinjärvi', 19.9, 21.5, 15.4, 19.3, 4.1, 4.7, 0.1, 10.8, 2.8, 1.6],
-  '751': ['lap', 'Simo', 6.5, 32.0, 11.4, 33.9, 12.8, 0.7, 0.1, 0.5, 0.4, 0.9],
+  '751': ['lap', 'Simo', 6.5, 32.0, 11.4, 33.9, 12.8, 0.7, 0.1, 0.5, 0.4, 1.7],
   '753': ['uus', 'Sipoo', 26.9, 15.8, 12.4, 3.3, 2.8, 5.9, 21.8, 2.8, 5.6, 2.5],
   '755': ['uus', 'Siuntio', 16.9, 18.8, 15.5, 3.8, 2.8, 5.5, 28.2, 2.4, 4.0, 2.0],
-  '758': ['lap', 'Sodankylä', 9.9, 27.8, 13.9, 34.2, 6.2, 2.2, 0.2, 1.2, 0.6, 0.9],
+  '758': ['lap', 'Sodankylä', 9.9, 27.8, 13.9, 34.2, 6.2, 2.2, 0.2, 1.2, 0.6, 3.8],
   '759': ['vaa', 'Soini', 9.2, 28.5, 4.9, 39.3, 1.4, 1.6, 0.2, 12.1, 0.5, 2.2],
   '761': ['vsf', 'Somero', 11.9, 31.8, 12.8, 30.5, 4.7, 2.0, 0.3, 2.2, 1.8, 1.9],
   '762': ['sav', 'Sonkajärvi', 8.4, 32.5, 10.1, 25.8, 4.7, 1.2, 0.0, 15.6, 0.9, 0.6],
@@ -4241,27 +4221,26 @@ const MUNI_DATA = {
   '834': ['hme', 'Tammela', 20.1, 25.8, 19.1, 20.3, 5.0, 2.5, 0.1, 4.4, 1.4, 1.3],
   '837': ['pir', 'Tampere', 22.9, 15.8, 27.6, 3.6, 8.5, 11.1, 0.3, 4.4, 2.7, 2.9],
   '844': ['sav', 'Tervo', 10.5, 22.8, 13.6, 33.0, 3.0, 2.4, 0.0, 9.8, 1.7, 3.1],
-  '845': ['lap', 'Tervola', 5.3, 31.9, 10.7, 35.0, 10.9, 1.2, 0.2, 1.3, 1.2, 1.7],
+  '845': ['lap', 'Tervola', 5.3, 31.9, 10.7, 35.0, 10.9, 1.2, 0.2, 1.3, 1.2, 2.3],
   '846': ['vaa', 'Teuva', 18.0, 30.8, 7.2, 27.6, 6.1, 0.8, 0.7, 5.5, 1.1, 2.2],
   '848': ['sav', 'Tohmajärvi', 9.7, 21.8, 20.6, 30.1, 2.1, 2.2, 0.0, 8.8, 2.3, 2.4],
   '849': ['vaa', 'Toholampi', 4.7, 18.9, 5.9, 56.2, 1.5, 1.0, 0.5, 9.9, 0.5, 1.0],
   '850': ['csf', 'Toivakka', 12.5, 26.3, 16.1, 25.3, 3.0, 3.2, 0.1, 11.0, 0.8, 1.8],
-  '851': ['lap', 'Tornio', 9.7, 30.1, 14.1, 33.0, 7.9, 1.7, 0.2, 1.1, 0.6, 1.4],
+  '851': ['lap', 'Tornio', 9.7, 30.1, 14.1, 33.0, 7.9, 1.7, 0.2, 1.1, 0.6, 1.6],
   '853': ['vsf', 'Turku', 24.3, 14.9, 18.8, 3.5, 16.9, 10.3, 4.8, 2.5, 2.2, 1.8],
-  '854': ['lap', 'Pello', 8.6, 18.5, 10.3, 30.8, 28.9, 0.9, 0.0, 0.8, 0.0, 0.7],
+  '854': ['lap', 'Pello', 8.6, 18.5, 10.3, 30.8, 28.9, 0.9, 0.0, 0.8, 0.0, 1.2],
   '857': ['sav', 'Tuusniemi', 10.0, 23.8, 9.9, 25.0, 15.8, 2.3, 0.0, 10.2, 0.8, 2.2],
   '858': ['uus', 'Tuusula', 25.0, 24.7, 17.4, 11.2, 3.8, 5.4, 1.4, 3.9, 4.3, 2.9],
   '859': ['oul', 'Tyrnävä', 14.4, 30.7, 8.9, 32.2, 6.1, 2.2, 0.1, 2.0, 0.4, 2.9],
   '886': ['sat', 'Ulvila', 18.0, 27.1, 24.5, 11.5, 9.3, 2.2, 0.2, 3.7, 2.1, 1.6],
   '887': ['pir', 'Urjala', 14.8, 31.5, 21.4, 19.3, 3.0, 2.4, 0.2, 3.0, 1.8, 2.5],
   '889': ['oul', 'Utajärvi', 5.5, 34.0, 12.9, 34.7, 8.2, 1.4, 0.0, 1.1, 0.4, 1.9],
-  '890': ['lap', 'Utsjoki', 11.4, 19.5, 28.5, 14.7, 5.3, 5.4, 11.1, 2.6, 0.3, 1.0],
+  '890': ['lap', 'Utsjoki', 11.4, 19.5, 28.5, 14.7, 5.3, 5.4, 11.1, 2.6, 0.3, 1.2],
   '892': ['csf', 'Uurainen', 8.0, 26.7, 15.1, 32.9, 2.7, 2.3, 0.1, 8.9, 1.1, 2.3],
   '893': ['vaa', 'Uusikaarlepyy', 0.9, 8.3, 9.0, 0.8, 0.8, 1.1, 71.5, 6.6, 0.4, 0.8],
   '895': ['vsf', 'Uusikaupunki', 15.0, 26.4, 23.1, 20.4, 6.4, 2.1, 0.6, 2.2, 1.8, 2.0],
   '905': ['vaa', 'Vaasa', 14.9, 18.7, 19.3, 4.3, 3.8, 5.5, 25.8, 3.8, 2.0, 2.0],
   '908': ['pir', 'Valkeakoski', 23.8, 21.3, 33.1, 5.5, 5.9, 2.7, 0.1, 3.3, 1.8, 2.4],
-  '911': ['sav', 'Valtimo', 5.3, 27.6, 18.4, 27.8, 3.4, 2.8, 0.0, 11.1, 1.2, 2.0],
   '915': ['sav', 'Varkaus', 19.5, 16.6, 37.1, 7.5, 7.1, 2.2, 0.0, 7.7, 1.0, 1.3],
   '918': ['vsf', 'Vehmaa', 21.8, 26.2, 12.6, 15.7, 8.1, 2.6, 0.7, 1.7, 9.3, 1.5],
   '921': ['sav', 'Vesanto', 11.2, 20.6, 15.2, 33.2, 3.7, 1.6, 0.0, 11.8, 1.4, 1.3],
@@ -4275,7 +4254,7 @@ const MUNI_DATA = {
   '936': ['pir', 'Virrat', 10.6, 24.0, 21.2, 25.4, 5.2, 1.5, 0.1, 9.6, 1.1, 1.4],
   '941': ['ald', 'Vårdö', 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
   '946': ['vaa', 'Vöyri', 1.7, 4.1, 5.0, 1.7, 0.7, 1.2, 80.3, 3.7, 0.7, 1.0],
-  '976': ['lap', 'Ylitornio', 6.5, 24.9, 12.3, 35.4, 14.8, 1.0, 0.2, 1.0, 0.5, 1.3],
+  '976': ['lap', 'Ylitornio', 6.5, 24.9, 12.3, 35.4, 14.8, 1.0, 0.2, 1.0, 0.5, 3.4],
   '977': ['oul', 'Ylivieska', 17.0, 26.7, 11.2, 31.1, 4.6, 2.6, 0.1, 2.7, 1.0, 2.9],
   '980': ['pir', 'Ylöjärvi', 20.4, 27.8, 23.2, 8.3, 4.8, 4.7, 0.2, 5.1, 3.2, 2.4],
   '981': ['hme', 'Ypäjä', 16.1, 31.4, 13.9, 21.4, 6.4, 2.6, 0.2, 4.1, 2.0, 2.0],
@@ -4315,7 +4294,7 @@ function GradientLegend({
   }, /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 10.5,
+      fontSize: 11.5,
       color: "#9AA5AF"
     }
   }, "0%"), /*#__PURE__*/React.createElement("div", {
@@ -4329,7 +4308,7 @@ function GradientLegend({
   }), /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 10.5,
+      fontSize: 11.5,
       color: "#9AA5AF"
     }
   }, fmt(max, 0), "%+"));
@@ -4466,6 +4445,20 @@ function FinlandSeatProjector() {
     }
     return totals;
   }, [perConstituency]);
+  const baselineSeats = useMemo(() => {
+    const totals = Object.fromEntries(PARTIES.map(p => [p.id, 0]));
+    for (const c of CONSTITUENCIES) {
+      const adj = {};
+      PARTIES.forEach(p => {
+        adj[p.id] = CONSTITUENCY_BASELINE_2023[c.id][p.id] || 0;
+      });
+      const r = dhondt(adj, c.seats);
+      PARTIES.forEach(p => {
+        totals[p.id] += r[p.id];
+      });
+    }
+    return totals;
+  }, []);
   const sortedParties = [...PARTIES].sort((a, b) => nationalSeats[b.id] - nationalSeats[a.id]);
   const maxSeats = Math.max(...PARTIES.map(p => nationalSeats[p.id]), 1);
   const hemiSeats = useMemo(() => {
@@ -4543,6 +4536,362 @@ function FinlandSeatProjector() {
   const [muniTooltip, setMuniTooltip] = useState(null); // { code, x, y }
   const muniMapWrapRef = useRef(null);
   const [mapMode, setMapMode] = useState("leader"); // "leader" | "share"
+  const [mapView, setMapView] = useState("constituency"); // "constituency" | "municipality"
+
+  // Shared zoom/pan for both maps (kept when switching between them).
+  // Transform is in SVG viewBox units: translate(x y) scale(k).
+  const MAP_W = 480, MAP_H = 760, MAX_ZOOM = 8;
+  const [mapZoom, setMapZoom] = useState({ k: 1, x: 0, y: 0, dur: 0 });
+  const ptrs = useRef(new Map());
+  const activeSvg = useRef(null);
+  const gestureRef = useRef({ moved: false, travel: 0, pinchDist: 0 });
+  const zoomAtRef = useRef(null);
+  // Visible horizontal window in map units. The svg is narrower than its panel,
+  // so when zoomed the map is allowed to fill the full panel width.
+  function getViewWindow() {
+    const wrap = mapWrapRef.current || muniMapWrapRef.current;
+    const svg = wrap && wrap.querySelector("svg");
+    if (!svg) return { x0: 0, x1: MAP_W };
+    const wr = wrap.getBoundingClientRect();
+    const sr = svg.getBoundingClientRect();
+    if (!sr.width || !wr.width) return { x0: 0, x1: MAP_W };
+    const sc = MAP_W / sr.width;
+    return { x0: (wr.left - sr.left) * sc, x1: (wr.right - sr.left) * sc };
+  }
+  function clampZoom(k, x, y) {
+    k = Math.min(MAX_ZOOM, Math.max(1, k));
+    const { x0, x1 } = getViewWindow();
+    const size = MAP_W * k;
+    const nx = size >= x1 - x0 ? Math.min(x0, Math.max(x1 - size, x)) : (x0 + x1) / 2 - size / 2;
+    return {
+      k,
+      x: nx,
+      y: Math.min(0, Math.max(MAP_H * (1 - k), y))
+    };
+  }
+  // dur = transition length in ms (0 = follow the finger/cursor instantly).
+  function zoomAt(factor, cx, cy, dur = 0) {
+    setMapTooltip(null);
+    setMuniTooltip(null);
+    setMapZoom(z => {
+      const nk = Math.min(MAX_ZOOM, Math.max(1, z.k * factor));
+      const r = nk / z.k;
+      return { ...clampZoom(nk, cx - (cx - z.x) * r, cy - (cy - z.y) * r), dur };
+    });
+  }
+  zoomAtRef.current = zoomAt;
+  const mapZoomRef = useRef(mapZoom);
+  mapZoomRef.current = mapZoom;
+  function resetZoom() {
+    setMapTooltip(null);
+    setMuniTooltip(null);
+    setMapZoom({ k: 1, x: 0, y: 0, dur: 300 });
+  }
+  // Scrolling over a map zooms it (scroll up = in). Once fully zoomed out, scrolling down
+  // passes through to the page so the map never traps the scroll.
+  React.useEffect(() => {
+    const el = mapView === "constituency" ? mapWrapRef.current : muniMapWrapRef.current;
+    if (!el) return;
+    const onWheel = e => {
+      const dy = e.deltaMode === 1 ? e.deltaY * 33 : e.deltaY;
+      if (mapZoomRef.current.k <= 1 && dy > 0) return;
+      e.preventDefault();
+      const svg = el.querySelector("svg");
+      const rect = svg.getBoundingClientRect();
+      const sc = MAP_W / rect.width;
+      // Gentle, capped step so a mouse-wheel notch isn't a huge jump; short easing smooths it.
+      const step = Math.max(-50, Math.min(50, dy));
+      zoomAtRef.current(Math.exp(-step * 0.006), (e.clientX - rect.left) * sc, (e.clientY - rect.top) * sc, 140);
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, [mapView]);
+  React.useEffect(() => {
+    const move = ev => {
+      const p = ptrs.current.get(ev.pointerId);
+      const wrap = activeSvg.current;
+      const svg = wrap && wrap.querySelector("svg");
+      if (!p || !svg) return;
+      const rect = svg.getBoundingClientRect();
+      const sc = MAP_W / rect.width;
+      const g = gestureRef.current;
+      if (ptrs.current.size === 1) {
+        const dx = ev.clientX - p.x, dy = ev.clientY - p.y;
+        p.x = ev.clientX;
+        p.y = ev.clientY;
+        g.travel += Math.abs(dx) + Math.abs(dy);
+        if (g.travel > 4) {
+          g.moved = true;
+          setMapZoom(z => z.k > 1 ? { ...clampZoom(z.k, z.x + dx * sc, z.y + dy * sc), dur: 0 } : z);
+        }
+      } else if (ptrs.current.size === 2) {
+        p.x = ev.clientX;
+        p.y = ev.clientY;
+        const [a, b] = [...ptrs.current.values()];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (g.pinchDist > 0) {
+          zoomAtRef.current(d / g.pinchDist, ((a.x + b.x) / 2 - rect.left) * sc, ((a.y + b.y) / 2 - rect.top) * sc);
+        }
+        g.pinchDist = d;
+      }
+    };
+    const up = ev => {
+      ptrs.current.delete(ev.pointerId);
+      gestureRef.current.pinchDist = 0;
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", up);
+    return () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", up);
+    };
+  }, []);
+  function onMapPointerDown(e) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    if (e.target.closest && e.target.closest("button")) return;
+    activeSvg.current = e.currentTarget;
+    ptrs.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    const g = gestureRef.current;
+    if (ptrs.current.size === 1) {
+      g.moved = false;
+      g.travel = 0;
+    } else if (ptrs.current.size === 2) {
+      const [a, b] = [...ptrs.current.values()];
+      g.pinchDist = Math.hypot(a.x - b.x, a.y - b.y);
+      g.moved = true;
+    }
+  }
+  function onMapClickCapture(e) {
+    if (gestureRef.current.moved) {
+      e.stopPropagation();
+      e.preventDefault();
+      gestureRef.current.moved = false;
+    }
+  }
+  const mapSvgProps = {
+    viewBox: "0 0 480 760",
+    style: {
+      width: "100%",
+      maxWidth: 420,
+      height: "auto",
+      display: "block",
+      margin: "0 auto",
+      overflow: "visible"
+    }
+  };
+  const mapWrapProps = {
+    tabIndex: 0,
+    role: "group",
+    "aria-label": "Map. Press plus or minus to zoom, arrow keys to pan when zoomed in, and Escape to close details.",
+    onKeyDown: onMapKeyDown,
+    onPointerDown: onMapPointerDown,
+    onClickCapture: onMapClickCapture,
+    style: {
+      position: "relative",
+      overflow: "hidden",
+      userSelect: "none",
+      WebkitUserSelect: "none",
+      touchAction: mapZoom.k > 1 ? "none" : "pan-y",
+      cursor: mapZoom.k > 1 ? "grab" : "default"
+    }
+  };
+  // CSS transform (not the SVG attribute) so zoom/pan can be eased.
+  const mapGroupStyle = {
+    transform: `translate(${mapZoom.x}px, ${mapZoom.y}px) scale(${mapZoom.k})`,
+    transformOrigin: "0 0",
+    transition: mapZoom.dur ? `transform ${mapZoom.dur}ms cubic-bezier(0.22, 0.61, 0.36, 1)` : "none"
+  };
+  function activateByKey(e, handler, arg) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+    const r = e.currentTarget.getBoundingClientRect();
+    handler({
+      stopPropagation() {},
+      clientX: r.left + r.width / 2,
+      clientY: r.top + r.height / 2
+    }, arg);
+  }
+  function regionLabel(cid) {
+    if (cid === "ald") return "\xC5land, 1 seat. Press Enter for details.";
+    const c = CONSTITUENCIES.find(x => x.id === cid);
+    return `${c.name}, ${c.seats} seats. Press Enter for details.`;
+  }
+  function onMapKeyDown(e) {
+    const tag = e.target.tagName;
+    if (tag === "BUTTON" || tag === "SELECT") return;
+    const zoomed = mapZoomRef.current.k > 1;
+    const pan = (dx, dy) => {
+      e.preventDefault();
+      setMapTooltip(null);
+      setMuniTooltip(null);
+      setMapZoom(z => ({ ...clampZoom(z.k, z.x + dx, z.y + dy), dur: 150 }));
+    };
+    switch (e.key) {
+      case "+":
+      case "=":
+        e.preventDefault();
+        zoomAt(1.6, MAP_W / 2, MAP_H / 2, 280);
+        break;
+      case "-":
+      case "_":
+        e.preventDefault();
+        zoomAt(1 / 1.6, MAP_W / 2, MAP_H / 2, 280);
+        break;
+      case "0":
+        e.preventDefault();
+        resetZoom();
+        break;
+      case "Escape":
+        setMapTooltip(null);
+        setMuniTooltip(null);
+        break;
+      case "ArrowLeft":
+        if (zoomed) pan(60, 0);
+        break;
+      case "ArrowRight":
+        if (zoomed) pan(-60, 0);
+        break;
+      case "ArrowUp":
+        if (zoomed) pan(0, 60);
+        break;
+      case "ArrowDown":
+        if (zoomed) pan(0, -60);
+        break;
+      default:
+    }
+  }
+  const muniOptions = useMemo(() => MUNI_GEO.features.map(f => ({
+    code: f.properties.code,
+    name: MUNI_DATA[f.properties.code][1]
+  })).sort((a, b) => a.name.localeCompare(b.name, "fi")), []);
+  // Keyboard-friendly way to reach any of the 309 municipalities: zoom to it and open its details.
+  function focusMunicipality(code) {
+    if (!code) return;
+    const f = MUNI_GEO.features.find(x => x.properties.code === code);
+    const [cx, cy] = MUNI_PATH_GEN.centroid(f.geometry);
+    const k = Math.max(mapZoomRef.current.k, 4);
+    setMuniTooltip(null);
+    setMapZoom({ ...clampZoom(k, MAP_W / 2 - cx * k, MAP_H / 2 - cy * k), dur: 450 });
+    setTimeout(() => {
+      const wrap = muniMapWrapRef.current;
+      const el = wrap && wrap.querySelector(`path[data-code="${code}"]`);
+      if (!el) return;
+      const wr = wrap.getBoundingClientRect();
+      const r = el.getBoundingClientRect();
+      setMuniTooltip({
+        code,
+        x: Math.max(0, Math.min(wr.width, r.left + r.width / 2 - wr.left)),
+        y: Math.max(0, Math.min(wr.height, r.top + r.height / 2 - wr.top))
+      });
+    }, 500);
+  }
+  function municipalitySelect() {
+    return /*#__PURE__*/React.createElement("select", {
+      "aria-label": "Find a municipality",
+      value: "",
+      onChange: e => focusMunicipality(e.target.value),
+      style: {
+        fontFamily: "'IBM Plex Sans', sans-serif",
+        fontSize: 13.5,
+        fontWeight: 600,
+        color: "#2F3E4E",
+        background: "#fff",
+        border: "1px solid #C7CDD4",
+        borderRadius: 999,
+        padding: "8px 14px",
+        cursor: "pointer",
+        maxWidth: 220
+      }
+    }, /*#__PURE__*/React.createElement("option", {
+      value: ""
+    }, "Find a municipality\u2026"), muniOptions.map(o => /*#__PURE__*/React.createElement("option", {
+      key: o.code,
+      value: o.code
+    }, o.name)));
+  }
+  function segmented(options, value, onSelect) {
+    return /*#__PURE__*/React.createElement("div", {
+      role: "group",
+      style: {
+        display: "inline-flex",
+        background: "#fff",
+        border: "1px solid #C7CDD4",
+        borderRadius: 999,
+        padding: 3,
+        gap: 2
+      }
+    }, options.map(o => {
+      const active = value === o.value;
+      return /*#__PURE__*/React.createElement("button", {
+        key: o.value,
+        className: active ? undefined : "fsp-seg",
+        onClick: () => onSelect(o.value),
+        "aria-pressed": active,
+        style: {
+          border: "none",
+          borderRadius: 999,
+          padding: "7px 16px",
+          fontSize: 13.5,
+          fontFamily: "'IBM Plex Sans', sans-serif",
+          fontWeight: 600,
+          cursor: "pointer",
+          whiteSpace: "nowrap",
+          transition: "background 0.15s, color 0.15s",
+          background: active ? "#122036" : "transparent",
+          color: active ? "#fff" : "#2F3E4E"
+        }
+      }, o.label);
+    }));
+  }
+  function zoomControls() {
+    const btn = disabled => ({
+      width: 30,
+      height: 30,
+      borderRadius: 6,
+      border: "1px solid #D7DCE1",
+      background: "#fff",
+      color: "#122036",
+      fontSize: 17,
+      lineHeight: 1,
+      fontFamily: "'IBM Plex Sans', sans-serif",
+      cursor: disabled ? "default" : "pointer",
+      opacity: disabled ? 0.4 : 1,
+      padding: 0
+    });
+    const atMin = mapZoom.k <= 1, atMax = mapZoom.k >= MAX_ZOOM;
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        top: 0,
+        right: 0,
+        display: "flex",
+        flexDirection: "column",
+        gap: 4,
+        zIndex: 2
+      },
+      onClick: e => e.stopPropagation()
+    }, /*#__PURE__*/React.createElement("button", {
+      title: "Zoom in",
+      "aria-label": "Zoom in",
+      disabled: atMax,
+      onClick: () => zoomAt(1.6, MAP_W / 2, MAP_H / 2, 280),
+      style: btn(atMax)
+    }, "+"), /*#__PURE__*/React.createElement("button", {
+      title: "Zoom out",
+      "aria-label": "Zoom out",
+      disabled: atMin,
+      onClick: () => zoomAt(1 / 1.6, MAP_W / 2, MAP_H / 2, 280),
+      style: btn(atMin)
+    }, "\u2212"), /*#__PURE__*/React.createElement("button", {
+      title: "Reset zoom",
+      "aria-label": "Reset zoom",
+      disabled: atMin,
+      onClick: resetZoom,
+      style: { ...btn(atMin), fontSize: 14 }
+    }, "\u2922"));
+  }
   const [strengthParty, setStrengthParty] = useState("KOK");
   const shareScaleMax = useMemo(() => {
     let max = SHARE_SCALE_MIN;
@@ -4687,9 +5036,20 @@ function FinlandSeatProjector() {
           border-radius: 2px;
           background: transparent;
         }
+        .fsp-seg:hover {
+          background: #E6EBF0;
+        }
+        .fsp-region:focus {
+          outline: none;
+        }
+        .fsp-region:focus-visible {
+          stroke: #122036;
+          stroke-width: 2.5px;
+          vector-effect: non-scaling-stroke;
+        }
       `), /*#__PURE__*/React.createElement("div", {
     style: {
-      maxWidth: 1080,
+      maxWidth: 920,
       margin: "0 auto",
       padding: "32px 20px 56px"
     }
@@ -4699,54 +5059,49 @@ function FinlandSeatProjector() {
       paddingBottom: 18,
       marginBottom: 28
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 12,
-      letterSpacing: "0.14em",
-      color: "#5B6B7C",
-      textTransform: "uppercase",
-      marginBottom: 6
-    }
-  }, "Eduskuntavaalit \xB7 Seat Projection Model"), /*#__PURE__*/React.createElement("h1", {
+  }, /*#__PURE__*/React.createElement("h1", {
     style: {
       fontFamily: "'Space Grotesk', sans-serif",
-      fontSize: 34,
+      fontSize: 36,
       fontWeight: 700,
       margin: 0,
       lineHeight: 1.15
     }
   }, "Finland Parliamentary Seat Projector"), /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 14.5,
+      fontSize: 15.5,
       color: "#4B5A6A",
       marginTop: 10,
       maxWidth: 640,
       lineHeight: 1.5
     }
-  }, "Enter national vote shares and see them converted into all 200 Eduskunta seats, using the real 13-constituency map and D'Hondt allocation rule from the 2 April 2023 election.")), /*#__PURE__*/React.createElement("div", {
+  }, "Enter national vote shares and see them converted into all 200 Eduskunta seats, using Finland's 13-constituency map and D'Hondt allocation rule.")), /*#__PURE__*/React.createElement("div", {
     style: {
       marginBottom: 30
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      display: "flex",
+      display: "grid",
+      gridTemplateColumns: "1fr auto 1fr",
       alignItems: "baseline",
-      justifyContent: "space-between",
       marginBottom: 10
     }
   }, /*#__PURE__*/React.createElement("h2", {
     style: {
       fontFamily: "'Space Grotesk', sans-serif",
-      fontSize: 16,
+      fontSize: 20,
       fontWeight: 600,
+      textAlign: "center",
+      gridColumn: 2,
       margin: 0
     }
-  }, "National vote share"), /*#__PURE__*/React.createElement("button", {
+  }, "Input vote share"), /*#__PURE__*/React.createElement("button", {
     onClick: resetBaseline,
     style: {
+      gridColumn: 3,
+      justifySelf: "end",
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 11,
+      fontSize: 12,
       background: "none",
       border: "1px solid #C7CDD4",
       borderRadius: 6,
@@ -4785,12 +5140,12 @@ function FinlandSeatProjector() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 13,
+      fontSize: 14,
       fontWeight: 600
     }
   }, p.id), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: "#7A8896",
       whiteSpace: "nowrap",
       overflow: "hidden",
@@ -4811,16 +5166,6 @@ function FinlandSeatProjector() {
       "--pct": `${Math.min(100, (Number(shares[p.id]) || 0) / 40 * 100)}%`
     }
   }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 10.5,
-      color: "#B0B9C2",
-      width: 64,
-      textAlign: "right",
-      flexShrink: 0,
-      whiteSpace: "nowrap"
-    }
-  }, "23: ", fmt(p.baseline), "%"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       alignItems: "center",
@@ -4843,12 +5188,12 @@ function FinlandSeatProjector() {
       outline: "none",
       padding: "5px 4px 5px 8px",
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 13,
+      fontSize: 14,
       textAlign: "right"
     }
   }), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 12,
+      fontSize: 13,
       color: "#8A97A3",
       paddingRight: 6
     }
@@ -4856,27 +5201,20 @@ function FinlandSeatProjector() {
     style: {
       marginTop: 10,
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 12,
+      fontSize: 13,
       display: "flex",
       justifyContent: "space-between",
       color: "#3B7A45"
     }
-  }, /*#__PURE__*/React.createElement("span", null, "total (locked)"), /*#__PURE__*/React.createElement("span", null, fmt(total), "%")), /*#__PURE__*/React.createElement("p", {
-    style: {
-      fontSize: 12,
-      color: "#7A8896",
-      marginTop: 12,
-      lineHeight: 1.55,
-      maxWidth: 780
-    }
-  }, "Moving a party's slider takes the difference out of (or gives it back to) \"Other,\" so every other party stays put and the total stays locked at 100%. Once Other hits 0%, a party can't be pushed any higher. Each party's national point-change from its real 2023 result (uniform national swing) is then applied on top of that party's own real 2023 result in every individual constituency \u2014 not the national figure copied everywhere \u2014 using Statistics Finland's official constituency-level 2023 results (StatFin table 13sw). At zero swing this reproduces 199 of the 200 real 2023 seats exactly; the one seat that doesn't match is a rounding artifact of the published percentages (one decimal place) rather than raw vote counts, which aren't publicly broken out at this granularity. Seat counts per constituency and the D'Hondt formula itself are the real mechanics used in Finland.")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
+  }, /*#__PURE__*/React.createElement("span", null, "total (locked)"), /*#__PURE__*/React.createElement("span", null, fmt(total), "%"))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h2", {
     style: {
       fontFamily: "'Space Grotesk', sans-serif",
-      fontSize: 16,
+      fontSize: 20,
       fontWeight: 600,
+      textAlign: "center",
       margin: "0 0 12px"
     }
-  }, "Projected seats \u2014 200 total"), /*#__PURE__*/React.createElement("div", {
+  }, "Projected results"), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "#fff",
       border: "1px solid #E1E5E9",
@@ -4928,7 +5266,7 @@ function FinlandSeatProjector() {
   }), /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 11,
+      fontSize: 12,
       color: "#5B6B7C"
     }
   }, item.label))))), /*#__PURE__*/React.createElement("div", {
@@ -4939,56 +5277,108 @@ function FinlandSeatProjector() {
       padding: "16px 18px 6px",
       marginTop: 16
     }
-  }, sortedParties.map(p => /*#__PURE__*/React.createElement("div", {
-    key: p.id,
+  }, /*#__PURE__*/React.createElement("table", {
     style: {
-      marginBottom: 12
+      width: "100%",
+      borderCollapse: "collapse",
+      fontSize: 14
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
     style: {
-      display: "flex",
-      justifyContent: "space-between",
-      fontSize: 12.5,
-      marginBottom: 3
+      ...{
+      fontFamily: "'IBM Plex Mono', monospace",
+      fontSize: 12,
+      fontWeight: 500,
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+      color: "#7A8896",
+      padding: "0 0 8px",
+      borderBottom: "1px solid #E1E5E9",
+      textAlign: "right"
+    },
+      textAlign: "left"
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, "Party"), /*#__PURE__*/React.createElement("th", {
     style: {
-      fontWeight: 600
+      fontFamily: "'IBM Plex Mono', monospace",
+      fontSize: 12,
+      fontWeight: 500,
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+      color: "#7A8896",
+      padding: "0 0 8px",
+      borderBottom: "1px solid #E1E5E9",
+      textAlign: "right"
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, "Vote share"), /*#__PURE__*/React.createElement("th", {
     style: {
-      color: p.color
+      fontFamily: "'IBM Plex Mono', monospace",
+      fontSize: 12,
+      fontWeight: 500,
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+      color: "#7A8896",
+      padding: "0 0 8px",
+      borderBottom: "1px solid #E1E5E9",
+      textAlign: "right"
     }
-  }, "\u25CF"), " ", p.id, /*#__PURE__*/React.createElement("span", {
+  }, "Seats"), /*#__PURE__*/React.createElement("th", {
     style: {
-      fontWeight: 400,
-      color: "#7A8896"
+      fontFamily: "'IBM Plex Mono', monospace",
+      fontSize: 12,
+      fontWeight: 500,
+      letterSpacing: "0.06em",
+      textTransform: "uppercase",
+      color: "#7A8896",
+      padding: "0 0 8px",
+      borderBottom: "1px solid #E1E5E9",
+      textAlign: "right"
     }
-  }, " \u2014 ", p.enName)), /*#__PURE__*/React.createElement("span", {
-    style: {
+  }, "+/-"))), /*#__PURE__*/React.createElement("tbody", null, sortedParties.map(p => {
+    const diff = nationalSeats[p.id] - baselineSeats[p.id];
+    const cell = {
+      padding: "9px 0",
+      borderBottom: "1px solid #F0F2F4",
+      textAlign: "right",
       fontFamily: "'IBM Plex Mono', monospace"
-    }
-  }, nationalSeats[p.id], " seats")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: "#F0F2F4",
-      borderRadius: 4,
-      height: 10,
-      overflow: "hidden"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: `${nationalSeats[p.id] / maxSeats * 100}%`,
-      background: p.color,
-      height: "100%",
-      borderRadius: 4,
-      transition: "width 0.25s ease"
-    }
-  })))), /*#__PURE__*/React.createElement("div", {
+    };
+    return /*#__PURE__*/React.createElement("tr", {
+      key: p.id
+    }, /*#__PURE__*/React.createElement("td", {
+      style: {
+        ...cell,
+        textAlign: "left",
+        fontFamily: "'IBM Plex Sans', sans-serif",
+        fontWeight: 600
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: p.color
+      }
+    }, "\u25CF"), " ", p.id, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontWeight: 400,
+        color: "#7A8896"
+      }
+    }, " \u2014 ", p.enName)), /*#__PURE__*/React.createElement("td", {
+      style: cell
+    }, fmt(normalized[p.id]), "%"), /*#__PURE__*/React.createElement("td", {
+      style: {
+        ...cell,
+        fontWeight: 600
+      }
+    }, nationalSeats[p.id]), /*#__PURE__*/React.createElement("td", {
+      style: {
+        ...cell,
+        color: diff > 0 ? "#3B7A45" : diff < 0 ? "#C0392B" : "#9AA5AF"
+      }
+    }, diff > 0 ? `+${diff}` : diff < 0 ? `\u2212${-diff}` : "0"));
+  }))), /*#__PURE__*/React.createElement("div", {
     style: {
       borderTop: "1px dashed #D7DCE1",
       margin: "8px 0 10px",
       paddingTop: 8,
-      fontSize: 11.5,
+      fontSize: 12.5,
       color: "#7A8896",
       display: "flex",
       justifyContent: "space-between"
@@ -4997,17 +5387,12 @@ function FinlandSeatProjector() {
     style: {
       fontFamily: "'IBM Plex Mono', monospace"
     }
-  }, "1 seat")), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: "#B0B9C2",
-      paddingBottom: 10
-    }
-  }, "101 seats needed for a majority in the 200-seat Eduskunta.")), /*#__PURE__*/React.createElement("h2", {
+  }, "1 seat"))), /*#__PURE__*/React.createElement("h2", {
     style: {
       fontFamily: "'Space Grotesk', sans-serif",
-      fontSize: 16,
+      fontSize: 20,
       fontWeight: 600,
+      textAlign: "center",
       margin: "26px 0 12px"
     }
   }, "Coalition builder"), /*#__PURE__*/React.createElement("div", {
@@ -5050,14 +5435,14 @@ function FinlandSeatProjector() {
       }
     }), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 12.5,
+        fontSize: 13.5,
         fontWeight: 600,
         color: "#122036"
       }
     }, p.id), /*#__PURE__*/React.createElement("span", {
       style: {
         fontFamily: "'IBM Plex Mono', monospace",
-        fontSize: 11,
+        fontSize: 12,
         color: "#7A8896"
       }
     }, nationalSeats[p.id]));
@@ -5096,7 +5481,7 @@ function FinlandSeatProjector() {
     style: {
       display: "flex",
       justifyContent: "space-between",
-      fontSize: 10.5,
+      fontSize: 11.5,
       color: "#B0B9C2",
       marginTop: 4,
       fontFamily: "'IBM Plex Mono', monospace"
@@ -5114,13 +5499,13 @@ function FinlandSeatProjector() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 13,
+      fontSize: 14,
       color: "#4B5A6A"
     }
   }, coalitionParties.length === 0 ? "Select parties above to build a coalition." : coalitionParties.map(p => p.id).join(" + ")), /*#__PURE__*/React.createElement("div", {
     style: {
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 13.5,
+      fontSize: 14.5,
       fontWeight: 600,
       color: hasMajority ? "#3B7A45" : "#B0521E"
     }
@@ -5131,57 +5516,43 @@ function FinlandSeatProjector() {
   }, " ", "\u2014 ", hasMajority ? "majority reached" : `${MAJORITY - coalitionSeats} short of majority`)))), /*#__PURE__*/React.createElement("h2", {
     style: {
       fontFamily: "'Space Grotesk', sans-serif",
-      fontSize: 16,
+      fontSize: 20,
       fontWeight: 600,
+      textAlign: "center",
       margin: "26px 0 12px"
     }
-  }, "By constituency"), /*#__PURE__*/React.createElement("div", {
+  }, "Map"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexWrap: "wrap",
+      justifyContent: "center",
       alignItems: "center",
-      gap: 10,
+      gap: "10px 14px",
       marginBottom: 14
     }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "inline-flex",
-      border: "1px solid #D7DCE1",
-      borderRadius: 999,
-      padding: 2,
-      background: "#fff"
-    }
-  }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => setMapMode("leader"),
-    style: {
-      border: "none",
-      borderRadius: 999,
-      padding: "5px 12px",
-      fontSize: 12,
-      fontFamily: "'IBM Plex Sans', sans-serif",
-      fontWeight: 600,
-      cursor: "pointer",
-      background: mapMode === "leader" ? "#122036" : "transparent",
-      color: mapMode === "leader" ? "#fff" : "#5B6B7C"
-    }
-  }, "Leading party"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => setMapMode("share"),
-    style: {
-      border: "none",
-      borderRadius: 999,
-      padding: "5px 12px",
-      fontSize: 12,
-      fontFamily: "'IBM Plex Sans', sans-serif",
-      fontWeight: 600,
-      cursor: "pointer",
-      background: mapMode === "share" ? "#122036" : "transparent",
-      color: mapMode === "share" ? "#fff" : "#5B6B7C"
-    }
-  }, "Vote share strength")), mapMode === "share" && /*#__PURE__*/React.createElement("div", {
+  }, segmented([{
+    value: "constituency",
+    label: "Constituency"
+  }, {
+    value: "municipality",
+    label: "Municipality"
+  }], mapView, v => {
+    setMapView(v);
+    setMapTooltip(null);
+    setMuniTooltip(null);
+  }), segmented([{
+    value: "leader",
+    label: "Leading party"
+  }, {
+    value: "share",
+    label: "Party strength"
+  }], mapMode, setMapMode), mapView === "municipality" && municipalitySelect(), mapMode === "share" && /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexWrap: "wrap",
-      gap: 5
+      flexBasis: "100%",
+      justifyContent: "center",
+      gap: 6
     }
   }, PARTIES.map(p => /*#__PURE__*/React.createElement("button", {
     key: p.id,
@@ -5207,17 +5578,18 @@ function FinlandSeatProjector() {
     }
   }), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 11.5,
+      fontSize: 12.5,
       fontWeight: 600,
       color: "#122036"
     }
   }, p.id))))), mapMode === "share" && /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: "#9AA5AF",
-      margin: "-8px 0 12px"
+      textAlign: "center",
+      margin: "-4px 0 12px"
     }
-  }, "Applies to both maps below \u2014 darker means a stronger vote share for ", strengthParty, " in that area."), /*#__PURE__*/React.createElement("div", {
+  }, "Applies to both maps \u2014 darker means a stronger vote share for ", strengthParty, " in that area."), mapView === "constituency" && (/*#__PURE__*/React.createElement("div", {
     style: {
       background: "#fff",
       border: "1px solid #E1E5E9",
@@ -5227,18 +5599,9 @@ function FinlandSeatProjector() {
     onClick: () => setMapTooltip(null)
   }, /*#__PURE__*/React.createElement("div", {
     ref: mapWrapRef,
-    style: {
-      position: "relative"
-    }
-  }, /*#__PURE__*/React.createElement("svg", {
-    viewBox: "0 0 480 760",
-    style: {
-      width: "100%",
-      maxWidth: 420,
-      height: "auto",
-      display: "block",
-      margin: "0 auto"
-    }
+    ...mapWrapProps
+  }, /*#__PURE__*/React.createElement("svg", mapSvgProps, /*#__PURE__*/React.createElement("g", {
+    style: mapGroupStyle
   }, FI_GEO.features.map(f => {
     const cid = f.properties.constituency;
     const isSelected = mapTooltip && mapTooltip.id === cid;
@@ -5248,12 +5611,17 @@ function FinlandSeatProjector() {
         d: FI_PATHS[cid],
         fill: isSelected ? darken(ALAND_COLOR) : ALAND_COLOR,
         stroke: "#fff",
-        strokeWidth: 1.2,
+        strokeWidth: 1.2 / mapZoom.k,
         strokeLinejoin: "round",
         style: {
           cursor: "pointer"
         },
-        onClick: e => handleConstituencyClick(e, cid)
+        onClick: e => handleConstituencyClick(e, cid),
+        className: "fsp-region",
+        tabIndex: 0,
+        role: "button",
+        "aria-label": regionLabel(cid),
+        onKeyDown: e => activateByKey(e, handleConstituencyClick, cid)
       });
     }
     const cData = perConstituency.find(c => c.id === cid);
@@ -5263,27 +5631,32 @@ function FinlandSeatProjector() {
       d: FI_PATHS[cid],
       fill: isSelected ? darken(baseColor) : baseColor,
       stroke: "#fff",
-      strokeWidth: 1.2,
+      strokeWidth: 1.2 / mapZoom.k,
       strokeLinejoin: "round",
       style: {
         cursor: "pointer"
       },
-      onClick: e => handleConstituencyClick(e, cid)
+      onClick: e => handleConstituencyClick(e, cid),
+        className: "fsp-region",
+        tabIndex: 0,
+        role: "button",
+        "aria-label": regionLabel(cid),
+        onKeyDown: e => activateByKey(e, handleConstituencyClick, cid)
     });
-  })), mapTooltip && (() => {
+  }))), zoomControls(), mapTooltip && (() => {
     const cid = mapTooltip.id;
     const meta = CONSTITUENCIES.find(c => c.id === cid);
     const wrapEl = mapWrapRef.current;
     const wrapWidth = wrapEl ? wrapEl.clientWidth : 300;
     const wrapHeight = wrapEl ? wrapEl.clientHeight : 600;
-    const tooltipWidth = 196;
+    const tooltipWidth = 208;
     const cData = cid !== "ald" ? perConstituency.find(c => c.id === cid) : null;
     const rows = cData ? PARTIES.map(p => ({
       p,
       share: cData.shares[p.id],
       seats: cData.result[p.id]
     })).filter(r => r.share > 0.05 || r.seats > 0).sort((a, b) => b.share - a.share) : [];
-    const estHeight = cid === "ald" ? 66 : 38 + rows.length * 18;
+    const estHeight = cid === "ald" ? 70 : 40 + rows.length * 20;
     let left = mapTooltip.x - tooltipWidth / 2;
     left = Math.max(4, Math.min(left, wrapWidth - tooltipWidth - 4));
 
@@ -5297,6 +5670,7 @@ function FinlandSeatProjector() {
     top = Math.max(4, Math.min(top, wrapHeight - estHeight - 4));
     if (cid === "ald") {
       return /*#__PURE__*/React.createElement("div", {
+        role: "status",
         style: {
           position: "absolute",
           left,
@@ -5320,7 +5694,7 @@ function FinlandSeatProjector() {
         style: {
           fontFamily: "'Space Grotesk', sans-serif",
           fontWeight: 600,
-          fontSize: 12.5
+          fontSize: 13.5
         }
       }, "\xC5land"), /*#__PURE__*/React.createElement("button", {
         onClick: () => setMapTooltip(null),
@@ -5329,13 +5703,13 @@ function FinlandSeatProjector() {
           background: "none",
           cursor: "pointer",
           color: "#9AA5AF",
-          fontSize: 12,
+          fontSize: 13,
           lineHeight: 1,
           padding: 0
         }
       }, "\u2715")), /*#__PURE__*/React.createElement("p", {
         style: {
-          fontSize: 11,
+          fontSize: 12,
           color: "#7A8896",
           margin: 0,
           lineHeight: 1.4
@@ -5343,6 +5717,7 @@ function FinlandSeatProjector() {
       }, "1 fixed seat, elected by \xC5land's own regional parties \u2014 not part of this national-party model."));
     }
     return /*#__PURE__*/React.createElement("div", {
+      role: "status",
       style: {
         position: "absolute",
         left,
@@ -5366,7 +5741,7 @@ function FinlandSeatProjector() {
       style: {
         fontFamily: "'Space Grotesk', sans-serif",
         fontWeight: 600,
-        fontSize: 12.5
+        fontSize: 13.5
       }
     }, meta.name), /*#__PURE__*/React.createElement("button", {
       onClick: () => setMapTooltip(null),
@@ -5375,13 +5750,13 @@ function FinlandSeatProjector() {
         background: "none",
         cursor: "pointer",
         color: "#9AA5AF",
-        fontSize: 12,
+        fontSize: 13,
         lineHeight: 1,
         padding: 0
       }
     }, "\u2715")), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 10,
+        fontSize: 11,
         color: "#9AA5AF",
         marginBottom: 5
       }
@@ -5401,7 +5776,7 @@ function FinlandSeatProjector() {
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: 11,
+        fontSize: 12,
         fontWeight: 600,
         whiteSpace: "nowrap",
         overflow: "hidden"
@@ -5413,7 +5788,7 @@ function FinlandSeatProjector() {
     }, "\u25CF"), " ", p.id), /*#__PURE__*/React.createElement("span", {
       style: {
         fontFamily: "'IBM Plex Mono', monospace",
-        fontSize: 10,
+        fontSize: 11,
         color: "#5B6B7C",
         textAlign: "right"
       }
@@ -5462,7 +5837,7 @@ function FinlandSeatProjector() {
   }), /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 11,
+      fontSize: 12,
       color: "#5B6B7C"
     }
   }, p.id))), /*#__PURE__*/React.createElement("div", {
@@ -5482,7 +5857,7 @@ function FinlandSeatProjector() {
   }), /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 11,
+      fontSize: 12,
       color: "#5B6B7C"
     }
   }, "\xC5land"))) : /*#__PURE__*/React.createElement(GradientLegend, {
@@ -5490,19 +5865,12 @@ function FinlandSeatProjector() {
     max: shareScaleMax
   }), /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: "#9AA5AF",
       textAlign: "center",
       margin: "2px 0 0"
     }
-  }, mapMode === "leader" ? "Each constituency is colored by whichever party wins the most votes there — note this can differ from the seat winner in a district (D'Hondt sometimes hands the extra seat to the runner-up). Click a region for the full vote share and seat breakdown." : `Each constituency is shaded by ${strengthParty}'s own vote share there, from white (0%) to full color (${fmt(shareScaleMax, 0)}%+). Click a region for the full breakdown.`)), /*#__PURE__*/React.createElement("h2", {
-    style: {
-      fontFamily: "'Space Grotesk', sans-serif",
-      fontSize: 16,
-      fontWeight: 600,
-      margin: "26px 0 12px"
-    }
-  }, "By municipality"), /*#__PURE__*/React.createElement("div", {
+  }, mapMode === "leader" ? null : `Each constituency is shaded by ${strengthParty}'s own vote share there, from white (0%) to full color (${fmt(shareScaleMax, 0)}%+). Click a region for the full breakdown.`))), mapView === "municipality" && (/*#__PURE__*/React.createElement("div", {
     style: {
       background: "#fff",
       border: "1px solid #E1E5E9",
@@ -5512,18 +5880,9 @@ function FinlandSeatProjector() {
     onClick: () => setMuniTooltip(null)
   }, /*#__PURE__*/React.createElement("div", {
     ref: muniMapWrapRef,
-    style: {
-      position: "relative"
-    }
-  }, /*#__PURE__*/React.createElement("svg", {
-    viewBox: "0 0 480 760",
-    style: {
-      width: "100%",
-      maxWidth: 420,
-      height: "auto",
-      display: "block",
-      margin: "0 auto"
-    }
+    ...mapWrapProps
+  }, /*#__PURE__*/React.createElement("svg", mapSvgProps, /*#__PURE__*/React.createElement("g", {
+    style: mapGroupStyle
   }, MUNI_GEO.features.map(f => {
     const code = f.properties.code;
     const m = municipalityData[code];
@@ -5535,27 +5894,28 @@ function FinlandSeatProjector() {
       d: MUNI_PATHS[code],
       fill: isSelected ? darken(fillColor) : fillColor,
       stroke: "#fff",
-      strokeWidth: 0.4,
+      strokeWidth: 0.4 / mapZoom.k,
       strokeLinejoin: "round",
       style: {
         cursor: "pointer"
       },
-      onClick: e => handleMuniClick(e, code)
+      onClick: e => handleMuniClick(e, code),
+      "data-code": code
     });
-  })), muniTooltip && (() => {
+  }))), zoomControls(), muniTooltip && (() => {
     const code = muniTooltip.code;
     const m = municipalityData[code];
     if (!m) return null;
     const wrapEl = muniMapWrapRef.current;
     const wrapWidth = wrapEl ? wrapEl.clientWidth : 300;
     const wrapHeight = wrapEl ? wrapEl.clientHeight : 600;
-    const tooltipWidth = 190;
+    const tooltipWidth = 202;
     const isAland = m.constituencyId === "ald";
     const rows = isAland ? [] : MUNI_PARTY_ORDER.map(pid => ({
       pid,
       share: m.shares[pid]
     })).filter(r => r.share > 0.05).sort((a, b) => b.share - a.share);
-    const estHeight = isAland ? 74 : 40 + rows.length * 16;
+    const estHeight = isAland ? 78 : 42 + rows.length * 18;
     let left = muniTooltip.x - tooltipWidth / 2;
     left = Math.max(4, Math.min(left, wrapWidth - tooltipWidth - 4));
     let top = muniTooltip.y + 12;
@@ -5563,6 +5923,7 @@ function FinlandSeatProjector() {
     top = Math.max(4, Math.min(top, wrapHeight - estHeight - 4));
     if (isAland) {
       return /*#__PURE__*/React.createElement("div", {
+        role: "status",
         style: {
           position: "absolute",
           left,
@@ -5586,7 +5947,7 @@ function FinlandSeatProjector() {
         style: {
           fontFamily: "'Space Grotesk', sans-serif",
           fontWeight: 600,
-          fontSize: 12.5
+          fontSize: 13.5
         }
       }, m.name), /*#__PURE__*/React.createElement("button", {
         onClick: () => setMuniTooltip(null),
@@ -5595,13 +5956,13 @@ function FinlandSeatProjector() {
           background: "none",
           cursor: "pointer",
           color: "#9AA5AF",
-          fontSize: 12,
+          fontSize: 13,
           lineHeight: 1,
           padding: 0
         }
       }, "\u2715")), /*#__PURE__*/React.createElement("p", {
         style: {
-          fontSize: 11,
+          fontSize: 12,
           color: "#7A8896",
           margin: 0,
           lineHeight: 1.4
@@ -5610,6 +5971,7 @@ function FinlandSeatProjector() {
     }
     const constituencyMeta = CONSTITUENCIES.find(c => c.id === m.constituencyId);
     return /*#__PURE__*/React.createElement("div", {
+      role: "status",
       style: {
         position: "absolute",
         left,
@@ -5633,7 +5995,7 @@ function FinlandSeatProjector() {
       style: {
         fontFamily: "'Space Grotesk', sans-serif",
         fontWeight: 600,
-        fontSize: 12.5
+        fontSize: 13.5
       }
     }, m.name), /*#__PURE__*/React.createElement("button", {
       onClick: () => setMuniTooltip(null),
@@ -5642,13 +6004,13 @@ function FinlandSeatProjector() {
         background: "none",
         cursor: "pointer",
         color: "#9AA5AF",
-        fontSize: 12,
+        fontSize: 13,
         lineHeight: 1,
         padding: 0
       }
     }, "\u2715")), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: 10,
+        fontSize: 11,
         color: "#9AA5AF",
         marginBottom: 5
       }
@@ -5660,7 +6022,7 @@ function FinlandSeatProjector() {
       style: {
         display: "flex",
         justifyContent: "space-between",
-        fontSize: 11,
+        fontSize: 12,
         marginBottom: 2,
         lineHeight: "16px"
       }
@@ -5704,7 +6066,7 @@ function FinlandSeatProjector() {
   }), /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 11,
+      fontSize: 12,
       color: "#5B6B7C"
     }
   }, p.id))), /*#__PURE__*/React.createElement("div", {
@@ -5724,7 +6086,7 @@ function FinlandSeatProjector() {
   }), /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: "'IBM Plex Mono', monospace",
-      fontSize: 11,
+      fontSize: 12,
       color: "#5B6B7C"
     }
   }, "\xC5land"))) : /*#__PURE__*/React.createElement(GradientLegend, {
@@ -5732,25 +6094,24 @@ function FinlandSeatProjector() {
     max: shareScaleMax
   }), /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: "#9AA5AF",
       textAlign: "center",
       margin: "2px 0 0"
     }
-  }, mapMode === "leader" ? "Each of Finland's 311 municipalities is colored by its own local vote-share leader — seats aren't allocated below the constituency level, so this is votes only. Click a municipality for its full local breakdown." : `Each municipality is shaded by ${strengthParty}'s own local vote share, from white (0%) to full color (${fmt(shareScaleMax, 0)}%+). Click a municipality for its full breakdown.`)), /*#__PURE__*/React.createElement("p", {
+  }, mapMode === "leader" ? null : `Each municipality is shaded by ${strengthParty}'s own local vote share, from white (0%) to full color (${fmt(shareScaleMax, 0)}%+). Click a municipality for its full breakdown.`))), /*#__PURE__*/React.createElement("p", {
     style: {
-      fontSize: 11.5,
+      fontSize: 12.5,
       color: "#9AA5AF",
       marginTop: 14,
       lineHeight: 1.5
     }
-  }, "Constituency boundaries are dissolved from all 311 Finnish municipalities (National Land Survey of Finland open data) grouped by Statistics Finland's official municipality-to-constituency mapping. Each constituency's coloring reflects its own real 2023 result (Statistics Finland, table 13sw) adjusted by the national swing implied by your sliders \u2014 not a single national figure applied uniformly \u2014 and seats are allocated per constituency using the D'Hondt highest-averages method, exactly as Finnish law requires. The municipality map below it uses the same real 2023 baseline and swing, at municipality granularity (also table 13sw); 308 of 311 municipalities have direct 2023 figures, and the remaining three (Helsinki, plus Honkajoki and Valtimo, both absorbed into neighboring municipalities before the 2023 election) are filled from the constituency-level or successor-municipality figure."))));
+  }, "Constituency boundaries are dissolved from the 309 municipalities that existed at the 2023 election, grouped by Statistics Finland's official municipality-to-constituency mapping. Sources: 2023 parliamentary election results (StatFin table 13sw) and the municipality-to-constituency mapping \u2014 Statistics Finland, licensed under CC BY 4.0; municipality boundaries \u2014 \xA9 National Land Survey of Finland open data, licensed under CC BY 4.0."))));
 }
 ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(FinlandSeatProjector));
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
