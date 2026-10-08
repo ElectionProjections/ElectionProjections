@@ -471,6 +471,7 @@ function allocate(cv){
 
 /* ---------- swing model ---------- */
 function project(eff){
+  const gap=ORDER.reduce((a,p)=>a+eff[p],0)-TARGET;   // below 0 when the inputs total under 100%: the rest is other lists
   return CONS.map(c=>{
     const votes={}; let sumF=0,neg=false; const floored=[];
     for(const p of ORDER){
@@ -480,7 +481,7 @@ function project(eff){
       sumF+=votes[p];
     }
     let scaled=false;
-    if(neg&&sumF>0){const f=c.T/sumF; ORDER.forEach(p=>votes[p]*=f); scaled=true;}
+    if(neg&&sumF>0){const f=c.T*(1+gap/TARGET)/sumF; ORDER.forEach(p=>votes[p]*=f); scaled=true;}
     return {votes,T:c.T,floored,scaled};
   });
 }
@@ -531,11 +532,10 @@ function sync(){
 function compute(){
   const sum=ORDER.reduce((a,p)=>a+state.shares[p],0);
   if(!(sum>0))return null;
-  let f=TARGET/sum; if(Math.abs(f-1)<1e-12)f=1;
-  const eff={}; ORDER.forEach(p=>eff[p]=state.shares[p]*f);
+  const eff={}; ORDER.forEach(p=>eff[p]=state.shares[p]);
   const proj=project(eff);
   const a=allocate(proj);
-  return {eff,proj,a,scaledInput:f!==1,factor:f};
+  return {eff,proj,a};
 }
 
 /* ---------- rendering ---------- */
@@ -768,7 +768,7 @@ function tipHTML(id){
     const dots=seats?'<span class="dots" style="--c:'+META[p].c+'" role="img" aria-label="'+seats+' seat'+(seats>1?'s':'')+(ls?' ('+ls+' leveling)':'')+'">'+'<i></i>'.repeat(cs)+'<i class="lv"></i>'.repeat(ls)+'</span>':'';
     return '<tr'+(p===lead?' class="lead"':'')+'><td><div class="nm">'+chip(p)+'<span class="pn">'+META[p].n+'</span></div></td><td class="n">'+nf(sh,1)+'%</td><td>'+dots+'</td></tr>';
   }).join('');
-  const note=pv.scaled?'<div class="note">Floor applied: '+pv.floored.join(', ')+' set to 0 and the rest rescaled.</div>':'';
+  const note='';
   return '<div class="tip-h"><div><strong>'+c.name+'</strong><small>'+IS_NAME[id]+'</small></div><button type="button" class="tip-x" aria-label="Close">×</button></div>'+
     '<div class="tip-s">'+c.con+' constituency + '+c.lev+' leveling seat'+(c.lev>1?'s':'')+'</div>'+
     '<table><thead><tr><th scope="col"><span class="sr">Party</span></th><th scope="col" class="n"><span class="sr">Vote share</span></th><th scope="col"><span class="sr">Seats</span></th></tr></thead><tbody>'+rows+'</tbody></table>'+note;
