@@ -93,13 +93,16 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>South Africa National Assembly Seat Projection</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
 <style>
-  html, body { margin: 0; padding: 0; background: #16231C; }
+  :root { background: #16231C; color-scheme: dark; }
+    body { margin: 0; background: #16231C; color: #F3EEDF; }
   #root { min-height: 100vh; }
 </style>
+
+
 </head>
 <body>
 <div id="root"></div>
@@ -112,38 +115,59 @@ window.__ALL_MUNIS_GEOJSON__ = {"type":"FeatureCollection","features":[{"type":"
 window.__MUNICIPALITY_BASELINE__ = {"Buffalo City|Eastern Cape":{"anc":56.9,"da":16.4,"mk":1.5,"eff":15.9,"ifp":0.1,"pa":1.8,"vf":0.4,"action":0.7,"acdp":0.6,"udm":1.9,"rise":0.6,"bosa":0.3,"atm":0.7,"aljama":0.1,"ncc":0.0,"pac":0.6,"uat":0.0,"good":0.0},"City of Cape Town|Western Cape":{"anc":21.9,"da":53.1,"mk":0.9,"eff":7.3,"ifp":0.1,"pa":4.1,"vf":1.0,"action":0.5,"acdp":1.4,"udm":0.5,"rise":1.0,"bosa":0.6,"atm":0.3,"aljama":1.5,"ncc":2.6,"pac":0.3,"uat":0.0,"good":0.8},"Dr Beyers Naude|Eastern Cape":{"anc":41.1,"da":38.0,"mk":0.3,"eff":4.4,"ifp":0.0,"pa":10.0,"vf":2.3,"action":0.4,"acdp":0.7,"udm":0.4,"rise":0.1,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.4,"uat":0.0,"good":0.2},"Blue Crane Route|Eastern Cape":{"anc":54.2,"da":34.5,"mk":0.3,"eff":4.8,"ifp":0.0,"pa":2.3,"vf":1.4,"action":0.5,"acdp":0.2,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Makana|Eastern Cape":{"anc":52.6,"da":21.7,"mk":1.3,"eff":15.0,"ifp":0.1,"pa":2.5,"vf":0.4,"action":1.5,"acdp":0.4,"udm":0.8,"rise":0.5,"bosa":0.6,"atm":0.6,"aljama":0.0,"ncc":0.0,"pac":0.3,"uat":0.0,"good":0.3},"Ndlambe|Eastern Cape":{"anc":52.0,"da":29.1,"mk":0.8,"eff":9.9,"ifp":0.0,"pa":1.0,"vf":1.5,"action":2.4,"acdp":1.1,"udm":0.2,"rise":0.2,"bosa":0.2,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":0.0,"uat":0.0,"good":0.0},"Sundays River Valley|Eastern Cape":{"anc":62.7,"da":19.2,"mk":0.4,"eff":6.8,"ifp":0.0,"pa":2.8,"vf":1.9,"action":0.2,"acdp":0.2,"udm":0.4,"rise":0.0,"bosa":0.1,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":2.7,"uat":0.0,"good":0.6},"Kouga|Eastern Cape":{"anc":30.8,"da":51.1,"mk":0.3,"eff":3.0,"ifp":0.0,"pa":6.3,"vf":3.6,"action":0.9,"acdp":1.2,"udm":0.7,"rise":0.2,"bosa":0.2,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Kou-Kamma|Eastern Cape":{"anc":38.8,"da":22.2,"mk":0.4,"eff":3.4,"ifp":0.0,"pa":28.7,"vf":3.2,"action":0.1,"acdp":0.7,"udm":0.2,"rise":0.1,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.3,"uat":0.0,"good":0.1},"Mbhashe|Eastern Cape":{"anc":73.9,"da":1.8,"mk":0.8,"eff":7.2,"ifp":0.0,"pa":0.1,"vf":0.0,"action":0.1,"acdp":0.1,"udm":12.2,"rise":0.1,"bosa":0.1,"atm":1.6,"aljama":0.0,"ncc":0.0,"pac":0.4,"uat":0.1,"good":0.0},"Mnquma|Eastern Cape":{"anc":73.3,"da":2.2,"mk":1.0,"eff":9.7,"ifp":0.0,"pa":0.1,"vf":0.0,"action":0.2,"acdp":0.1,"udm":6.7,"rise":0.1,"bosa":0.1,"atm":1.9,"aljama":0.0,"ncc":0.0,"pac":2.5,"uat":0.0,"good":0.0},"Great Kei|Eastern Cape":{"anc":63.0,"da":18.1,"mk":0.4,"eff":12.8,"ifp":0.0,"pa":0.4,"vf":0.8,"action":0.3,"acdp":0.6,"udm":0.6,"rise":0.1,"bosa":0.2,"atm":1.1,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.0},"Amahlathi|Eastern Cape":{"anc":76.3,"da":7.7,"mk":0.7,"eff":10.0,"ifp":0.1,"pa":0.4,"vf":0.2,"action":0.3,"acdp":0.2,"udm":0.8,"rise":0.1,"bosa":0.2,"atm":0.8,"aljama":0.0,"ncc":0.0,"pac":0.4,"uat":0.0,"good":0.0},"Ngqushwa|Eastern Cape":{"anc":82.0,"da":1.7,"mk":0.7,"eff":10.0,"ifp":0.0,"pa":0.0,"vf":0.0,"action":0.2,"acdp":0.1,"udm":1.0,"rise":0.1,"bosa":0.2,"atm":0.7,"aljama":0.0,"ncc":0.0,"pac":1.4,"uat":0.0,"good":0.0},"Raymond Mhlaba|Eastern Cape":{"anc":76.6,"da":6.0,"mk":0.7,"eff":10.0,"ifp":0.1,"pa":2.0,"vf":0.2,"action":0.6,"acdp":0.1,"udm":0.8,"rise":0.1,"bosa":0.2,"atm":0.3,"aljama":0.0,"ncc":0.0,"pac":0.7,"uat":0.0,"good":0.0},"Inxuba Yethemba|Eastern Cape":{"anc":50.1,"da":35.6,"mk":0.5,"eff":4.9,"ifp":0.0,"pa":4.5,"vf":1.8,"action":0.2,"acdp":0.3,"udm":0.2,"rise":0.1,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Intsika Yethu|Eastern Cape":{"anc":80.1,"da":2.6,"mk":0.9,"eff":8.9,"ifp":0.0,"pa":0.0,"vf":0.0,"action":0.2,"acdp":0.0,"udm":3.4,"rise":0.1,"bosa":0.1,"atm":0.7,"aljama":0.1,"ncc":0.0,"pac":0.7,"uat":0.0,"good":0.0},"Emalahleni|Eastern Cape":{"anc":82.4,"da":5.9,"mk":1.0,"eff":5.9,"ifp":0.0,"pa":0.1,"vf":0.1,"action":0.1,"acdp":0.0,"udm":2.0,"rise":0.1,"bosa":0.1,"atm":0.4,"aljama":0.0,"ncc":0.0,"pac":0.6,"uat":0.0,"good":0.0},"Engcobo|Eastern Cape":{"anc":80.5,"da":2.0,"mk":1.2,"eff":6.0,"ifp":0.0,"pa":0.0,"vf":0.0,"action":0.2,"acdp":0.2,"udm":4.5,"rise":0.1,"bosa":0.2,"atm":2.5,"aljama":0.1,"ncc":0.0,"pac":0.3,"uat":0.0,"good":0.0},"Sakhisizwe|Eastern Cape":{"anc":75.9,"da":7.5,"mk":1.2,"eff":7.4,"ifp":0.0,"pa":0.1,"vf":0.2,"action":0.1,"acdp":0.2,"udm":2.1,"rise":0.3,"bosa":0.1,"atm":2.5,"aljama":0.0,"ncc":0.0,"pac":0.4,"uat":0.1,"good":0.0},"Enoch Mgijima|Eastern Cape":{"anc":66.7,"da":11.7,"mk":1.4,"eff":10.2,"ifp":0.1,"pa":2.2,"vf":0.4,"action":1.0,"acdp":0.3,"udm":1.9,"rise":0.1,"bosa":0.2,"atm":0.7,"aljama":0.0,"ncc":0.0,"pac":0.4,"uat":0.0,"good":0.0},"Elundini|Eastern Cape":{"anc":78.8,"da":3.2,"mk":1.2,"eff":7.1,"ifp":0.1,"pa":0.1,"vf":0.2,"action":0.2,"acdp":0.1,"udm":5.0,"rise":0.2,"bosa":0.2,"atm":1.7,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.1,"good":0.0},"Senqu|Eastern Cape":{"anc":74.9,"da":4.5,"mk":1.0,"eff":10.3,"ifp":0.1,"pa":0.8,"vf":0.4,"action":1.3,"acdp":0.2,"udm":2.2,"rise":0.1,"bosa":0.3,"atm":0.7,"aljama":0.0,"ncc":0.0,"pac":1.2,"uat":0.1,"good":0.1},"Walter Sisulu|Eastern Cape":{"anc":60.8,"da":18.2,"mk":1.1,"eff":10.9,"ifp":0.0,"pa":2.5,"vf":1.3,"action":0.4,"acdp":0.2,"udm":1.1,"rise":0.1,"bosa":0.2,"atm":0.9,"aljama":0.0,"ncc":0.0,"pac":0.3,"uat":0.0,"good":0.0},"Ngquza Hill|Eastern Cape":{"anc":78.3,"da":2.0,"mk":4.0,"eff":8.5,"ifp":0.1,"pa":0.0,"vf":0.0,"action":0.1,"acdp":0.2,"udm":2.2,"rise":0.1,"bosa":0.1,"atm":2.5,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Port St Johns|Eastern Cape":{"anc":83.7,"da":2.3,"mk":1.3,"eff":6.7,"ifp":0.1,"pa":0.0,"vf":0.0,"action":0.1,"acdp":0.0,"udm":1.7,"rise":0.1,"bosa":0.2,"atm":2.5,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Nyandeni|Eastern Cape":{"anc":77.8,"da":1.8,"mk":1.0,"eff":8.3,"ifp":0.0,"pa":0.1,"vf":0.0,"action":0.1,"acdp":0.1,"udm":4.4,"rise":0.2,"bosa":0.2,"atm":4.5,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.0},"Mhlontlo|Eastern Cape":{"anc":76.1,"da":2.1,"mk":1.2,"eff":7.4,"ifp":0.0,"pa":0.0,"vf":0.0,"action":0.2,"acdp":0.1,"udm":6.4,"rise":0.2,"bosa":0.3,"atm":3.9,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.0},"King Sabata Dalindyebo|Eastern Cape":{"anc":62.1,"da":3.1,"mk":1.8,"eff":12.0,"ifp":0.1,"pa":0.2,"vf":0.0,"action":0.4,"acdp":0.2,"udm":13.2,"rise":0.6,"bosa":0.3,"atm":4.0,"aljama":0.0,"ncc":0.0,"pac":0.5,"uat":0.1,"good":0.0},"Matatiele|Eastern Cape":{"anc":72.2,"da":6.2,"mk":6.1,"eff":9.1,"ifp":0.2,"pa":0.2,"vf":0.1,"action":0.4,"acdp":0.2,"udm":1.3,"rise":0.2,"bosa":0.2,"atm":1.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Umzimvubu|Eastern Cape":{"anc":76.9,"da":3.8,"mk":2.9,"eff":9.2,"ifp":0.1,"pa":0.0,"vf":0.0,"action":0.2,"acdp":0.1,"udm":2.2,"rise":0.1,"bosa":0.2,"atm":2.4,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Mbizana|Eastern Cape":{"anc":73.6,"da":2.6,"mk":5.7,"eff":7.6,"ifp":0.6,"pa":0.1,"vf":0.0,"action":0.2,"acdp":0.1,"udm":1.8,"rise":0.1,"bosa":0.2,"atm":5.5,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Ntabankulu|Eastern Cape":{"anc":80.6,"da":1.5,"mk":2.1,"eff":9.3,"ifp":0.1,"pa":0.0,"vf":0.0,"action":0.1,"acdp":0.1,"udm":2.1,"rise":0.0,"bosa":0.1,"atm":1.7,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Ekurhuleni|Gauteng":{"anc":36.2,"da":26.0,"mk":14.5,"eff":11.8,"ifp":1.0,"pa":1.9,"vf":1.8,"action":2.3,"acdp":0.7,"udm":0.2,"rise":0.5,"bosa":0.5,"atm":0.3,"aljama":0.1,"ncc":0.0,"pac":0.3,"uat":0.2,"good":0.1},"eThekwini|KwaZulu-Natal":{"anc":15.2,"da":24.0,"mk":48.1,"eff":2.8,"ifp":5.5,"pa":0.3,"vf":0.2,"action":0.5,"acdp":0.5,"udm":0.1,"rise":0.2,"bosa":0.2,"atm":0.3,"aljama":0.3,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Letsemeng|Free State":{"anc":58.9,"da":19.4,"mk":1.2,"eff":10.6,"ifp":0.1,"pa":1.7,"vf":3.9,"action":0.1,"acdp":0.4,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.1},"Kopanong|Free State":{"anc":60.3,"da":19.2,"mk":0.7,"eff":10.9,"ifp":0.0,"pa":1.7,"vf":2.9,"action":0.2,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.2,"atm":0.4,"aljama":0.0,"ncc":0.0,"pac":0.0,"uat":0.0,"good":0.0},"Mohokare|Free State":{"anc":61.0,"da":10.8,"mk":0.8,"eff":19.3,"ifp":0.1,"pa":1.0,"vf":3.6,"action":0.1,"acdp":0.3,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.1,"good":0.0},"Masilonyana|Free State":{"anc":55.8,"da":22.1,"mk":1.5,"eff":11.3,"ifp":0.1,"pa":0.3,"vf":2.4,"action":0.2,"acdp":0.2,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.8,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.0},"Tokologo|Free State":{"anc":60.5,"da":18.8,"mk":0.5,"eff":12.1,"ifp":0.1,"pa":0.3,"vf":3.9,"action":0.2,"acdp":0.2,"udm":0.1,"rise":0.0,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.0,"uat":0.2,"good":0.0},"Tswelopele|Free State":{"anc":65.5,"da":16.2,"mk":0.4,"eff":10.8,"ifp":0.1,"pa":0.2,"vf":2.2,"action":0.1,"acdp":0.1,"udm":0.5,"rise":0.0,"bosa":0.2,"atm":0.6,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.0},"Matjhabeng|Free State":{"anc":51.5,"da":23.0,"mk":2.6,"eff":13.4,"ifp":0.1,"pa":1.7,"vf":1.6,"action":0.4,"acdp":0.4,"udm":0.2,"rise":0.4,"bosa":0.5,"atm":0.6,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.2,"good":0.0},"Nala|Free State":{"anc":61.4,"da":11.7,"mk":0.7,"eff":17.4,"ifp":0.1,"pa":0.1,"vf":3.7,"action":0.3,"acdp":0.3,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.4,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.1},"Setsoto|Free State":{"anc":62.0,"da":15.7,"mk":0.7,"eff":11.9,"ifp":0.2,"pa":0.2,"vf":2.6,"action":0.9,"acdp":0.4,"udm":0.0,"rise":0.1,"bosa":0.2,"atm":0.9,"aljama":0.1,"ncc":0.0,"pac":0.2,"uat":0.2,"good":0.0},"Dihlabeng|Free State":{"anc":55.1,"da":24.2,"mk":1.6,"eff":11.0,"ifp":0.1,"pa":0.6,"vf":2.5,"action":0.5,"acdp":0.6,"udm":0.0,"rise":0.1,"bosa":0.2,"atm":0.4,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Nketoana|Free State":{"anc":60.1,"da":15.1,"mk":1.5,"eff":11.7,"ifp":0.1,"pa":0.1,"vf":3.9,"action":0.2,"acdp":0.3,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.9,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Maluti a Phofung|Free State":{"anc":53.4,"da":18.2,"mk":5.1,"eff":11.8,"ifp":0.5,"pa":0.6,"vf":0.6,"action":0.4,"acdp":0.3,"udm":0.1,"rise":0.2,"bosa":0.3,"atm":1.8,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.3,"good":0.1},"Phumelela|Free State":{"anc":50.7,"da":14.9,"mk":15.7,"eff":8.3,"ifp":1.2,"pa":0.1,"vf":4.0,"action":0.2,"acdp":0.3,"udm":0.1,"rise":0.0,"bosa":0.2,"atm":1.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Mantsopa|Free State":{"anc":60.3,"da":21.6,"mk":0.8,"eff":10.2,"ifp":0.0,"pa":0.4,"vf":1.1,"action":0.2,"acdp":0.2,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.3,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Moqhaka|Free State":{"anc":51.3,"da":22.9,"mk":1.4,"eff":12.9,"ifp":0.1,"pa":1.1,"vf":4.1,"action":0.5,"acdp":0.5,"udm":0.1,"rise":0.2,"bosa":0.3,"atm":0.4,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.0},"Ngwathe|Free State":{"anc":50.1,"da":19.8,"mk":0.9,"eff":10.6,"ifp":0.1,"pa":0.7,"vf":4.1,"action":0.8,"acdp":0.5,"udm":0.1,"rise":0.1,"bosa":0.3,"atm":0.5,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.1},"Metsimaholo|Free State":{"anc":39.3,"da":27.1,"mk":2.6,"eff":19.7,"ifp":0.3,"pa":0.5,"vf":3.9,"action":0.5,"acdp":0.4,"udm":0.3,"rise":0.2,"bosa":0.2,"atm":0.5,"aljama":0.0,"ncc":0.0,"pac":0.4,"uat":0.3,"good":0.0},"Mafube|Free State":{"anc":56.2,"da":16.0,"mk":3.3,"eff":11.8,"ifp":0.5,"pa":0.2,"vf":4.9,"action":0.8,"acdp":0.3,"udm":0.1,"rise":0.0,"bosa":0.2,"atm":1.6,"aljama":0.0,"ncc":0.0,"pac":0.9,"uat":0.1,"good":0.0},"Emfuleni|Gauteng":{"anc":42.2,"da":26.2,"mk":8.6,"eff":12.0,"ifp":0.2,"pa":1.2,"vf":2.3,"action":1.2,"acdp":0.6,"udm":0.2,"rise":0.3,"bosa":0.6,"atm":0.3,"aljama":0.1,"ncc":0.0,"pac":1.0,"uat":0.3,"good":0.0},"Midvaal|Gauteng":{"anc":23.9,"da":52.9,"mk":6.2,"eff":6.3,"ifp":0.2,"pa":0.8,"vf":3.9,"action":1.6,"acdp":0.8,"udm":0.1,"rise":0.3,"bosa":0.4,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.3,"uat":0.2,"good":0.0},"Lesedi|Gauteng":{"anc":38.6,"da":23.4,"mk":18.3,"eff":10.0,"ifp":0.5,"pa":0.3,"vf":3.8,"action":1.0,"acdp":0.7,"udm":0.1,"rise":0.2,"bosa":0.2,"atm":0.2,"aljama":0.1,"ncc":0.0,"pac":0.3,"uat":0.2,"good":0.0},"Mogale City|Gauteng":{"anc":38.4,"da":31.7,"mk":5.9,"eff":11.4,"ifp":0.6,"pa":0.6,"vf":3.7,"action":2.1,"acdp":0.7,"udm":0.2,"rise":0.8,"bosa":0.7,"atm":0.3,"aljama":0.2,"ncc":0.0,"pac":0.5,"uat":0.2,"good":0.1},"Merafong City|Gauteng":{"anc":50.8,"da":18.6,"mk":7.8,"eff":13.6,"ifp":0.9,"pa":0.9,"vf":2.3,"action":0.7,"acdp":0.3,"udm":0.9,"rise":0.3,"bosa":0.8,"atm":0.3,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.3,"good":0.0},"Rand West City|Gauteng":{"anc":43.5,"da":20.6,"mk":8.8,"eff":14.3,"ifp":0.5,"pa":3.3,"vf":1.5,"action":1.6,"acdp":0.6,"udm":0.4,"rise":0.4,"bosa":0.5,"atm":0.2,"aljama":0.0,"ncc":0.1,"pac":0.2,"uat":0.3,"good":0.1},"City of Johannesburg|Gauteng":{"anc":34.1,"da":24.4,"mk":13.2,"eff":12.3,"ifp":1.4,"pa":2.6,"vf":0.9,"action":4.7,"acdp":0.8,"udm":0.3,"rise":1.3,"bosa":1.0,"atm":0.3,"aljama":0.6,"ncc":0.0,"pac":0.2,"uat":0.1,"good":0.2},"Umdoni|KwaZulu-Natal":{"anc":23.1,"da":16.6,"mk":44.7,"eff":2.1,"ifp":9.0,"pa":0.1,"vf":0.3,"action":0.1,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.3,"aljama":0.9,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.1},"Umzumbe|KwaZulu-Natal":{"anc":28.2,"da":0.6,"mk":40.3,"eff":1.8,"ifp":25.5,"pa":0.1,"vf":0.0,"action":0.1,"acdp":0.0,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.4,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"uMuziwabantu|KwaZulu-Natal":{"anc":33.3,"da":2.9,"mk":41.3,"eff":4.5,"ifp":12.4,"pa":0.2,"vf":0.1,"action":0.1,"acdp":0.1,"udm":0.2,"rise":0.1,"bosa":0.1,"atm":0.6,"aljama":0.2,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Ray Nkonyeni|KwaZulu-Natal":{"anc":25.7,"da":17.9,"mk":42.5,"eff":3.1,"ifp":6.5,"pa":0.3,"vf":0.8,"action":0.3,"acdp":0.5,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.3,"aljama":0.2,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"uMshwathi|KwaZulu-Natal":{"anc":26.4,"da":5.7,"mk":54.9,"eff":2.0,"ifp":8.0,"pa":0.1,"vf":0.2,"action":0.1,"acdp":0.2,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"uMngeni|KwaZulu-Natal":{"anc":13.4,"da":38.8,"mk":40.4,"eff":1.7,"ifp":1.6,"pa":0.1,"vf":0.6,"action":0.2,"acdp":1.1,"udm":0.0,"rise":0.4,"bosa":0.2,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Mpofana|KwaZulu-Natal":{"anc":26.7,"da":10.3,"mk":52.5,"eff":1.9,"ifp":5.7,"pa":0.1,"vf":0.4,"action":0.1,"acdp":0.2,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.1},"Impendle|KwaZulu-Natal":{"anc":27.8,"da":2.9,"mk":56.6,"eff":2.2,"ifp":8.2,"pa":0.1,"vf":0.1,"action":0.0,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.3,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"The Msunduzi|KwaZulu-Natal":{"anc":18.0,"da":17.8,"mk":52.2,"eff":2.9,"ifp":5.9,"pa":0.4,"vf":0.2,"action":0.2,"acdp":0.5,"udm":0.1,"rise":0.2,"bosa":0.2,"atm":0.1,"aljama":0.2,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Mkhambathini|KwaZulu-Natal":{"anc":32.1,"da":4.6,"mk":47.0,"eff":2.1,"ifp":12.0,"pa":0.0,"vf":0.1,"action":0.1,"acdp":0.1,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Richmond|KwaZulu-Natal":{"anc":33.1,"da":5.2,"mk":54.7,"eff":1.9,"ifp":2.3,"pa":0.2,"vf":0.2,"action":0.1,"acdp":0.2,"udm":0.2,"rise":0.0,"bosa":0.1,"atm":0.3,"aljama":0.1,"ncc":0.0,"pac":0.2,"uat":0.1,"good":0.0},"Okhahlamba|KwaZulu-Natal":{"anc":14.2,"da":5.4,"mk":40.7,"eff":1.7,"ifp":24.1,"pa":0.1,"vf":0.4,"action":0.1,"acdp":0.2,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.3,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.1,"good":0.1},"Inkosi Langalibalele|KwaZulu-Natal":{"anc":15.2,"da":5.1,"mk":42.2,"eff":1.4,"ifp":32.6,"pa":0.0,"vf":0.1,"action":0.1,"acdp":0.2,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Alfred Duma|KwaZulu-Natal":{"anc":18.1,"da":5.5,"mk":44.2,"eff":1.9,"ifp":27.8,"pa":0.1,"vf":0.2,"action":0.1,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Endumeni|KwaZulu-Natal":{"anc":12.0,"da":13.0,"mk":51.9,"eff":2.2,"ifp":17.0,"pa":0.4,"vf":0.7,"action":0.2,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.0,"atm":0.2,"aljama":0.2,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Nqutu|KwaZulu-Natal":{"anc":18.7,"da":1.4,"mk":36.5,"eff":1.4,"ifp":39.2,"pa":0.0,"vf":0.1,"action":0.1,"acdp":0.0,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.2,"good":0.0},"Msinga|KwaZulu-Natal":{"anc":7.9,"da":1.6,"mk":35.3,"eff":1.3,"ifp":52.2,"pa":0.0,"vf":0.0,"action":0.1,"acdp":0.0,"udm":0.1,"rise":0.0,"bosa":0.0,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Umvoti|KwaZulu-Natal":{"anc":17.0,"da":4.2,"mk":44.8,"eff":1.0,"ifp":27.5,"pa":0.1,"vf":0.1,"action":0.1,"acdp":0.5,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Newcastle|KwaZulu-Natal":{"anc":12.6,"da":8.6,"mk":55.2,"eff":3.7,"ifp":16.2,"pa":0.3,"vf":0.5,"action":0.6,"acdp":0.2,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.2,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Emadlangeni|KwaZulu-Natal":{"anc":14.6,"da":7.5,"mk":47.8,"eff":4.1,"ifp":22.0,"pa":0.1,"vf":0.8,"action":0.1,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.1},"Dannhauser|KwaZulu-Natal":{"anc":15.0,"da":2.7,"mk":53.4,"eff":2.6,"ifp":22.9,"pa":0.1,"vf":0.2,"action":0.1,"acdp":0.1,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"eDumbe|KwaZulu-Natal":{"anc":14.0,"da":3.6,"mk":41.7,"eff":3.4,"ifp":24.0,"pa":0.0,"vf":0.3,"action":0.1,"acdp":0.2,"udm":0.0,"rise":0.0,"bosa":0.3,"atm":0.3,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.2},"uPhongolo|KwaZulu-Natal":{"anc":16.7,"da":3.8,"mk":45.0,"eff":1.6,"ifp":28.7,"pa":0.0,"vf":0.3,"action":0.2,"acdp":0.2,"udm":0.0,"rise":0.0,"bosa":0.0,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Abaqulusi|KwaZulu-Natal":{"anc":13.1,"da":6.3,"mk":42.2,"eff":2.0,"ifp":33.0,"pa":0.1,"vf":0.4,"action":0.1,"acdp":0.2,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Nongoma|KwaZulu-Natal":{"anc":9.8,"da":0.6,"mk":27.9,"eff":2.1,"ifp":44.5,"pa":0.2,"vf":0.0,"action":0.4,"acdp":0.3,"udm":0.1,"rise":0.1,"bosa":0.0,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.3},"Ulundi|KwaZulu-Natal":{"anc":6.0,"da":0.9,"mk":17.5,"eff":1.8,"ifp":69.0,"pa":0.0,"vf":0.0,"action":0.1,"acdp":0.0,"udm":0.2,"rise":0.0,"bosa":0.0,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.0,"uat":0.1,"good":0.1},"Umhlabuyalingana|KwaZulu-Natal":{"anc":20.6,"da":1.0,"mk":51.4,"eff":1.8,"ifp":22.5,"pa":0.0,"vf":0.1,"action":0.0,"acdp":0.5,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Jozini|KwaZulu-Natal":{"anc":18.1,"da":0.6,"mk":39.5,"eff":1.6,"ifp":38.5,"pa":0.0,"vf":0.0,"action":0.1,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Mtubatuba|KwaZulu-Natal":{"anc":13.5,"da":2.1,"mk":44.6,"eff":2.5,"ifp":34.1,"pa":0.0,"vf":0.1,"action":0.1,"acdp":0.5,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Big Five Hlabisa|KwaZulu-Natal":{"anc":19.8,"da":1.3,"mk":27.7,"eff":1.6,"ifp":47.0,"pa":0.0,"vf":0.2,"action":0.0,"acdp":0.2,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Mfolozi|KwaZulu-Natal":{"anc":9.1,"da":1.2,"mk":47.1,"eff":1.6,"ifp":39.2,"pa":0.0,"vf":0.1,"action":0.0,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.0,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"uMhlathuze|KwaZulu-Natal":{"anc":11.7,"da":10.3,"mk":49.2,"eff":2.6,"ifp":23.7,"pa":0.1,"vf":0.4,"action":0.2,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"uMlalazi|KwaZulu-Natal":{"anc":8.9,"da":4.0,"mk":46.1,"eff":1.7,"ifp":36.9,"pa":0.1,"vf":0.1,"action":0.1,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.0,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Mthonjaneni|KwaZulu-Natal":{"anc":12.4,"da":1.1,"mk":32.4,"eff":1.2,"ifp":50.7,"pa":0.0,"vf":0.1,"action":0.1,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.0,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Nkandla|KwaZulu-Natal":{"anc":10.3,"da":0.4,"mk":37.1,"eff":0.8,"ifp":49.8,"pa":0.0,"vf":0.0,"action":0.0,"acdp":0.0,"udm":0.0,"rise":0.0,"bosa":0.0,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.0,"uat":0.1,"good":0.0},"Mandeni|KwaZulu-Natal":{"anc":17.0,"da":2.3,"mk":61.4,"eff":1.8,"ifp":15.5,"pa":0.0,"vf":0.0,"action":0.1,"acdp":0.1,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"KwaDukuza|KwaZulu-Natal":{"anc":22.9,"da":22.7,"mk":44.7,"eff":2.3,"ifp":3.9,"pa":0.1,"vf":0.3,"action":0.6,"acdp":0.4,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.3,"aljama":0.2,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Ndwedwe|KwaZulu-Natal":{"anc":24.9,"da":1.8,"mk":52.3,"eff":3.0,"ifp":15.3,"pa":0.0,"vf":0.1,"action":0.1,"acdp":0.2,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Maphumulo|KwaZulu-Natal":{"anc":13.7,"da":0.7,"mk":58.9,"eff":1.7,"ifp":22.5,"pa":0.0,"vf":0.0,"action":0.4,"acdp":0.1,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Greater Kokstad|KwaZulu-Natal":{"anc":54.6,"da":12.7,"mk":13.7,"eff":11.7,"ifp":1.2,"pa":1.2,"vf":0.2,"action":0.3,"acdp":0.4,"udm":0.6,"rise":0.1,"bosa":0.2,"atm":1.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.1},"Ubuhlebezwe|KwaZulu-Natal":{"anc":32.4,"da":2.3,"mk":51.2,"eff":3.3,"ifp":7.0,"pa":0.1,"vf":0.0,"action":0.5,"acdp":0.1,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.1,"good":0.0},"Umzimkhulu|KwaZulu-Natal":{"anc":57.7,"da":1.6,"mk":30.4,"eff":3.8,"ifp":3.6,"pa":0.1,"vf":0.0,"action":0.3,"acdp":0.1,"udm":0.2,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Dr Nkosazana Dlamini Zuma|KwaZulu-Natal":{"anc":27.4,"da":5.9,"mk":50.8,"eff":2.8,"ifp":10.1,"pa":0.1,"vf":0.1,"action":0.1,"acdp":0.2,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Greater Giyani|Limpopo":{"anc":80.6,"da":3.0,"mk":2.4,"eff":7.3,"ifp":0.1,"pa":0.1,"vf":0.1,"action":0.5,"acdp":0.2,"udm":0.0,"rise":0.2,"bosa":0.3,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.3,"good":0.0},"Greater Letaba|Limpopo":{"anc":81.4,"da":2.1,"mk":0.6,"eff":9.7,"ifp":0.0,"pa":0.1,"vf":0.3,"action":0.9,"acdp":0.2,"udm":0.1,"rise":0.1,"bosa":0.3,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.3,"uat":0.8,"good":0.0},"Greater Tzaneen|Limpopo":{"anc":77.0,"da":7.2,"mk":0.9,"eff":9.4,"ifp":0.1,"pa":0.1,"vf":1.0,"action":0.5,"acdp":0.4,"udm":0.0,"rise":0.3,"bosa":0.1,"atm":0.0,"aljama":0.1,"ncc":0.0,"pac":0.0,"uat":0.8,"good":0.0},"Ba-Phalaborwa|Limpopo":{"anc":65.7,"da":13.5,"mk":1.3,"eff":12.9,"ifp":0.0,"pa":0.1,"vf":1.2,"action":0.5,"acdp":0.5,"udm":0.1,"rise":0.1,"bosa":0.7,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":1.1,"good":0.0},"Maruleng|Limpopo":{"anc":72.2,"da":11.0,"mk":0.6,"eff":11.7,"ifp":0.0,"pa":0.1,"vf":1.4,"action":0.5,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.4,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.3,"uat":0.4,"good":0.0},"Musina|Limpopo":{"anc":80.9,"da":7.2,"mk":0.9,"eff":7.3,"ifp":0.0,"pa":0.1,"vf":1.1,"action":0.3,"acdp":0.2,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.4,"good":0.0},"Thulamela|Limpopo":{"anc":89.6,"da":1.9,"mk":0.4,"eff":4.8,"ifp":0.1,"pa":0.1,"vf":0.2,"action":0.5,"acdp":0.2,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.5,"uat":0.3,"good":0.0},"Makhado|Limpopo":{"anc":85.9,"da":4.4,"mk":0.4,"eff":5.2,"ifp":0.0,"pa":0.1,"vf":0.7,"action":0.5,"acdp":0.2,"udm":0.0,"rise":0.1,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.7,"good":0.0},"Collins Chabane|Limpopo":{"anc":84.5,"da":1.9,"mk":1.0,"eff":6.6,"ifp":0.0,"pa":0.0,"vf":0.0,"action":0.7,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.3,"uat":0.4,"good":0.0},"Blouberg|Limpopo":{"anc":77.7,"da":3.1,"mk":1.7,"eff":13.4,"ifp":0.0,"pa":0.1,"vf":0.5,"action":0.4,"acdp":0.1,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.8,"good":0.0},"Molemole|Limpopo":{"anc":76.1,"da":2.9,"mk":0.9,"eff":15.1,"ifp":0.0,"pa":0.1,"vf":0.3,"action":0.5,"acdp":0.2,"udm":0.0,"rise":0.2,"bosa":0.1,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":0.3,"uat":0.7,"good":0.0},"Polokwane|Limpopo":{"anc":61.6,"da":8.4,"mk":0.8,"eff":22.6,"ifp":0.0,"pa":0.5,"vf":1.1,"action":1.3,"acdp":0.5,"udm":0.1,"rise":0.2,"bosa":0.4,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.8,"good":0.0},"Lepele-Nkumpi|Limpopo":{"anc":69.9,"da":4.3,"mk":1.0,"eff":17.0,"ifp":0.0,"pa":0.1,"vf":0.1,"action":0.8,"acdp":0.5,"udm":0.1,"rise":0.2,"bosa":0.6,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":0.4,"uat":2.8,"good":0.0},"Thabazimbi|Limpopo":{"anc":52.1,"da":21.5,"mk":2.0,"eff":13.5,"ifp":0.2,"pa":0.2,"vf":5.4,"action":0.5,"acdp":0.3,"udm":0.8,"rise":0.1,"bosa":0.1,"atm":0.4,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.5,"good":0.0},"Lephalale|Limpopo":{"anc":64.2,"da":11.3,"mk":1.2,"eff":17.4,"ifp":0.0,"pa":0.2,"vf":2.0,"action":0.5,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.8,"atm":0.4,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.2,"good":0.0},"Bela-Bela|Limpopo":{"anc":55.8,"da":17.8,"mk":1.7,"eff":12.6,"ifp":0.0,"pa":0.3,"vf":8.0,"action":0.7,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.2,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.0,"uat":0.5,"good":0.0},"Mogalakwena|Limpopo":{"anc":69.1,"da":7.7,"mk":0.7,"eff":15.9,"ifp":0.0,"pa":0.3,"vf":1.3,"action":0.6,"acdp":0.3,"udm":0.2,"rise":0.1,"bosa":0.2,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":1.2,"good":0.0},"Modimolle/Mookgophong|Limpopo":{"anc":54.8,"da":21.9,"mk":0.6,"eff":11.7,"ifp":0.0,"pa":0.6,"vf":6.9,"action":0.3,"acdp":0.4,"udm":0.0,"rise":0.1,"bosa":0.2,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.0,"uat":0.9,"good":0.0},"Ephraim Mogale|Limpopo":{"anc":69.9,"da":7.0,"mk":0.8,"eff":17.0,"ifp":0.0,"pa":0.2,"vf":1.2,"action":0.6,"acdp":0.2,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.9,"good":0.0},"Elias Motsoaledi|Limpopo":{"anc":65.3,"da":7.7,"mk":2.9,"eff":18.4,"ifp":0.1,"pa":0.2,"vf":0.9,"action":0.5,"acdp":0.3,"udm":0.1,"rise":0.1,"bosa":0.3,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":1.2,"good":0.0},"Makhuduthamaga|Limpopo":{"anc":72.4,"da":3.0,"mk":0.7,"eff":19.5,"ifp":0.1,"pa":0.1,"vf":0.0,"action":0.6,"acdp":0.4,"udm":0.1,"rise":0.1,"bosa":0.3,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":1.0,"good":0.0},"Greater Tubatse/Fetakgomo|Limpopo":{"anc":76.9,"da":2.6,"mk":0.9,"eff":15.4,"ifp":0.1,"pa":0.1,"vf":0.3,"action":0.4,"acdp":0.2,"udm":0.1,"rise":0.0,"bosa":0.4,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":1.0,"good":0.0},"Mangaung|Free State":{"anc":51.3,"da":23.5,"mk":1.6,"eff":13.5,"ifp":0.1,"pa":2.5,"vf":2.2,"action":0.7,"acdp":0.6,"udm":0.1,"rise":0.4,"bosa":0.4,"atm":0.4,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.1,"good":0.1},"Chief Albert Luthuli|Mpumalanga":{"anc":57.1,"da":3.1,"mk":27.4,"eff":8.7,"ifp":0.6,"pa":0.1,"vf":0.3,"action":0.3,"acdp":0.2,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.3,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.3,"good":0.0},"Msukaligwa|Mpumalanga":{"anc":40.2,"da":11.3,"mk":32.5,"eff":9.8,"ifp":0.6,"pa":0.1,"vf":1.8,"action":0.2,"acdp":0.6,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.5,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.3,"good":0.0},"Mkhondo|Mpumalanga":{"anc":28.1,"da":6.5,"mk":55.0,"eff":3.4,"ifp":2.3,"pa":0.1,"vf":1.1,"action":0.1,"acdp":0.2,"udm":0.1,"rise":0.0,"bosa":0.2,"atm":0.7,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Dr Pixley Ka Isaka Seme|Mpumalanga":{"anc":34.8,"da":8.1,"mk":42.8,"eff":7.6,"ifp":1.7,"pa":0.2,"vf":1.4,"action":0.3,"acdp":0.3,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.2,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Lekwa|Mpumalanga":{"anc":39.4,"da":14.3,"mk":27.2,"eff":8.6,"ifp":0.6,"pa":1.2,"vf":4.0,"action":0.2,"acdp":0.4,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.9,"aljama":0.1,"ncc":0.0,"pac":0.6,"uat":0.2,"good":0.0},"Dipaleseng|Mpumalanga":{"anc":47.1,"da":8.0,"mk":26.4,"eff":9.0,"ifp":0.3,"pa":0.9,"vf":3.2,"action":0.2,"acdp":0.6,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":1.4,"aljama":0.1,"ncc":0.0,"pac":0.4,"uat":0.1,"good":0.0},"Govan Mbeki|Mpumalanga":{"anc":35.9,"da":22.0,"mk":22.3,"eff":11.9,"ifp":0.9,"pa":0.5,"vf":2.2,"action":0.5,"acdp":0.4,"udm":0.3,"rise":0.1,"bosa":0.2,"atm":0.9,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.3,"good":0.0},"Victor Khanye|Mpumalanga":{"anc":47.6,"da":17.8,"mk":12.7,"eff":14.7,"ifp":0.3,"pa":0.1,"vf":3.4,"action":0.2,"acdp":0.4,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.4,"good":0.0},"Emalahleni|Mpumalanga":{"anc":40.6,"da":17.7,"mk":19.2,"eff":14.7,"ifp":1.0,"pa":0.6,"vf":1.9,"action":0.7,"acdp":0.5,"udm":0.1,"rise":0.3,"bosa":0.2,"atm":0.3,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.6,"good":0.0},"Steve Tshwete|Mpumalanga":{"anc":37.6,"da":26.2,"mk":14.4,"eff":13.3,"ifp":0.5,"pa":0.7,"vf":2.8,"action":0.8,"acdp":0.5,"udm":0.0,"rise":0.2,"bosa":0.2,"atm":0.2,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.6,"good":0.0},"Emakhazeni|Mpumalanga":{"anc":57.4,"da":13.2,"mk":10.9,"eff":13.0,"ifp":0.1,"pa":0.2,"vf":1.8,"action":0.3,"acdp":0.4,"udm":0.0,"rise":0.1,"bosa":0.2,"atm":0.0,"aljama":0.1,"ncc":0.0,"pac":0.0,"uat":0.5,"good":0.0},"Thembisile|Mpumalanga":{"anc":59.3,"da":8.7,"mk":9.3,"eff":17.4,"ifp":0.2,"pa":0.2,"vf":0.3,"action":0.8,"acdp":0.3,"udm":0.1,"rise":0.2,"bosa":0.3,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.7,"good":0.0},"Dr JS Moroka|Mpumalanga":{"anc":64.1,"da":6.7,"mk":6.1,"eff":16.8,"ifp":0.1,"pa":0.1,"vf":0.2,"action":1.0,"acdp":0.2,"udm":0.1,"rise":0.2,"bosa":0.6,"atm":0.3,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.7,"good":0.0},"Thaba Chweu|Mpumalanga":{"anc":56.3,"da":19.8,"mk":4.9,"eff":11.6,"ifp":0.2,"pa":0.6,"vf":2.3,"action":0.4,"acdp":0.8,"udm":0.1,"rise":0.0,"bosa":0.2,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.5,"good":0.0},"Nkomazi|Mpumalanga":{"anc":62.5,"da":5.3,"mk":12.6,"eff":15.9,"ifp":0.1,"pa":0.1,"vf":0.5,"action":0.2,"acdp":0.2,"udm":0.0,"rise":0.2,"bosa":0.1,"atm":0.6,"aljama":0.0,"ncc":0.0,"pac":0.0,"uat":0.5,"good":0.0},"Bushbuckridge|Mpumalanga":{"anc":77.2,"da":3.2,"mk":2.7,"eff":11.7,"ifp":0.0,"pa":0.1,"vf":0.1,"action":0.5,"acdp":0.4,"udm":0.0,"rise":0.1,"bosa":0.3,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.9,"good":0.0},"Mbombela|Mpumalanga":{"anc":50.3,"da":14.0,"mk":17.2,"eff":12.5,"ifp":0.1,"pa":0.2,"vf":1.7,"action":0.5,"acdp":0.7,"udm":0.1,"rise":0.2,"bosa":0.3,"atm":0.4,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.4,"good":0.0},"Richtersveld|Northern Cape":{"anc":46.2,"da":27.7,"mk":0.7,"eff":1.4,"ifp":0.0,"pa":20.8,"vf":0.6,"action":0.1,"acdp":0.5,"udm":0.0,"rise":0.0,"bosa":0.0,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.1},"Nama Khoi|Northern Cape":{"anc":33.1,"da":32.4,"mk":0.5,"eff":1.0,"ifp":0.0,"pa":19.9,"vf":1.0,"action":0.2,"acdp":0.2,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.1},"Kamiesberg|Northern Cape":{"anc":50.1,"da":32.8,"mk":0.4,"eff":0.2,"ifp":0.0,"pa":8.7,"vf":1.6,"action":0.1,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Hantam|Northern Cape":{"anc":44.2,"da":36.0,"mk":0.2,"eff":0.4,"ifp":0.0,"pa":9.7,"vf":4.9,"action":0.1,"acdp":0.4,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":1.1},"Karoo Hoogland|Northern Cape":{"anc":41.2,"da":31.2,"mk":0.2,"eff":0.4,"ifp":0.0,"pa":17.0,"vf":4.4,"action":0.1,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.0},"Kh\u00e2i-Ma|Northern Cape":{"anc":49.6,"da":11.1,"mk":1.0,"eff":3.0,"ifp":0.0,"pa":27.8,"vf":1.1,"action":0.2,"acdp":0.1,"udm":0.2,"rise":0.1,"bosa":0.1,"atm":0.3,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.0},"Ubuntu|Northern Cape":{"anc":50.7,"da":30.2,"mk":0.2,"eff":1.7,"ifp":0.0,"pa":12.0,"vf":2.4,"action":0.5,"acdp":0.2,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.1},"Umsobomvu|Northern Cape":{"anc":61.5,"da":10.5,"mk":0.2,"eff":18.6,"ifp":0.0,"pa":6.6,"vf":1.1,"action":0.1,"acdp":0.2,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.0},"Emthanjeni|Northern Cape":{"anc":51.7,"da":25.1,"mk":0.4,"eff":7.6,"ifp":0.0,"pa":11.3,"vf":1.2,"action":0.5,"acdp":0.2,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.2},"Kareeberg|Northern Cape":{"anc":49.8,"da":26.2,"mk":0.3,"eff":11.2,"ifp":0.0,"pa":6.9,"vf":1.9,"action":0.2,"acdp":0.1,"udm":0.1,"rise":0.0,"bosa":0.0,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.1},"Renosterberg|Northern Cape":{"anc":56.9,"da":26.0,"mk":0.3,"eff":8.2,"ifp":0.0,"pa":2.6,"vf":3.6,"action":0.0,"acdp":0.3,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.0,"uat":0.0,"good":0.0},"Thembelihle|Northern Cape":{"anc":44.4,"da":14.3,"mk":0.3,"eff":17.3,"ifp":0.0,"pa":8.4,"vf":10.1,"action":0.1,"acdp":1.7,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.1,"pac":0.1,"uat":0.0,"good":0.1},"Siyathemba|Northern Cape":{"anc":48.2,"da":21.8,"mk":0.4,"eff":2.3,"ifp":0.0,"pa":2.8,"vf":2.0,"action":0.1,"acdp":0.3,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.0,"uat":0.0,"good":0.1},"Siyancuma|Northern Cape":{"anc":47.2,"da":22.2,"mk":0.2,"eff":11.0,"ifp":0.7,"pa":5.9,"vf":3.3,"action":0.2,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.0},"Kai Garib|Northern Cape":{"anc":48.1,"da":24.9,"mk":0.7,"eff":3.0,"ifp":0.0,"pa":14.1,"vf":1.8,"action":0.1,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":4.4},"Kheis|Northern Cape":{"anc":48.3,"da":31.6,"mk":0.2,"eff":2.5,"ifp":0.0,"pa":12.3,"vf":1.2,"action":0.1,"acdp":0.3,"udm":0.1,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Tsantsabane|Northern Cape":{"anc":46.1,"da":16.9,"mk":1.1,"eff":23.2,"ifp":0.1,"pa":8.5,"vf":1.5,"action":0.3,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.0,"good":0.1},"Kgatelopele|Northern Cape":{"anc":43.4,"da":24.3,"mk":0.4,"eff":13.2,"ifp":0.0,"pa":12.7,"vf":2.2,"action":0.7,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.1},"Dawid Kruiper|Northern Cape":{"anc":46.9,"da":37.2,"mk":0.6,"eff":3.0,"ifp":0.0,"pa":7.5,"vf":1.9,"action":0.4,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.0,"good":0.2},"Sol Plaatjie|Northern Cape":{"anc":45.3,"da":19.3,"mk":1.9,"eff":15.0,"ifp":0.1,"pa":10.1,"vf":1.5,"action":1.2,"acdp":0.7,"udm":0.1,"rise":0.4,"bosa":0.5,"atm":0.2,"aljama":0.2,"ncc":0.0,"pac":0.2,"uat":0.1,"good":0.6},"Dikgatlong|Northern Cape":{"anc":52.7,"da":12.3,"mk":0.6,"eff":21.5,"ifp":0.0,"pa":8.5,"vf":0.7,"action":0.2,"acdp":0.3,"udm":0.0,"rise":0.1,"bosa":0.3,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.4,"good":0.1},"Magareng|Northern Cape":{"anc":50.9,"da":16.7,"mk":1.6,"eff":21.2,"ifp":0.0,"pa":2.9,"vf":0.8,"action":0.1,"acdp":1.6,"udm":0.1,"rise":0.1,"bosa":0.4,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.7,"uat":0.2,"good":0.1},"Phokwane|Northern Cape":{"anc":54.5,"da":12.3,"mk":0.7,"eff":21.3,"ifp":0.0,"pa":2.7,"vf":3.4,"action":0.7,"acdp":0.2,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.4,"good":0.0},"Joe Morolong|Northern Cape":{"anc":66.8,"da":3.9,"mk":0.7,"eff":24.9,"ifp":0.0,"pa":0.1,"vf":0.3,"action":0.4,"acdp":0.1,"udm":0.0,"rise":0.0,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.0,"uat":0.1,"good":0.0},"Ga-Segonyana|Northern Cape":{"anc":58.0,"da":10.6,"mk":1.2,"eff":23.5,"ifp":0.1,"pa":2.8,"vf":0.5,"action":0.5,"acdp":0.2,"udm":0.0,"rise":0.1,"bosa":0.2,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.3,"good":0.0},"Gamagara|Northern Cape":{"anc":34.6,"da":35.6,"mk":1.7,"eff":12.9,"ifp":0.0,"pa":5.7,"vf":1.3,"action":0.3,"acdp":0.3,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.1,"pac":0.1,"uat":0.1,"good":0.0},"Nelson Mandela Bay|Eastern Cape":{"anc":38.5,"da":35.2,"mk":1.0,"eff":10.9,"ifp":0.0,"pa":6.6,"vf":1.4,"action":0.6,"acdp":1.2,"udm":0.9,"rise":0.3,"bosa":0.4,"atm":0.2,"aljama":0.2,"ncc":0.0,"pac":0.5,"uat":0.0,"good":0.2},"Moretele|North West":{"anc":70.3,"da":6.2,"mk":1.8,"eff":14.7,"ifp":0.2,"pa":0.2,"vf":0.1,"action":1.7,"acdp":0.2,"udm":0.1,"rise":0.2,"bosa":0.3,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.7,"good":0.0},"Local Municipality of Madibeng|North West":{"anc":57.1,"da":16.1,"mk":3.3,"eff":14.5,"ifp":0.1,"pa":0.4,"vf":2.7,"action":1.4,"acdp":0.5,"udm":0.3,"rise":0.3,"bosa":0.4,"atm":0.1,"aljama":0.2,"ncc":0.0,"pac":0.1,"uat":0.5,"good":0.1},"Rustenburg|North West":{"anc":50.6,"da":16.2,"mk":3.4,"eff":20.8,"ifp":0.1,"pa":0.5,"vf":1.8,"action":1.4,"acdp":0.5,"udm":0.8,"rise":0.3,"bosa":0.5,"atm":0.4,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.4,"good":0.0},"Kgetlengrivier|North West":{"anc":56.7,"da":16.2,"mk":1.7,"eff":10.0,"ifp":0.1,"pa":0.1,"vf":7.9,"action":1.0,"acdp":0.3,"udm":0.1,"rise":0.1,"bosa":0.3,"atm":0.1,"aljama":0.3,"ncc":0.0,"pac":0.1,"uat":0.3,"good":0.0},"Moses Kotane|North West":{"anc":69.9,"da":4.1,"mk":1.7,"eff":16.8,"ifp":0.1,"pa":0.3,"vf":0.1,"action":1.6,"acdp":0.5,"udm":0.2,"rise":0.3,"bosa":0.5,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.6,"good":0.0},"Ratlou|North West":{"anc":73.5,"da":3.6,"mk":1.9,"eff":12.1,"ifp":0.3,"pa":0.1,"vf":0.3,"action":1.7,"acdp":0.2,"udm":0.1,"rise":0.8,"bosa":0.2,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.2,"good":0.0},"Tswaing|North West":{"anc":68.2,"da":10.7,"mk":1.2,"eff":13.7,"ifp":0.0,"pa":0.1,"vf":2.0,"action":0.8,"acdp":0.1,"udm":0.1,"rise":0.3,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.0},"Mafikeng|North West":{"anc":58.4,"da":6.9,"mk":2.4,"eff":21.3,"ifp":0.3,"pa":1.6,"vf":0.3,"action":3.5,"acdp":0.5,"udm":0.2,"rise":0.8,"bosa":0.6,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.3,"good":0.1},"Ditsobotla|North West":{"anc":54.6,"da":14.2,"mk":2.6,"eff":17.1,"ifp":0.0,"pa":1.9,"vf":2.3,"action":1.0,"acdp":0.3,"udm":0.1,"rise":0.2,"bosa":0.4,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.4,"good":0.0},"Ramotshere Moiloa|North West":{"anc":68.4,"da":6.5,"mk":1.3,"eff":13.8,"ifp":0.3,"pa":0.6,"vf":1.5,"action":1.9,"acdp":0.3,"udm":0.2,"rise":0.1,"bosa":0.3,"atm":0.0,"aljama":0.1,"ncc":0.0,"pac":0.2,"uat":0.2,"good":0.0},"Naledi|North West":{"anc":59.5,"da":15.1,"mk":1.1,"eff":13.4,"ifp":0.0,"pa":3.4,"vf":3.0,"action":0.4,"acdp":0.1,"udm":0.1,"rise":0.1,"bosa":0.3,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.4,"uat":0.8,"good":0.0},"Mamusa|North West":{"anc":59.5,"da":6.8,"mk":1.8,"eff":23.0,"ifp":0.0,"pa":0.4,"vf":4.2,"action":0.1,"acdp":0.1,"udm":0.1,"rise":0.2,"bosa":0.3,"atm":0.1,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":1.3,"good":0.0},"Greater Taung|North West":{"anc":66.2,"da":3.2,"mk":1.2,"eff":21.5,"ifp":0.1,"pa":0.7,"vf":0.2,"action":1.8,"acdp":0.2,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":1.3,"good":0.0},"Lekwa-Teemane|North West":{"anc":51.3,"da":10.8,"mk":1.0,"eff":23.1,"ifp":0.1,"pa":1.8,"vf":4.3,"action":0.1,"acdp":0.2,"udm":0.1,"rise":0.2,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":1.3,"good":0.0},"Kagisano/Molopo|North West":{"anc":74.4,"da":5.7,"mk":0.8,"eff":13.4,"ifp":0.0,"pa":0.1,"vf":0.6,"action":0.3,"acdp":0.2,"udm":0.1,"rise":0.0,"bosa":0.3,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.1,"uat":0.8,"good":0.0},"City of Matlosana|North West":{"anc":53.8,"da":22.5,"mk":2.0,"eff":11.7,"ifp":0.1,"pa":1.9,"vf":3.4,"action":0.6,"acdp":0.4,"udm":0.2,"rise":0.2,"bosa":0.4,"atm":0.2,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.6,"good":0.0},"Maquassi Hills|North West":{"anc":61.5,"da":9.4,"mk":0.7,"eff":23.1,"ifp":0.0,"pa":0.4,"vf":1.6,"action":0.1,"acdp":0.0,"udm":0.0,"rise":0.2,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.4,"good":0.0},"Ventersdorp/Tlokwe|North West":{"anc":43.8,"da":29.2,"mk":1.8,"eff":12.4,"ifp":0.1,"pa":1.9,"vf":6.3,"action":0.8,"acdp":0.7,"udm":0.1,"rise":0.2,"bosa":0.8,"atm":0.1,"aljama":0.1,"ncc":0.0,"pac":0.1,"uat":0.1,"good":0.1},"City of Tshwane|Gauteng":{"anc":37.8,"da":30.0,"mk":4.2,"eff":13.7,"ifp":0.2,"pa":1.2,"vf":4.3,"action":3.1,"acdp":1.0,"udm":0.2,"rise":0.8,"bosa":0.8,"atm":0.2,"aljama":0.1,"ncc":0.0,"pac":0.2,"uat":0.3,"good":0.1},"Matzikama|Western Cape":{"anc":22.6,"da":44.0,"mk":0.3,"eff":2.6,"ifp":0.0,"pa":22.0,"vf":3.7,"action":0.2,"acdp":0.3,"udm":0.4,"rise":0.0,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.1,"pac":0.1,"uat":0.0,"good":1.2},"Cederberg|Western Cape":{"anc":24.6,"da":39.5,"mk":0.3,"eff":1.5,"ifp":0.0,"pa":26.8,"vf":3.1,"action":0.1,"acdp":0.6,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.1,"pac":0.2,"uat":0.0,"good":0.2},"Bergrivier|Western Cape":{"anc":11.0,"da":64.2,"mk":0.2,"eff":1.3,"ifp":0.0,"pa":13.9,"vf":3.5,"action":0.3,"acdp":1.2,"udm":0.0,"rise":0.1,"bosa":0.2,"atm":0.1,"aljama":0.0,"ncc":0.2,"pac":0.1,"uat":0.0,"good":0.6},"Saldanha Bay|Western Cape":{"anc":15.3,"da":49.8,"mk":1.0,"eff":5.3,"ifp":0.0,"pa":18.9,"vf":2.1,"action":0.2,"acdp":0.6,"udm":0.2,"rise":0.1,"bosa":0.2,"atm":0.2,"aljama":0.1,"ncc":0.4,"pac":0.2,"uat":0.0,"good":3.8},"Swartland|Western Cape":{"anc":13.9,"da":59.3,"mk":0.3,"eff":2.3,"ifp":0.0,"pa":15.8,"vf":3.2,"action":0.3,"acdp":0.9,"udm":0.2,"rise":0.2,"bosa":0.3,"atm":0.1,"aljama":0.1,"ncc":0.4,"pac":0.1,"uat":0.0,"good":0.7},"Witzenberg|Western Cape":{"anc":28.6,"da":44.6,"mk":0.6,"eff":3.8,"ifp":0.1,"pa":13.8,"vf":2.2,"action":0.5,"acdp":0.7,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.4,"pac":0.2,"uat":0.0,"good":1.8},"Drakenstein|Western Cape":{"anc":19.4,"da":58.1,"mk":0.4,"eff":2.7,"ifp":0.0,"pa":9.6,"vf":2.6,"action":0.2,"acdp":1.2,"udm":0.1,"rise":0.3,"bosa":0.3,"atm":0.1,"aljama":0.4,"ncc":0.4,"pac":0.3,"uat":0.0,"good":0.9},"Stellenbosch|Western Cape":{"anc":17.2,"da":61.0,"mk":0.7,"eff":5.1,"ifp":0.1,"pa":5.5,"vf":2.1,"action":0.8,"acdp":1.5,"udm":0.3,"rise":1.0,"bosa":0.7,"atm":0.3,"aljama":0.1,"ncc":0.4,"pac":0.2,"uat":0.0,"good":1.1},"Breede Valley|Western Cape":{"anc":21.9,"da":48.1,"mk":0.4,"eff":3.6,"ifp":0.0,"pa":16.5,"vf":2.9,"action":0.2,"acdp":1.0,"udm":0.2,"rise":0.1,"bosa":0.2,"atm":0.1,"aljama":0.2,"ncc":0.3,"pac":0.2,"uat":0.0,"good":1.4},"Langeberg|Western Cape":{"anc":21.1,"da":51.1,"mk":0.4,"eff":2.4,"ifp":0.1,"pa":14.5,"vf":4.0,"action":0.1,"acdp":1.2,"udm":0.1,"rise":0.2,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.2,"pac":0.4,"uat":0.0,"good":1.3},"Theewaterskloof|Western Cape":{"anc":27.2,"da":43.7,"mk":0.8,"eff":4.4,"ifp":0.0,"pa":11.5,"vf":1.7,"action":0.2,"acdp":0.7,"udm":0.8,"rise":0.2,"bosa":0.2,"atm":0.2,"aljama":0.0,"ncc":0.3,"pac":0.2,"uat":0.0,"good":5.8},"Overstrand|Western Cape":{"anc":17.5,"da":63.5,"mk":0.7,"eff":2.7,"ifp":0.0,"pa":3.2,"vf":4.0,"action":0.4,"acdp":1.9,"udm":0.4,"rise":0.4,"bosa":0.3,"atm":2.3,"aljama":0.0,"ncc":0.1,"pac":0.1,"uat":0.0,"good":0.4},"Cape Agulhas|Western Cape":{"anc":19.3,"da":55.7,"mk":0.3,"eff":1.3,"ifp":0.0,"pa":14.3,"vf":4.2,"action":0.2,"acdp":0.6,"udm":0.1,"rise":0.2,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.2,"pac":0.1,"uat":0.0,"good":0.8},"Swellendam|Western Cape":{"anc":31.0,"da":44.3,"mk":0.2,"eff":0.9,"ifp":0.0,"pa":15.9,"vf":3.1,"action":0.1,"acdp":0.6,"udm":0.0,"rise":0.2,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.1,"pac":0.1,"uat":0.0,"good":1.2},"Kannaland|Western Cape":{"anc":18.0,"da":45.6,"mk":0.3,"eff":0.7,"ifp":0.1,"pa":26.4,"vf":3.3,"action":0.2,"acdp":1.0,"udm":0.1,"rise":0.2,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.7,"pac":0.4,"uat":0.0,"good":0.3},"Hessequa|Western Cape":{"anc":20.5,"da":56.0,"mk":0.1,"eff":0.6,"ifp":0.0,"pa":14.2,"vf":5.0,"action":0.1,"acdp":1.2,"udm":0.0,"rise":0.1,"bosa":0.1,"atm":0.0,"aljama":0.0,"ncc":0.2,"pac":0.2,"uat":0.0,"good":0.1},"Mossel Bay|Western Cape":{"anc":15.1,"da":64.5,"mk":0.3,"eff":3.0,"ifp":0.0,"pa":7.0,"vf":5.6,"action":0.2,"acdp":1.8,"udm":0.1,"rise":0.1,"bosa":0.1,"atm":0.1,"aljama":0.0,"ncc":0.2,"pac":0.1,"uat":0.0,"good":0.1},"George|Western Cape":{"anc":19.8,"da":50.8,"mk":0.5,"eff":5.0,"ifp":0.0,"pa":14.4,"vf":3.6,"action":0.3,"acdp":1.4,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.2,"aljama":0.1,"ncc":0.1,"pac":0.2,"uat":0.0,"good":0.8},"Oudtshoorn|Western Cape":{"anc":21.1,"da":39.4,"mk":0.7,"eff":2.0,"ifp":0.1,"pa":26.9,"vf":4.9,"action":0.2,"acdp":0.8,"udm":0.1,"rise":0.1,"bosa":0.2,"atm":0.0,"aljama":0.0,"ncc":0.1,"pac":0.3,"uat":0.0,"good":1.4},"Bitou|Western Cape":{"anc":31.7,"da":45.3,"mk":1.2,"eff":4.5,"ifp":0.0,"pa":11.0,"vf":1.0,"action":0.6,"acdp":0.8,"udm":0.2,"rise":0.4,"bosa":0.2,"atm":0.9,"aljama":0.0,"ncc":0.1,"pac":0.3,"uat":0.0,"good":0.2},"Knysna|Western Cape":{"anc":27.6,"da":49.3,"mk":0.6,"eff":4.5,"ifp":0.0,"pa":11.7,"vf":1.7,"action":0.5,"acdp":0.7,"udm":0.2,"rise":0.3,"bosa":0.3,"atm":0.1,"aljama":0.0,"ncc":0.4,"pac":0.2,"uat":0.0,"good":0.1},"Laingsburg|Western Cape":{"anc":25.3,"da":39.3,"mk":0.3,"eff":0.8,"ifp":0.0,"pa":28.5,"vf":1.7,"action":0.1,"acdp":0.3,"udm":0.0,"rise":0.0,"bosa":0.0,"atm":0.0,"aljama":0.0,"ncc":0.0,"pac":0.2,"uat":0.1,"good":0.1},"Prince Albert|Western Cape":{"anc":11.4,"da":44.5,"mk":0.1,"eff":0.6,"ifp":0.0,"pa":38.5,"vf":1.5,"action":0.1,"acdp":0.5,"udm":0.0,"rise":0.2,"bosa":0.2,"atm":0.0,"aljama":0.1,"ncc":0.1,"pac":0.3,"uat":0.0,"good":0.1},"Beaufort West|Western Cape":{"anc":29.5,"da":41.3,"mk":0.9,"eff":2.6,"ifp":0.0,"pa":14.9,"vf":1.8,"action":0.4,"acdp":0.4,"udm":0.1,"rise":0.0,"bosa":2.5,"atm":0.1,"aljama":0.0,"ncc":0.1,"pac":0.3,"uat":0.0,"good":2.3}};
 </script>
 
-<script type="text/babel" data-type="module">
-const { useState, useMemo, useRef } = React;
-
-
-function Crown({ size = 14 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7Z" />
-      <path d="M5 20h14" />
-    </svg>
-  );
+<script>
+const {
+  useState,
+  useMemo,
+  useRef,
+  useEffect
+} = React;
+function Crown({
+  size = 14
+}) {
+  return React.createElement("svg", {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, React.createElement("path", {
+    d: "m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7Z"
+  }), React.createElement("path", {
+    d: "M5 20h14"
+  }));
 }
-function Info({ size = 14 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <path d="M12 16v-4" />
-      <path d="M12 8h.01" />
-    </svg>
-  );
+function Info({
+  size = 14
+}) {
+  return React.createElement("svg", {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: "2",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }, React.createElement("circle", {
+    cx: "12",
+    cy: "12",
+    r: "10"
+  }), React.createElement("path", {
+    d: "M12 16v-4"
+  }), React.createElement("path", {
+    d: "M12 8h.01"
+  }));
 }
-
 const GEOJSON = window.__GEOJSON__;
 const ALL_MUNIS_GEOJSON = window.__ALL_MUNIS_GEOJSON__;
 const MUNICIPALITY_BASELINE = window.__MUNICIPALITY_BASELINE__;
-
-
-// ---- shared design tokens -------------------------------------------
 const INK = "#16231C";
 const PAPER = "#F3EEDF";
 const GOLD = "#C69A3B";
-
 const PARTY_COLORS = {
   anc: "#006600",
   da: "#005BA6",
@@ -162,31 +186,43 @@ const PARTY_COLORS = {
   ncc: "#4A6FA5",
   pac: "#A23E2E",
   uat: "#6E8272",
-  good: "#C99A3C",
+  good: "#C99A3C"
 };
 const PARTY_ORDER = ["anc", "da", "mk", "eff", "ifp", "pa", "vf", "action"];
-
-// minor parties that each cleared roughly 0.2%+ of the 2024 national ballot,
-// listed with their real 2024 national vote share. No sliders for these —
-// whatever's left over after the sliders above is split between them in
-// proportion to those real 2024 shares (relative to each other).
-const MINOR_PARTIES = [
-  { key: "acdp", share2024: 0.60 },
-  { key: "udm", share2024: 0.49 },
-  { key: "rise", share2024: 0.42 },
-  { key: "bosa", share2024: 0.41 },
-  { key: "atm", share2024: 0.40 },
-  { key: "aljama", share2024: 0.24 },
-  { key: "ncc", share2024: 0.23 },
-  { key: "pac", share2024: 0.23 },
-  { key: "uat", share2024: 0.22 },
-  { key: "good", share2024: 0.18 },
-];
+const MINOR_PARTIES = [{
+  key: "acdp",
+  share2024: 0.60
+}, {
+  key: "udm",
+  share2024: 0.49
+}, {
+  key: "rise",
+  share2024: 0.42
+}, {
+  key: "bosa",
+  share2024: 0.41
+}, {
+  key: "atm",
+  share2024: 0.40
+}, {
+  key: "aljama",
+  share2024: 0.24
+}, {
+  key: "ncc",
+  share2024: 0.23
+}, {
+  key: "pac",
+  share2024: 0.23
+}, {
+  key: "uat",
+  share2024: 0.22
+}, {
+  key: "good",
+  share2024: 0.18
+}];
 const MINOR_TOTAL_2024 = MINOR_PARTIES.reduce((s, m) => s + m.share2024, 0);
-const MINOR_KEYS = MINOR_PARTIES.map((m) => m.key);
-const MINOR_WEIGHT = {};
-MINOR_PARTIES.forEach((m) => (MINOR_WEIGHT[m.key] = m.share2024 / MINOR_TOTAL_2024));
-
+const MINOR_KEYS = MINOR_PARTIES.map(m => m.key);
+const HEMI_ORDER = ["eff", "pac", "mk", "anc", "good", "pa", "ifp", "udm", "aljama", "atm", "ncc", "uat", "rise", "da", "action", "bosa", "vf", "acdp"];
 const PARTY_LABEL = {
   anc: "ANC",
   da: "DA",
@@ -205,7 +241,7 @@ const PARTY_LABEL = {
   ncc: "NCC",
   pac: "PAC",
   uat: "UAT",
-  good: "GOOD",
+  good: "GOOD"
 };
 const PARTY_FULL_LABEL = {
   anc: "African National Congress",
@@ -225,33 +261,246 @@ const PARTY_FULL_LABEL = {
   ncc: "National Coloured Congress",
   pac: "Pan Africanist Congress of Azania",
   uat: "United Africans Transformation",
-  good: "Good",
+  good: "Good"
 };
-
-// national 2024 baseline (National ballot, IEC final results) — also used
-// as the default input, and as the swing reference point for the map.
-// PA, VF+, and ActionSA are included as they each cleared 1% nationally.
-const NATIONAL_BASELINE = { anc: 40.2, da: 21.8, mk: 14.6, eff: 9.5, ifp: 3.9, pa: 2.1, vf: 1.4, action: 1.2 };
-
+const partyAcr = k => PARTY_FULL_LABEL[k] === PARTY_LABEL[k] ? null : PARTY_LABEL[k];
+const NAT_VALID = 16076719;
+const NAT_BALLOT = {
+  anc: 6459683,
+  da: 3505735,
+  mk: 2344309,
+  eff: 1529961,
+  ifp: 618207,
+  pa: 330425,
+  vf: 218850,
+  action: 192373,
+  acdp: 96575,
+  udm: 78448,
+  rise: 67975,
+  bosa: 65912,
+  atm: 63554,
+  aljama: 39067,
+  ncc: 37422,
+  pac: 36716,
+  uat: 35679,
+  good: 29501
+};
+const REGIONS = [{
+  name: "Eastern Cape",
+  seats: 25,
+  valid: 1792152,
+  v: {
+    anc: 1118028,
+    da: 266919,
+    mk: 26246,
+    eff: 182809,
+    ifp: 1519,
+    pa: 42393,
+    vf: 9288,
+    action: 8588,
+    acdp: 8529,
+    udm: 63606,
+    rise: 5384,
+    bosa: 4852,
+    atm: 28115,
+    aljama: 1458,
+    pac: 9496,
+    good: 1621
+  }
+}, {
+  name: "Free State",
+  seats: 10,
+  valid: 825282,
+  v: {
+    anc: 433797,
+    da: 177615,
+    mk: 18514,
+    eff: 115147,
+    ifp: 1686,
+    pa: 11838,
+    vf: 25544,
+    action: 4823,
+    acdp: 3443,
+    udm: 915,
+    rise: 2406,
+    bosa: 3211,
+    atm: 6591,
+    pac: 1814,
+    uat: 1342,
+    good: 528
+  }
+}, {
+  name: "Gauteng",
+  seats: 47,
+  valid: 3934648,
+  v: {
+    anc: 1359382,
+    da: 1071879,
+    eff: 508484,
+    mk: 384483,
+    action: 159614,
+    vf: 97293,
+    pa: 83804,
+    rise: 40322,
+    ifp: 36142,
+    bosa: 34829,
+    acdp: 29409,
+    aljama: 17045,
+    pac: 13013,
+    atm: 11697,
+    uat: 8932,
+    udm: 7831,
+    good: 5780
+  }
+}, {
+  name: "KwaZulu-Natal",
+  seats: 41,
+  valid: 3505131,
+  v: {
+    mk: 1574202,
+    anc: 603459,
+    da: 471830,
+    eff: 83465,
+    ifp: 640683,
+    pa: 7587,
+    vf: 5620,
+    action: 10455,
+    acdp: 11593,
+    udm: 2796,
+    rise: 4152,
+    bosa: 4856,
+    atm: 6577,
+    aljama: 7127,
+    pac: 3338,
+    good: 2868
+  }
+}, {
+  name: "Limpopo",
+  seats: 20,
+  valid: 1415116,
+  v: {
+    anc: 1038446,
+    da: 84161,
+    mk: 12295,
+    eff: 197992,
+    ifp: 902,
+    pa: 2527,
+    vf: 16145,
+    action: 9444,
+    acdp: 4806,
+    udm: 950,
+    rise: 2118,
+    bosa: 4507,
+    atm: 1206,
+    aljama: 243,
+    pac: 3075,
+    uat: 11764,
+    good: 302
+  }
+}, {
+  name: "Mpumalanga",
+  seats: 15,
+  valid: 1142946,
+  v: {
+    anc: 585811,
+    mk: 191869,
+    eff: 160425,
+    da: 136575,
+    vf: 18136,
+    action: 5990,
+    uat: 5587,
+    acdp: 5301,
+    atm: 5014,
+    ifp: 4912,
+    pa: 3153,
+    bosa: 2762,
+    rise: 1993,
+    pac: 1403,
+    udm: 855,
+    good: 426
+  }
+}, {
+  name: "North West",
+  seats: 13,
+  valid: 885084,
+  v: {
+    anc: 515832,
+    da: 114629,
+    mk: 18176,
+    eff: 153496,
+    ifp: 1204,
+    pa: 8055,
+    vf: 24487,
+    action: 13871,
+    acdp: 3765,
+    udm: 2118,
+    rise: 3169,
+    bosa: 3828,
+    atm: 1366,
+    aljama: 744,
+    pac: 1327,
+    uat: 4642,
+    good: 466
+  }
+}, {
+  name: "Northern Cape",
+  seats: 5,
+  valid: 395275,
+  v: {
+    anc: 195531,
+    da: 82767,
+    mk: 3005,
+    eff: 52314,
+    ifp: 268,
+    pa: 33994,
+    vf: 7650,
+    action: 2027,
+    acdp: 1434,
+    udm: 153,
+    rise: 598,
+    bosa: 906,
+    atm: 412,
+    pac: 614,
+    good: 1870
+  }
+}, {
+  name: "Western Cape",
+  seats: 24,
+  valid: 1962930,
+  v: {
+    anc: 388390,
+    da: 1048273,
+    mk: 11747,
+    eff: 105940,
+    ifp: 1562,
+    pa: 153936,
+    vf: 32440,
+    action: 6012,
+    acdp: 25598,
+    udm: 6540,
+    rise: 10396,
+    bosa: 9734,
+    atm: 5934,
+    aljama: 26787,
+    ncc: 47188,
+    pac: 6751,
+    good: 22453
+  }
+}];
+const NATIONAL_BASELINE = {};
+["anc", "da", "mk", "eff", "ifp", "pa", "vf", "action"].forEach(k => NATIONAL_BASELINE[k] = NAT_BALLOT[k] / NAT_VALID * 100);
+const MINOR_WEIGHT = {};
+const OTHERS_2024 = 100 - Object.values(NATIONAL_BASELINE).reduce((a, b) => a + b, 0);
+MINOR_PARTIES.forEach(m => MINOR_WEIGHT[m.key] = NAT_BALLOT[m.key] / NAT_VALID * 100 / OTHERS_2024);
 function othersOf(input) {
   const sum = PARTY_ORDER.reduce((s, p) => s + (input[p] || 0), 0);
   return Math.max(0, 100 - sum);
 }
-
-// split a remainder pool across the minor parties using their relative 2024 weight
 function splitMinors(pool) {
   const out = {};
-  MINOR_PARTIES.forEach((m) => (out[m.key] = pool * MINOR_WEIGHT[m.key]));
+  MINOR_PARTIES.forEach(m => out[m.key] = pool * MINOR_WEIGHT[m.key]);
   return out;
 }
-
-// A province/municipality's local share normally moves in lockstep with the
-// national swing (base + (input - nationalBaseline)). But if a party has a
-// much higher local baseline than its national one, that additive model can
-// leave a positive local share even after the national slider hits 0 — the
-// party never actually disappears locally. Below 20% of a party's 2024
-// national result, taper its local share linearly down to a true 0 at 0%,
-// instead of just continuing the additive swing.
 function taperedLocalShare(base, input, nationalBase) {
   base = base || 0;
   if (nationalBase <= 0) return Math.max(0, base + input);
@@ -260,130 +509,372 @@ function taperedLocalShare(base, input, nationalBase) {
   const valueAt20 = Math.max(0, base - 0.8 * nationalBase);
   return Math.max(0, valueAt20 * (ratio / 0.2));
 }
-
-// =======================================================================
-// Seat allocation (largest remainder / Hare quota) — feeds the hemicycle
-// =======================================================================
-function allocateSeats(shares, totalSeats) {
-  const total = Object.values(shares).reduce((a, b) => a + b, 0) || 1;
-  let allocated = 0;
-  const withQuota = Object.entries(shares).map(([key, votes]) => {
-    const exact = (votes / total) * totalSeats;
-    const whole = Math.floor(exact);
-    allocated += whole;
-    return { key, votes, quotaSeats: whole, remainder: exact - whole };
-  });
-  let remaining = totalSeats - allocated;
-  const byRemainder = [...withQuota].sort((a, b) => b.remainder - a.remainder);
-  const bonusKeys = new Set();
-  for (let i = 0; i < remaining && i < byRemainder.length; i++) bonusKeys.add(byRemainder[i].key);
+const droopQuota = (votes, seats) => Math.floor(votes / (seats + 1)) + 1;
+function regionalSeats(votes, valid, seats) {
+  const q = droopQuota(valid, seats);
   const out = {};
-  withQuota.forEach((p) => {
-    out[p.key] = p.quotaSeats + (bonusKeys.has(p.key) ? 1 : 0);
+  let used = 0;
+  const surplus = [];
+  Object.entries(votes).forEach(([k, v]) => {
+    const n = Math.floor(v / q);
+    out[k] = n;
+    used += n;
+    surplus.push([k, v - n * q]);
   });
+  surplus.sort((a, b) => b[1] - a[1]);
+  for (let i = 0; used < seats && i < surplus.length; i++) {
+    if (votes[surplus[i][0]] <= 0) continue;
+    out[surplus[i][0]]++;
+    used++;
+  }
   return out;
 }
-
-// ---- hemicycle seat layout -------------------------------------------
+function entitlements(votes, validVotes, seats) {
+  const q = droopQuota(validVotes, seats);
+  const ent = {};
+  let used = 0;
+  const surplus = [];
+  Object.entries(votes).forEach(([k, v]) => {
+    const n = Math.floor(v / q);
+    ent[k] = n;
+    used += n;
+    surplus.push([k, v - n * q]);
+  });
+  surplus.sort((a, b) => b[1] - a[1]);
+  const bySurplus = Math.min(5, seats - used);
+  for (let i = 0; i < bySurplus; i++) {
+    if (votes[surplus[i][0]] <= 0) continue;
+    ent[surplus[i][0]]++;
+    used++;
+  }
+  while (used < seats) {
+    let best = null,
+      bestAvg = -1;
+    Object.entries(votes).forEach(([k, v]) => {
+      if (v <= 0) return;
+      const avg = ent[k] > 0 ? v / ent[k] : v;
+      if (avg > bestAvg) {
+        bestAvg = avg;
+        best = k;
+      }
+    });
+    if (best === null) break;
+    ent[best]++;
+    used++;
+  }
+  return ent;
+}
+function projectSeats(input, inputOthers, nationalOthers, totalSeats) {
+  const keys = [...PARTY_ORDER, ...MINOR_KEYS];
+  const sliderIn = k => input[k] || 0;
+  const swung = (base, k) => PARTY_ORDER.includes(k) ? taperedLocalShare(base, sliderIn(k), NATIONAL_BASELINE[k]) : taperedLocalShare(base, inputOthers * MINOR_WEIGHT[k], nationalOthers * MINOR_WEIGHT[k]);
+  const natVotes = {};
+  keys.forEach(k => {
+    const share = PARTY_ORDER.includes(k) ? sliderIn(k) : inputOthers * MINOR_WEIGHT[k];
+    natVotes[k] = share / 100 * NAT_VALID;
+  });
+  const regSeats = {};
+  const regVotes = {};
+  let regValid = 0;
+  const byRegion = {};
+  keys.forEach(k => {
+    regSeats[k] = 0;
+    regVotes[k] = 0;
+  });
+  REGIONS.forEach(r => {
+    const base = {};
+    keys.forEach(k => base[k] = (r.v[k] || 0) / r.valid * 100);
+    const unlisted = 100 - keys.reduce((s, k) => s + base[k], 0);
+    const raw = {};
+    keys.forEach(k => raw[k] = swung(base[k], k));
+    const total = keys.reduce((s, k) => s + raw[k], 0) + unlisted || 1;
+    const votes = {};
+    keys.forEach(k => votes[k] = raw[k] / total * r.valid);
+    const won = regionalSeats(votes, r.valid, r.seats);
+    byRegion[r.name] = won;
+    keys.forEach(k => {
+      regSeats[k] += won[k] || 0;
+      regVotes[k] += votes[k];
+    });
+    regValid += r.valid;
+  });
+  const both = {};
+  keys.forEach(k => both[k] = natVotes[k] + regVotes[k]);
+  let validAll = NAT_VALID + regValid;
+  let seatsLeft = totalSeats;
+  let pool = keys.slice();
+  const total = {};
+  for (let guard = 0; guard < keys.length; guard++) {
+    const poolVotes = {};
+    pool.forEach(k => poolVotes[k] = both[k]);
+    const ent = entitlements(poolVotes, validAll, seatsLeft);
+    const over = pool.filter(k => ent[k] < regSeats[k]);
+    if (!over.length) {
+      pool.forEach(k => total[k] = ent[k]);
+      break;
+    }
+    over.forEach(k => {
+      total[k] = regSeats[k];
+      seatsLeft -= regSeats[k];
+      validAll -= both[k];
+    });
+    pool = pool.filter(k => !over.includes(k));
+    if (!pool.length) break;
+  }
+  keys.forEach(k => {
+    if (total[k] == null) total[k] = 0;
+  });
+  const national = {};
+  keys.forEach(k => national[k] = total[k] - regSeats[k]);
+  return {
+    total,
+    regional: regSeats,
+    national,
+    byRegion
+  };
+}
 function buildHemicycle(totalSeats) {
   if (totalSeats <= 0) return [];
-  const rows = Math.max(4, Math.min(9, Math.round(Math.sqrt(totalSeats / 2.4))));
-  const innerR = 115;
-  const outerR = 272;
-  const step = rows > 1 ? (outerR - innerR) / (rows - 1) : 0;
-  const radii = Array.from({ length: rows }, (_, i) => innerR + i * step);
-  const radiusSum = radii.reduce((a, b) => a + b, 0);
-
-  let counts = radii.map((r) => Math.round((r / radiusSum) * totalSeats));
-  let diff = totalSeats - counts.reduce((a, b) => a + b, 0);
-  let i = counts.length - 1;
-  while (diff !== 0 && counts.length > 0) {
-    if (diff > 0) {
-      counts[i]++;
-      diff--;
-    } else if (counts[i] > 0) {
-      counts[i]--;
-      diff++;
+  const cx = 300,
+    cy = 296,
+    outerR = 280,
+    innerR = 100;
+  const plan = rows => {
+    const gap = (outerR - innerR) / (rows - 1);
+    const radii = Array.from({
+      length: rows
+    }, (_, i) => innerR + i * gap);
+    const sum = radii.reduce((a, b) => a + b, 0);
+    const counts = radii.map(r => Math.max(2, Math.round(r / sum * totalSeats)));
+    let diff = totalSeats - counts.reduce((a, b) => a + b, 0);
+    for (let i = rows - 1; diff !== 0; i = (i - 1 + rows) % rows) {
+      counts[i] += diff > 0 ? 1 : -1;
+      diff += diff > 0 ? -1 : 1;
     }
-    i = i - 1 < 0 ? counts.length - 1 : i - 1;
+    const arc = Math.min(...radii.map((r, i) => Math.PI * r / (counts[i] - 1)));
+    return {
+      rows,
+      gap,
+      radii,
+      counts,
+      arc
+    };
+  };
+  let best = null;
+  for (let rows = 4; rows <= 16; rows++) {
+    const pl = plan(rows);
+    const score = Math.abs(Math.log(pl.arc / pl.gap));
+    if (!best || score < best.score) best = {
+      ...pl,
+      score
+    };
   }
-
+  const seatR = Math.min(best.gap, best.arc) * 0.42;
   const seats = [];
-  radii.forEach((r, rowIdx) => {
-    const n = counts[rowIdx];
-    if (n <= 0) return;
-    for (let s = 0; s < n; s++) {
-      const angle = n === 1 ? Math.PI / 2 : Math.PI - (s * Math.PI) / (n - 1);
-      seats.push({ x: 300 + r * Math.cos(angle), y: 292 - r * Math.sin(angle), angle, r });
+  best.radii.forEach((r, row) => {
+    const n = best.counts[row];
+    for (let k = 0; k < n; k++) {
+      const angle = Math.PI - k * Math.PI / (n - 1);
+      seats.push({
+        x: cx + r * Math.cos(angle),
+        y: cy - r * Math.sin(angle),
+        angle,
+        r,
+        rad: seatR
+      });
     }
   });
   seats.sort((a, b) => b.angle - a.angle || a.r - b.r);
   return seats;
 }
-
-// =======================================================================
-// Provincial swing map
-// =======================================================================
-// Minor-party province baselines, sourced from full provincial-ballot result
-// tables (Wikipedia per-province election articles) where available. A 0
-// means that party did not clear a meaningful share there in 2024 — most
-// of these parties only won seats in one or two provinces.
 const PROVINCE_BASELINE = {
-  // exact 2024 National Ballot figures, IEC Results Report (province-wide, Eastern Cape)
   "Eastern Cape": {
-    anc: 62.5, da: 14.6, mk: 1.6, eff: 10.1, ifp: 0.1, pa: 2.3, vf: 0.6, action: 0.5,
-    acdp: 0.5, udm: 3.0, rise: 0.3, bosa: 0.2, atm: 1.5, aljama: 0.1, ncc: 0.0, pac: 0.5, uat: 0.0, good: 0.1,
+    anc: 62.5,
+    da: 14.6,
+    mk: 1.6,
+    eff: 10.1,
+    ifp: 0.1,
+    pa: 2.3,
+    vf: 0.6,
+    action: 0.5,
+    acdp: 0.5,
+    udm: 3.0,
+    rise: 0.3,
+    bosa: 0.2,
+    atm: 1.5,
+    aljama: 0.1,
+    ncc: 0.0,
+    pac: 0.5,
+    uat: 0.0,
+    good: 0.1
   },
   "Free State": {
-    anc: 51.9, da: 21.9, mk: 2.0, eff: 13.5, ifp: 0.0, pa: 1.4, vf: 3.0, action: 0.5,
-    acdp: 0.5, udm: 0.0, rise: 0.3, bosa: 0.2, atm: 0.7, aljama: 0.1, ncc: 0.0, pac: 0.0, uat: 0.0, good: 0.1,
+    anc: 51.9,
+    da: 21.9,
+    mk: 2.0,
+    eff: 13.5,
+    ifp: 0.0,
+    pa: 1.4,
+    vf: 3.0,
+    action: 0.5,
+    acdp: 0.5,
+    udm: 0.0,
+    rise: 0.3,
+    bosa: 0.2,
+    atm: 0.7,
+    aljama: 0.1,
+    ncc: 0.0,
+    pac: 0.0,
+    uat: 0.0,
+    good: 0.1
   },
   "Gauteng": {
-    anc: 34.8, da: 27.4, mk: 9.8, eff: 12.9, ifp: 0.9, pa: 2.0, vf: 2.3, action: 4.2,
-    acdp: 0.7, udm: 0.2, rise: 1.0, bosa: 0.8, atm: 0.3, aljama: 0.4, ncc: 0.0, pac: 0.3, uat: 0.2, good: 0.1,
+    anc: 34.8,
+    da: 27.4,
+    mk: 9.8,
+    eff: 12.9,
+    ifp: 0.9,
+    pa: 2.0,
+    vf: 2.3,
+    action: 4.2,
+    acdp: 0.7,
+    udm: 0.2,
+    rise: 1.0,
+    bosa: 0.8,
+    atm: 0.3,
+    aljama: 0.4,
+    ncc: 0.0,
+    pac: 0.3,
+    uat: 0.2,
+    good: 0.1
   },
   "KwaZulu-Natal": {
-    anc: 17.0, da: 15.4, mk: 45.4, eff: 2.8, ifp: 18.1, pa: 0.2, vf: 0.2, action: 0.3,
-    acdp: 0.3, udm: 0.0, rise: 0.1, bosa: 0.1, atm: 0.2, aljama: 0.2, ncc: 0.0, pac: 0.1, uat: 0.0, good: 0.0,
+    anc: 17.0,
+    da: 15.4,
+    mk: 45.4,
+    eff: 2.8,
+    ifp: 18.1,
+    pa: 0.2,
+    vf: 0.2,
+    action: 0.3,
+    acdp: 0.3,
+    udm: 0.0,
+    rise: 0.1,
+    bosa: 0.1,
+    atm: 0.2,
+    aljama: 0.2,
+    ncc: 0.0,
+    pac: 0.1,
+    uat: 0.0,
+    good: 0.0
   },
   "Limpopo": {
-    anc: 73.3, da: 6.0, mk: 2.2, eff: 14.1, ifp: 0.0, pa: 0.0, vf: 2.2, action: 0.0,
-    acdp: 0.0, udm: 0.0, rise: 0.0, bosa: 0.0, atm: 0.0, aljama: 0.0, ncc: 0.0, pac: 0.0, uat: 2.2, good: 0.0,
+    anc: 73.3,
+    da: 6.0,
+    mk: 2.2,
+    eff: 14.1,
+    ifp: 0.0,
+    pa: 0.0,
+    vf: 2.2,
+    action: 0.0,
+    acdp: 0.0,
+    udm: 0.0,
+    rise: 0.0,
+    bosa: 0.0,
+    atm: 0.0,
+    aljama: 0.0,
+    ncc: 0.0,
+    pac: 0.0,
+    uat: 2.2,
+    good: 0.0
   },
   "Mpumalanga": {
-    anc: 51.2, da: 12.0, mk: 17.0, eff: 13.9, ifp: 0.0, pa: 0.0, vf: 3.0, action: 3.0,
-    acdp: 0.0, udm: 0.0, rise: 0.0, bosa: 0.0, atm: 0.0, aljama: 0.0, ncc: 0.0, pac: 0.0, uat: 0.0, good: 0.0,
+    anc: 51.2,
+    da: 12.0,
+    mk: 17.0,
+    eff: 13.9,
+    ifp: 0.0,
+    pa: 0.0,
+    vf: 3.0,
+    action: 3.0,
+    acdp: 0.0,
+    udm: 0.0,
+    rise: 0.0,
+    bosa: 0.0,
+    atm: 0.0,
+    aljama: 0.0,
+    ncc: 0.0,
+    pac: 0.0,
+    uat: 0.0,
+    good: 0.0
   },
   "Northern Cape": {
-    anc: 49.3, da: 21.2, mk: 1.0, eff: 13.3, ifp: 0.0, pa: 8.6, vf: 1.8, action: 0.0,
-    acdp: 0.0, udm: 0.1, rise: 0.3, bosa: 0.0, atm: 0.0, aljama: 0.0, ncc: 0.0, pac: 0.2, uat: 0.2, good: 0.1,
+    anc: 49.3,
+    da: 21.2,
+    mk: 1.0,
+    eff: 13.3,
+    ifp: 0.0,
+    pa: 8.6,
+    vf: 1.8,
+    action: 0.0,
+    acdp: 0.0,
+    udm: 0.1,
+    rise: 0.3,
+    bosa: 0.0,
+    atm: 0.0,
+    aljama: 0.0,
+    ncc: 0.0,
+    pac: 0.2,
+    uat: 0.2,
+    good: 0.1
   },
   "North West": {
-    anc: 57.7, da: 13.2, mk: 3.9, eff: 17.4, ifp: 0.0, pa: 0.0, vf: 3.9, action: 3.9,
-    acdp: 0.0, udm: 0.0, rise: 0.0, bosa: 0.0, atm: 0.0, aljama: 0.0, ncc: 0.0, pac: 0.0, uat: 0.0, good: 0.0,
+    anc: 57.7,
+    da: 13.2,
+    mk: 3.9,
+    eff: 17.4,
+    ifp: 0.0,
+    pa: 0.0,
+    vf: 3.9,
+    action: 3.9,
+    acdp: 0.0,
+    udm: 0.0,
+    rise: 0.0,
+    bosa: 0.0,
+    atm: 0.0,
+    aljama: 0.0,
+    ncc: 0.0,
+    pac: 0.0,
+    uat: 0.0,
+    good: 0.0
   },
   "Western Cape": {
-    anc: 19.6, da: 55.3, mk: 1.0, eff: 5.3, ifp: 0.0, pa: 9.3, vf: 2.1, action: 0.0,
-    acdp: 1.1, udm: 0.0, rise: 0.3, bosa: 0.0, atm: 0.0, aljama: 1.3, ncc: 2.4, pac: 0.0, uat: 0.0, good: 1.0,
-  },
+    anc: 19.6,
+    da: 55.3,
+    mk: 1.0,
+    eff: 5.3,
+    ifp: 0.0,
+    pa: 9.3,
+    vf: 2.1,
+    action: 0.0,
+    acdp: 1.1,
+    udm: 0.0,
+    rise: 0.3,
+    bosa: 0.0,
+    atm: 0.0,
+    aljama: 1.3,
+    ncc: 2.4,
+    pac: 0.0,
+    uat: 0.0,
+    good: 1.0
+  }
 };
-
-
-// =======================================================================
-// Local (municipal) swing map
-// =======================================================================
-// Real 2024 National Ballot results for all 213 municipalities, sourced
-// from an IEC municipal-level results export (party vote counts per
-// municipality). Keyed by "name|province" since a few municipality names
-// repeat across provinces (e.g. two "Emalahleni").
-
-// all 213 municipalities, real (simplified) boundaries, each tagged with its province
-
-
-
 function buildProjector(geojson, targetW, targetH, padding) {
-  let minLon = Infinity, maxLon = -Infinity, minLat = Infinity, maxLat = -Infinity;
-  const visit = (coords) => {
+  let minLon = Infinity,
+    maxLon = -Infinity,
+    minLat = Infinity,
+    maxLat = -Infinity;
+  const visit = coords => {
     if (typeof coords[0] === "number") {
       const [lon, lat] = coords;
       if (lon < minLon) minLon = lon;
@@ -394,9 +885,9 @@ function buildProjector(geojson, targetW, targetH, padding) {
       coords.forEach(visit);
     }
   };
-  geojson.features.forEach((f) => visit(f.geometry.coordinates));
+  geojson.features.forEach(f => visit(f.geometry.coordinates));
   const midLat = (minLat + maxLat) / 2;
-  const latCorrection = Math.cos((midLat * Math.PI) / 180);
+  const latCorrection = Math.cos(midLat * Math.PI / 180);
   const spanX = (maxLon - minLon) * latCorrection;
   const spanY = maxLat - minLat;
   const availW = targetW - padding * 2;
@@ -406,99 +897,262 @@ function buildProjector(geojson, targetW, targetH, padding) {
   const offsetY = padding + (availH - spanY * scale) / 2;
   return (lon, lat) => [(lon - minLon) * latCorrection * scale + offsetX, (maxLat - lat) * scale + offsetY];
 }
-
 function ringToPath(ring, project) {
-  return (
-    ring
-      .map(([lon, lat], i) => {
-        const [x, y] = project(lon, lat);
-        return `${i === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
-      })
-      .join(" ") + "Z"
-  );
+  return ring.map(([lon, lat], i) => {
+    const [x, y] = project(lon, lat);
+    return `${i === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
+  }).join(" ") + "Z";
 }
-
 function featureToPath(feature, project) {
-  const { type, coordinates } = feature.geometry;
-  if (type === "Polygon") return coordinates.map((ring) => ringToPath(ring, project)).join(" ");
-  if (type === "MultiPolygon")
-    return coordinates.map((polygon) => polygon.map((ring) => ringToPath(ring, project)).join(" ")).join(" ");
+  const {
+    type,
+    coordinates
+  } = feature.geometry;
+  if (type === "Polygon") return coordinates.map(ring => ringToPath(ring, project)).join(" ");
+  if (type === "MultiPolygon") return coordinates.map(polygon => polygon.map(ring => ringToPath(ring, project)).join(" ")).join(" ");
   return "";
 }
-
-// =======================================================================
-// Page
-// =======================================================================
 function ElectionExplorer() {
-  const [input, setInput] = useState({ ...NATIONAL_BASELINE });
+  const [input, setInput] = useState({
+    ...NATIONAL_BASELINE
+  });
   const [selected, setSelected] = useState(null);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [tooltipPos, setTooltipPos] = useState({
+    x: 0,
+    y: 0
+  });
   const [coalition, setCoalition] = useState({});
   const mapContainerRef = useRef(null);
   const [metroSelected, setMetroSelected] = useState(null);
-  const [metroTooltipPos, setMetroTooltipPos] = useState({ x: 0, y: 0 });
+  const [mapView, setMapView] = useState("province");
+  const MAP_W = 640,
+    MAP_H = 620,
+    MAX_ZOOM = 12;
+  const [view, setView] = useState({
+    k: 1,
+    cx: MAP_W / 2,
+    cy: MAP_H / 2
+  });
+  const provSvgRef = useRef(null);
+  const metroSvgRef = useRef(null);
+  const dragMoved = useRef(false);
+  const stopDrag = useRef(null);
+  const clampView = (k, cx, cy) => {
+    const kk = Math.min(MAX_ZOOM, Math.max(1, k));
+    const hw = MAP_W / kk / 2,
+      hh = MAP_H / kk / 2;
+    return {
+      k: kk,
+      cx: Math.min(MAP_W - hw, Math.max(hw, cx)),
+      cy: Math.min(MAP_H - hh, Math.max(hh, cy))
+    };
+  };
+  const updateView = fn => {
+    setView(fn);
+    setSelected(null);
+    setMetroSelected(null);
+  };
+  const zoomAt = (px, py, factor) => updateView(v => {
+    const k2 = Math.min(MAX_ZOOM, Math.max(1, v.k * factor));
+    const vw = MAP_W / v.k,
+      vh = MAP_H / v.k,
+      vw2 = MAP_W / k2,
+      vh2 = MAP_H / k2;
+    const x = v.cx - vw / 2 + px * vw,
+      y = v.cy - vh / 2 + py * vh;
+    return clampView(k2, x - px * vw2 + vw2 / 2, y - py * vh2 + vh2 / 2);
+  });
+  const zoomCentre = factor => zoomAt(0.5, 0.5, factor);
+  const resetView = () => updateView(() => ({
+    k: 1,
+    cx: MAP_W / 2,
+    cy: MAP_H / 2
+  }));
+  useEffect(() => {
+    const cleanups = [provSvgRef.current, metroSvgRef.current].filter(Boolean).map(el => {
+      const onWheel = e => {
+        const r = el.getBoundingClientRect();
+        if (!r.width) return;
+        e.preventDefault();
+        zoomAt((e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height, Math.exp(-e.deltaY * 0.0015));
+      };
+      const onDown = e => {
+        if (e.button !== 0) return;
+        dragMoved.current = false;
+        let last = {
+          x: e.clientX,
+          y: e.clientY
+        };
+        let total = 0;
+        const onMove = m => {
+          if (m.buttons === 0) return onUp();
+          const r = el.getBoundingClientRect();
+          const dx = m.clientX - last.x,
+            dy = m.clientY - last.y;
+          last = {
+            x: m.clientX,
+            y: m.clientY
+          };
+          total += Math.abs(dx) + Math.abs(dy);
+          if (total > 5) dragMoved.current = true;
+          if (!dragMoved.current) return;
+          updateView(v => {
+            if (v.k <= 1) return v;
+            const u = MAP_W / v.k / r.width;
+            return clampView(v.k, v.cx - dx * u, v.cy - dy * u);
+          });
+        };
+        const onUp = () => {
+          window.removeEventListener("pointermove", onMove);
+          window.removeEventListener("pointerup", onUp);
+          window.removeEventListener("pointercancel", onUp);
+          window.removeEventListener("blur", onUp);
+          el.removeEventListener("dragstart", noDrag);
+          stopDrag.current = null;
+        };
+        const noDrag = d => d.preventDefault();
+        if (stopDrag.current) stopDrag.current();
+        stopDrag.current = onUp;
+        el.addEventListener("dragstart", noDrag);
+        window.addEventListener("pointermove", onMove);
+        window.addEventListener("pointerup", onUp);
+        window.addEventListener("pointercancel", onUp);
+        window.addEventListener("blur", onUp);
+      };
+      el.addEventListener("wheel", onWheel, {
+        passive: false
+      });
+      el.addEventListener("pointerdown", onDown);
+      return () => {
+        el.removeEventListener("wheel", onWheel);
+        el.removeEventListener("pointerdown", onDown);
+      };
+    });
+    return () => cleanups.forEach(c => c());
+  }, []);
+  const viewBoxStr = `${view.cx - MAP_W / view.k / 2} ${view.cy - MAP_H / view.k / 2} ${MAP_W / view.k} ${MAP_H / view.k}`;
+  const svgInteractStyle = {
+    touchAction: view.k > 1 ? "none" : "auto",
+    cursor: view.k > 1 ? "grab" : "default"
+  };
+  const zoomBtn = {
+    width: 32,
+    height: 32,
+    border: "1px solid #3A4A3E",
+    background: "rgba(22,35,28,0.92)",
+    color: "#F3EEDF",
+    borderRadius: 6,
+    fontSize: 16,
+    lineHeight: 1,
+    cursor: "pointer",
+    fontFamily: "inherit",
+    padding: 0
+  };
+  const [mapParty, setMapParty] = useState("winner");
+  const mixHex = (a, b, t) => {
+    const pa = [1, 3, 5].map(i => parseInt(a.slice(i, i + 2), 16));
+    const pb = [1, 3, 5].map(i => parseInt(b.slice(i, i + 2), 16));
+    return "#" + pa.map((v, i) => Math.round(v + (pb[i] - v) * t).toString(16).padStart(2, "0")).join("");
+  };
+  const heatLight = colour => mixHex(colour, "#FFFFFF", 0.25);
+  const strengthFill = (share, min, max, colour) => {
+    const t = Math.min(1, Math.max(0, (share - min) / (max - min || 1)));
+    return t <= 0.7 ? mixHex("#2A3A30", colour, 0.12 + 0.88 * (t / 0.7)) : mixHex(colour, heatLight(colour), (t - 0.7) / 0.3);
+  };
+  const zoomControls = React.createElement("div", {
+    style: {
+      position: "absolute",
+      top: 8,
+      right: 8,
+      display: "flex",
+      flexDirection: "column",
+      gap: 4,
+      zIndex: 5
+    }
+  }, React.createElement("button", {
+    "aria-label": "Zoom in",
+    title: "Zoom in",
+    style: zoomBtn,
+    onClick: () => zoomCentre(1.6)
+  }, "+"), React.createElement("button", {
+    "aria-label": "Zoom out",
+    title: "Zoom out",
+    style: zoomBtn,
+    onClick: () => zoomCentre(1 / 1.6)
+  }, "−"), React.createElement("button", {
+    "aria-label": "Reset zoom",
+    title: "Reset zoom",
+    style: {
+      ...zoomBtn,
+      fontSize: 13,
+      opacity: view.k > 1 ? 1 : 0.5
+    },
+    onClick: resetView
+  }, "⤢"));
+  const [metroTooltipPos, setMetroTooltipPos] = useState({
+    x: 0,
+    y: 0
+  });
   const metroContainerRef = useRef(null);
   const totalSeats = 400;
-
   const updateParty = (party, value) => {
-    setInput((prev) => {
+    setInput(prev => {
       const othersSum = PARTY_ORDER.reduce((s, q) => s + (q === party ? 0 : prev[q] || 0), 0);
       const cap = Math.max(0, 100 - othersSum);
       const v = Math.min(cap, Math.max(0, Number(value)));
-      return { ...prev, [party]: v };
+      return {
+        ...prev,
+        [party]: v
+      };
     });
   };
-
   const inputOthers = othersOf(input);
   const nationalOthers = othersOf(NATIONAL_BASELINE);
-
-  // ---- seat allocation, shared shares object (8 tracked + 10 minor parties) ----
   const shares = useMemo(() => {
     const s = {};
-    PARTY_ORDER.forEach((p) => (s[p] = input[p] || 0));
+    PARTY_ORDER.forEach(p => s[p] = input[p] || 0);
     Object.assign(s, splitMinors(inputOthers));
     return s;
   }, [input, inputOthers]);
-
-  const seatCounts = useMemo(() => allocateSeats(shares, totalSeats), [shares]);
+  const seatProjection = useMemo(() => projectSeats(input, inputOthers, nationalOthers, totalSeats), [input]);
+  const seatCounts = seatProjection.total;
+  const seats2024 = useMemo(() => projectSeats({
+    ...NATIONAL_BASELINE
+  }, nationalOthers, nationalOthers, totalSeats).total, []);
   const seatCoords = useMemo(() => buildHemicycle(totalSeats), []);
   const majority = Math.floor(totalSeats / 2) + 1;
-
-  const rankedParties = useMemo(
-    () => [...PARTY_ORDER, ...MINOR_KEYS].sort((a, b) => shares[b] - shares[a]),
-    [shares]
-  );
+  const rankedParties = useMemo(() => [...PARTY_ORDER, ...MINOR_KEYS].sort((a, b) => shares[b] - shares[a]), [shares]);
   const leadingKey = rankedParties[0];
   const hasMajority = seatCounts[leadingKey] >= majority;
-
   const seatOwners = useMemo(() => {
     const owners = [];
-    rankedParties.forEach((key) => {
+    HEMI_ORDER.forEach(key => {
       for (let i = 0; i < (seatCounts[key] || 0); i++) owners.push(PARTY_COLORS[key]);
     });
     return owners;
-  }, [rankedParties, seatCounts]);
-
-  const toggleCoalition = (key) => {
-    setCoalition((prev) => ({ ...prev, [key]: !prev[key] }));
+  }, [seatCounts]);
+  const toggleCoalition = key => {
+    setCoalition(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
   };
-  const coalitionKeys = rankedParties.filter((key) => coalition[key]);
+  const coalitionKeys = rankedParties.filter(key => coalition[key]);
   const coalitionSeats = coalitionKeys.reduce((s, key) => s + (seatCounts[key] || 0), 0);
   const coalitionHasMajority = coalitionSeats >= majority;
-
-  // ---- provincial swing map, driven by the same input ----
   const provinceProjections = useMemo(() => {
     const out = {};
     Object.entries(PROVINCE_BASELINE).forEach(([prov, base]) => {
       const raw = {};
-      PARTY_ORDER.forEach((p) => (raw[p] = taperedLocalShare(base[p], input[p] || 0, NATIONAL_BASELINE[p])));
-      MINOR_PARTIES.forEach((m) => {
+      PARTY_ORDER.forEach(p => raw[p] = taperedLocalShare(base[p], input[p] || 0, NATIONAL_BASELINE[p]));
+      MINOR_PARTIES.forEach(m => {
         const w = MINOR_WEIGHT[m.key];
         raw[m.key] = taperedLocalShare(base[m.key], inputOthers * w, nationalOthers * w);
       });
-      const total = Object.values(raw).reduce((a, b) => a + b, 0) || 1;
+      const unlisted = Math.max(0, 100 - Object.values(base).reduce((a, b) => a + b, 0));
+      const total = Object.values(raw).reduce((a, b) => a + b, 0) + unlisted || 1;
       const norm = {};
-      Object.entries(raw).forEach(([p, v]) => (norm[p] = (v / total) * 100));
+      Object.entries(raw).forEach(([p, v]) => norm[p] = v / total * 100);
       let winner = PARTY_ORDER[0];
       let winnerPct = -1;
       Object.entries(norm).forEach(([p, v]) => {
@@ -507,41 +1161,41 @@ function ElectionExplorer() {
           winner = p;
         }
       });
-      out[prov] = { shares: norm, winner };
+      out[prov] = {
+        shares: norm,
+        winner
+      };
     });
     return out;
   }, [input, inputOthers, nationalOthers]);
-
   const mapWidth = 640;
-  const mapHeight = 500;
+  const mapHeight = 620;
   const mapPaths = useMemo(() => {
-    const project = buildProjector(GEOJSON, mapWidth, mapHeight, 20);
-    return GEOJSON.features.map((f) => ({ name: f.properties.name, d: featureToPath(f, project) }));
+    const project = buildProjector(GEOJSON, mapWidth, mapHeight, 16);
+    return GEOJSON.features.map(f => ({
+      name: f.properties.name,
+      d: featureToPath(f, project)
+    }));
   }, []);
-
   const activeData = selected ? provinceProjections[selected] : null;
-
-  // ---- full municipal map: only Buffalo City, Johannesburg and eThekwini
-  // have real sourced data. Every other municipality is shown as "no data"
-  // rather than faked with its province's colour — now every municipality
-  // has its own real 2024 baseline. ----
   const municipalityProjections = useMemo(() => {
     const out = {};
-    ALL_MUNIS_GEOJSON.features.forEach((f) => {
+    ALL_MUNIS_GEOJSON.features.forEach(f => {
       const name = f.properties.name;
       const province = f.properties.province;
       const id = `${name}|${province}`;
       const base = MUNICIPALITY_BASELINE[id];
       if (base) {
         const raw = {};
-        PARTY_ORDER.forEach((p) => (raw[p] = taperedLocalShare(base[p], input[p] || 0, NATIONAL_BASELINE[p])));
-        MINOR_PARTIES.forEach((m) => {
+        PARTY_ORDER.forEach(p => raw[p] = taperedLocalShare(base[p], input[p] || 0, NATIONAL_BASELINE[p]));
+        MINOR_PARTIES.forEach(m => {
           const w = MINOR_WEIGHT[m.key];
           raw[m.key] = taperedLocalShare(base[m.key], inputOthers * w, nationalOthers * w);
         });
-        const total = Object.values(raw).reduce((a, b) => a + b, 0) || 1;
+        const unlisted = Math.max(0, 100 - Object.values(base).reduce((a, b) => a + b, 0));
+        const total = Object.values(raw).reduce((a, b) => a + b, 0) + unlisted || 1;
         const norm = {};
-        Object.entries(raw).forEach(([p, v]) => (norm[p] = (v / total) * 100));
+        Object.entries(raw).forEach(([p, v]) => norm[p] = v / total * 100);
         let winner = PARTY_ORDER[0];
         let winnerPct = -1;
         Object.entries(norm).forEach(([p, v]) => {
@@ -550,556 +1204,965 @@ function ElectionExplorer() {
             winner = p;
           }
         });
-        out[id] = { shares: norm, winner, sourced: true, province, name };
+        out[id] = {
+          shares: norm,
+          winner,
+          sourced: true,
+          province,
+          name
+        };
       } else {
-        out[id] = { shares: null, winner: null, sourced: false, province, name };
+        out[id] = {
+          shares: null,
+          winner: null,
+          sourced: false,
+          province,
+          name
+        };
       }
     });
     return out;
   }, [input, inputOthers, nationalOthers]);
-
+  const strengthRange = projs => {
+    if (mapParty === "winner") return {
+      min: 0,
+      max: 0
+    };
+    const vals = Object.values(projs).filter(pr => pr.shares).map(pr => pr.shares[mapParty] || 0);
+    return {
+      min: Math.min(...vals),
+      max: Math.max(...vals)
+    };
+  };
+  const provRange = strengthRange(provinceProjections);
+  const metroRange = strengthRange(municipalityProjections);
   const metroWidth = 640;
   const metroHeight = 620;
   const metroPaths = useMemo(() => {
     const project = buildProjector(ALL_MUNIS_GEOJSON, metroWidth, metroHeight, 16);
-    return ALL_MUNIS_GEOJSON.features.map((f) => ({
+    return ALL_MUNIS_GEOJSON.features.map(f => ({
       id: `${f.properties.name}|${f.properties.province}`,
       name: f.properties.name,
-      d: featureToPath(f, project),
+      d: featureToPath(f, project)
     }));
   }, []);
-
   const activeMetroData = metroSelected ? municipalityProjections[metroSelected] : null;
-
-  return (
-    <div style={{ minHeight: "100vh", background: INK, color: PAPER, fontFamily: "'Work Sans', 'Segoe UI', sans-serif" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  return React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      background: INK,
+      color: PAPER,
+      fontFamily: "'Work Sans', 'Segoe UI', sans-serif"
+    }
+  }, React.createElement("style", null, `
+        
+        .spt-h { text-align: center; font-size: clamp(22px, 4.5vw, 28px); font-weight: 500; letter-spacing: 0; color: #F3EEDF; margin: 8px 0 16px; line-height: 1.2; text-wrap: balance; }
+        .spt-row { display: flex; align-items: center; gap: 12px; }
+        .spt-lbl { width: 236px; flex-shrink: 0; font-size: 13px; line-height: 1.3; }
+        @media (max-width: 640px) {
+          .spt-row { flex-wrap: wrap; row-gap: 4px; }
+          .spt-lbl { width: auto; flex: 1 1 calc(100% - 30px); }
+          .spt-row .spt-slider { flex: 1 1 140px; }
+        }
         .spt-mono { font-family: 'IBM Plex Mono', monospace; }
         .spt-display { font-family: 'Fraunces', serif; }
-        input[type=number]::-webkit-inner-spin-button { opacity: 1; }
-        .prov-path { cursor: pointer; stroke: #16231C; stroke-width: 1.2; transition: opacity 0.15s; }
+        .spt-num { -moz-appearance: textfield; appearance: textfield; box-sizing: border-box; width: 64px; height: 30px; padding: 0 8px; text-align: right; font-size: 13px; font-variant-numeric: tabular-nums; color: #F3EEDF; background: #33473A; border: 1px solid #5F7364; border-radius: 6px; outline: none; transition: border-color 0.15s, box-shadow 0.15s, background 0.15s; }
+        .spt-num::-webkit-inner-spin-button, .spt-num::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        .spt-num:hover { border-color: #8CA092; background: #3A5042; }
+        .spt-num:focus { border-color: #C69A3B; background: #3A5042; box-shadow: 0 0 0 3px rgba(198,154,59,0.22); }
+        .prov-path { vector-effect: non-scaling-stroke; cursor: pointer; stroke: #16231C; stroke-width: 1.2; transition: opacity 0.15s; }
         .prov-path:hover { opacity: 0.82; }
         .spt-slider { -webkit-appearance: none; appearance: none; height: 4px; border-radius: 2px; background: #3A4A3E; outline: none; }
         .spt-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--thumb-color); cursor: pointer; border: 2px solid #16231C; }
         .spt-slider::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--thumb-color); cursor: pointer; border: 2px solid #16231C; }
         .spt-slider::-moz-range-track { height: 4px; border-radius: 2px; background: #3A4A3E; }
-      `}</style>
-
-      {/* single, plain header */}
-      <div style={{ borderBottom: "1px solid #3A4A3E", padding: "22px 32px" }}>
-        <div className="spt-mono" style={{ fontSize: 11, letterSpacing: "0.14em", color: GOLD, marginBottom: 6 }}>
-          SOUTH AFRICA · NATIONAL ASSEMBLY
-        </div>
-        <h1 className="spt-display" style={{ fontSize: "clamp(22px, 3vw, 30px)", fontWeight: 500, margin: 0 }}>
-          National Assembly seat projection
-        </h1>
-        <p style={{ maxWidth: 700, marginTop: 8, color: "#9FB0A3", fontSize: 13.5, lineHeight: 1.5 }}>
-          One set of national vote shares drives both views below: seats via the largest-remainder
-          method, and the map via uniform swing applied to each province's real 2024 baseline.
-        </p>
-      </div>
-
-      {/* input rows, one per party, each with a slider */}
-      <div style={{ padding: "18px 32px", borderBottom: "1px solid #3A4A3E" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-          <span className="spt-mono" style={{ fontSize: 11, letterSpacing: "0.12em", color: "#9FB0A3" }}>
-            NATIONAL VOTE SHARE
-          </span>
-          <button
-            onClick={() => setInput({ ...NATIONAL_BASELINE })}
-            style={{
-              marginLeft: "auto",
-              background: "transparent",
-              border: "1px solid #3A4A3E",
-              borderRadius: 5,
-              padding: "4px 10px",
-              color: "#9FB0A3",
-              fontSize: 12,
-              cursor: "pointer",
-            }}
-          >
-            Reset to 2024 results
-          </button>
-        </div>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {PARTY_ORDER.map((p) => (
-            <div key={p} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ width: 9, height: 9, borderRadius: 2, background: PARTY_COLORS[p], flexShrink: 0 }} />
-              <span style={{ width: 76, fontSize: 13, fontWeight: 500, color: PAPER, flexShrink: 0, whiteSpace: "nowrap" }}>{PARTY_LABEL[p]}</span>
-              <input
-                type="range"
-                min="0"
-                max="70"
-                step="0.1"
-                value={input[p]}
-                onChange={(e) => updateParty(p, e.target.value)}
-                style={{ flex: 1, "--thumb-color": PARTY_COLORS[p] }}
-                className="spt-slider"
-              />
-              <input
-                type="number"
-                step="0.1"
-                min="0"
-                max="70"
-                value={input[p]}
-                onChange={(e) => updateParty(p, e.target.value)}
-                className="spt-mono"
-                style={{
-                  width: 68,
-                  border: "1px solid #D8CFB4",
-                  borderRadius: 4,
-                  padding: "4px 6px",
-                  textAlign: "right",
-                  fontSize: 13,
-                  color: "#201C15",
-                  background: PAPER,
-                  flexShrink: 0,
-                }}
-              />
-              <span className="spt-mono" style={{ fontSize: 12, color: "#9FB0A3", width: 12, flexShrink: 0 }}>
-                %
-              </span>
-            </div>
-          ))}
-
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <span style={{ display: "flex", gap: 2, flexShrink: 0, width: 9 }}>
-              {MINOR_KEYS.slice(0, 3).map((k) => (
-                <span key={k} style={{ width: 3, height: 9, background: PARTY_COLORS[k] }} />
-              ))}
-            </span>
-            <span style={{ width: 76, fontSize: 13, color: "#9FB0A3", flexShrink: 0, whiteSpace: "nowrap" }}>
-              Other
-            </span>
-            <span style={{ flex: 1, fontSize: 12, color: "#63625C" }} />
-            <span
-              className="spt-mono"
-              style={{
-                width: 68,
-                textAlign: "right",
-                fontSize: 13,
-                color: "#D9D3BE",
-                flexShrink: 0,
-              }}
-            >
-              {inputOthers.toFixed(1)}
-            </span>
-            <span className="spt-mono" style={{ fontSize: 12, color: "#9FB0A3", width: 12, flexShrink: 0 }}>
-              %
-            </span>
-          </div>
-        </div>
-
-        <div style={{ marginTop: 12, display: "flex", gap: 6, alignItems: "flex-start", color: "#9FB0A3", fontSize: 12, lineHeight: 1.5 }}>
-          <Info size={13} style={{ marginTop: 2, flexShrink: 0 }} />
-          <span>
-            2024 baseline: ANC {NATIONAL_BASELINE.anc}%, DA {NATIONAL_BASELINE.da}%, MK {NATIONAL_BASELINE.mk}%,
-            EFF {NATIONAL_BASELINE.eff}%, IFP {NATIONAL_BASELINE.ifp}%, PA {NATIONAL_BASELINE.pa}%, VF+{" "}
-            {NATIONAL_BASELINE.vf}%, ActionSA {NATIONAL_BASELINE.action}%, minor parties {nationalOthers.toFixed(1)}%.
-          </span>
-        </div>
-      </div>
-
-      <div style={{ padding: "24px 32px", maxWidth: 720, margin: "0 auto" }}>
-        <div className="spt-mono" style={{ fontSize: 11, letterSpacing: "0.12em", color: "#9FB0A3", marginBottom: 6 }}>
-          THE CHAMBER
-        </div>
-        <svg viewBox="0 0 600 320" style={{ width: "100%", maxWidth: 640, display: "block", margin: "0 auto" }}>
-          {seatCoords.map((seat, i) => (
-            <circle key={i} cx={seat.x} cy={seat.y} r={5.0} fill={seatOwners[i] || "#2C3A31"} />
-          ))}
-        </svg>
-
-        {hasMajority ? (
-          <div
-            style={{
-              background: "rgba(198,154,59,0.12)",
-              border: "1px solid rgba(198,154,59,0.4)",
-              borderRadius: 6,
-              padding: "9px 12px",
-              fontSize: 13,
-              color: "#E4C689",
-              margin: "12px 0 18px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <Crown size={14} />
-            {PARTY_LABEL[leadingKey]} crosses {majority} seats — an outright majority, no coalition required.
-          </div>
-        ) : (
-          <div
-            style={{
-              background: "rgba(159,176,163,0.08)",
-              border: "1px solid #3A4A3E",
-              borderRadius: 6,
-              padding: "9px 12px",
-              fontSize: 13,
-              color: "#9FB0A3",
-              margin: "12px 0 18px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <Info size={14} />
-            No party reaches {majority} seats — governing requires a coalition or agreement.
-          </div>
-        )}
-
-        <div style={{ background: "rgba(159,176,163,0.05)", border: "1px solid #3A4A3E", borderRadius: 8, overflow: "hidden", marginBottom: 34 }}>
-          <div
-            className="spt-mono"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "3fr 1fr 1fr 1fr",
-              fontSize: 10.5,
-              letterSpacing: "0.08em",
-              color: "#6E7F72",
-              padding: "10px 16px",
-              borderBottom: "1px solid #3A4A3E",
-            }}
-          >
-            <span>PARTY</span>
-            <span style={{ textAlign: "right" }}>VOTE %</span>
-            <span style={{ textAlign: "right" }}>SEATS</span>
-            <span style={{ textAlign: "right" }}>SEAT %</span>
-          </div>
-          {rankedParties.map((key, idx) => (
-            <div
-              key={key}
-              style={{
-                display: "grid",
-                gridTemplateColumns: "3fr 1fr 1fr 1fr",
-                padding: "10px 16px",
-                fontSize: 13.5,
-                color: PAPER,
-                borderBottom: idx === rankedParties.length - 1 ? "none" : "1px solid #26332B",
-                alignItems: "center",
-              }}
-            >
-              <span style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 500 }}>
-                <span style={{ width: 8, height: 8, borderRadius: 2, background: PARTY_COLORS[key] }} />
-                {PARTY_FULL_LABEL[key]}
-              </span>
-              <span className="spt-mono" style={{ textAlign: "right", color: "#9FB0A3" }}>
-                {shares[key].toFixed(1)}
-              </span>
-              <span className="spt-mono" style={{ textAlign: "right", fontWeight: 600, color: PAPER }}>
-                {seatCounts[key] || 0}
-              </span>
-              <span className="spt-mono" style={{ textAlign: "right", color: "#9FB0A3" }}>
-                {(((seatCounts[key] || 0) / totalSeats) * 100).toFixed(1)}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ marginBottom: 34 }}>
-          <div className="spt-mono" style={{ fontSize: 11, letterSpacing: "0.12em", color: "#9FB0A3", marginBottom: 10 }}>
-            COALITION BUILDER
-          </div>
-
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
-            {rankedParties.map((key) => {
-              const on = !!coalition[key];
-              return (
-                <button
-                  key={key}
-                  onClick={() => toggleCoalition(key)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 7,
-                    padding: "6px 12px",
-                    borderRadius: 20,
-                    border: on ? `1px solid ${PARTY_COLORS[key]}` : "1px solid #3A4A3E",
-                    background: on ? "rgba(255,255,255,0.06)" : "transparent",
-                    color: on ? PAPER : "#9FB0A3",
-                    fontSize: 13,
-                    cursor: "pointer",
-                  }}
-                >
-                  <span style={{ width: 8, height: 8, borderRadius: 2, background: PARTY_COLORS[key] }} />
-                  {PARTY_LABEL[key]}
-                  <span className="spt-mono" style={{ fontSize: 11.5, color: on ? "#9FB0A3" : "#63625C" }}>
-                    {seatCounts[key] || 0}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div style={{ position: "relative", height: 14, background: "#0F1712", borderRadius: 7, overflow: "hidden" }}>
-            <div style={{ display: "flex", height: "100%" }}>
-              {coalitionKeys.map((key) => (
-                <div
-                  key={key}
-                  style={{
-                    width: `${((seatCounts[key] || 0) / totalSeats) * 100}%`,
-                    background: PARTY_COLORS[key],
-                    height: "100%",
-                  }}
-                />
-              ))}
-            </div>
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                bottom: 0,
-                left: `${(majority / totalSeats) * 100}%`,
-                width: 2,
-                background: GOLD,
-              }}
-            />
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: 12.5 }}>
-            <span className="spt-mono" style={{ color: "#9FB0A3" }}>
-              {coalitionSeats} / {totalSeats} seats selected
-            </span>
-            {coalitionKeys.length === 0 ? (
-              <span style={{ color: "#63625C" }}>Select parties above</span>
-            ) : coalitionHasMajority ? (
-              <span style={{ color: GOLD, display: "flex", alignItems: "center", gap: 5 }}>
-                <Crown size={13} /> Majority reached — {coalitionSeats - majority} seats to spare
-              </span>
-            ) : (
-              <span style={{ color: "#9FB0A3" }}>{majority - coalitionSeats} more seats needed for a majority</span>
-            )}
-          </div>
-        </div>
-
-        <div style={{ borderTop: "1px solid #3A4A3E", paddingTop: 20 }}>
-          <div className="spt-mono" style={{ fontSize: 11, letterSpacing: "0.12em", color: "#9FB0A3", marginBottom: 6 }}>
-            PROVINCIAL VIEW · 9 PROVINCES
-          </div>
-          <div ref={mapContainerRef} style={{ position: "relative", maxWidth: 640, margin: "0 auto" }}>
-            <svg
-              viewBox={`0 0 ${mapWidth} ${mapHeight}`}
-              style={{ width: "100%", display: "block" }}
-              onClick={(e) => {
-                if (e.target === e.currentTarget) setSelected(null);
-              }}
-            >
-              {mapPaths.map((p) => {
-                const proj = provinceProjections[p.name];
-                const fill = proj ? PARTY_COLORS[proj.winner] : "#2C3A31";
-                return (
-                  <path
-                    key={p.name}
-                    d={p.d}
-                    fill={fill}
-                    fillRule="evenodd"
-                    className="prov-path"
-                    opacity={selected && selected !== p.name ? 0.6 : 1}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const rect = mapContainerRef.current.getBoundingClientRect();
-                      setTooltipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-                      setSelected((prev) => (prev === p.name ? null : p.name));
-                    }}
-                  />
-                );
-              })}
-            </svg>
-
-            {activeData && (
-              <div
-                style={{
-                  position: "absolute",
-                  left: Math.min(Math.max(tooltipPos.x, 90), (mapContainerRef.current ? mapContainerRef.current.clientWidth : 640) - 90),
-                  top: Math.max(tooltipPos.y - 12, 0),
-                  transform: "translate(-50%, -100%)",
-                  background: PAPER,
-                  color: "#201C15",
-                  borderRadius: 6,
-                  padding: "10px 12px",
-                  boxShadow: "0 6px 18px rgba(0,0,0,0.35)",
-                  minWidth: 160,
-                  pointerEvents: "none",
-                  zIndex: 10,
-                }}
-              >
-                <div className="spt-display" style={{ fontSize: 14, marginBottom: 4, color: "#201C15" }}>
-                  {selected}
-                </div>
-                {Object.entries(activeData.shares)
-                  .filter(([, v]) => v >= 1)
-                  .sort((a, b) => b[1] - a[1])
-                  .map(([p, v]) => (
-                    <div
-                      key={p}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 6,
-                        fontSize: 12,
-                        padding: "1px 0",
-                        color: p === activeData.winner ? "#201C15" : "#6B655A",
-                        fontWeight: p === activeData.winner ? 600 : 400,
-                      }}
-                    >
-                      <span style={{ width: 7, height: 7, borderRadius: 2, background: PARTY_COLORS[p] }} />
-                      <span style={{ flex: 1 }}>{PARTY_LABEL[p]}</span>
-                      <span className="spt-mono">{v.toFixed(1)}%</span>
-                    </div>
-                  ))}
-              </div>
-            )}
-          </div>
-
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 14, fontSize: 12.5 }}>
-            {PARTY_ORDER.map((p) => (
-              <div key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#D9D3BE" }}>
-                <span style={{ width: 9, height: 9, borderRadius: 2, background: PARTY_COLORS[p] }} />
-                {PARTY_LABEL[p]}
-              </div>
-            ))}
-          </div>
-          {!selected && (
-            <div style={{ marginTop: 10, fontSize: 12.5, color: "#9FB0A3" }}>
-              Click a province to see its full projected breakdown.
-            </div>
-          )}
-        </div>
-
-        <div style={{ borderTop: "1px solid #3A4A3E", paddingTop: 20, marginTop: 30 }}>
-          <div className="spt-mono" style={{ fontSize: 11, letterSpacing: "0.12em", color: "#9FB0A3", marginBottom: 6 }}>
-            LOCAL VIEW · 213 MUNICIPALITIES
-          </div>
-          <p style={{ maxWidth: 640, margin: "0 0 14px", color: "#9FB0A3", fontSize: 12.5, lineHeight: 1.5 }}>
-            Real 2024 National Ballot results for all 213 municipalities, sourced from an IEC
-            municipal-level results export. Click any municipality for its full breakdown.
-          </p>
-          <div ref={metroContainerRef} style={{ position: "relative", maxWidth: 640, margin: "0 auto" }}>
-            <svg
-              viewBox={`0 0 ${metroWidth} ${metroHeight}`}
-              style={{ width: "100%", display: "block" }}
-              onClick={(e) => {
-                if (e.target === e.currentTarget) setMetroSelected(null);
-              }}
-            >
-              {metroPaths.map((p) => {
-                const proj = municipalityProjections[p.id];
-                const sourced = proj && proj.sourced;
-                const fill = sourced ? PARTY_COLORS[proj.winner] : "#232E27";
-                return (
-                  <path
-                    key={p.id}
-                    d={p.d}
-                    fill={fill}
-                    fillRule="evenodd"
-                    className="prov-path"
-                    stroke="#16231C"
-                    strokeWidth={0.4}
-                    opacity={metroSelected && metroSelected !== p.id ? 0.6 : 1}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      const rect = metroContainerRef.current.getBoundingClientRect();
-                      setMetroTooltipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-                      setMetroSelected((prev) => (prev === p.id ? null : p.id));
-                    }}
-                  />
-                );
-              })}
-            </svg>
-
-            {activeMetroData && (
-              <div
-                style={{
-                  position: "absolute",
-                  left: Math.min(
-                    Math.max(metroTooltipPos.x, 90),
-                    (metroContainerRef.current ? metroContainerRef.current.clientWidth : 640) - 90
-                  ),
-                  top: Math.max(metroTooltipPos.y - 12, 0),
-                  transform: "translate(-50%, -100%)",
-                  background: PAPER,
-                  color: "#201C15",
-                  borderRadius: 6,
-                  padding: "10px 12px",
-                  boxShadow: "0 6px 18px rgba(0,0,0,0.35)",
-                  minWidth: 170,
-                  pointerEvents: "none",
-                  zIndex: 10,
-                }}
-              >
-                <div className="spt-display" style={{ fontSize: 14, marginBottom: 2, color: "#201C15" }}>
-                  {activeMetroData.name}
-                </div>
-                <div style={{ fontSize: 11, color: "#8A8375", marginBottom: 4 }}>{activeMetroData.province}</div>
-                {activeMetroData.sourced ? (
-                  <>
-                    <div className="spt-mono" style={{ fontSize: 10, letterSpacing: "0.06em", color: "#8A6A1E", marginBottom: 5 }}>
-                      SOURCED · MUNICIPAL LEVEL
-                    </div>
-                    {Object.entries(activeMetroData.shares)
-                      .filter(([, v]) => v >= 1)
-                      .sort((a, b) => b[1] - a[1])
-                      .map(([p, v]) => (
-                        <div
-                          key={p}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 6,
-                            fontSize: 12,
-                            padding: "1px 0",
-                            color: p === activeMetroData.winner ? "#201C15" : "#6B655A",
-                            fontWeight: p === activeMetroData.winner ? 600 : 400,
-                          }}
-                        >
-                          <span style={{ width: 7, height: 7, borderRadius: 2, background: PARTY_COLORS[p] }} />
-                          <span style={{ flex: 1 }}>{PARTY_LABEL[p]}</span>
-                          <span className="spt-mono">{v.toFixed(1)}%</span>
-                        </div>
-                      ))}
-                  </>
-                ) : (
-                  <div style={{ fontSize: 12, color: "#6B655A", maxWidth: 190 }}>
-                    No sourced municipal-level data. Part of {activeMetroData.province} — see the province map above.
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 14, fontSize: 12.5 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#D9D3BE" }}>
-              <span style={{ width: 9, height: 9, borderRadius: 2, background: "#232E27", border: "1px solid #3A4A3E" }} />
-              No data
-            </div>
-            {PARTY_ORDER.map((p) => (
-              <div key={p} style={{ display: "flex", alignItems: "center", gap: 6, color: "#D9D3BE" }}>
-                <span style={{ width: 9, height: 9, borderRadius: 2, background: PARTY_COLORS[p] }} />
-                {PARTY_LABEL[p]}
-              </div>
-            ))}
-          </div>
-          {!metroSelected && (
-            <div style={{ marginTop: 10, fontSize: 12.5, color: "#9FB0A3" }}>
-              Click a municipality to see its full projected breakdown.
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+      `), React.createElement("div", {
+    style: {
+      borderBottom: "1px solid #3A4A3E",
+      paddingBlock: 22,
+      paddingInline: "max(32px, calc((100% - 720px) / 2 + 32px))"
+    }
+  }, React.createElement("h1", {
+    className: "spt-display",
+    style: {
+      fontSize: "clamp(22px, 3vw, 30px)",
+      fontWeight: 500,
+      margin: 0
+    }
+  }, "South Africa National Assembly seat projection")), React.createElement("div", {
+    style: {
+      paddingBlock: 18,
+      paddingInline: "max(32px, calc((100% - 720px) / 2 + 32px))",
+      borderBottom: "1px solid #3A4A3E"
+    }
+  }, React.createElement("div", {
+    className: "spt-display spt-h"
+  }, "Input vote share"), React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      marginBottom: 12
+    }
+  }, React.createElement("button", {
+    onClick: () => setInput({
+      ...NATIONAL_BASELINE
+    }),
+    style: {
+      marginLeft: "auto",
+      background: "transparent",
+      border: "1px solid #3A4A3E",
+      borderRadius: 5,
+      padding: "4px 10px",
+      color: "#9FB0A3",
+      fontSize: 12,
+      cursor: "pointer"
+    }
+  }, "Reset to 2024 results")), React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 8
+    }
+  }, PARTY_ORDER.map(p => React.createElement("div", {
+    key: p,
+    className: "spt-row"
+  }, React.createElement("span", {
+    style: {
+      width: 9,
+      height: 9,
+      borderRadius: 2,
+      background: PARTY_COLORS[p],
+      flexShrink: 0
+    }
+  }), React.createElement("span", {
+    className: "spt-lbl",
+    style: {
+      fontWeight: 500,
+      color: PAPER
+    }
+  }, PARTY_FULL_LABEL[p], partyAcr(p) && React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      color: "#9FB0A3",
+      fontWeight: 400,
+      fontSize: 12
+    }
+  }, " (", partyAcr(p), ")")), React.createElement("input", {
+    type: "range",
+    min: "0",
+    max: "70",
+    step: "0.1",
+    value: input[p],
+    onChange: e => updateParty(p, e.target.value),
+    style: {
+      flex: 1,
+      "--thumb-color": PARTY_COLORS[p]
+    },
+    className: "spt-slider"
+  }), React.createElement("input", {
+    type: "number",
+    step: "0.1",
+    min: "0",
+    max: "70",
+    value: Math.round(input[p] * 100) / 100,
+    onChange: e => updateParty(p, e.target.value),
+    className: "spt-mono spt-num"
+  }), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      fontSize: 12,
+      color: "#9FB0A3",
+      width: 12,
+      flexShrink: 0
+    }
+  }, "%"))), React.createElement("div", {
+    className: "spt-row"
+  }, React.createElement("span", {
+    style: {
+      display: "flex",
+      gap: 2,
+      flexShrink: 0,
+      width: 9
+    }
+  }, MINOR_KEYS.slice(0, 3).map(k => React.createElement("span", {
+    key: k,
+    style: {
+      width: 3,
+      height: 9,
+      background: PARTY_COLORS[k]
+    }
+  }))), React.createElement("span", {
+    className: "spt-lbl",
+    style: {
+      color: "#9FB0A3"
+    }
+  }, "Other"), React.createElement("span", {
+    style: {
+      flex: 1,
+      fontSize: 12,
+      color: "#63625C"
+    }
+  }), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      width: 64,
+      paddingRight: 9,
+      boxSizing: "border-box",
+      textAlign: "right",
+      fontSize: 13,
+      color: "#D9D3BE",
+      flexShrink: 0
+    }
+  }, inputOthers.toFixed(1)), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      fontSize: 12,
+      color: "#9FB0A3",
+      width: 12,
+      flexShrink: 0
+    }
+  }, "%")))), React.createElement("div", {
+    style: {
+      padding: "24px 32px",
+      maxWidth: 720,
+      margin: "0 auto"
+    }
+  }, React.createElement("div", {
+    className: "spt-display spt-h"
+  }, "Projected seat results"), React.createElement("svg", {
+    viewBox: "0 0 600 320",
+    style: {
+      width: "100%",
+      maxWidth: 640,
+      display: "block",
+      margin: "0 auto"
+    }
+  }, seatCoords.map((seat, i) => React.createElement("circle", {
+    key: i,
+    cx: seat.x,
+    cy: seat.y,
+    r: seat.rad,
+    fill: seatOwners[i] || "#2C3A31"
+  }))), React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center",
+      gap: "6px 16px",
+      margin: "8px 0 22px"
+    }
+  }, HEMI_ORDER.filter(key => (seatCounts[key] || 0) > 0).map(key => React.createElement("span", {
+    key: key,
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 6,
+      fontSize: 12.5,
+      color: "#D9D3BE"
+    }
+  }, React.createElement("span", {
+    style: {
+      width: 10,
+      height: 10,
+      borderRadius: "50%",
+      background: PARTY_COLORS[key],
+      flexShrink: 0
+    }
+  }), PARTY_LABEL[key]))), React.createElement("div", {
+    style: {
+      background: "rgba(159,176,163,0.05)",
+      border: "1px solid #3A4A3E",
+      borderRadius: 8,
+      overflow: "hidden",
+      marginBottom: 34
+    }
+  }, React.createElement("div", null, React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "minmax(0, 2.6fr) repeat(4, minmax(0, 1fr)) minmax(0, 0.55fr)",
+      columnGap: 8,
+      fontSize: 12.5,
+      fontWeight: 600,
+      letterSpacing: "0.04em",
+      color: "#D9D3BE",
+      background: "rgba(159,176,163,0.10)",
+      padding: "11px 12px",
+      alignItems: "end",
+      lineHeight: 1.25,
+      borderBottom: "1px solid #3A4A3E"
+    }
+  }, React.createElement("span", null, "Party"), React.createElement("span", {
+    style: {
+      textAlign: "right"
+    }
+  }, "Vote %"), React.createElement("span", {
+    style: {
+      textAlign: "right"
+    }
+  }, "Regional seats"), React.createElement("span", {
+    style: {
+      textAlign: "right"
+    }
+  }, "Compensatory seats"), React.createElement("span", {
+    style: {
+      textAlign: "right"
+    }
+  }, "Total seats"), React.createElement("span", {
+    style: {
+      textAlign: "right"
+    }
+  }, "+/-")), rankedParties.map((key, idx) => React.createElement("div", {
+    key: key,
+    style: {
+      display: "grid",
+      gridTemplateColumns: "minmax(0, 2.6fr) repeat(4, minmax(0, 1fr)) minmax(0, 0.55fr)",
+      columnGap: 8,
+      padding: "10px 12px",
+      fontSize: 13.5,
+      color: PAPER,
+      borderBottom: idx === rankedParties.length - 1 ? "none" : "1px solid #26332B",
+      alignItems: "center"
+    }
+  }, React.createElement("span", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      fontWeight: 500
+    }
+  }, React.createElement("span", {
+    style: {
+      width: 8,
+      height: 8,
+      borderRadius: 2,
+      background: PARTY_COLORS[key],
+      flexShrink: 0
+    }
+  }), React.createElement("span", null, PARTY_FULL_LABEL[key], partyAcr(key) && React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      color: "#9FB0A3",
+      fontWeight: 400,
+      fontSize: 12
+    }
+  }, " (", partyAcr(key), ")"))), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      textAlign: "right",
+      color: "#9FB0A3"
+    }
+  }, shares[key].toFixed(1)), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      textAlign: "right",
+      color: "#9FB0A3"
+    }
+  }, seatProjection.regional[key] || 0), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      textAlign: "right",
+      color: "#9FB0A3"
+    }
+  }, seatProjection.national[key] || 0), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      textAlign: "right",
+      fontWeight: 600,
+      color: PAPER
+    }
+  }, seatCounts[key] || 0), (() => {
+    const d = (seatCounts[key] || 0) - (seats2024[key] || 0);
+    return React.createElement("span", {
+      className: "spt-mono",
+      style: {
+        textAlign: "right",
+        color: d > 0 ? "#7FD08A" : d < 0 ? "#E58B7B" : "#6E7F72"
+      }
+    }, d > 0 ? "+" + d : d < 0 ? "−" + Math.abs(d) : "0");
+  })())))), React.createElement("div", {
+    style: {
+      marginBottom: 34
+    }
+  }, React.createElement("div", {
+    className: "spt-display spt-h"
+  }, "Coalition Builder"), React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 8,
+      marginBottom: 14
+    }
+  }, rankedParties.map(key => {
+    const on = !!coalition[key];
+    return React.createElement("button", {
+      key: key,
+      onClick: () => toggleCoalition(key),
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 7,
+        padding: "6px 12px",
+        borderRadius: 20,
+        border: on ? `1px solid ${PARTY_COLORS[key]}` : "1px solid #3A4A3E",
+        background: on ? "rgba(255,255,255,0.06)" : "transparent",
+        color: on ? PAPER : "#9FB0A3",
+        fontSize: 13,
+        cursor: "pointer"
+      }
+    }, React.createElement("span", {
+      style: {
+        width: 8,
+        height: 8,
+        borderRadius: 2,
+        background: PARTY_COLORS[key]
+      }
+    }), PARTY_LABEL[key], React.createElement("span", {
+      className: "spt-mono",
+      style: {
+        fontSize: 11.5,
+        color: on ? "#9FB0A3" : "#63625C"
+      }
+    }, seatCounts[key] || 0));
+  })), React.createElement("div", {
+    style: {
+      position: "relative",
+      height: 14,
+      background: "#0F1712",
+      borderRadius: 7,
+      overflow: "hidden"
+    }
+  }, React.createElement("div", {
+    style: {
+      display: "flex",
+      height: "100%"
+    }
+  }, coalitionKeys.map(key => React.createElement("div", {
+    key: key,
+    style: {
+      width: `${(seatCounts[key] || 0) / totalSeats * 100}%`,
+      background: PARTY_COLORS[key],
+      height: "100%"
+    }
+  }))), React.createElement("div", {
+    style: {
+      position: "absolute",
+      top: 0,
+      bottom: 0,
+      left: `${majority / totalSeats * 100}%`,
+      width: 2,
+      background: GOLD
+    }
+  })), React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      marginTop: 8,
+      fontSize: 12.5
+    }
+  }, React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      color: "#9FB0A3"
+    }
+  }, coalitionSeats, " / ", totalSeats, " seats selected"), coalitionKeys.length === 0 ? React.createElement("span", {
+    style: {
+      color: "#63625C"
+    }
+  }, "Select parties above") : coalitionHasMajority ? React.createElement("span", {
+    style: {
+      color: GOLD,
+      display: "flex",
+      alignItems: "center",
+      gap: 5
+    }
+  }, React.createElement(Crown, {
+    size: 13
+  }), " Majority reached — ", coalitionSeats - majority, " seats to spare") : React.createElement("span", {
+    style: {
+      color: "#9FB0A3"
+    }
+  }, majority - coalitionSeats, " more seats needed for a majority"))), React.createElement("div", {
+    style: {
+      borderTop: "1px solid #3A4A3E",
+      paddingTop: 20
+    }
+  }, React.createElement("div", {
+    className: "spt-display spt-h",
+    style: {
+      marginBottom: 12
+    }
+  }, "Projected map"), React.createElement("div", {
+    role: "tablist",
+    style: {
+      display: "flex",
+      justifyContent: "center",
+      marginBottom: 18
+    }
+  }, React.createElement("div", {
+    style: {
+      display: "inline-flex",
+      border: "1px solid #3A4A3E",
+      borderRadius: 8,
+      padding: 3,
+      gap: 3,
+      background: "rgba(159,176,163,0.05)",
+      maxWidth: "100%"
+    }
+  }, [["province", "Provincial · 9 provinces"], ["local", "Local · 213 municipalities"]].map(([k, label]) => React.createElement("button", {
+    key: k,
+    role: "tab",
+    "aria-selected": mapView === k,
+    onClick: () => setMapView(k),
+    style: {
+      border: "none",
+      borderRadius: 6,
+      padding: "8px 14px",
+      fontSize: 13,
+      fontWeight: 600,
+      cursor: "pointer",
+      fontFamily: "inherit",
+      background: mapView === k ? "#C69A3B" : "transparent",
+      color: mapView === k ? "#16231C" : "#D9D3BE"
+    }
+  }, label)))), React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: 6,
+      marginBottom: 18
+    }
+  }, React.createElement("span", {
+    style: {
+      fontSize: 12.5,
+      color: "#9FB0A3",
+      marginRight: 4
+    }
+  }, "Shade by"), [["winner", "Winner"], ...[...PARTY_ORDER].sort((x, y) => (seatCounts[y] || 0) - (seatCounts[x] || 0) || shares[y] - shares[x]).map(k => [k, PARTY_LABEL[k]])].map(([k, label]) => {
+    const on = mapParty === k;
+    return React.createElement("button", {
+      key: k,
+      "aria-pressed": on,
+      onClick: () => setMapParty(k),
+      style: {
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        border: "1px solid " + (on ? "#C69A3B" : "#3A4A3E"),
+        background: on ? "rgba(198,154,59,0.16)" : "transparent",
+        color: on ? "#F3EEDF" : "#D9D3BE",
+        borderRadius: 999,
+        padding: "5px 11px",
+        fontSize: 12.5,
+        cursor: "pointer",
+        fontFamily: "inherit"
+      }
+    }, k !== "winner" && React.createElement("span", {
+      style: {
+        width: 8,
+        height: 8,
+        borderRadius: 2,
+        background: PARTY_COLORS[k]
+      }
+    }), label);
+  }))), React.createElement("div", {
+    style: {
+      display: mapView === "province" ? "block" : "none"
+    }
+  }, React.createElement("div", {
+    ref: mapContainerRef,
+    style: {
+      position: "relative",
+      maxWidth: 640,
+      margin: "0 auto"
+    }
+  }, zoomControls, React.createElement("svg", {
+    ref: provSvgRef,
+    viewBox: viewBoxStr,
+    style: {
+      width: "100%",
+      display: "block",
+      ...svgInteractStyle
+    },
+    onClick: e => {
+      if (e.target === e.currentTarget && !dragMoved.current) setSelected(null);
+    }
+  }, mapPaths.map(p => {
+    const proj = provinceProjections[p.name];
+    const fill = !proj ? "#2C3A31" : mapParty === "winner" ? PARTY_COLORS[proj.winner] : strengthFill(proj.shares[mapParty] || 0, provRange.min, provRange.max, PARTY_COLORS[mapParty]);
+    return React.createElement("path", {
+      key: p.name,
+      d: p.d,
+      fill: fill,
+      fillRule: "evenodd",
+      className: "prov-path",
+      opacity: selected && selected !== p.name ? 0.6 : 1,
+      onClick: e => {
+        e.stopPropagation();
+        if (dragMoved.current) return;
+        const rect = mapContainerRef.current.getBoundingClientRect();
+        setTooltipPos({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        });
+        setSelected(prev => prev === p.name ? null : p.name);
+      }
+    });
+  })), activeData && React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: Math.round(Math.min(Math.max(tooltipPos.x, 125), (mapContainerRef.current ? mapContainerRef.current.clientWidth : 640) - 125)),
+      top: Math.round(Math.max(tooltipPos.y - 12, 0)),
+      transform: "translate(-50%, -100%)",
+      background: PAPER,
+      color: "#201C15",
+      borderRadius: 6,
+      padding: "10px 12px",
+      boxShadow: "0 6px 18px rgba(0,0,0,0.35)",
+      width: 244,
+      boxSizing: "border-box",
+      pointerEvents: "none",
+      zIndex: 10
+    }
+  }, React.createElement("div", {
+    className: "spt-display",
+    style: {
+      fontSize: 14,
+      marginBottom: 4,
+      color: "#201C15"
+    }
+  }, selected), (() => {
+    const region = REGIONS.find(r => r.name === selected);
+    const won = seatProjection.byRegion[selected] || {};
+    const rows = Object.entries(activeData.shares).filter(([p, v]) => v >= 1 || (won[p] || 0) > 0).sort((a, b) => b[1] - a[1]);
+    return React.createElement(React.Fragment, null, region && React.createElement("div", {
+      style: {
+        fontSize: 11.5,
+        color: "#6B655A",
+        marginBottom: 6,
+        paddingBottom: 6,
+        borderBottom: "1px solid #E2D9BF"
+      }
+    }, "Regional seats: ", React.createElement("strong", {
+      style: {
+        color: "#201C15"
+      }
+    }, region.seats), " of 200"), React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+        fontSize: 10.5,
+        color: "#8A8375",
+        letterSpacing: "0.04em",
+        paddingBottom: 2
+      }
+    }, React.createElement("span", {
+      style: {
+        width: 7
+      }
+    }), React.createElement("span", {
+      style: {
+        flex: 1
+      }
+    }, "Party"), React.createElement("span", {
+      style: {
+        width: 40,
+        textAlign: "right"
+      }
+    }, "Vote"), React.createElement("span", {
+      style: {
+        width: 82,
+        paddingLeft: 6,
+        flexShrink: 0
+      }
+    }, "Seats")), rows.map(([p, v]) => {
+      const n = won[p] || 0;
+      return React.createElement("div", {
+        key: p,
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          fontSize: 12,
+          padding: "1px 0",
+          color: p === activeData.winner ? "#201C15" : "#6B655A",
+          fontWeight: p === activeData.winner ? 600 : 400
+        }
+      }, React.createElement("span", {
+        style: {
+          width: 7,
+          height: 7,
+          borderRadius: 2,
+          background: PARTY_COLORS[p]
+        }
+      }), React.createElement("span", {
+        style: {
+          flex: 1
+        }
+      }, PARTY_LABEL[p]), React.createElement("span", {
+        className: "spt-mono",
+        style: {
+          width: 40,
+          textAlign: "right"
+        }
+      }, v.toFixed(1), "%"), React.createElement("span", {
+        style: {
+          width: 82,
+          paddingLeft: 6,
+          flexShrink: 0
+        }
+      }, n === 0 ? React.createElement("span", {
+        style: {
+          color: "#B5AD98"
+        }
+      }, "–") : React.createElement("span", {
+        style: {
+          display: "grid",
+          gridTemplateColumns: "repeat(10, 6px)",
+          gap: 2,
+          width: 78
+        }
+      }, Array.from({
+        length: n
+      }, (_, i) => React.createElement("span", {
+        key: i,
+        style: {
+          width: 6,
+          height: 6,
+          borderRadius: 1,
+          background: PARTY_COLORS[p]
+        }
+      })))));
+    }));
+  })())), mapParty === "winner" ? React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 16,
+      flexWrap: "wrap",
+      justifyContent: "center",
+      marginTop: 14,
+      fontSize: 12.5
+    }
+  }, PARTY_ORDER.map(p => React.createElement("div", {
+    key: p,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      color: "#D9D3BE"
+    }
+  }, React.createElement("span", {
+    style: {
+      width: 9,
+      height: 9,
+      borderRadius: 2,
+      background: PARTY_COLORS[p]
+    }
+  }), PARTY_LABEL[p]))) : React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 10,
+      marginTop: 14,
+      fontSize: 12.5,
+      color: "#D9D3BE",
+      flexWrap: "wrap"
+    }
+  }, React.createElement("span", null, PARTY_LABEL[mapParty], " vote share"), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      color: "#9FB0A3"
+    }
+  }, provRange.min.toFixed(1), "%"), React.createElement("span", {
+    style: {
+      width: 160,
+      height: 10,
+      borderRadius: 5,
+      background: `linear-gradient(to right, ${strengthFill(0, 0, 1, PARTY_COLORS[mapParty])}, ${PARTY_COLORS[mapParty]} 70%, ${heatLight(PARTY_COLORS[mapParty])})`
+    }
+  }), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      color: "#9FB0A3"
+    }
+  }, provRange.max.toFixed(1), "%"))), React.createElement("div", {
+    style: {
+      display: mapView === "local" ? "block" : "none"
+    }
+  }, React.createElement("div", {
+    ref: metroContainerRef,
+    style: {
+      position: "relative",
+      maxWidth: 640,
+      margin: "0 auto"
+    }
+  }, zoomControls, React.createElement("svg", {
+    ref: metroSvgRef,
+    viewBox: viewBoxStr,
+    style: {
+      width: "100%",
+      display: "block",
+      ...svgInteractStyle
+    },
+    onClick: e => {
+      if (e.target === e.currentTarget && !dragMoved.current) setMetroSelected(null);
+    }
+  }, metroPaths.map(p => {
+    const proj = municipalityProjections[p.id];
+    const sourced = proj && proj.sourced;
+    const fill = !sourced ? "#232E27" : mapParty === "winner" ? PARTY_COLORS[proj.winner] : strengthFill(proj.shares[mapParty] || 0, metroRange.min, metroRange.max, PARTY_COLORS[mapParty]);
+    return React.createElement("path", {
+      key: p.id,
+      d: p.d,
+      fill: fill,
+      fillRule: "evenodd",
+      className: "prov-path",
+      stroke: "#16231C",
+      strokeWidth: 0.4,
+      opacity: metroSelected && metroSelected !== p.id ? 0.6 : 1,
+      onClick: e => {
+        e.stopPropagation();
+        if (dragMoved.current) return;
+        const rect = metroContainerRef.current.getBoundingClientRect();
+        setMetroTooltipPos({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        });
+        setMetroSelected(prev => prev === p.id ? null : p.id);
+      }
+    });
+  })), activeMetroData && React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: Math.min(Math.max(metroTooltipPos.x, 90), (metroContainerRef.current ? metroContainerRef.current.clientWidth : 640) - 90),
+      top: Math.max(metroTooltipPos.y - 12, 0),
+      transform: "translate(-50%, -100%)",
+      background: PAPER,
+      color: "#201C15",
+      borderRadius: 6,
+      padding: "10px 12px",
+      boxShadow: "0 6px 18px rgba(0,0,0,0.35)",
+      minWidth: 170,
+      pointerEvents: "none",
+      zIndex: 10
+    }
+  }, React.createElement("div", {
+    className: "spt-display",
+    style: {
+      fontSize: 14,
+      marginBottom: 2,
+      color: "#201C15"
+    }
+  }, activeMetroData.name), React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "#8A8375",
+      marginBottom: 4
+    }
+  }, activeMetroData.province), activeMetroData.sourced ? React.createElement(React.Fragment, null, Object.entries(activeMetroData.shares).filter(([, v]) => v >= 1).sort((a, b) => b[1] - a[1]).map(([p, v]) => React.createElement("div", {
+    key: p,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      fontSize: 12,
+      padding: "1px 0",
+      color: p === activeMetroData.winner ? "#201C15" : "#6B655A",
+      fontWeight: p === activeMetroData.winner ? 600 : 400
+    }
+  }, React.createElement("span", {
+    style: {
+      width: 7,
+      height: 7,
+      borderRadius: 2,
+      background: PARTY_COLORS[p]
+    }
+  }), React.createElement("span", {
+    style: {
+      flex: 1
+    }
+  }, PARTY_LABEL[p]), React.createElement("span", {
+    className: "spt-mono"
+  }, v.toFixed(1), "%")))) : React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "#6B655A",
+      maxWidth: 190
+    }
+  }, "No sourced municipal-level data. Part of ", activeMetroData.province, " — see the province map above."))), mapParty === "winner" ? React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 16,
+      flexWrap: "wrap",
+      justifyContent: "center",
+      marginTop: 14,
+      fontSize: 12.5
+    }
+  }, PARTY_ORDER.map(p => React.createElement("div", {
+    key: p,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 6,
+      color: "#D9D3BE"
+    }
+  }, React.createElement("span", {
+    style: {
+      width: 9,
+      height: 9,
+      borderRadius: 2,
+      background: PARTY_COLORS[p]
+    }
+  }), PARTY_LABEL[p]))) : React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 10,
+      marginTop: 14,
+      fontSize: 12.5,
+      color: "#D9D3BE",
+      flexWrap: "wrap"
+    }
+  }, React.createElement("span", null, PARTY_LABEL[mapParty], " vote share"), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      color: "#9FB0A3"
+    }
+  }, metroRange.min.toFixed(1), "%"), React.createElement("span", {
+    style: {
+      width: 160,
+      height: 10,
+      borderRadius: 5,
+      background: `linear-gradient(to right, ${strengthFill(0, 0, 1, PARTY_COLORS[mapParty])}, ${PARTY_COLORS[mapParty]} 70%, ${heatLight(PARTY_COLORS[mapParty])})`
+    }
+  }), React.createElement("span", {
+    className: "spt-mono",
+    style: {
+      color: "#9FB0A3"
+    }
+  }, metroRange.max.toFixed(1), "%"))), React.createElement("p", {
+    style: {
+      borderTop: "1px solid #3A4A3E",
+      marginTop: 34,
+      paddingTop: 14,
+      marginBottom: 0,
+      fontSize: 12,
+      lineHeight: 1.6,
+      color: "#9FB0A3",
+      textAlign: "center"
+    }
+  }, "Sources: 2024 National Ballot results from the Independent Electoral Commission (IEC), including its municipal-level results export; 2024 regional-ballot results and regional seat numbers from Wikipedia's National Assembly constituency pages; smaller parties' provincial baselines from the per-province 2024 election articles on Wikipedia; seat rules from Schedule 1A of the Electoral Act.")));
 }
-
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<ElectionExplorer />);
-
+root.render(React.createElement(ElectionExplorer, null));
 </script>
 </body>
 </html>
-
         <!-- ============================================================= -->
         <!-- END PASTING HERE -->
         <!-- ============================================================= -->
