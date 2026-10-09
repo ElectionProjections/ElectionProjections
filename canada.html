@@ -132,12 +132,12 @@ body{
   color:var(--text-primary);
   padding:2.5rem 1.25rem 4rem;
 }
-.page{max-width:720px;margin:0 auto}
+.page{max-width:800px;margin:0 auto}
 header{margin-bottom:2rem}
 h1{font-size:24px;font-weight:600;margin-bottom:6px}
 .subtitle{font-size:14px;color:var(--text-secondary);line-height:1.5}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
-.section-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.85rem}
+.section-label{font-size:20px;font-weight:600;color:var(--text-primary);text-align:center;margin-bottom:1.1rem}
 .inputs-grid{display:flex;flex-direction:column;gap:14px;margin-bottom:1.25rem}
 .input-row{display:grid;grid-template-columns:150px 1fr 76px;align-items:center;gap:12px}
 .input-row label{font-size:13px;font-weight:500;color:var(--text-secondary);display:flex;align-items:flex-start;gap:6px;line-height:1.3}
@@ -161,6 +161,10 @@ h1{font-size:24px;font-weight:600;margin-bottom:6px}
 .total-row{justify-content:space-between}
 .error-msg{font-size:13px;color:var(--danger);margin-top:.6rem}
 .results{margin-top:0}
+.map-tabs{display:flex;gap:4px;padding:3px;margin:0 auto 1rem;width:fit-content;background:var(--surface-1);border:1px solid var(--border);border-radius:999px}
+.map-tab{border:0;background:transparent;color:var(--text-secondary);font:inherit;font-size:13px;font-weight:500;padding:6px 18px;border-radius:999px;cursor:pointer}
+.map-tab.active{background:var(--surface);color:var(--text-primary);box-shadow:0 0 0 1px var(--border-strong)}
+
 .hemicycle-wrap{width:100%;margin-bottom:1.25rem}
 .hemicycle-wrap svg{width:100%;height:auto;display:block}
 .hemicycle-wrap circle{transition:fill .3s ease}
@@ -196,7 +200,7 @@ h1{font-size:24px;font-weight:600;margin-bottom:6px}
 .coalition-status.majority{border-left-color:var(--success);color:var(--success)}
 .province-map-wrap{position:relative;width:100%}
 .province-map-svg{width:100%;max-width:640px;margin:0 auto;display:block}
-#riding-map-svg{max-width:900px}
+#riding-map-svg{max-width:640px}
 .province-map-svg svg{width:100%;height:auto;display:block}
 .province-map-svg path{cursor:pointer;stroke:var(--bg);stroke-width:1.5;vector-effect:non-scaling-stroke;transition:filter .15s,opacity .15s}
 #riding-map-svg path{stroke-width:0.75}
@@ -217,6 +221,19 @@ h1{font-size:24px;font-weight:600;margin-bottom:6px}
 .province-tooltip .prov-row .pseats{width:36px;text-align:right;font-weight:600}
 
 .map-filter{margin-bottom:1rem}
+.mf-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px}
+.mf-row-label{font-size:13px;font-weight:500;color:var(--text-secondary)}
+.mf-select{font:inherit;font-size:13px;padding:7px 30px 7px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);background:var(--surface);color:var(--text-primary);cursor:pointer;min-width:200px}
+.map-filter .mf-row .coalition-chips{margin-bottom:0;gap:6px}
+.mf-info:has(.on){margin-top:12px;padding:10px 12px;background:var(--surface-1);border-radius:var(--radius)}
+.mf-info .mf-strength{margin-bottom:.4rem}
+.map-legend{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;margin-top:10px;font-size:12px;color:var(--text-secondary)}
+.map-legend.off{display:none}
+.map-legend .lg{display:inline-flex;align-items:center;gap:6px}
+.map-legend .sw{width:11px;height:11px;border-radius:3px;border:1px solid var(--border-strong);flex:none}
+.page-credits{margin:0;text-align:center;font-size:11px;line-height:1.55;color:var(--text-muted)}
+.map-hint{margin:10px 0 0;text-align:center;font-size:11px;color:var(--text-muted)}
+
 .map-filter .mf-label{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px}
 .map-filter .coalition-chips{margin-bottom:.75rem}
 .map-filter .coalition-chip{padding:5px 11px;font-size:12px}
@@ -254,7 +271,7 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
   </header>
 
   <div class="card">
-    <div class="section-label">National vote share (%)</div>
+    <div class="section-label">Input vote share</div>
     <div class="inputs-grid" id="inputs"></div>
     <div class="total-row">
       <span>Total: <span class="total-val" id="total-display">—</span>% <span id="total-note"></span></span>
@@ -264,12 +281,10 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
   </div>
 
   <div class="card">
-    <div class="section-label" style="display:flex;align-items:center;justify-content:space-between">
-      <span>Quebec vote share (%)</span>
-      <div class="qc-toggle-row" onclick="toggleQcPanel()">
-        <span class="qc-toggle-label">Set separately</span>
-        <button type="button" id="qc-toggle" class="switch" role="switch" aria-checked="false" aria-label="Set Quebec vote share separately" onclick="event.stopPropagation(); toggleQcPanel();"><span class="knob"></span></button>
-      </div>
+    <div class="section-label">Quebec vote share</div>
+    <div class="qc-toggle-row" style="justify-content:center;margin-bottom:1rem" onclick="toggleQcPanel()">
+      <span class="qc-toggle-label">Set separately</span>
+      <button type="button" id="qc-toggle" class="switch" role="switch" aria-checked="false" aria-label="Set Quebec vote share separately" onclick="event.stopPropagation(); toggleQcPanel();"><span class="knob"></span></button>
     </div>
     <div id="qc-panel-body" style="display:none">
       <div class="inputs-grid" id="qc-inputs"></div>
@@ -284,7 +299,7 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
   </div>
 
   <div class="card results" id="results" style="display:none">
-    <div class="section-label">Seat projection — 343 seats, 172 for majority</div>
+    <div class="section-label">Projected seat results</div>
     <div class="hemicycle-wrap" id="hemicycle"></div>
     <div class="seats-grid" id="seats-grid"></div>
     <div class="majority-line" id="majority-line"></div>
@@ -300,9 +315,13 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
     <div class="coalition-status" id="coalition-status"></div>
   </div>
 
-  <div class="card results" id="province-card" style="display:none">
-    <div class="section-label">Results by province</div>
-    <p class="swing-note" style="margin-bottom:1rem">Coloured by the leading party's projected vote share in each province. Click a province for the full breakdown. Scroll or pinch to zoom, drag to pan.</p>
+  <div class="card results" id="maps-card" style="display:none">
+    <div class="section-label">Projected results map</div>
+    <div class="map-tabs" role="tablist" aria-label="Choose map">
+      <button type="button" class="map-tab active" id="tab-province" role="tab" aria-selected="true" onclick="showMapPane('province')">By province</button>
+      <button type="button" class="map-tab" id="tab-riding" role="tab" aria-selected="false" onclick="showMapPane('riding')">By riding</button>
+    </div>
+  <div id="province-card">
     <div class="map-filter" id="province-filter"></div>
     <div class="province-map-wrap" id="province-map-wrap">
       <div class="province-map-svg" id="province-map-svg"></div>
@@ -315,9 +334,7 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
     </div>
   </div>
 
-  <div class="card results" id="riding-card" style="display:none">
-    <div class="section-label">Results by riding</div>
-    <p class="swing-note" style="margin-bottom:1rem">Coloured by the projected winner in each of the 343 federal ridings. Click a riding for the full breakdown. Scroll or pinch to zoom, drag to pan — dense urban ridings are easier to pick out zoomed in.</p>
+    <div id="riding-card" style="display:none">
     <div class="map-filter" id="riding-filter"></div>
     <div class="province-map-wrap" id="riding-map-wrap">
       <div class="province-map-svg" id="riding-map-svg"></div>
@@ -329,6 +346,11 @@ footer{font-size:12px;color:var(--text-muted);text-align:center;margin-top:2rem;
       </div>
     </div>
   </div>
+    <div class="map-legend" id="map-legend" aria-label="Map legend"></div>
+    <p class="map-hint">Click an area for its breakdown · scroll or pinch to zoom · drag to pan</p>
+  </div>
+
+  <p class="page-credits">Sources: results from Elections Canada (via Wikipedia's 2025 federal election summary), including minor-party candidate presence by riding. Province boundaries are simplified from Statistics Canada 2016/2021 census boundary files via a public GeoJSON mirror. Riding boundaries are from the 2023 Representation Order (used in the 2025 general election), from Elections Canada open data via the opennorth/represent-canada-data mirror (Open Government Licence – Canada). Boundaries are simplified for display.</p>
 
 </div>
 
@@ -1398,23 +1420,21 @@ function buildMapFilter(key){
   const host = document.getElementById(cfg.hostId);
   if(!host || host.dataset.built) return;
   host.dataset.built = '1';
-  let chips = `<div class="coalition-chip selected" data-pid="LEAD" onclick="setMapFilterParty('${key}','LEAD')">Leading party</div>`;
-  if(key==='riding'){
-    chips += `<div class="coalition-chip" data-pid="FLIP" onclick="setMapFilterParty('riding','FLIP')">Flipped ridings</div>`;
-  }
-  PARTIES.filter(p=>p.id!=='OTH').forEach(p=>{
-    chips += `<div class="coalition-chip" data-pid="${p.id}" onclick="setMapFilterParty('${key}','${p.id}')"><span class="dot" style="background:${p.color}"></span>${p.name}</div>`;
-  });
+  let opts = `<option value="LEAD">Leading party</option>`;
+  if(key==='riding') opts += `<option value="FLIP">Flipped ridings</option>`;
+  PARTIES.filter(p=>p.id!=='OTH').forEach(p=>{ opts += `<option value="${p.id}">${p.name} vote share</option>`; });
   host.innerHTML = `
-    <div class="mf-label">Filter by party strength</div>
-    <div class="coalition-chips">${chips}</div>
-    <div class="mf-strength" id="${key}-mf-strength">
-      <span class="mf-text" id="${key}-mf-text"></span>
-      <input type="range" id="${key}-mf-range" min="0" max="100" step="1" value="0" aria-label="Minimum vote share" oninput="setMapFilterMin('${key}', this.value)">
-    </div>
-    <div class="mf-legend" id="${key}-mf-legend"></div>
-    <div class="mf-count" id="${key}-mf-count"></div>
-    <div class="mf-flips" id="${key}-mf-flips"></div>`;
+    <div class="mf-row"><label class="mf-row-label" for="${key}-mf-select">Colour map by</label>
+      <select class="mf-select" id="${key}-mf-select" onchange="setMapFilterParty('${key}', this.value)">${opts}</select></div>
+    <div class="mf-info">
+      <div class="mf-strength" id="${key}-mf-strength">
+        <span class="mf-text" id="${key}-mf-text"></span>
+        <input type="range" id="${key}-mf-range" min="0" max="100" step="1" value="0" aria-label="Minimum vote share" oninput="setMapFilterMin('${key}', this.value)">
+      </div>
+      <div class="mf-legend" id="${key}-mf-legend"></div>
+      <div class="mf-count" id="${key}-mf-count"></div>
+      <div class="mf-flips" id="${key}-mf-flips"></div>
+    </div>`;
 }
 
 function setMapFilterParty(key, pid){
@@ -1443,12 +1463,12 @@ function mapShareValues(key, pid){
   return out;
 }
 
-function applyMapFilter(key){
+function applyMapFilterCore(key){
   buildMapFilter(key);
   const cfg = MAP_FILTER_CFG[key];
   const st = mapFilter[key];
   const host = document.getElementById(cfg.hostId);
-  host.querySelectorAll('.coalition-chip').forEach(c=>c.classList.toggle('selected', c.dataset.pid===st.pid));
+  const sel = document.getElementById(key+'-mf-select'); if(sel) sel.value = st.pid;
 
   const strengthEl = document.getElementById(key+'-mf-strength');
   const legendEl = document.getElementById(key+'-mf-legend');
@@ -1507,14 +1527,20 @@ function applyMapFilter(key){
   const values = mapShareValues(key, st.pid);
   const vals = Object.values(values);
   const maxVal = Math.max(1, ...vals);
-  const sliderMax = Math.max(1, Math.ceil(maxVal));
+  // Lowest result among areas where the party actually has a share (ignore 0% = party absent).
+  const pos = vals.filter(v=>v>0);
+  const minVal = pos.length ? Math.min(...pos) : 0;
+  const sliderMin = Math.floor(minVal);
+  const sliderMax = Math.max(sliderMin+1, Math.ceil(maxVal));
+  if(st.min < sliderMin) st.min = sliderMin;
   if(st.min > sliderMax) st.min = sliderMax;
 
   const range = document.getElementById(key+'-mf-range');
+  range.min = sliderMin;
   range.max = sliderMax;
   range.value = st.min;
   document.getElementById(key+'-mf-text').textContent =
-    st.min>0 ? `${party.name} at least ${st.min}%` : `${party.name}: show all`;
+    st.min>sliderMin ? `${party.name} at least ${st.min}%` : `${party.name}: show all`;
   strengthEl.classList.add('on');
 
   let shown = 0, total = 0;
@@ -1522,22 +1548,22 @@ function applyMapFilter(key){
     const v = values[idOf(el)];
     if(v===undefined){ return; }
     total++;
-    if(v < st.min){
+    if(st.min>sliderMin && v < st.min){
       el.style.fill = 'var(--border)';
       el.style.opacity = '0.5';
     } else {
       shown++;
-      const pct = Math.round(12 + 88*(v/maxVal));
+      const pct = Math.round(12 + 88*(Math.max(0,v-minVal)/Math.max(0.01,maxVal-minVal)));
       el.style.fill = `color-mix(in srgb, ${party.color} ${pct}%, var(--surface-1))`;
       el.style.opacity = '';
     }
   });
 
   const lo = `color-mix(in srgb, ${party.color} 12%, var(--surface-1))`;
-  legendEl.innerHTML = `<span>0%</span><span class="bar" style="background:linear-gradient(to right, ${lo}, ${party.color})"></span><span>${maxVal.toFixed(1)}%</span>` +
-    (st.min>0 ? `<span class="off"></span><span>below threshold</span>` : '');
+  legendEl.innerHTML = `<span>${minVal.toFixed(1)}%</span><span class="bar" style="background:linear-gradient(to right, ${lo}, ${party.color})"></span><span>${maxVal.toFixed(1)}%</span>` +
+    (st.min>sliderMin ? `<span class="off"></span><span>below threshold</span>` : '');
   legendEl.classList.add('on');
-  countEl.textContent = `${shown} of ${total} ${cfg.unit} at or above ${st.min}% ${party.name} support`;
+  countEl.textContent = `${shown} of ${total} ${cfg.unit} at or above ${st.min>sliderMin?st.min:minVal.toFixed(1)}% ${party.name} support`;
   countEl.classList.add('on');
 }
 
@@ -1550,9 +1576,53 @@ const PROVINCE_NAMES = {
   SK:'Saskatchewan', YT:'Yukon'
 };
 
+function activeMapKey(){ return document.getElementById('riding-card').style.display==='none' ? 'province' : 'riding'; }
+
+function applyMapFilter(key){
+  applyMapFilterCore(key);
+  updateMapLegend();
+}
+
+function updateMapLegend(){
+  const host = document.getElementById('map-legend');
+  if(!host) return;
+  const pid = mapFilter[activeMapKey()].pid;
+  host.classList.toggle('off', !(pid==='LEAD' || pid==='FLIP'));
+  const seats = lastSeats || {};
+  const items = PARTIES.filter(p=>p.id!=='OTH')
+    .concat(MINOR_PARTIES.filter(p=>(seats[p.id]||0)>0))
+    .filter(p=>(seats[p.id]||0)>0)
+    .sort((a,b)=>(seats[b.id]||0)-(seats[a.id]||0));
+  host.innerHTML = items.map(p=>`<span class="lg"><span class="sw" style="background:${p.color}"></span>${p.name}</span>`).join('');
+}
+
+function showMapPane(key){
+  // Carry the current zoom/pan over to the map being shown (both maps share the same extent).
+  const other = key==='province' ? 'riding' : 'province';
+  const from = mapZoomState[other+'-map-svg'], to = mapZoomState[key+'-map-svg'];
+  if(from && to && document.getElementById(other+'-card').style.display!=='none'){
+    to.current = {...from.current};
+    const svg = document.getElementById(key+'-map-svg').querySelector('svg');
+    if(svg) svg.setAttribute('viewBox', `${to.current.x} ${to.current.y} ${to.current.w} ${to.current.h}`);
+  }
+  // Keep the "Colour map by" choice when switching (Flipped only exists for ridings).
+  const srcF = mapFilter[other], dstF = mapFilter[key];
+  const carried = (srcF.pid==='FLIP' && key==='province') ? 'LEAD' : srcF.pid;
+  if(dstF.pid !== carried){ dstF.pid = carried; dstF.min = 0; }
+  applyMapFilter(key);
+  ['province','riding'].forEach(k=>{
+    document.getElementById(k+'-card').style.display = (k===key)?'block':'none';
+    const t=document.getElementById('tab-'+k);
+    t.classList.toggle('active',k===key);
+    t.setAttribute('aria-selected',k===key?'true':'false');
+  });
+  hideProvinceTooltip(); hideRidingTooltip();
+  updateMapLegend();
+}
+
 function renderProvinceMap(provinceStats){
   lastProvinceStats = provinceStats;
-  document.getElementById('province-card').style.display='block';
+  document.getElementById('maps-card').style.display='block';
 
   const colorMap = {}; PARTIES.forEach(p=>colorMap[p.id]=p.color); MINOR_PARTIES.forEach(p=>colorMap[p.id]=p.color);
 
@@ -1665,7 +1735,7 @@ let selectedRiding = null;
 
 function renderRidingMap(ridingStats){
   lastRidingStats = ridingStats;
-  document.getElementById('riding-card').style.display='block';
+  document.getElementById('maps-card').style.display='block';
 
   const colorMap = {}; PARTIES.forEach(p=>colorMap[p.id]=p.color); MINOR_PARTIES.forEach(p=>colorMap[p.id]=p.color);
 
